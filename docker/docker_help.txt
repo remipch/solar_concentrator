@@ -1,0 +1,67 @@
+============================================================
+How docker is used in this project
+
+The docker workflow consist of :
+- start a container indefinitely with docker-compose (the container is named "solar_concentrator-dev-1")
+- execute commands in the existing container
+
+This workflow avoids the slow up/down of container for every single command and save some time and focus for the development perspective.
+
+It's a little bit different from the classical docker worflow (define command in docker-compose and launch them all with docker compose up).
+
+It also allows to test third party tools directly in the container without rebuilding the image.
+
+============================================================
+Usefull commands from host
+
+cd ~/Documents/Projets/solar_concentrator/docker/
+./docker_build_image   # first time or if Dockerfile has changed
+./docker_up            # start the container indefinitely (without usb)
+./docker_up_with_usb   # start the container indefinitely (with usb)
+./docker_down          # stop the container
+./docker_ls            # list images and running containers
+./docker_bash          # open a bash session in the running container
+./docker_kdevelop      # launch kdevelop
+./give_my_files        # set current user the owner of all files in the project
+
+============================================================
+Usefull comands from container to build and run tests
+
+# Configure cmake (done once)
+cd /solar_concentrator/sun_follower_panel/panel_controller
+mkdir build_tests
+cd build_tests
+cmake -DTESTS_ON_HOST=1 -DCMAKE_BUILD_TYPE:STRING=DEBUG ..
+
+# Build and run tests
+cd /solar_concentrator/sun_follower_panel/panel_controller/build_tests
+ninja                 # build all tests
+ctest                 # run all tests
+ctest -V              # run tests verbose
+ctest -V -R "token"   # run tests with token
+ctest -V -R "^prefix"
+ctest -V -R "suffix$"
+
+============================================================
+Usefull comands from container to build and run production
+
+# Configure cmake (done once)
+cd /solar_concentrator/sun_follower_panel/panel_controller
+mkdir build_esp32
+cd build_esp32
+cmake -DTESTS_ON_HOST=0 -DCMAKE_BUILD_TYPE:STRING=DEBUG ..
+ninja menuconfig
+
+# Build production
+cd /solar_concentrator/sun_follower_panel/panel_controller/build_esp32
+ninja
+
+# Upload production
+# - connect IO0 to GND
+# - reboot device
+cd /solar_concentrator/sun_follower_panel/panel_controller/build_esp32
+ESPPORT=/dev/ttyUSB0 ninja flash
+
+# Monitor the communication with esp32 (container must have been started with usb mapping)
+minicom -D /dev/ttyUSB0 -b 115200 -c on
+

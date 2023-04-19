@@ -1,0 +1,12 @@
+#!/bin/bash
+
+./docker_down
+
+echo "Start docker compose in background without usb"
+
+# Allow X server connection
+./print_and_run xhost
+./print_and_run xhost +local:*
+
+./print_and_run sudo docker compose up -d
+

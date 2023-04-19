@@ -1,0 +1,33 @@
+#!/bin/bash
+
+./docker_down
+
+green='\e[1;32m'
+red='\e[1;31m'
+
+echo "Start docker compose in background with usb"
+
+# Allow X server connection
+./print_and_run xhost
+./print_and_run xhost +local:*
+
+# check that /dev/ttyUSB0 exists on host
+./print_and_run ls /dev/*USB*
+
+usb_found=$(ls /dev/ | grep ttyUSB0)
+
+if [ -n "$usb_found" ]; then
+  ./print_and_run sudo docker compose -f docker-compose.yml -f docker-compose.usb.yml up -d
+
+  # check that /dev/ttyUSB0 exists from container
+  ./print_and_run sudo docker exec -i -t solar_concentrator-dev-1 ls /dev/*USB*
+  usb_found=$(sudo docker exec -i -t solar_concentrator-dev-1 ls /dev/ | grep ttyUSB0)
+  if [ -n "$usb_found" ]; then
+      echo -e "${green}ttyUSB0 found in container"
+  else
+      echo -e "${red}ttyUSB0 not found in container"
+  fi
+else
+  echo "ttyUSB0 not found on host : do nothing because device mapping will fail"
+fi
+

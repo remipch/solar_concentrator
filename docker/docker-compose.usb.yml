@@ -1,0 +1,10 @@
+version: "3"
+
+# Add usb mapping
+# must be added to main docker-compose with -f options
+# only if /dev/ttyUSB0 already exists on host (otherwise docker compose up will fail)
+services:
+  dev:
+    devices:
+      - /dev/ttyUSB0:/dev/ttyUSB0
+

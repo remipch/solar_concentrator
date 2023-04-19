@@ -1,0 +1,12 @@
+#!/bin/bash
+
+# Because docker is run as root, it can create files owned by root
+# This script gives them back to the user
+
+script_dir=$(dirname "$0")
+project_dir="$script_dir/.."
+
+echo "Give all files from $project_dir to user $USER"
+
+sudo chown -R $USER:$USER $project_dir
+

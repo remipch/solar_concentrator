@@ -1,0 +1,18 @@
+version: "3"
+name: "solar_concentrator"
+
+services:
+  dev:
+    image: image_solar_concentrator:latest
+    build: .
+    working_dir: /solar_concentrator
+    environment:
+      - DISPLAY=${DISPLAY}
+    volumes:
+      - /tmp/.X11-unix:/tmp/.X11-unix   # required for UI started from container to be viewed on host
+      - ..:/solar_concentrator
+      - ./config:/root/.config          # map configs to be saved in host WARNING : individual permissions must be enabled in Dockerfile (see kdeveloprc)
+      - ./local:/root/.local            # map configs to be saved in host
+    network_mode: host
+    command: sleep infinity  # keep container opened, commands will be executed in this existing same container
+

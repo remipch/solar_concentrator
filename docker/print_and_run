@@ -1,0 +1,16 @@
+#!/bin/bash
+
+# Check if the user has provided a command
+if [ -z "\$1" ]; then
+  echo "Please provide a command as an argument"
+  exit 1
+fi
+
+white='\e[1;37m'
+grey='\e[;37m'
+
+echo
+echo -e "${white}$@${grey}"
+
+"$@"
+

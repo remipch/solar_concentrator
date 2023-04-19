@@ -1,0 +1,6 @@
+#!/bin/bash
+
+echo "Stop docker compose"
+
+./print_and_run sudo docker compose down
+

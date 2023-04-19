@@ -1,0 +1,7 @@
+#!/bin/bash
+
+echo "List images and running containers"
+
+./print_and_run sudo docker image ls
+./print_and_run sudo docker container ls
+
