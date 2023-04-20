@@ -1,0 +1,22 @@
+[Launch]
+Launch Configurations=Launch Configuration 0
+
+[Launch][Launch Configuration 0]
+Configured Launch Modes=execute
+Configured Launchers=scriptAppLauncher
+Name=New Script Application Launcher
+Type=Script Application
+
+[Launch][Launch Configuration 0][Data]
+Arguments=
+EnvironmentGroup=
+Executable=
+Execute on Remote Host=false
+Interpreter=python3
+Output Filtering Mode=2
+Remote Host=
+Run current file=true
+Working Directory=
+
+[Project]
+VersionControlSupport=
