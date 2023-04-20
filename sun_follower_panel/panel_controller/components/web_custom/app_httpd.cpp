@@ -67,7 +67,13 @@ static esp_err_t capture_handler(httpd_req_t *req)
     camera_fb_t *frame = NULL;
     esp_err_t res = ESP_OK;
 
-    if (xQueueReceive(xQueueFrameI, &frame, portMAX_DELAY)) {
+    // Ugly workarround to force the camera to take a new image now
+    // otherwise it returns the frame in the queue, which is one frame late
+    frame = esp_camera_fb_get();
+    esp_camera_fb_return(frame);
+    frame = esp_camera_fb_get();
+
+//     if (xQueueReceive(xQueueFrameI, &frame, portMAX_DELAY)) {
         httpd_resp_set_type(req, "image/jpeg");
         httpd_resp_set_hdr(req, "Content-Disposition", "inline; filename=capture.jpg");
         httpd_resp_set_hdr(req, "Access-Control-Allow-Origin", "*");
@@ -87,18 +93,20 @@ static esp_err_t capture_handler(httpd_req_t *req)
             // fb_len = jchunk.len;
         }
 
-        if (xQueueFrameO) {
-            xQueueSend(xQueueFrameO, &frame, portMAX_DELAY);
-        } else if (gReturnFB) {
-            esp_camera_fb_return(frame);
-        } else {
-            free(frame);
-        }
-    } else {
-        ESP_LOGE(TAG, "Camera capture failed");
-        httpd_resp_send_500(req);
-        return ESP_FAIL;
-    }
+        esp_camera_fb_return(frame);
+
+//         if (xQueueFrameO) {
+//             xQueueSend(xQueueFrameO, &frame, portMAX_DELAY);
+//         } else if (gReturnFB) {
+//             esp_camera_fb_return(frame);
+//         } else {
+//             free(frame);
+//         }
+//     } else {
+//         ESP_LOGE(TAG, "Camera capture failed");
+//         httpd_resp_send_500(req);
+//         return ESP_FAIL;
+//     }
 
     return res;
 }

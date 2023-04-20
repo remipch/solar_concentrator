@@ -13,10 +13,10 @@ extern "C" void app_main()
     app_wifi_main();
     motors_init();
 
-    xQueueAIFrame = xQueueCreate(2, sizeof(camera_fb_t *));
-    xQueueHttpFrame = xQueueCreate(2, sizeof(camera_fb_t *));
+    xQueueAIFrame = xQueueCreate(1, sizeof(camera_fb_t *));
+    xQueueHttpFrame = xQueueCreate(1, sizeof(camera_fb_t *));
 
-    register_camera(PIXFORMAT_RGB565, FRAMESIZE_QVGA, 2, xQueueAIFrame);
+    register_camera(PIXFORMAT_RGB565, FRAMESIZE_QVGA, 1, xQueueAIFrame);
     register_image_processing(xQueueAIFrame, NULL, NULL, xQueueHttpFrame);
     register_httpd(xQueueHttpFrame, NULL, true);
 
