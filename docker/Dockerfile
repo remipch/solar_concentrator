@@ -5,6 +5,18 @@ RUN apt-get update && apt-get install -y breeze-icon-theme  # used by kdevelop b
 RUN apt-get update && apt-get install -y konsole            # used by kdevelop integrated konsole tool
 RUN apt-get update && apt-get install -y cu                 # serial communication
 RUN apt-get update && apt-get install -y iputils-ping       # ping
+RUN apt-get update && apt-get install -y kdevelop-python    # python plugin
+
+# Note : full pip path must be sepcified here otherwise pip package seems to be installed for anotehr python version
+RUN /opt/esp/python_env/idf4.4_py3.8_env/bin/pip install --upgrade pip
+RUN /opt/esp/python_env/idf4.4_py3.8_env/bin/pip install opencv-python
+
+# /!\ WARNING /!\
+# Error if we use opencv-python and PyQt5 in the same python script :
+# qt.qpa.plugin: Could not load the Qt platform plugin "xcb" in "/opt/esp/python_env/idf4.4_py3.8_env/lib/python3.8/site-packages/cv2/qt/plugins" even though it was found.
+# I didn't manage to solve the problem
+# For now, Qt5 is not required for this project
+# RUN apt-get update && pip install PyQt5     # ATTENTION : license GPL (contaminante)
 
 # systematically initialize idf framework for each bash session
 # so we can enter in an existing container with command : sudo docker exec -i -t solar_concentrator-dev-1 /bin/bash
