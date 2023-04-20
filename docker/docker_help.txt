@@ -25,7 +25,7 @@ cd ~/Documents/Projets/solar_concentrator/docker/
 ./give_my_files        # set current user the owner of all files in the project
 
 ============================================================
-Usefull comands from container to build and run tests
+Usefull commands from container to build and run tests
 
 # Configure cmake (done once)
 cd /solar_concentrator/sun_follower_panel/panel_controller
@@ -43,24 +43,30 @@ ctest -V -R "^prefix"
 ctest -V -R "suffix$"
 
 ============================================================
-Usefull comands from container to build and run production
+Usefull commands from container to build and run production
 
 # Configure cmake (done once)
 cd /solar_concentrator/sun_follower_panel/panel_controller
 mkdir build_esp32
 cd build_esp32
 cmake -DTESTS_ON_HOST=0 -DCMAKE_BUILD_TYPE:STRING=DEBUG ..
+# depending on build system :
 ninja menuconfig
+make menuconfig
 
 # Build production
 cd /solar_concentrator/sun_follower_panel/panel_controller/build_esp32
+# depending on build system :
 ninja
+make
 
 # Upload production
 # - connect IO0 to GND
 # - reboot device
 cd /solar_concentrator/sun_follower_panel/panel_controller/build_esp32
+# depending on build system :
 ESPPORT=/dev/ttyUSB0 ninja flash
+ESPPORT=/dev/ttyUSB0 make flash
 
 # Monitor the communication with esp32 (container must have been started with usb mapping)
 minicom -D /dev/ttyUSB0 -b 115200 -c on
