@@ -1,12 +1,10 @@
 FROM espressif/idf:release-v4.4
 ARG DEBIAN_FRONTEND=noninteractive # to prevent installer from asking questions
-RUN apt-get update && apt-get install -y minicom
-RUN apt-get update && apt-get install -y kate
 RUN apt-get update && apt-get install -y kdevelop
 RUN apt-get update && apt-get install -y breeze-icon-theme  # used by kdevelop but not managed as an apt dependency
-RUN apt-get update && apt-get install -y konsole
-RUN apt-get update && apt-get install -y mc       # console file explorer
-RUN apt-get update && apt-get install -y iputils-ping
+RUN apt-get update && apt-get install -y konsole            # used by kdevelop integrated konsole tool
+RUN apt-get update && apt-get install -y cu                 # serial communication
+RUN apt-get update && apt-get install -y iputils-ping       # ping
 
 # systematically initialize idf framework for each bash session
 # so we can enter in an existing container with command : sudo docker exec -i -t solar_concentrator-dev-1 /bin/bash
