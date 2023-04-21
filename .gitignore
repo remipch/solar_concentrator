@@ -2,5 +2,4 @@
 sdkconfig.old
 docker/config/*
 docker/local
-.kdev4/*
 
