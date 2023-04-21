@@ -1,7 +1,6 @@
-#import tkinter as tk
-#root = tk.Tk()
-
 import requests
+import numpy as np
+import cv2
 
 BASE_URL = 'https://fullhdwall.com/'
 
@@ -14,5 +13,13 @@ print(response.headers)
 print(response.encoding)
 print(type(response.text))
 
-exit()
+buffer = response.content
 
+byte_array = bytearray(buffer)
+array = np.asarray(byte_array, dtype=np.uint8)
+image = cv2.imdecode(array, cv2.IMREAD_COLOR)
+
+# image = np.zeros((200,200,3), dtype = np.uint8)
+
+cv2.imshow("image", image)
+cv2.waitKey()
