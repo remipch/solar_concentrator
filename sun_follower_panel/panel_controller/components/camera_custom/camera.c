@@ -86,7 +86,7 @@ void register_camera(const pixformat_t pixel_fromat,
     // UI will automatically be initialized with these value (see httpd status_handler)
 
     // Jpeg quality of the http transmitted image
-    s->set_quality(s, 50);
+    s->set_quality(s, 63);
 
     // Gain
     s->set_gain_ctrl(s, false);     // auto gain : not used, always disabled
