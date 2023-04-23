@@ -2,4 +2,5 @@
 sdkconfig.old
 docker/config/*
 docker/local
+**/__pycache__/*
 
