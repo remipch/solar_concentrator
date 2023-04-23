@@ -2,6 +2,20 @@ import requests
 import numpy as np
 import cv2
 from enum import Enum
+from motors_direction import MotorsDirection
+import os.path
+
+
+class MotorsStatus(str, Enum):
+    ERROR           = "ERROR"
+    UNINITIALIZED   = "UNINITIALIZED"
+    IDLE            = "IDLE"
+    MOVING          = "MOVING"
+    MOVING_ONE_STEP = "MOVING_ONE_STEP"
+    TIGHTENING      = "TIGHTENING"
+    LOCKED          = "LOCKED"
+
+
 
 # if True : read images from disk
 # if False : capture image from esp32 camera
@@ -15,14 +29,6 @@ else:
 # does not work with esp32 network name : http://esp32_test.local/capture
 # network tool avahi-discover does not work from the container
 esp32_http_address = "http://192.168.76.180"
-
-class MotorsDirection(str, Enum):
-    UP_RIGHT   = "up_right"
-    RIGHT      = "right"
-    DOWN_RIGHT = "down_right"
-    DOWN_LEFT  = "down_left"
-    LEFT       = "left"
-    UP_LEFT    = "up_left"
 
 def httpRequest(http_address):
     print(f"request: '{http_address}'",flush=True)
@@ -39,6 +45,10 @@ def cameraCapture():
     iteration = iteration+1
 
     if simu:
+        if not os.path.isfile(img_path):
+            print(f"file '{img_path}' does not exist: exit application",flush=True)
+            exit(1)
+
         print(f"read '{img_path}' from disk",flush=True)
         return cv2.imread(img_path,cv2.IMREAD_GRAYSCALE)
 
@@ -64,5 +74,5 @@ def getMotorsStatus():
         print(f"   json: {response.json}",flush=True)
         # todo : treat errors
         # todo : return motors status
-
+    return MotorsStatus.LOCKED
 
