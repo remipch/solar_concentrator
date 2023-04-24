@@ -8,8 +8,6 @@ from user_interface import *
 from state import *
 from tracking import *
 
-current_img = None
-
 pause_after_each_step = True
 
 # user actions
@@ -26,13 +24,11 @@ N6_KEY = 54         # 6 : right step
 N9_KEY = 57         # 9 : top-right step
 
 
-# todo : return img instead of global
 def captureAndShow():
-    global current_img
-
     current_img = cameraCapture()
     showDebugImage("current",current_img,1200,0)
     drawTarget()
+    return current_img
 
 # initialisation
 captureAndShow()
@@ -112,7 +108,7 @@ while True:
     elif state==State.WAITING_SUN_MOVE:
         # Start tracking every 10s
         if state_duration_s > 10.0 or key==SPACE_KEY:
-            captureAndShow()
+            current_img = captureAndShow()
             startTrackingOneStep(current_img, True)
             setState(State.TRACKING)
 
@@ -124,7 +120,7 @@ while True:
                 # wait for the motors to finish the move
                 setState(State.TRACKING)
             elif status==MotorsStatus.LOCKED:
-                captureAndShow()
+                current_img = captureAndShow()
                 target_reached = finishTrackingOneStep(current_img)
                 if target_reached:
                     print("TARGET REACHED",flush=True)
@@ -140,7 +136,7 @@ while True:
 
     elif state==State.TRACKING_PAUSED:
         if key==SPACE_KEY:
-            captureAndShow()
+            current_img = captureAndShow()
             startTrackingOneStep(current_img, False)
             setState(State.TRACKING)
 
