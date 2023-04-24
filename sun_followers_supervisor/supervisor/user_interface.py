@@ -43,10 +43,10 @@ def onMouse(event,x,y,flags,img_name):
         # store the event, it will be returned by next call to 'updateUserInterface'
         last_left_clic_pos = [x,y]
         last_left_clic_flags = flags
-        print(f"clic_pos: {last_left_clic_pos} ; clic_flags: {last_left_clic_flags}",flush=True)
+        #print(f"clic_pos: {last_left_clic_pos} ; clic_flags: {last_left_clic_flags}",flush=True)
 
 def showDebugImage(img_name,img):
-    print(f"show debug image {img_name}",flush=True)
+    #print(f"show debug image {img_name}",flush=True)
     debug_img = cv2.cvtColor(img, cv2.COLOR_GRAY2BGR)
     cv2.imshow(img_name, debug_img)
     cv2.setMouseCallback(img_name, onMouse, img_name)
