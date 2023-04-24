@@ -31,7 +31,7 @@ def captureAndShow():
     global current_img
 
     current_img = cameraCapture()
-    showDebugImage("current",current_img)
+    showDebugImage("current",current_img,1200,0)
     drawTarget()
 
 # initialisation

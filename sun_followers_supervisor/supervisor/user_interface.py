@@ -45,13 +45,19 @@ def onMouse(event,x,y,flags,img_name):
         last_left_clic_flags = flags
         #print(f"clic_pos: {last_left_clic_pos} ; clic_flags: {last_left_clic_flags}",flush=True)
 
-def showDebugImage(img_name,img):
+def showDebugImage(img_name,img,x=0,y=0):
     #print(f"show debug image {img_name}",flush=True)
     debug_img = cv2.cvtColor(img, cv2.COLOR_GRAY2BGR)
     cv2.imshow(img_name, debug_img)
+    cv2.moveWindow(img_name, x, y)
     cv2.setMouseCallback(img_name, onMouse, img_name)
     debug_images[img_name] = debug_img
     return debug_img
+
+def closeDebugImage(img_name):
+    cv2.destroyWindow(img_name)
+    if img_name in debug_images:
+        debug_images.pop(img_name)
 
 # draw a point in all debug images
 def invPoint(x,y):
