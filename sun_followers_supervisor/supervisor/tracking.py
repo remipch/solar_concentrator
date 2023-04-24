@@ -41,11 +41,7 @@ def setTarget(target_pos):
     closeDebugImage("blobs")
 
 def resetTarget():
-    print(f"RESET TARGET",flush=True)
-    target_pos_px = None
-    closeDebugImage("previous")
-    closeDebugImage("diff")
-    closeDebugImage("blobs")
+    setTarget(None)
 
 def drawTarget():
     if target_pos_px is not None:
@@ -125,7 +121,6 @@ def finishTrackingOneStep(current_img):
     global previous_spot_center_px
 
     showDebugImage("previous",previous_img,800,0)
-    showDebugImage("last",current_img)
 
     current_center_px, move_direction_px = findSpot(previous_img,current_img)
     updateMotorsDirectionHistory(current_direction,move_direction_px)
