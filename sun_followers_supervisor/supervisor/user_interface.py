@@ -1,12 +1,6 @@
 import cv2
 import numpy as np
 
-red = (0,0,204)
-cyan = (204,204,0)
-yellow = (0,255,255)
-green = (0,204,0)
-gray = (128,128,128)
-
 # dictionary to map img name to image
 debug_images = {}
 
@@ -74,7 +68,7 @@ def drawPoint(x,y,color):
 # draw a line in all debug images
 def drawLine(x0,y0,x1,y1,color):
     for img_name, img in debug_images.items():
-        cv2.line(img,(x0,y0),(x1,y1),color)
+        cv2.line(img,(int(x0),int(y0)),(int(x1),int(y1)),color)
         cv2.imshow(img_name, img)
 
 # draw a cross in all debug images

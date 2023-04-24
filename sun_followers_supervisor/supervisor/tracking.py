@@ -1,9 +1,23 @@
 import cv2
-import numpy as np
 import math
 from motors_direction import MotorsDirection
 from user_interface import *
 from panel_web_access import *
+
+BLUE = (255,102,0)
+ORANGE = (0,153,255)
+GREEN = (0,204,0)
+DARK_GREEN = (0,102,0)
+RED = (40,40,213)
+CYAN = (255,204,0)
+
+TARGET_COLOR =              GREEN
+PREVIOUS_CENTER_COLOR =     RED
+CURRENT_CENTER_COLOR =      ORANGE
+REMOVED_BLOB_COLOR =        CYAN
+NEW_BLOB_COLOR =            BLUE
+POSSIBLE_DIRECTION_COLOR =  DARK_GREEN
+CHOSEN_DIRECTION_COLOR =    GREEN
 
 # threshold to detect start blobs and finish blobs from diff image
 removed_hot_blob_max_level = 45
@@ -26,6 +40,11 @@ target_pos_px = None
 # tolerance arround target
 TARGET_TOL_PX = 20
 
+# to check if a move is realistic (detect bad spot detections)
+MIN_MOVE_DIRECTION_PX = 3
+MAX_MOVE_DIRECTION_PX = 20
+MAX_MOVE_PX = 10
+
 previous_img = None
 
 current_direction = MotorsDirection.LEFT
@@ -45,15 +64,15 @@ def resetTarget():
 
 def drawTarget():
     if target_pos_px is not None:
-        drawCross(target_pos_px[0],target_pos_px[1],TARGET_TOL_PX,green)
+        drawCross(target_pos_px[0],target_pos_px[1],TARGET_TOL_PX,TARGET_COLOR)
 
 
 def computeBlobCentroid(blob_img):
     M = cv2.moments(blob_img)
     if M["m00"] == 0:
         raise Exception("Cannot compute blob centroid")
-    x = int(M["m10"] / M["m00"])
-    y = int(M["m01"] / M["m00"])
+    x = M["m10"] / M["m00"]
+    y = M["m01"] / M["m00"]
     return x,y
 
 # return spot center in pixel and the move direction in pixel
@@ -71,12 +90,14 @@ def findSpot(previous_img,current_img):
 
     spot_center_x = (removed_blob_x+new_blob_x)/2
     spot_center_y = (removed_blob_y+new_blob_y)/2
-    print(f"spot_center_px: {spot_center_x},{spot_center_y}",flush=True)
 
-    drawPoint(removed_blob_x,removed_blob_y,cyan)
-    drawPoint(new_blob_x,new_blob_y,red)
-    drawPoint(spot_center_x,spot_center_y,yellow)
     drawTarget()
+    if previous_spot_center_px is not None:
+        drawCross(previous_spot_center_px[0],previous_spot_center_px[1],2,PREVIOUS_CENTER_COLOR)
+    drawCross(spot_center_x,spot_center_y,2,CURRENT_CENTER_COLOR)
+    drawPoint(removed_blob_x,removed_blob_y,REMOVED_BLOB_COLOR)
+    drawPoint(new_blob_x,new_blob_y,NEW_BLOB_COLOR)
+
 
     spot_center_px = [spot_center_x,spot_center_y]
     move_direction_px = [new_blob_x-removed_blob_x, new_blob_y-removed_blob_y]
@@ -103,6 +124,25 @@ def getBestMotorsDirection(current_center_px, wanted_center_px):
     print(f"  best_direction: {best_direction}",flush=True)
     return best_direction
 
+# return True if the move seems realistic
+def isRealisticMove(spot_center_px, move_direction_px):
+    # WTF there is math.dist but no math.norm...
+    move_direction_norm_px = math.dist([0,0], move_direction_px)
+    if move_direction_norm_px<MIN_MOVE_DIRECTION_PX:
+        print(f"  move_direction_norm_px: {move_direction_norm_px} < {MIN_MOVE_DIRECTION_PX}",flush=True)
+        return False
+    if move_direction_norm_px>MAX_MOVE_DIRECTION_PX:
+        print(f"  move_direction_norm_px: {move_direction_norm_px} > {MAX_MOVE_DIRECTION_PX}",flush=True)
+        return False
+
+    if previous_spot_center_px is not None:
+        spot_move_px = math.dist(previous_spot_center_px,spot_center_px)
+        if spot_move_px > MAX_MOVE_PX:
+            print(f"  spot_move_px: {spot_move_px} > {MAX_MOVE_PX}",flush=True)
+            return False
+
+    return True
+
 def startTrackingOneStep(current_img, reset_tracking):
     global current_direction, previous_img, previous_spot_center_px
     print(f"startTrackingOneStep (reset_tracking: {reset_tracking}",flush=True)
@@ -121,9 +161,20 @@ def finishTrackingOneStep(current_img):
     global previous_spot_center_px
 
     showDebugImage("previous",previous_img,800,0)
+    showDebugImage("current",current_img,1200,0)
 
     current_center_px, move_direction_px = findSpot(previous_img,current_img)
-    updateMotorsDirectionHistory(current_direction,move_direction_px)
+    print(f"finishTrackingOneStep:",flush=True)
+    print(f"  previous_spot_center_px: {previous_spot_center_px}",flush=True)
+    print(f"  current_center_px: {current_center_px}",flush=True)
+    print(f"  move_direction_px: {move_direction_px} ",flush=True)
+
+    if not isRealisticMove(current_center_px, move_direction_px):
+        print(" -> SKIP STEP",flush=True)
+        previous_spot_center_px = current_center_px
+        return False
+
+    updateMotorsDirectionHistory(current_direction, move_direction_px)
     previous_spot_center_px = current_center_px
     target_error_px = math.dist(current_center_px, target_pos_px)
     print(f"target_error_px: {target_error_px}",flush=True)
