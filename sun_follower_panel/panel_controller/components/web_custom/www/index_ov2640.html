@@ -389,12 +389,12 @@
                     <input type="checkbox" id="nav-toggle-cb" checked="checked">
                     <nav id="menu">
                         <button id="get-still">Get Still</button>
-                        <!--<button id="toggle-stream">Start Stream</button>-->
+                        <button id="toggle-stream">Start Stream</button>
 
                         <div class="input-group" id="quality-group">
                             <label for="quality">Quality</label>
                             <div class="range-min">4</div>
-                            <input type="range" id="quality" min="4" max="63" value="63" class="default-action">
+                            <input type="range" id="quality" min="4" max="63" value="10" class="default-action">
                             <div class="range-max">63</div>
                         </div>
                         <div class="input-group" id="aec-group">
@@ -614,6 +614,7 @@ document.addEventListener('DOMContentLoaded', function (event) {
   const viewContainer = document.getElementById('stream-container')
   const stillButton = document.getElementById('get-still')
   const streamButton = document.getElementById('toggle-stream')
+  streamButton.style.visibility = "hidden";
   const closeButton = document.getElementById('close-stream')
   const saveButton = document.getElementById('save-still')
 

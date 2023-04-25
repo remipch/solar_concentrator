@@ -311,6 +311,11 @@ static esp_err_t motors_command_handler(httpd_req_t *req)
             direction = motors_direction_t::LEFT;
         else if (!strcmp(command, "up-left"))
             direction = motors_direction_t::UP_LEFT;
+        else {
+            ESP_LOGE(TAG, "Incorrect direction");
+            httpd_resp_send_404(req);
+            return ESP_FAIL;
+        }
         if(!strcmp(motors_continuous, "1")) {
             motors_start_move(direction);
         }
