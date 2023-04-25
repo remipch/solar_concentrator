@@ -18,7 +18,8 @@ class MotorsStatus(str, Enum):
 
 # if True : read images from disk
 # if False : capture image from esp32 camera
-simu=True
+#simu=True
+simu=False
 
 if simu:
     iteration=0

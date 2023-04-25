@@ -14,14 +14,14 @@ CYAN = (255,204,0)
 TARGET_COLOR =              GREEN
 PREVIOUS_CENTER_COLOR =     RED
 CURRENT_CENTER_COLOR =      ORANGE
-REMOVED_BLOB_COLOR =        CYAN
-NEW_BLOB_COLOR =            BLUE
-POSSIBLE_DIRECTION_COLOR =  DARK_GREEN
-CHOSEN_DIRECTION_COLOR =    GREEN
+#REMOVED_BLOB_COLOR =        CYAN
+#NEW_BLOB_COLOR =            BLUE
+POSSIBLE_DIRECTION_COLOR =  BLUE
+CHOSEN_DIRECTION_COLOR =    CYAN
 
 # threshold to detect start blobs and finish blobs from diff image
-removed_hot_blob_max_level = 45
-new_hot_blob_min_level = 220
+removed_hot_blob_max_level = 64
+new_hot_blob_min_level = 192
 
 # dictionary associating each direction to its delta in pixel
 # initialized by predefined value
@@ -38,7 +38,7 @@ direction_delta_px = {
 target_pos_px = None
 
 # tolerance arround target
-TARGET_TOL_PX = 20
+TARGET_TOL_PX = 10
 
 # to check if a move is realistic (detect bad spot detections)
 MIN_MOVE_DIRECTION_PX = 3
@@ -94,9 +94,10 @@ def findSpot(previous_img,current_img):
     drawTarget()
     if previous_spot_center_px is not None:
         drawCross(previous_spot_center_px[0],previous_spot_center_px[1],2,PREVIOUS_CENTER_COLOR)
-    drawCross(spot_center_x,spot_center_y,2,CURRENT_CENTER_COLOR)
-    drawPoint(removed_blob_x,removed_blob_y,REMOVED_BLOB_COLOR)
-    drawPoint(new_blob_x,new_blob_y,NEW_BLOB_COLOR)
+    #drawCross(spot_center_x,spot_center_y,2,CURRENT_CENTER_COLOR)
+    #drawPoint(removed_blob_x,removed_blob_y,REMOVED_BLOB_COLOR)
+    #drawPoint(new_blob_x,new_blob_y,NEW_BLOB_COLOR)
+    drawLine(removed_blob_x,removed_blob_y,new_blob_x,new_blob_y,CURRENT_CENTER_COLOR)
 
 
     spot_center_px = [spot_center_x,spot_center_y]
@@ -114,14 +115,18 @@ def getBestMotorsDirection(current_center_px, wanted_center_px):
     print(f"getBestMotorsDirection: wanted_delta_px: {wanted_delta_px}",flush=True)
     best_distance_px = 10000
     best_direction = None
+    best_direction_point = None
     for direction, delta_px in direction_delta_px.items():
         center_px = [current_center_px[0]+delta_px[0] , current_center_px[1]+delta_px[1]]
         distance_px = math.dist(wanted_center_px, center_px)
         print(f"  test {direction}: center_px: {center_px} (distance_px: {distance_px})",flush=True)
+        drawPoint(center_px[0],center_px[1],POSSIBLE_DIRECTION_COLOR)
         if distance_px<best_distance_px:
             best_distance_px = distance_px
             best_direction = direction
+            best_direction_point = center_px
     print(f"  best_direction: {best_direction}",flush=True)
+    drawPoint(best_direction_point[0],best_direction_point[1],CHOSEN_DIRECTION_COLOR)
     return best_direction
 
 # return True if the move seems realistic
@@ -144,21 +149,18 @@ def isRealisticMove(spot_center_px, move_direction_px):
     return True
 
 def startTrackingOneStep(current_img, reset_tracking):
-    global current_direction, previous_img, previous_spot_center_px
+    global previous_img, previous_spot_center_px
     print(f"startTrackingOneStep (reset_tracking: {reset_tracking}",flush=True)
 
     if reset_tracking:
         previous_spot_center_px = None
-
-    if previous_spot_center_px is not None:
-        current_direction = getBestMotorsDirection(previous_spot_center_px,target_pos_px)
 
     previous_img = current_img
     moveOneStep(current_direction)
 
 # return True if target has been reached
 def finishTrackingOneStep(current_img):
-    global previous_spot_center_px
+    global current_direction, previous_spot_center_px
 
     showDebugImage("previous",previous_img,800,0)
     showDebugImage("current",current_img,1200,0)
@@ -175,6 +177,8 @@ def finishTrackingOneStep(current_img):
         return False
 
     updateMotorsDirectionHistory(current_direction, move_direction_px)
+    # calling getBestMotorsDirection here instead of in 'startTrackingOneStep' allow to draw debug info on the same image
+    current_direction = getBestMotorsDirection(current_center_px,target_pos_px)
     previous_spot_center_px = current_center_px
     target_error_px = math.dist(current_center_px, target_pos_px)
     print(f"target_error_px: {target_error_px}",flush=True)
