@@ -20,6 +20,9 @@ static int relaxing_duration_ms;
 // 0 if no current relaxing phase
 static int relaxing_end_time_ms;
 
+// temp (while there is no measure of current)
+static int tensing_end_time_ms;
+
 // Shortcut to treat errors consistently if condition is false
 #define CHECK(condition) \
     if(!(condition)) { \
@@ -173,10 +176,12 @@ void motors_logic_periodic_update(int time_since_boot_ms)
                     return;
                 }
                 relaxing_end_time_ms = 0;
+                tensing_end_time_ms = time_since_boot_ms + relaxing_duration_ms;
                 start_tensing_phase(current_status.direction);
             }
-        } else if (measured_current == motors_current_t::HIGH) {
-            if (current_status.state == motors_state_t::MOVING_ONE_STEP) {
+        } else if (current_status.state == motors_state_t::MOVING_ONE_STEP) {
+            if (time_since_boot_ms >= tensing_end_time_ms) {
+                ESP_LOGD(TAG, "End tensing phase");
                 motors_hw_stop();
                 current_status = {
                     .state = motors_state_t::LOCKED,
@@ -184,7 +189,7 @@ void motors_logic_periodic_update(int time_since_boot_ms)
                     .current = motors_current_t::UNKNWON,
                 };
                 return;
-            } else {
+            } else if (measured_current == motors_current_t::HIGH) {
                 relaxing_end_time_ms = time_since_boot_ms + relaxing_duration_ms;
                 ESP_LOGD(TAG, "Start relaxing phase (relaxing_end_time_ms = %i)", relaxing_end_time_ms);
                 start_relaxing_phase(current_status.direction);
@@ -193,3 +198,4 @@ void motors_logic_periodic_update(int time_since_boot_ms)
     }
     current_status.current = measured_current;
 }
+
