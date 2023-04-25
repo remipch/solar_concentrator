@@ -10,7 +10,7 @@
 
 static const char* TAG = "motors";
 
-int RELAXING_PHASE_DURATION_MS = 3000;
+int RELAXING_PHASE_DURATION_MS = 200;
 
 // This file has the only responsibility to provide thread safety to motors_logic layer
 // It's accomplished by :
@@ -22,7 +22,7 @@ static bool is_initialized = false;
 static esp_event_loop_handle_t event_loop;
 static ESP_EVENT_DEFINE_BASE(MOTORS_EVENTS); // (not declared in header because only used here internally)
 static TickType_t EVENT_LOOP_TIMEOUT_MS = 100;
-static const uint64_t TIMER_PERIOD_MS = 500;
+static const uint64_t TIMER_PERIOD_MS = 100;
 static esp_timer_handle_t periodic_timer;
 static SemaphoreHandle_t status_mutex;
 
