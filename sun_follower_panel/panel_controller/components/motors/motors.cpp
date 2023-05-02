@@ -10,7 +10,7 @@
 
 static const char* TAG = "motors";
 
-int RELAXING_PHASE_DURATION_MS = 200;
+int RELAXING_PHASE_DURATION_MS = 2000;
 
 // This file has the only responsibility to provide thread safety to motors_logic layer
 // It's accomplished by :

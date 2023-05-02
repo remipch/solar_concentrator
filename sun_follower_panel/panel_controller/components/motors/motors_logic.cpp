@@ -169,13 +169,21 @@ void motors_logic_periodic_update(int time_since_boot_ms)
             if (time_since_boot_ms >= relaxing_end_time_ms) {
                 ESP_LOGD(TAG, "End relaxing phase");
                 if (measured_current == motors_current_t::HIGH) {
-                    motors_logic_treat_error("current is still high after relaxing phase");
+//                     motors_logic_treat_error("current is still high after relaxing phase");
+                    ESP_LOGW(TAG, "Current is still high after relaxing phase: motors locked");
+                    motors_hw_stop();
+                    current_status = {
+                        .state = motors_state_t::LOCKED,
+                        .direction = motors_direction_t::NONE,
+                        .current = motors_current_t::UNKNWON,
+                    };
                     return;
                 }
                 relaxing_end_time_ms = 0;
                 start_tensing_phase(current_status.direction);
             }
         } else if (measured_current == motors_current_t::HIGH) {
+            ESP_LOGI(TAG, "Motors locked after tensing phase");
             if (current_status.state == motors_state_t::MOVING_ONE_STEP) {
                 motors_hw_stop();
                 current_status = {
