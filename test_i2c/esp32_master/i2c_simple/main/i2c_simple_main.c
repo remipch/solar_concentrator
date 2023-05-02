@@ -22,15 +22,15 @@
 
 static const char *TAG = "i2c-simple-example";
 
-#define I2C_MASTER_SCL_IO           CONFIG_I2C_MASTER_SCL      /*!< GPIO number used for I2C master clock */
-#define I2C_MASTER_SDA_IO           CONFIG_I2C_MASTER_SDA      /*!< GPIO number used for I2C master data  */
+#define I2C_MASTER_SCL_IO           15
+#define I2C_MASTER_SDA_IO           13
 #define I2C_MASTER_NUM              0                          /*!< I2C master i2c port number, the number of i2c peripheral interfaces available will depend on the chip */
 #define I2C_MASTER_FREQ_HZ          400000                     /*!< I2C master clock frequency */
 #define I2C_MASTER_TX_BUF_DISABLE   0                          /*!< I2C master doesn't need buffer */
 #define I2C_MASTER_RX_BUF_DISABLE   0                          /*!< I2C master doesn't need buffer */
 #define I2C_MASTER_TIMEOUT_MS       1000
 
-#define MPU9250_SENSOR_ADDR                 0x68        /*!< Slave address of the MPU9250 sensor */
+#define MPU9250_SENSOR_ADDR                 0x04        /*!< Slave address of the MPU9250 sensor */
 #define MPU9250_WHO_AM_I_REG_ADDR           0x75        /*!< Register addresses of the "who am I" register */
 
 #define MPU9250_PWR_MGMT_1_REG_ADDR         0x6B        /*!< Register addresses of the power managment register */
@@ -85,13 +85,13 @@ void app_main(void)
     ESP_ERROR_CHECK(i2c_master_init());
     ESP_LOGI(TAG, "I2C initialized successfully");
 
-    /* Read the MPU9250 WHO_AM_I register, on power up the register should have the value 0x71 */
-    ESP_ERROR_CHECK(mpu9250_register_read(MPU9250_WHO_AM_I_REG_ADDR, data, 1));
-    ESP_LOGI(TAG, "WHO_AM_I = %X", data[0]);
-
-    /* Demonstrate writing by reseting the MPU9250 */
-    ESP_ERROR_CHECK(mpu9250_register_write_byte(MPU9250_PWR_MGMT_1_REG_ADDR, 1 << MPU9250_RESET_BIT));
-
-    ESP_ERROR_CHECK(i2c_driver_delete(I2C_MASTER_NUM));
-    ESP_LOGI(TAG, "I2C de-initialized successfully");
+    // Test Rémi
+    const TickType_t xDelay = 1000 / portTICK_PERIOD_MS;
+    bool b = false;
+    while(true) {
+        vTaskDelay(xDelay);
+        esp_err_t err = mpu9250_register_write_byte(4,b ? '1' : '0');
+        ESP_LOGI(TAG, "write -> %u",err);
+        b = !b;
+    }
 }
