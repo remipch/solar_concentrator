@@ -8,10 +8,14 @@ RUN apt-get update && apt-get install -y iputils-ping       # ping
 RUN apt-get update && apt-get install -y kdevelop-python    # python plugin
 RUN apt-get update && apt-get install -y python3-tk         # python tk (matplotlib backend)
 
+RUN apt-get update && apt-get install -y arduino
+
 # Note : full pip path must be sepcified here otherwise pip package seems to be installed for anotehr python version
 RUN /opt/esp/python_env/idf4.4_py3.8_env/bin/pip install --upgrade pip
 RUN /opt/esp/python_env/idf4.4_py3.8_env/bin/pip install opencv-python
 RUN /opt/esp/python_env/idf4.4_py3.8_env/bin/pip install matplotlib
+
+RUN apt-get update && apt-get install -y mc                 # console file explorer
 
 # /!\ WARNING /!\
 # Error if we use opencv-python and PyQt5 in the same python script :
