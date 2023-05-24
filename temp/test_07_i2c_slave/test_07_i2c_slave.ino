@@ -26,7 +26,7 @@ int measure_index;
 
 // Sampling config, set by "ms" command at runtime
 int period_ms = 10;
-int samples_count = 10;
+int samples_count = 30;
 
 void setup()
 {
@@ -64,7 +64,23 @@ int parseCommandValue(String command, int value_index, int default_value) {
   return value.toInt();   
 }
 
+// Parse input string and execute all commands separated by ';' char
+void executeCommands(String commands) {
+  char sep = ';';
+  int pos = 0;
+  do {
+    int next_sep_pos = commands.indexOf(sep, pos);
+    String command = (next_sep_pos==-1) ? commands.substring(pos) : commands.substring(pos,next_sep_pos);
+    executeCommand(command);
+    pos = next_sep_pos+1;
+  } while(pos>0);
+}
+
 void executeCommand(String command) {  
+  if(command.length()==0) {
+    return;
+  }
+  
   Serial.print("command: ");
   Serial.println(command);
   
@@ -179,8 +195,8 @@ void writeMotorCommands(int motor_pins) {
 void loop()
 {
   if(Serial.available()>0) {
-    String command = Serial.readStringUntil('\n');
-    executeCommand(command);
+    String commands = Serial.readStringUntil('\n');
+    executeCommands(commands);
   }
   delay(10);
 }
@@ -192,11 +208,11 @@ void receiveEvent(int command_size)
     return;
   }
 
-  char command[COMMAND_BUFFER_SIZE];
+  char commands[COMMAND_BUFFER_SIZE];
   for(int i=0;i<command_size;i++) {
-    command[i] = Wire.read();
+    commands[i] = Wire.read();
   }
-  command[command_size] = '\0';
-  executeCommand(command);
+  commands[command_size] = '\0';
+  executeCommands(commands);
 }
 
