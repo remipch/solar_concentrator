@@ -45,6 +45,11 @@ bool isRunning() {
   return running;
 }
 
+void printRunningState() {
+    Serial.print("  running state: ");
+    Serial.println(running ? '1' : '0');
+}
+
 void startOutputCommand(int motor_pins, int cmd_max_time_ms, int cmd_threshold) {
   max_time_ms = cmd_max_time_ms;
   threshold = cmd_threshold;

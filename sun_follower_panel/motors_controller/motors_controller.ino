@@ -18,10 +18,13 @@ int MEASURE_PIN = A0;
 // Use the limit as default buffer size
 const int I2C_BUFFER_SIZE = 20;
 
+const int I2S_DEVICE_ADDRESS = 4;
+
 void setup()
 {
-  //Wire.begin(4);                    // join i2c bus with address #4
-  //Wire.onReceive(i2cReceivedEvent); 
+  Wire.begin(I2S_DEVICE_ADDRESS);
+  Wire.onReceive(i2cReceivedEvent);
+  Wire.onRequest(i2cRequestEvent);
   Serial.begin(19200);
   
   pinMode(LED_BUILTIN, OUTPUT);
@@ -54,8 +57,6 @@ void loop()
 
 void i2cReceivedEvent(int command_size)
 {
-  Serial.println("i2cReceivedEvent");
-  
   if(command_size>=I2C_BUFFER_SIZE) {
     Serial.println("I2C buffer full");
     return;
@@ -67,5 +68,10 @@ void i2cReceivedEvent(int command_size)
   }
   commands[command_size] = '\0';
   parseCommands(commands);
+}
+
+void i2cRequestEvent()
+{
+  Wire.write(isRunning() ? 1 : 0);
 }
 

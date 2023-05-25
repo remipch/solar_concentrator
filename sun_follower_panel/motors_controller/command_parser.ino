@@ -49,6 +49,9 @@ void appendOrExecuteCommand(String command) {
   else if(command.startsWith("p!")) { // Print all commands
     printCommandBuffer();
   }
+  else if(command.startsWith("s!")) { // Print state
+    printRunningState();
+  }
   else if(command.startsWith("m:")) { // Print measure buffer
     int printed_samples_count = parseCommandArgument(command, 0, 10);
     printMeasureBuffer(printed_samples_count);
