@@ -17,6 +17,7 @@
    CONDITIONS OF ANY KIND, either express or implied.
 */
 #include <stdio.h>
+#include <string.h>
 #include "esp_log.h"
 #include "driver/i2c.h"
 
@@ -29,41 +30,24 @@ static const char *TAG = "i2c-simple-example";
 #define I2C_MASTER_TX_BUF_DISABLE   0                          /*!< I2C master doesn't need buffer */
 #define I2C_MASTER_RX_BUF_DISABLE   0                          /*!< I2C master doesn't need buffer */
 #define I2C_MASTER_TIMEOUT_MS       1000
+#define I2C_MASTER_TIMEOUT_TICKS       I2C_MASTER_TIMEOUT_MS / portTICK_PERIOD_MS
 
-#define MPU9250_SENSOR_ADDR                 0x04        /*!< Slave address of the MPU9250 sensor */
-#define MPU9250_WHO_AM_I_REG_ADDR           0x75        /*!< Register addresses of the "who am I" register */
+#define I2C_SENSOR_ADDR                 0x04
 
-#define MPU9250_PWR_MGMT_1_REG_ADDR         0x6B        /*!< Register addresses of the power managment register */
-#define MPU9250_RESET_BIT                   7
-
-/**
- * @brief Read a sequence of bytes from a MPU9250 sensor registers
- */
-static esp_err_t mpu9250_register_read(uint8_t reg_addr, uint8_t *data, size_t len)
+// Read one char from device
+static esp_err_t motors_read_state(char *result)
 {
-    return i2c_master_write_read_device(I2C_MASTER_NUM, MPU9250_SENSOR_ADDR, &reg_addr, 1, data, len, I2C_MASTER_TIMEOUT_MS / portTICK_PERIOD_MS);
+    return i2c_master_read_from_device(I2C_MASTER_NUM, I2C_SENSOR_ADDR, (unsigned char*)result, 1, I2C_MASTER_TIMEOUT_TICKS);
 }
 
-/**
- * @brief Write a byte to a MPU9250 sensor register
- */
-static esp_err_t mpu9250_register_write_byte(uint8_t reg_addr, uint8_t data)
+static esp_err_t motors_write_command(const char* str)
 {
-    int ret;
-    uint8_t write_buf[2] = {reg_addr, data};
-
-    ret = i2c_master_write_to_device(I2C_MASTER_NUM, MPU9250_SENSOR_ADDR, write_buf, sizeof(write_buf), I2C_MASTER_TIMEOUT_MS / portTICK_PERIOD_MS);
-
-    return ret;
+    return i2c_master_write_to_device(I2C_MASTER_NUM, I2C_SENSOR_ADDR, (const unsigned char*)str, strlen(str)+1, I2C_MASTER_TIMEOUT_TICKS);
 }
 
-/**
- * @brief i2c master initialization
- */
+
 static esp_err_t i2c_master_init(void)
 {
-    int i2c_master_port = I2C_MASTER_NUM;
-
     i2c_config_t conf = {
         .mode = I2C_MODE_MASTER,
         .sda_io_num = I2C_MASTER_SDA_IO,
@@ -73,25 +57,31 @@ static esp_err_t i2c_master_init(void)
         .master.clk_speed = I2C_MASTER_FREQ_HZ,
     };
 
-    i2c_param_config(i2c_master_port, &conf);
+    i2c_param_config(I2C_MASTER_NUM, &conf);
 
-    return i2c_driver_install(i2c_master_port, conf.mode, I2C_MASTER_RX_BUF_DISABLE, I2C_MASTER_TX_BUF_DISABLE, 0);
+    return i2c_driver_install(I2C_MASTER_NUM, conf.mode, I2C_MASTER_RX_BUF_DISABLE, I2C_MASTER_TX_BUF_DISABLE, 0);
 }
 
 
 void app_main(void)
 {
-    uint8_t data[2];
     ESP_ERROR_CHECK(i2c_master_init());
     ESP_LOGI(TAG, "I2C initialized successfully");
 
     // Test Rémi
     const TickType_t xDelay = 1000 / portTICK_PERIOD_MS;
-    bool b = false;
-    while(true) {
-        vTaskDelay(xDelay);
-        esp_err_t err = mpu9250_register_write_byte(4,b ? '1' : '0');
-        ESP_LOGI(TAG, "write -> %u",err);
-        b = !b;
-    }
+    esp_err_t err;
+    char state;
+
+//     vTaskDelay(xDelay);
+//     err = motors_read_state(&state);
+//     ESP_LOGI(TAG, "state:%i (%s)",state,esp_err_to_name(err));
+
+    vTaskDelay(xDelay);
+    err = motors_write_command("o:1,2000;r!");
+    ESP_LOGI(TAG, "write (%s)",esp_err_to_name(err));
+
+//     vTaskDelay(xDelay);
+//     err = motors_read_state(&state);
+//     ESP_LOGI(TAG, "state:%i (%s)",state,esp_err_to_name(err));
 }

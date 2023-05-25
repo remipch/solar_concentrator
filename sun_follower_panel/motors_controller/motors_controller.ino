@@ -18,13 +18,53 @@ int MEASURE_PIN = A0;
 // Use the limit as default buffer size
 const int I2C_BUFFER_SIZE = 20;
 
-const int I2S_DEVICE_ADDRESS = 4;
+const int I2C_DEVICE_ADDRESS = 4;
+
+
+void printRam() {
+	extern unsigned int __data_start;
+	extern unsigned int __bss_start;
+	extern unsigned int __heap_start;
+	extern void *__brkval;	
+	byte stack_start;	
+	unsigned int heap_end = (__brkval == 0 ? (unsigned int) &__heap_start : (unsigned int) __brkval);
+	unsigned int stackSize = RAMEND - (unsigned int)&stack_start + 1;	
+	unsigned int freeMem = ((unsigned int)&stack_start) - heap_end;
+	
+	Serial.print(F("data : "));
+	Serial.print((unsigned int)&__bss_start - (unsigned int)&__data_start);
+	Serial.print(F(" byte(s) from 0x"));
+	Serial.println((unsigned int)&__data_start,16);
+	
+	Serial.print(F("bss : "));
+	Serial.print((unsigned int)&__heap_start - (unsigned int)&__bss_start);
+	Serial.print(F(" byte(s) from 0x"));
+	Serial.println((unsigned int)&__bss_start,16);
+	
+	Serial.print(F("heap : "));
+	Serial.print(heap_end - (unsigned int)&__heap_start);
+	Serial.print(F(" byte(s) from 0x"));
+	Serial.println((unsigned int)&__heap_start,16);
+	
+	Serial.print(F("stack : "));
+	Serial.print(stackSize);
+	Serial.print(F(" byte(s) from 0x"));
+	Serial.println((unsigned int)&stack_start,16);
+		
+	Serial.print(F("free RAM : "));
+	Serial.print(freeMem);
+	Serial.println(F(" bytes"));
+	Serial.println();
+}
 
 void setup()
 {
-  Wire.begin(I2S_DEVICE_ADDRESS);
+  Wire.begin(I2C_DEVICE_ADDRESS);
+  //digitalWrite(A4, LOW);
+  //digitalWrite(A5, LOW);
+  
   Wire.onReceive(i2cReceivedEvent);
-  Wire.onRequest(i2cRequestEvent);
+  //Wire.onRequest(i2cRequestEvent);
   Serial.begin(19200);
   
   pinMode(LED_BUILTIN, OUTPUT);
@@ -35,8 +75,8 @@ void setup()
   pinMode(DL_A_PIN, OUTPUT);
   pinMode(DL_B_PIN, OUTPUT);
   
+  printRam();
   printSampling();
-  
   stopCommands();
 }
 
@@ -53,11 +93,12 @@ void loop()
   
   // Start/update/terminate commands depending on command buffer and current command state
   run();
+  delay(10);
 }
 
 void i2cReceivedEvent(int command_size)
 {
-  if(command_size>=I2C_BUFFER_SIZE) {
+  if(command_size+1>=I2C_BUFFER_SIZE) {
     Serial.println("I2C buffer full");
     return;
   }
@@ -65,8 +106,10 @@ void i2cReceivedEvent(int command_size)
   char commands[I2C_BUFFER_SIZE];
   for(int i=0;i<command_size;i++) {
     commands[i] = Wire.read();
+    Serial.println((int)commands[i]);
   }
   commands[command_size] = '\0';
+  Serial.println(commands);
   parseCommands(commands);
 }
 
