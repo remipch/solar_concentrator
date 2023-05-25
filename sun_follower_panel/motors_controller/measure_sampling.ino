@@ -1,27 +1,32 @@
 // ================= Measure sampling ================= 
 
 
-int current_period_ms = 10;
-int current_samples_count = 30;
+int period_ms = 10;
+int samples_count = 30;
 
-void setSampling(int period_ms, int samples_count) {
-  current_period_ms = period_ms;
-  Serial.print("  period_ms: ");
-  Serial.println(current_period_ms);
+void setSampling(int new_period_ms, int new_samples_count) {
+  period_ms = new_period_ms;
   
-  if(samples_count > MAX_SAMPLES_COUNT)
-    current_samples_count = MAX_SAMPLES_COUNT;
+  if(new_samples_count > MAX_SAMPLES_COUNT)
+    samples_count = MAX_SAMPLES_COUNT;
   else
-    current_samples_count = samples_count;
+    samples_count = new_samples_count;
+    
+  printSampling();
+}
+
+void printSampling() {
+  Serial.print("  period_ms: ");
+  Serial.println(period_ms);
   Serial.print("  samples_count: ");
-  Serial.println(current_samples_count);
+  Serial.println(samples_count);
 }
 
 int getPeriodMs() {
-  return current_period_ms;
+  return period_ms;
 }
 
 int getSamplesCount() {
-  return current_samples_count;
+  return samples_count;
 }
 

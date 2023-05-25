@@ -1,32 +1,83 @@
+// ================= Output command ================= 
 
+// Execute all buffered commands sequentially
 
+// Current running output command
+unsigned long start_time_ms;
+int max_time_ms;
+int threshold;
+bool output_command_running = false;
+bool running = false;
 
+void stopCommands() {
+  clearCommandBuffer();
+  output_command_running = false;
+  running = false;
+  writeMotors(0);
+  digitalWrite(LED_BUILTIN, LOW);
+}
 
+void startNextCommand() {
+  if(isCommandAvailable()) {
+    digitalWrite(LED_BUILTIN, HIGH);
+    running = true;
+    String command = getNextCommand();
+    parseAndStartCommand(command);
+  }
+  else {
+    stopCommands();
+  }
+}
 
-// Current running command parameters
-static int current_max_time_ms;
-static int current_threshold;
-static int start_time_ms;
+// Start/update/terminate commands depending on command buffer and current command state
+void run() {
+  if(running) {
+    if(output_command_running) {
+      updateOutputCommand();
+    }
+    else {
+      startNextCommand();
+    }
+  }
+}
 
-void startOutputCommand(int motor_pins, int max_time_ms, int threshold) {
-  current_max_time_ms = max_time_ms;
-  current_threshold = threshold;
-  executeOutputCommand(motor_pins, max_time_ms, threshold);
+bool isRunning() {
+  return running;
+}
+
+void startOutputCommand(int motor_pins, int cmd_max_time_ms, int cmd_threshold) {
+  max_time_ms = cmd_max_time_ms;
+  threshold = cmd_threshold;
+  resetMeasureBuffer();
+  writeMotors(motor_pins);
+  start_time_ms = millis();
+  output_command_running = true;
 }
 
 void updateOutputCommand() {
-}
+  int average = addMeasureAndComputeAverage(analogRead(MEASURE_PIN));
+  if(average>threshold) {
+    Serial.print("  STOP because average ; average=");
+    Serial.println(average);
+    output_command_running = false;
+    return;
+  }
 
-bool isOutputCommandRunning() {
-  return false;
-}
+  if(millis() - start_time_ms > max_time_ms) {
+    Serial.print("  STOP because max_time ; average=");
+    Serial.println(average);
+    output_command_running = false;
+    return;
+  }
 
+  delay(getPeriodMs());
+}
 
 // motor_pins is a bit mask with bits in order:
 // bit 0 is motor UP pin A
 // ..
 // bit 5 is motor DOWN_LEFT pin B
-void writeMotorCommands(int motor_pins) {
+void writeMotors(int motor_pins) {
   digitalWrite(UP_A_PIN, (motor_pins & 1) ? HIGH : LOW);
   digitalWrite(UP_B_PIN, (motor_pins & 2) ? HIGH : LOW);
   digitalWrite(DR_A_PIN, (motor_pins & 4) ? HIGH : LOW);
@@ -35,30 +86,3 @@ void writeMotorCommands(int motor_pins) {
   digitalWrite(DL_B_PIN, (motor_pins & 32) ? HIGH : LOW);
 }
 
-void executeOutputCommand(int motor_pins, int max_time_ms, int threshold) {
-  digitalWrite(LED_BUILTIN, HIGH); 
-  writeMotorCommands(motor_pins);
-  unsigned long start_time_ms = millis();
-  Serial.print("  start_time_ms=");
-  Serial.println(start_time_ms);
-  resetMeasureBuffer();
-  
-  int average;
-  while(true) {
-    average = addMeasureAndComputeAverage(analogRead(MEASURE_PIN));
-    if(average>threshold) {
-      Serial.println("  STOP because average");
-      break;
-    }
-      
-    delay(getPeriodMs());
-    if(millis() - start_time_ms > max_time_ms) {
-      Serial.println("  STOP because max_time");
-      break;
-    }
-  }
-  digitalWrite(LED_BUILTIN, LOW); 
-  writeMotorCommands(0);
-  Serial.print("  average=");
-  Serial.println(average); 
-}
