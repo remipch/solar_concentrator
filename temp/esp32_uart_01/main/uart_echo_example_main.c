@@ -39,7 +39,38 @@ static const char *TAG = "UART TEST";
 
 #define BUF_SIZE (1024)
 
-static void echo_task(void *arg)
+const char END_CHAR = '\n';
+
+void write_motors_commands(char* commands) {
+    int res = uart_write_bytes(ECHO_UART_PORT_NUM, (const char *) commands, strlen(commands));
+    res += uart_write_bytes(ECHO_UART_PORT_NUM, &END_CHAR, 1);
+    ESP_LOGI(TAG, "commands sent (%i)",res);
+}
+
+// return true if last known state is active
+bool get_motors_state() {
+    write_motors_commands("s");
+
+    char reply[BUF_SIZE];
+    int len = uart_read_bytes(ECHO_UART_PORT_NUM, reply, (BUF_SIZE - 1), 20 / portTICK_PERIOD_MS);
+    if (len>0) {
+        reply[len] = '\0';
+        ESP_LOGI(TAG, "Receive reply: %s", (char *) reply);
+        if(reply[len-1]=='1')
+            return true;
+        else if(reply[len-1]=='0')
+            return false;
+        else
+            ESP_LOGW(TAG, "Unkown reply");
+            return false;
+    }
+    else {
+        ESP_LOGW(TAG, "No reply");
+        return false;
+    }
+}
+
+void app_main(void)
 {
     /* Configure parameters of an UART driver,
      * communication pins and install the driver */
@@ -61,34 +92,14 @@ static void echo_task(void *arg)
     ESP_ERROR_CHECK(uart_param_config(ECHO_UART_PORT_NUM, &uart_config));
     ESP_ERROR_CHECK(uart_set_pin(ECHO_UART_PORT_NUM, ECHO_TEST_TXD, ECHO_TEST_RXD, ECHO_TEST_RTS, ECHO_TEST_CTS));
 
-
     // Test Rémi
-    const TickType_t xDelay = 1000 / portTICK_PERIOD_MS;
-    char* message = "hello from esp32\n";
-
+    const TickType_t xDelay = 500 / portTICK_PERIOD_MS;
+    vTaskDelay(xDelay);
+    get_motors_state();
+    vTaskDelay(xDelay);
+    write_motors_commands("o:1,1000;o:32,5000,25");
     for(int i=0;i<10;i++) {
         vTaskDelay(xDelay);
-        int res = uart_write_bytes(ECHO_UART_PORT_NUM, (const char *) message, strlen(message));
-        ESP_LOGI(TAG, "message sent (%i)",res);
+        get_motors_state();
     }
-    return;
-
-    // Configure a temporary buffer for the incoming data
-    uint8_t *data = (uint8_t *) malloc(BUF_SIZE);
-
-    while (1) {
-        // Read data from the UART
-        int len = uart_read_bytes(ECHO_UART_PORT_NUM, data, (BUF_SIZE - 1), 20 / portTICK_RATE_MS);
-        // Write data back to the UART
-        uart_write_bytes(ECHO_UART_PORT_NUM, (const char *) data, len);
-        if (len) {
-            data[len] = '\0';
-            ESP_LOGI(TAG, "Recv str: %s", (char *) data);
-        }
-    }
-}
-
-void app_main(void)
-{
-    xTaskCreate(echo_task, "uart_echo_task", 2048, NULL, 10, NULL);
 }
