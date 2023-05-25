@@ -9,7 +9,7 @@ int threshold;
 bool output_command_running = false;
 bool running = false;
 
-void stopCommands() {
+void stopAndClearCommands() {
   clearCommandBuffer();
   output_command_running = false;
   running = false;
@@ -25,7 +25,7 @@ void startNextCommand() {
     parseAndStartCommand(command);
   }
   else {
-    stopCommands();
+    stopAndClearCommands();
   }
 }
 
@@ -45,9 +45,10 @@ bool isRunning() {
   return running;
 }
 
-void printRunningState() {
+void sendRunningState() {
     Serial.print("  running state: ");
     Serial.println(running ? '1' : '0');
+    MasterSerial.println(running ? '1' : '0');
 }
 
 void startOutputCommand(int motor_pins, int cmd_max_time_ms, int cmd_threshold) {

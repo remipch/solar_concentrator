@@ -19,45 +19,44 @@ int parseCommandArgument(String command, int value_index, int default_value) {
 }
 
 // Parse input string and execute all commands separated by ';' char
-// Note : except for debugging, this method must return quickly (no print, no delay)
-// because it can be called from i2c interrupt
-void parseCommands(String commands) {
-  char sep = ';';
-  int pos = 0;
-  do {
-    int next_sep_pos = commands.indexOf(sep, pos);
-    String command = (next_sep_pos==-1) ? commands.substring(pos) : commands.substring(pos,next_sep_pos);
-    appendOrExecuteCommand(command);
-    pos = next_sep_pos+1;
-  } while(pos>0);
-}
-
-// Depending on the command type : append or execute immediately
-// Note : except for debugging, this method must return quickly (no print, no delay)
-// because it can be called from i2c interrupt
-void appendOrExecuteCommand(String command) {
-  if(command.length()==0) {
+void parseAndRunCommands(String commands){
+  if(commands.length()==0) {
     return;
   }
 
-  if(command.startsWith("c!")) { // Stop and clear all commands
-    stopCommands();
+  // First check for immediate single command  
+  if(commands.startsWith("c")) { // Stop and clear all commands immediately
+    stopAndClearCommands();
   }
-  else if(command.startsWith("r!")) { // Run all commands
-    startNextCommand();
+  else if(commands.equals("s")) { // Return state immediately
+    sendRunningState();
   }
-  else if(command.startsWith("p!")) { // Print all commands
+  else if(commands.startsWith("p")) { // Print all commands immediately
     printCommandBuffer();
   }
-  else if(command.startsWith("s!")) { // Print state
-    printRunningState();
-  }
-  else if(command.startsWith("m:")) { // Print measure buffer
-    int printed_samples_count = parseCommandArgument(command, 0, 10);
+  else if(commands.startsWith("m:")) { // Print measure buffer
+    int printed_samples_count = parseCommandArgument(commands, 0, 10);
     printMeasureBuffer(printed_samples_count);
   }
-  else {
-    appendCommand(command);
+  else { 
+    // Parse commands, append them and start the first one    
+    stopAndClearCommands();
+    
+    char sep = ';';
+    int pos = 0;
+    do {
+      int next_sep_pos = commands.indexOf(sep, pos);
+      String command = (next_sep_pos==-1) ? commands.substring(pos) : commands.substring(pos,next_sep_pos);
+      if(command.length()>0) {
+        appendCommand(command);
+      }
+      pos = next_sep_pos+1;
+    } while(pos>0);
+    
+    // Start the first command
+    if(isCommandAvailable()) {
+      startNextCommand();
+    }
   }
 }
 
@@ -89,7 +88,8 @@ void parseAndStartCommand(String command) {
     startOutputCommand(motor_pins, max_time_ms, threshold);
   }
   else {
-    Serial.println("unknown command");
+    Serial.println("unknown command: STOP");  
+    stopAndClearCommands();
   }
 }
 

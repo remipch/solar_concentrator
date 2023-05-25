@@ -1,4 +1,4 @@
-#include <Wire.h>
+#include <SoftwareSerial.h>
 
 // motor UP
 int UP_A_PIN = 2;    // unroll
@@ -14,12 +14,48 @@ int DL_B_PIN = 7;    // roll
 
 int MEASURE_PIN = A0;
 
-// I2C lib is limited in input buffer size
-// Use the limit as default buffer size
-const int I2C_BUFFER_SIZE = 20;
+// Soft serial pins (connection with ESP32 master)
+int SOFT_RX_PIN = 9;
+int SOFT_TX_PIN = 8;
 
-const int I2C_DEVICE_ADDRESS = 4;
+SoftwareSerial MasterSerial(SOFT_RX_PIN, SOFT_TX_PIN);
 
+void setup()
+{
+  MasterSerial.begin(19200);
+  Serial.begin(19200);
+  
+  pinMode(LED_BUILTIN, OUTPUT);
+  pinMode(UP_A_PIN, OUTPUT);
+  pinMode(UP_B_PIN, OUTPUT);
+  pinMode(DR_A_PIN, OUTPUT);
+  pinMode(DR_B_PIN, OUTPUT);
+  pinMode(DL_A_PIN, OUTPUT);
+  pinMode(DL_B_PIN, OUTPUT);
+  
+  printRam();
+  printSampling();
+  stopAndClearCommands();
+}
+
+void loop()
+{
+  String commands = "";
+  if(Serial.available()>0) {
+    commands = Serial.readStringUntil('\n');
+  }
+  else if(MasterSerial.available()>0) {
+    commands = MasterSerial.readStringUntil('\n');
+  }
+  if(commands.length()>0) {
+    Serial.print("parse commands: ");
+    Serial.println(commands);
+    parseAndRunCommands(commands);
+  }    
+  
+  // Start/update/terminate commands depending on command buffer and current command state
+  run();
+}
 
 void printRam() {
 	extern unsigned int __data_start;
@@ -56,65 +92,3 @@ void printRam() {
 	Serial.println(F(" bytes"));
 	Serial.println();
 }
-
-void setup()
-{
-  Wire.begin(I2C_DEVICE_ADDRESS);
-  //digitalWrite(A4, LOW);
-  //digitalWrite(A5, LOW);
-  
-  Wire.onReceive(i2cReceivedEvent);
-  //Wire.onRequest(i2cRequestEvent);
-  Serial.begin(19200);
-  
-  pinMode(LED_BUILTIN, OUTPUT);
-  pinMode(UP_A_PIN, OUTPUT);
-  pinMode(UP_B_PIN, OUTPUT);
-  pinMode(DR_A_PIN, OUTPUT);
-  pinMode(DR_B_PIN, OUTPUT);
-  pinMode(DL_A_PIN, OUTPUT);
-  pinMode(DL_B_PIN, OUTPUT);
-  
-  printRam();
-  printSampling();
-  stopCommands();
-}
-
-void loop()
-{
-  if(Serial.available()>0) {
-    String commands = Serial.readStringUntil('\n');
-    if(commands.length()>0) {
-      Serial.print("parse commands: ");
-      Serial.println(commands);
-      parseCommands(commands);
-    }    
-  }
-  
-  // Start/update/terminate commands depending on command buffer and current command state
-  run();
-  delay(10);
-}
-
-void i2cReceivedEvent(int command_size)
-{
-  if(command_size+1>=I2C_BUFFER_SIZE) {
-    Serial.println("I2C buffer full");
-    return;
-  }
-
-  char commands[I2C_BUFFER_SIZE];
-  for(int i=0;i<command_size;i++) {
-    commands[i] = Wire.read();
-    Serial.println((int)commands[i]);
-  }
-  commands[command_size] = '\0';
-  Serial.println(commands);
-  parseCommands(commands);
-}
-
-void i2cRequestEvent()
-{
-  Wire.write(isRunning() ? 1 : 0);
-}
-
