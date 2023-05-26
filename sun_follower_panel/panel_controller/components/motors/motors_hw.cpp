@@ -10,7 +10,7 @@ static const char* TAG = "motors_hw";
 #define MOTOR_CONTROLLER_UART_PORT_NUM      2
 #define MOTOR_CONTROLLER_BAUD_RATE     19200
 
-#define BUFFER_SIZE (1024)
+#define BUFFER_SIZE (128) // (keep small to stay below task stack size)
 
 const char END_CHAR = '\n';
 
@@ -25,6 +25,7 @@ motor_hw_error_t motors_hw_init()
         .parity    = UART_PARITY_DISABLE,
         .stop_bits = UART_STOP_BITS_1,
         .flow_ctrl = UART_HW_FLOWCTRL_DISABLE,
+        .rx_flow_ctrl_thresh = 0,
         .source_clk = UART_SCLK_APB,
     };
 
@@ -51,9 +52,9 @@ char motors_hw_read_reply() {
     int len = uart_read_bytes(MOTOR_CONTROLLER_UART_PORT_NUM, reply, (BUFFER_SIZE - 1), 20 / portTICK_PERIOD_MS);
     if (len>0) {
         reply[len] = '\0';
-        ESP_LOGI(TAG, "Reply: %s", reply);
-        ESP_LOGI(TAG, "Reply: %u", reply[len-1]);
-        return reply[len-1];
+        char result = reply[len-1];
+        ESP_LOGI(TAG, "Reply: '%s' (len: %i, result:'%c')", reply, len, result);
+        return result;
     }
     else {
         ESP_LOGW(TAG, "No reply");
