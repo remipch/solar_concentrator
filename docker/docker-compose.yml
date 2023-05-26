@@ -10,6 +10,7 @@ services:
       - DISPLAY=${DISPLAY}
     volumes:
       - /tmp/.X11-unix:/tmp/.X11-unix   # required for UI started from container to be viewed on host
+      - /var/run/dbus:/var/run/dbus     # required for avahi tools to success when launched from the container
       - ..:/solar_concentrator
       - ./config:/root/.config          # map configs to be saved in host WARNING : individual permissions must be enabled in Dockerfile (see kdeveloprc)
       - ./local:/root/.local            # map configs to be saved in host

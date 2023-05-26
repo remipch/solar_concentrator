@@ -28,7 +28,7 @@ else:
 
 # does not work with esp32 network name : http://esp32_test.local/capture
 # network tool avahi-discover does not work from the container
-esp32_http_address = "http://192.168.76.180"
+esp32_http_address = "http://esp32_test.local"
 
 def httpRequest(http_address):
     response = requests.get(http_address)
