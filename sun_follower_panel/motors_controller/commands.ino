@@ -48,7 +48,7 @@ bool isRunning() {
 void sendRunningState() {
     Serial.print("  running state: ");
     Serial.println(running ? '1' : '0');
-    MasterSerial.println(running ? '1' : '0');
+    MasterSerial.print(running ? '1' : '0');
 }
 
 void startOutputCommand(int motor_pins, int cmd_max_time_ms, int cmd_threshold) {
