@@ -5,9 +5,9 @@
 static const int DEFAULT_RELAXING_PHASE_DURATION_MS = 500;
 
 MINI_MOCK_FUNCTION(motors_hw_init, motor_hw_error_t, (), ());
-MINI_MOCK_FUNCTION(motors_hw_stop, motor_hw_error_t, (), ());
-MINI_MOCK_FUNCTION(motors_hw_start, motor_hw_error_t, (motor_hw_motor_id_t id, motor_hw_command_t cmd), (id, cmd));
-MINI_MOCK_FUNCTION(motor_hw_measure_current, motors_current_t, (), ());
+MINI_MOCK_FUNCTION(motors_hw_stop, void, (), ());
+MINI_MOCK_FUNCTION(motors_hw_move_one_step, void, (motors_direction_t direction), (direction));
+MINI_MOCK_FUNCTION(motor_hw_get_state, motor_hw_state_t, (), ());
 
 
 

@@ -1,90 +1,99 @@
 #include "motors_hw.hpp"
 
-#include "driver/gpio.h"
-
+#include "string.h"
+#include "driver/uart.h"
 #include "esp_log.h"
 static const char* TAG = "motors_hw";
 
-#define GPIO_MOTOR_DIRECTION_PIN    GPIO_NUM_12
-#define GPIO_MOTOR_SELECT_0_PIN     GPIO_NUM_15
-#define GPIO_MOTOR_SELECT_1_PIN     GPIO_NUM_13
-#define GPIO_ALL_MOTOR_PINS       ( (1ULL << GPIO_MOTOR_DIRECTION_PIN) | (1ULL << GPIO_MOTOR_SELECT_0_PIN) | (1ULL << GPIO_MOTOR_SELECT_1_PIN) )
+#define MOTOR_CONTROLLER_RX_PIN 15
+#define MOTOR_CONTROLLER_TX_PIN 13
+#define MOTOR_CONTROLLER_UART_PORT_NUM      2
+#define MOTOR_CONTROLLER_BAUD_RATE     19200
 
-// Note : because it's impossible to use ADC and wifi simultaneously,
-// the current is not measured with an ADC but with 1 digital IO pins associated
-// with an external low-pass filter + threshold comparator
-// Note : a lot of GPIO pins are used by other components on ESP32-CAM (camera and PSRAM)
-// Note : GPIO_NUM_2 pin has an hard-wires 47k pull-up resistor on ESP32-CAM board
-#define GPIO_HIGH_CURRENT_PIN   GPIO_NUM_2 // pin is high if current > high threshold
+#define BUFFER_SIZE (1024)
+
+const char END_CHAR = '\n';
 
 motor_hw_error_t motors_hw_init()
 {
     ESP_LOGD(TAG, "motors_hw_init");
 
-    // Config GPIO output for motors
-    gpio_config_t io_conf = {};
-    io_conf.intr_type = GPIO_INTR_DISABLE;
-    io_conf.mode = GPIO_MODE_OUTPUT;
-    io_conf.pin_bit_mask = GPIO_ALL_MOTOR_PINS;
-    io_conf.pull_down_en = gpio_pulldown_t::GPIO_PULLDOWN_DISABLE;
-    io_conf.pull_up_en = gpio_pullup_t::GPIO_PULLUP_DISABLE;
-    if (gpio_config(&io_conf) != ESP_OK)
-        return motor_hw_error_t::CANNOT_USE_GPIO;
 
-    // Configure GPIO inputs for current measuring
-    io_conf.mode = GPIO_MODE_INPUT;
-    io_conf.pin_bit_mask = 1ULL << GPIO_HIGH_CURRENT_PIN;
-    if (gpio_config(&io_conf) != ESP_OK)
-        return motor_hw_error_t::CANNOT_USE_GPIO;
+    uart_config_t uart_config = {
+        .baud_rate = MOTOR_CONTROLLER_BAUD_RATE,
+        .data_bits = UART_DATA_8_BITS,
+        .parity    = UART_PARITY_DISABLE,
+        .stop_bits = UART_STOP_BITS_1,
+        .flow_ctrl = UART_HW_FLOWCTRL_DISABLE,
+        .source_clk = UART_SCLK_APB,
+    };
+
+    if(uart_driver_install(MOTOR_CONTROLLER_UART_PORT_NUM, BUFFER_SIZE * 2, 0, 0, NULL, 0) != ESP_OK)
+        return motor_hw_error_t::CANNOT_USE_UART;
+    if(uart_param_config(MOTOR_CONTROLLER_UART_PORT_NUM, &uart_config) != ESP_OK)
+        return motor_hw_error_t::CANNOT_USE_UART;
+    if(uart_set_pin(MOTOR_CONTROLLER_UART_PORT_NUM, MOTOR_CONTROLLER_TX_PIN, MOTOR_CONTROLLER_RX_PIN, UART_PIN_NO_CHANGE, UART_PIN_NO_CHANGE) != ESP_OK)
+        return motor_hw_error_t::CANNOT_USE_UART;
 
     return motor_hw_error_t::NO_ERROR;
 }
 
-#define CHECK_SET_GPIO(pin,value) { \
-        if (gpio_set_level(pin, value) != ESP_OK) \
-            return motor_hw_error_t::CANNOT_USE_GPIO; \
+bool motors_hw_write_commands(const char* commands) {
+    ESP_LOGI(TAG, "Send '%s' to motors",commands);
+    int res = uart_write_bytes(MOTOR_CONTROLLER_UART_PORT_NUM, commands, strlen(commands));
+    res += uart_write_bytes(MOTOR_CONTROLLER_UART_PORT_NUM, &END_CHAR, 1);
+    return (res == strlen(commands)+1);
+}
+
+// Return true if the last character received is '1'
+char motors_hw_read_reply() {
+    char reply[BUFFER_SIZE];
+    int len = uart_read_bytes(MOTOR_CONTROLLER_UART_PORT_NUM, reply, (BUFFER_SIZE - 1), 20 / portTICK_PERIOD_MS);
+    if (len>0) {
+        reply[len] = '\0';
+        ESP_LOGI(TAG, "Reply: %s", reply);
+        ESP_LOGI(TAG, "Reply: %u", reply[len-1]);
+        return reply[len-1];
     }
-
-motor_hw_error_t motors_hw_stop()
-{
-    CHECK_SET_GPIO(GPIO_MOTOR_SELECT_0_PIN, 0);
-    CHECK_SET_GPIO(GPIO_MOTOR_SELECT_1_PIN, 0);
-    return motor_hw_error_t::NO_ERROR;
+    else {
+        ESP_LOGW(TAG, "No reply");
+        return '?';
+    }
 }
 
-motor_hw_error_t motors_hw_start(
-    motor_hw_motor_id_t motor_id,
-    motor_hw_command_t command
-)
+void motors_hw_stop()
 {
-    ESP_LOGI(TAG, "motors_hw_start(motor_id = %s, command = %s)", str(motor_id), str(command));
-    if (motor_id == motor_hw_motor_id_t::UP) {
-        CHECK_SET_GPIO(GPIO_MOTOR_SELECT_0_PIN, 1);
-        CHECK_SET_GPIO(GPIO_MOTOR_SELECT_1_PIN, 0);
-    } else if (motor_id == motor_hw_motor_id_t::DOWN_RIGHT) {
-        CHECK_SET_GPIO(GPIO_MOTOR_SELECT_0_PIN, 0);
-        CHECK_SET_GPIO(GPIO_MOTOR_SELECT_1_PIN, 1);
-    } else if (motor_id == motor_hw_motor_id_t::DOWN_LEFT) {
-        CHECK_SET_GPIO(GPIO_MOTOR_SELECT_0_PIN, 1);
-        CHECK_SET_GPIO(GPIO_MOTOR_SELECT_1_PIN, 1);
+    motors_hw_write_commands("c");
+}
+
+void motors_hw_move_one_step(motors_direction_t direction)
+{
+    ESP_LOGI(TAG, "motors_hw_move_one_step(direction = %s)", str(direction));
+    if (direction == motors_direction_t::UP_RIGHT) {
+        motors_hw_write_commands("o:16,1000;o:2,5000,30");
+    } else if (direction == motors_direction_t::RIGHT) {
+        motors_hw_write_commands("o:16,500;o:8,5000,25");
+    } else if (direction == motors_direction_t::DOWN_RIGHT) {
+        motors_hw_write_commands("o:1,1000;o:8,5000,25");
+    } else if (direction == motors_direction_t::DOWN_LEFT) {
+        motors_hw_write_commands("o:1,1000;o:32,5000,25");
+    } else if (direction == motors_direction_t::LEFT) {
+        motors_hw_write_commands("o:4,500;o:32,5000,25");
+    } else if (direction == motors_direction_t::UP_LEFT) {
+        motors_hw_write_commands("o:4,1000;o:2,5000,25");
     } else {
         abort();
     }
-    if (command == motor_hw_command_t::ROLL) {
-        CHECK_SET_GPIO(GPIO_MOTOR_DIRECTION_PIN, 1);
-    } else if (command == motor_hw_command_t::UNROLL) {
-        CHECK_SET_GPIO(GPIO_MOTOR_DIRECTION_PIN, 0);
-    } else {
-        abort();
-    }
-    return motor_hw_error_t::NO_ERROR;
 }
 
-motors_current_t motor_hw_measure_current()
+motor_hw_state_t motor_hw_get_state()
 {
-    if (gpio_get_level(GPIO_HIGH_CURRENT_PIN))
-        return motors_current_t::HIGH;
-    else
-        return motors_current_t::LOW;
+    motors_hw_write_commands("s");
+    char reply = motors_hw_read_reply();
+    if(reply=='1')
+        return motor_hw_state_t::MOVING;
+    if(reply=='0')
+        return motor_hw_state_t::STOPPED;
+    return motor_hw_state_t::UNKNOWN;
 }
 
