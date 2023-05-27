@@ -16,12 +16,14 @@ SPACE_KEY = 32      # skip a waiting state
 DELETE_KEY = 255    # reset target pos
 P_KEY = 112           # toggle 'pause_after_each_step'
 N0_KEY = 48         # 0 : stop move
+N8_KEY = 56         # 8 : up step
+N9_KEY = 57         # 9 : top-right step
+N6_KEY = 54         # 6 : right step
+N3_KEY = 51         # 3 : down-right step
+N2_KEY = 50         # 2 : down step
 N1_KEY = 49         # 1 : down-left step
 N4_KEY = 52         # 4 : left step
 N7_KEY = 55         # 7 : top-left step
-N3_KEY = 51         # 3 : down-right step
-N6_KEY = 54         # 6 : right step
-N9_KEY = 57         # 9 : top-right step
 
 
 def captureAndShow():
@@ -69,6 +71,9 @@ while True:
         if state_duration_s > 5.0 or key==SPACE_KEY:
             captureAndShow()
             setState(State.WAITING_TARGET_DEFINITION)
+        elif key==N8_KEY:
+            moveOneStep(MotorsDirection.UP)
+            setState(State.MANUAL_MOVE)
         elif key==N1_KEY:
             moveOneStep(MotorsDirection.DOWN_LEFT)
             setState(State.MANUAL_MOVE)
@@ -77,6 +82,9 @@ while True:
             setState(State.MANUAL_MOVE)
         elif key==N7_KEY:
             moveOneStep(MotorsDirection.UP_LEFT)
+            setState(State.MANUAL_MOVE)
+        elif key==N2_KEY:
+            moveOneStep(MotorsDirection.DOWN)
             setState(State.MANUAL_MOVE)
         elif key==N3_KEY:
             moveOneStep(MotorsDirection.DOWN_RIGHT)

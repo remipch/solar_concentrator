@@ -299,12 +299,16 @@ static esp_err_t motors_command_handler(httpd_req_t *req)
     }
     else {
         motors_direction_t direction=motors_direction_t::NONE;
-        if (!strcmp(command, "up-right"))
+        if (!strcmp(command, "up"))
+            direction = motors_direction_t::UP;
+        else if (!strcmp(command, "up-right"))
             direction = motors_direction_t::UP_RIGHT;
         else if (!strcmp(command, "right"))
             direction = motors_direction_t::RIGHT;
         else if (!strcmp(command, "down-right"))
             direction = motors_direction_t::DOWN_RIGHT;
+        else if (!strcmp(command, "down"))
+            direction = motors_direction_t::DOWN;
         else if (!strcmp(command, "down-left"))
             direction = motors_direction_t::DOWN_LEFT;
         else if (!strcmp(command, "left"))
