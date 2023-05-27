@@ -16,15 +16,20 @@ class MotorsStatus(str, Enum):
 
 
 
-# if True : read images from disk
-# if False : capture image from esp32 camera
-#simu=True
-simu=False
+class SimuMode(str, Enum):
+    NONE     = "NONE"
+    RECORD   = "RECORD"
+    REPLAY   = "REPLAY"
 
-if simu:
-    iteration=0
-else:
+
+simu=SimuMode.NONE
+
+print(f"simu: '{simu}'",flush=True)
+
+if simu==SimuMode.RECORD:
     iteration=100
+else:
+    iteration=0
 
 # does not work with esp32 network name : http://esp32_test.local/capture
 # network tool avahi-discover does not work from the container
@@ -47,7 +52,7 @@ def cameraCapture():
 
     iteration = iteration + 1
 
-    if simu:
+    if simu==SimuMode.REPLAY:
         iteration = iteration % 10
         if not os.path.isfile(img_path):
             print(f"file '{img_path}' does not exist: exit application",flush=True)
@@ -60,28 +65,28 @@ def cameraCapture():
     byte_array = bytearray(response.content)
     array = np.asarray(byte_array, dtype=np.uint8)
     img = cv2.imdecode(array, cv2.IMREAD_GRAYSCALE)
-    cv2.imwrite(img_path,img)
-
-    print(f"cameraCapture: write '{img_path}' to disk",flush=True)
+    if simu==SimuMode.RECORD:
+        cv2.imwrite(img_path,img)
+        print(f"cameraCapture: write '{img_path}' to disk",flush=True)
     return img
 
 def moveOneStep(direction):
     print(f"moveOneStep: {direction}",flush=True)
-    if not simu:
+    if not simu==SimuMode.REPLAY:
         response = httpRequest(f"{esp32_http_address}/motors_command?cmd={direction}&continuous=0")
 
 def stopMove():
     print("stopMove",flush=True)
-    if not simu:
+    if not simu==SimuMode.REPLAY:
         response = httpRequest(f"{esp32_http_address}/motors_command?cmd=stop&continuous=0")
 
 def getMotorsStatus():
-    if not simu:
+    if simu==SimuMode.REPLAY:
+        status = MotorsStatus.LOCKED
+    else:
         response = httpRequest(f"{esp32_http_address}/motors_status")
         #print(f"   json: {response.json()}",flush=True)
         status = MotorsStatus(response.json()["motors-state"])
-    else:
-        status = MotorsStatus.LOCKED
     print(f"getMotorsStatus: {status}",flush=True)
     return status
 
