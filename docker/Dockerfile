@@ -18,6 +18,8 @@ RUN /opt/esp/python_env/idf4.4_py3.8_env/bin/pip install matplotlib
 RUN apt-get update && apt-get install -y mc                 # console file explorer
 RUN apt-get update && apt-get install -y nano               # minimal text editor
 
+RUN pip install getch  # for manual python script using keyboard
+
 # Not necessary (avahi-tools is installed by default) :
 # RUN apt-get update && apt-get install -y avahi-discover
 
