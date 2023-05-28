@@ -39,9 +39,8 @@ target_pos_px = None
 TARGET_TOL_PX = 10
 
 # to check if a move is realistic (detect bad spot detections)
-MIN_MOVE_DIRECTION_PX = 3
-MAX_MOVE_DIRECTION_PX = 20
-MAX_MOVE_PX = 10
+MIN_MOVE_PX = 5
+MAX_MOVE_PX = 20
 
 previous_img = None
 
@@ -117,7 +116,7 @@ def getBestMotorsDirection(current_center_px, wanted_center_px):
     for direction, delta_px in direction_delta_px.items():
         center_px = [current_center_px[0]+delta_px[0] , current_center_px[1]+delta_px[1]]
         distance_px = math.dist(wanted_center_px, center_px)
-        print(f"  test {direction}: center_px: {center_px} (distance_px: {distance_px})",flush=True)
+        print(f"  test {direction}: delta_px: [{delta_px[0]:.1f},{delta_px[1]:.1f}] center_px: [{center_px[0]:.1f},{center_px[1]:.1f}] (distance_px: {distance_px:.1f})",flush=True)
         drawPoint(center_px[0],center_px[1],POSSIBLE_DIRECTION_COLOR)
         if distance_px<best_distance_px:
             best_distance_px = distance_px
@@ -131,10 +130,10 @@ def getBestMotorsDirection(current_center_px, wanted_center_px):
 def isRealisticMove(spot_center_px, move_direction_px):
     # WTF there is math.dist but no math.norm...
     move_direction_norm_px = math.dist([0,0], move_direction_px)
-    if move_direction_norm_px<MIN_MOVE_DIRECTION_PX:
+    if move_direction_norm_px<MIN_MOVE_PX:
         print(f"  move_direction_norm_px: {move_direction_norm_px} < {MIN_MOVE_DIRECTION_PX}",flush=True)
         return False
-    if move_direction_norm_px>MAX_MOVE_DIRECTION_PX:
+    if move_direction_norm_px>MAX_MOVE_PX:
         print(f"  move_direction_norm_px: {move_direction_norm_px} > {MAX_MOVE_DIRECTION_PX}",flush=True)
         return False
 
