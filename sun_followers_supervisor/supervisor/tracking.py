@@ -167,10 +167,10 @@ def isRealisticMove(spot_center_px, move_direction_px):
     # WTF there is math.dist but no math.norm...
     move_direction_norm_px = math.dist([0,0], move_direction_px)
     if move_direction_norm_px<MIN_MOVE_PX:
-        print(f"  move_direction_norm_px: {move_direction_norm_px} < {MIN_MOVE_DIRECTION_PX}",flush=True)
+        print(f"  move_direction_norm_px: {move_direction_norm_px} < {MIN_MOVE_PX}",flush=True)
         return False
     if move_direction_norm_px>MAX_MOVE_PX:
-        print(f"  move_direction_norm_px: {move_direction_norm_px} > {MAX_MOVE_DIRECTION_PX}",flush=True)
+        print(f"  move_direction_norm_px: {move_direction_norm_px} > {MAX_MOVE_PX}",flush=True)
         return False
 
     if previous_spot_center_px is not None:
