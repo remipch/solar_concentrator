@@ -4,6 +4,7 @@ from motors_direction import MotorsDirection
 from user_interface import *
 from panel_web_access import *
 
+BLACK = (0,0,0)
 BLUE = (255,102,0)
 ORANGE = (0,153,255)
 GREEN = (0,204,0)
@@ -107,8 +108,25 @@ def computeBlobCentroid(blob_img):
     y = M["m01"] / M["m00"]
     return x,y
 
+# erase everything outside of ROI
+# keeping the same size for all images make things simpler (coordinates are valid on all images)
+def keepOnlyRoi(img):
+    if top_left_roi_corner_px is None or bottom_right_roi_corner_px is None:
+        return img
+
+    result = img
+    height, width = img.shape
+    cv2.rectangle(result,(0,0),(top_left_roi_corner_px[0],height),BLACK,cv2.FILLED)
+    cv2.rectangle(result,(bottom_right_roi_corner_px[0],0),(width,height),BLACK,cv2.FILLED)
+    cv2.rectangle(result,(0,0),(width,top_left_roi_corner_px[1]),BLACK,cv2.FILLED)
+    cv2.rectangle(result,(0,bottom_right_roi_corner_px[1]),(width,height),BLACK,cv2.FILLED)
+    return result
+
 # return spot center in pixel and the move direction in pixel
 def findSpot(previous_img,current_img):
+    previous_img = keepOnlyRoi(previous_img)
+    current_img = keepOnlyRoi(current_img)
+
     diff_img = (128+cv2.divide(current_img, 2))-cv2.divide(previous_img, 2)
     diff_norm_img = cv2.normalize(diff_img, None, alpha=0, beta=255, norm_type=cv2.NORM_MINMAX)
     showDebugImage("diff",diff_norm_img,800,400)
