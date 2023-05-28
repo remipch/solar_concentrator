@@ -48,13 +48,44 @@ current_direction = list(direction_delta_px.keys())[0]
 
 previous_spot_center_px = None
 
+# contains eventually 2 corners defining the region of interrest in which computation
+# must be restricted (pixels outside of this ROI are ignored)
+roi_corners_px = []
+top_left_roi_corner_px = None
+bottom_right_roi_corner_px = None
+
 def setTarget(target_pos):
     global target_pos_px
     print(f"NEW TARGET: {target_pos}",flush=True)
+    if target_pos is not None and top_left_roi_corner_px is not None and bottom_right_roi_corner_px is not None:
+        if target_pos[0]<top_left_roi_corner_px[0] or target_pos[1]<top_left_roi_corner_px[1] or target_pos[0]>bottom_right_roi_corner_px[0] or target_pos[1]>bottom_right_roi_corner_px[1]:
+            print(f"TARGET is outside ROI -> reset target",flush=True)
+            target_pos = None
     target_pos_px = target_pos
     closeDebugImage("previous")
     closeDebugImage("diff")
     closeDebugImage("blobs")
+
+def isTargetSet():
+    if target_pos_px is not None:
+        return True
+    else:
+        return False
+
+def setRoiCorner(roi_corner_px):
+    global roi_corners_px,top_left_roi_corner_px,bottom_right_roi_corner_px
+    print(f"NEW ROI CORNER: {roi_corner_px}",flush=True)
+    if len(roi_corners_px)==0:
+        roi_corners_px = [roi_corner_px]
+    else:
+        roi_corners_px.append(roi_corner_px)
+        if len(roi_corners_px)>2:
+            roi_corners_px.pop(0)
+
+        top_left_roi_corner_px = (min(roi_corners_px[0][0],roi_corners_px[1][0]), min(roi_corners_px[0][1],roi_corners_px[1][1]))
+        bottom_right_roi_corner_px = (max(roi_corners_px[0][0],roi_corners_px[1][0]), max(roi_corners_px[0][1],roi_corners_px[1][1]))
+        print(f"top_left_roi_corner_px: {top_left_roi_corner_px}",flush=True)
+        print(f"bottom_right_roi_corner_px: {bottom_right_roi_corner_px}",flush=True)
 
 def resetTarget():
     setTarget(None)
@@ -62,6 +93,10 @@ def resetTarget():
 def drawTarget():
     if target_pos_px is not None:
         drawCross(target_pos_px[0],target_pos_px[1],TARGET_TOL_PX,TARGET_COLOR)
+
+def drawRoi():
+    if top_left_roi_corner_px is not None and bottom_right_roi_corner_px is not None:
+        drawRectangle(top_left_roi_corner_px,bottom_right_roi_corner_px,TARGET_COLOR)
 
 
 def computeBlobCentroid(blob_img):
@@ -89,6 +124,7 @@ def findSpot(previous_img,current_img):
     spot_center_y = (removed_blob_y+new_blob_y)/2
 
     drawTarget()
+    drawRoi()
     if previous_spot_center_px is not None:
         drawCross(previous_spot_center_px[0],previous_spot_center_px[1],2,PREVIOUS_CENTER_COLOR)
     #drawCross(spot_center_x,spot_center_y,2,CURRENT_CENTER_COLOR)

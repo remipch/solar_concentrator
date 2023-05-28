@@ -30,6 +30,7 @@ def captureAndShow():
     current_img = cameraCapture()
     showDebugImage("current",current_img,1200,0)
     drawTarget()
+    drawRoi()
     return current_img
 
 # initialisation
@@ -47,11 +48,22 @@ while True:
     if key==ESCAPE_KEY:
         exit(0)
 
+    # Define/redefine ROI corner on Shift+Clic in image
+    elif clic_pos is not None and clic_flags & cv2.EVENT_FLAG_SHIFTKEY:
+        setRoiCorner(clic_pos)
+        resetTarget()
+        captureAndShow()
+        setState(State.WAITING_TARGET_DEFINITION)
+        continue
+
     # Define/redefine target pos on Ctrl+Clic in image
     elif clic_pos is not None and clic_flags & cv2.EVENT_FLAG_CTRLKEY:
         setTarget(clic_pos)
         captureAndShow()
-        setState(State.WAITING_SUN_MOVE)
+        if isTargetSet():
+            setState(State.WAITING_SUN_MOVE)
+        else:
+            setState(State.WAITING_TARGET_DEFINITION)
         continue
 
     # Reset target pos
