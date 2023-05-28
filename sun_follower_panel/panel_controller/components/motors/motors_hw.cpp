@@ -73,19 +73,19 @@ void motors_hw_move_one_step(motors_direction_t direction)
     if (direction == motors_direction_t::UP) {
         motors_hw_write_commands("o:20,500;o:2,5000,30");
     } else if (direction == motors_direction_t::UP_RIGHT) {
-        motors_hw_write_commands("o:16,1000;o:2,5000,30");
+        motors_hw_write_commands("o:16,500,30;o:2,1500,30");
     } else if (direction == motors_direction_t::RIGHT) {
-        motors_hw_write_commands("o:16,500;o:8,5000,25");
+        motors_hw_write_commands("o:16,500,30;o:8,1500,30");
     } else if (direction == motors_direction_t::DOWN_RIGHT) {
-        motors_hw_write_commands("o:17,500;o:16,500;o:42,5000,80");
+        motors_hw_write_commands("o:1,500,30;o:8,1500,30");
     } else if (direction == motors_direction_t::DOWN) {
-        motors_hw_write_commands("o:1,500;o:40,5000,50");
+        motors_hw_write_commands("o:1,200;o:40,5000,50");
     } else if (direction == motors_direction_t::DOWN_LEFT) {
-        motors_hw_write_commands("o:5,500;o:42,5000,80");
+        motors_hw_write_commands("o:1,200,30;o:32,1500,30");
     } else if (direction == motors_direction_t::LEFT) {
-        motors_hw_write_commands("o:4,500;o:42,5000,80");
+        motors_hw_write_commands("o:4,500,30;o:32,1500,30");
     } else if (direction == motors_direction_t::UP_LEFT) {
-        motors_hw_write_commands("o:4,1000;o:2,5000,25");
+        motors_hw_write_commands("o:4,500,30;o:2,1500,30");
     } else {
         abort();
     }
