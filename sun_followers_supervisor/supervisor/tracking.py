@@ -27,10 +27,10 @@ new_hot_blob_min_level = 192
 # initialized by predefined value
 # update after each real move
 direction_delta_px = {
-    MotorsDirection.UP        : [0,-10],
-    MotorsDirection.RIGHT     : [10,0],
-    MotorsDirection.LEFT      : [-10,0],
-    MotorsDirection.DOWN      : [0,10],
+    MotorsDirection.UP_LEFT      : [-10,-10],
+    MotorsDirection.UP_RIGHT     : [10,-10],
+    MotorsDirection.DOWN_RIGHT   : [10,10],
+    MotorsDirection.DOWN_LEFT    : [-10,10],
 }
 
 target_pos_px = None
@@ -45,7 +45,7 @@ MAX_MOVE_PX = 10
 
 previous_img = None
 
-current_direction = MotorsDirection.UP
+current_direction = list(direction_delta_px.keys())[0]
 
 previous_spot_center_px = None
 
