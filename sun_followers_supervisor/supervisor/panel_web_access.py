@@ -43,7 +43,10 @@ def resolve_host_name(host_name):
 # so we call "avahi-resolve-host-name" command manually
 # which requires dbus anyway (with the volume mapping "/var/run/dbus:/var/run/dbus" in docker-compose.yml)
 # (WTF... I don't know how to fix this mess correctly)
-esp32_http_address = "http://" + resolve_host_name("esp32_test.local")
+esp32_http_address = ""
+
+if simu!=SimuMode.REPLAY:
+    esp32_http_address = "http://" + resolve_host_name("esp32_test.local")
 
 def httpRequest(http_address):
     response = requests.get(http_address)
