@@ -3,7 +3,7 @@ import numpy as np
 import cv2
 from enum import Enum
 import os.path
-
+import subprocess
 
 class MotorsStatus(str, Enum):
     ERROR           = "ERROR"
@@ -31,9 +31,19 @@ if simu==SimuMode.RECORD:
 else:
     iteration=0
 
-# does not work with esp32 network name : http://esp32_test.local/capture
-# network tool avahi-discover does not work from the container
-esp32_http_address = "http://esp32_test.local"
+def resolve_host_name(host_name):
+    output = subprocess.check_output(["avahi-resolve-host-name", host_name], text=True)
+    ip_address = output.split()[1]
+    return ip_address
+
+# does not work with esp32 network name directly : http://esp32_test.local/capture
+# because name resolution does not work from the container (ping does not works from the container with hostname)
+# because it requires 'service dbus start' command to be executed in container
+# but then it makes dbus fail from the host ('systemctl' and other system commands fails)
+# so we call "avahi-resolve-host-name" command manually
+# which requires dbus anyway (with the volume mapping "/var/run/dbus:/var/run/dbus" in docker-compose.yml)
+# (WTF... I don't know how to fix this mess correctly)
+esp32_http_address = "http://" + resolve_host_name("esp32_test.local")
 
 def httpRequest(http_address):
     response = requests.get(http_address)

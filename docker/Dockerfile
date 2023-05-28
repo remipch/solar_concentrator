@@ -16,17 +16,14 @@ RUN /opt/esp/python_env/idf4.4_py3.8_env/bin/pip install opencv-python
 RUN /opt/esp/python_env/idf4.4_py3.8_env/bin/pip install matplotlib
 RUN /opt/esp/python_env/idf4.4_py3.8_env/bin/pip install getch # for manual python script using keyboard
 
-RUN apt-get update && apt-get install -y mc                 # console file explorer
 RUN apt-get update && apt-get install -y nano               # minimal text editor
-
-# Not necessary (avahi-tools is installed by default) :
-# RUN apt-get update && apt-get install -y avahi-discover
 
 # avahi needs dbus daemon, both service are correctly listed by 'ls /etc/rc*' command
 # but they don't start correctly at startup
 # FORCE start for each session (ugly hack.. I don't know how to solve it cleanly) :
-RUN echo "service dbus start" >> ~/.bashrc
-RUN echo "service avahi-daemon start" >> ~/.bashrc
+# But it blocks dbus in the host and prevent 'systemctl suspend' simple action to work
+# RUN echo "service dbus start" >> ~/.bashrc
+# RUN echo "service avahi-daemon start" >> ~/.bashrc
 
 # /!\ WARNING /!\
 # Error if we use opencv-python and PyQt5 in the same python script :
