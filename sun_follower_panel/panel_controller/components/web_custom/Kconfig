@@ -1,10 +1,22 @@
 menu "Custom Wi-Fi Configuration"
 
-    config ESP_HOST_NAME
-        string "Camera Host Name"
-        default ""
+    config ESP_STATIC_IP_ADDR
+        string "Static IP address"
+        default "192.168.209.101"
         help
-        Hostname that the camera will advertise over mDNS.
+            Set static IP address.
+
+    config ESP_STATIC_NETMASK_ADDR
+        string "Static netmask address"
+        default "255.255.255.0"
+        help
+            Set static netmask address.
+
+    config ESP_STATIC_GW_ADDR
+        string "Static gateway address"
+        default "192.168.209.1"
+        help
+            Set static gateway address.
 
     config ESP_WIFI_SSID
         string "WiFi STA SSID"
@@ -17,36 +29,6 @@ menu "Custom Wi-Fi Configuration"
         default ""
         help
         WiFi Password if WEP/WPA/WPA2 or empty if Open.
-
-    config ESP_WIFI_AP_SSID
-        string "WiFi AP SSID"
-        default "ESP32-Camera"
-        help
-        AP SSID (network name) to create or empty for Off.
-
-    config ESP_WIFI_AP_PASSWORD
-        string "WiFi AP Password"
-        default ""
-        help
-        AP password for WPA2 or empty for Open.
-
-    config MAX_STA_CONN
-        int "Maximal STA connections"
-        default 1
-        help
-        Max number of the STA connects to AP.
-
-    config ESP_WIFI_AP_CHANNEL
-        string "WiFi AP Channel"
-        default ""
-        help
-        AP channel for better connection performance.
-
-    config SERVER_IP
-        string "WiFi AP IP Address"
-        default "192.168.4.1"
-        help
-            IP address that the ESP will assign to it's AP interface. You can use this IP to connect to the camera after flashing.
 
     config ESP_MAXIMUM_RETRY
         int "Maximum retry"

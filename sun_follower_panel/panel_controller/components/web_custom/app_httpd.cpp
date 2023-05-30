@@ -18,7 +18,6 @@
 #include "esp_http_server.h"
 #include "esp_timer.h"
 #include "img_converters.h"
-#include "app_mdns.h"
 #include "sdkconfig.h"
 
 #include "camera.h"
@@ -269,15 +268,6 @@ static esp_err_t status_handler(httpd_req_t *req)
     return httpd_resp_send(req, json_response, strlen(json_response));
 }
 
-static esp_err_t mdns_handler(httpd_req_t *req)
-{
-    size_t json_len = 0;
-    const char *json_response = app_mdns_query(&json_len);
-    httpd_resp_set_type(req, "application/json");
-    httpd_resp_set_hdr(req, "Access-Control-Allow-Origin", "*");
-    return httpd_resp_send(req, json_response, json_len);
-}
-
 static esp_err_t motors_command_handler(httpd_req_t *req)
 {
     char *buf = NULL;
@@ -429,13 +419,6 @@ void register_httpd(const QueueHandle_t frame_i, const QueueHandle_t frame_o, co
         .user_ctx = NULL
     };
 
-    httpd_uri_t mdns_uri = {
-        .uri = "/mdns",
-        .method = HTTP_GET,
-        .handler = mdns_handler,
-        .user_ctx = NULL
-    };
-
     ESP_LOGI(TAG, "Starting web server on port: '%d'", config.server_port);
     if (httpd_start(&camera_httpd, &config) == ESP_OK) {
         httpd_register_uri_handler(camera_httpd, &index_uri);
@@ -444,7 +427,6 @@ void register_httpd(const QueueHandle_t frame_i, const QueueHandle_t frame_o, co
         httpd_register_uri_handler(camera_httpd, &capture_uri);
         httpd_register_uri_handler(camera_httpd, &motors_command_uri);
         httpd_register_uri_handler(camera_httpd, &motors_status_uri);
-        httpd_register_uri_handler(camera_httpd, &mdns_uri);
     }
 
     config.server_port += 1;
