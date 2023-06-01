@@ -3,6 +3,7 @@ import numpy as np
 import cv2
 from enum import Enum
 import os.path
+from datetime import datetime
 
 class MotorsStatus(str, Enum):
     ERROR           = "ERROR"
@@ -49,6 +50,11 @@ def httpRequest(http_address):
             continue
     raise Exception(f"Fail http request after multiple tentatives")
 
+def addDate(img):
+    height = img.shape[0]
+    text = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    cv2.putText(img, text, (10, height - 10), cv2.FONT_HERSHEY_SIMPLEX, 1, (255,255,255), lineType = cv2.LINE_AA)
+
 def cameraCapture():
     global iteration
     iteration = iteration + 1
@@ -69,9 +75,12 @@ def cameraCapture():
     array = np.asarray(byte_array, dtype=np.uint8)
     if simu==SimuMode.RECORD:
         img = cv2.imdecode(array, cv2.IMREAD_COLOR)
+        addDate(img)
         cv2.imwrite(img_path,img)
         print(f"cameraCapture: write '{img_path}' to disk",flush=True)
-    return cv2.imdecode(array, cv2.IMREAD_GRAYSCALE)
+    img = cv2.imdecode(array, cv2.IMREAD_GRAYSCALE)
+    addDate(img)
+    return img
 
 def moveOneStep(direction):
     print(f"moveOneStep: {direction}",flush=True)
