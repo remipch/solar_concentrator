@@ -59,11 +59,11 @@ def cameraCapture():
     response = httpRequest(f"{esp32_http_address}/capture")
     byte_array = bytearray(response.content)
     array = np.asarray(byte_array, dtype=np.uint8)
-    img = cv2.imdecode(array, cv2.IMREAD_GRAYSCALE)
     if simu==SimuMode.RECORD:
+        img = cv2.imdecode(array, cv2.IMREAD_COLOR)
         cv2.imwrite(img_path,img)
         print(f"cameraCapture: write '{img_path}' to disk",flush=True)
-    return img
+    return cv2.imdecode(array, cv2.IMREAD_GRAYSCALE)
 
 def moveOneStep(direction):
     print(f"moveOneStep: {direction}",flush=True)
