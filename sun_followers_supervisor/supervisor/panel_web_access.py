@@ -23,7 +23,7 @@ class SimuMode(str, Enum):
 
 simu=SimuMode.REPLAY
 
-replay_folder = "capture_move0"
+replay_folder = "record_move_1"
 
 print(f"simu: '{simu}'",flush=True)
 
