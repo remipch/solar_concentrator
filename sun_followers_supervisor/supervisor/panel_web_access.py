@@ -32,14 +32,22 @@ iteration=0
 esp32_http_address = "http://192.168.209.101"
 
 def httpRequest(http_address):
-    response = requests.get(http_address)
-    if response.status_code != 200:
-        print(f"  httpRequest: '{http_address}'",flush=True)
-        print(f"    response:",flush=True)
-        print(f"      status: {response.status_code}",flush=True)
-        print(f"      content-type: {response.headers['content-type']}",flush=True)
-        raise Exception(f"Incorrect http status")
-    return response
+    for retry in range(20):
+        print(f"    httpRequest: {http_address} (try {retry+1})",flush=True)
+        try:
+            response = requests.get(http_address,timeout=(10,10))
+            if response.status_code != 200:
+                print(f"    response:",flush=True)
+                print(f"      status: {response.status_code}",flush=True)
+                print(f"      content-type: {response.headers['content-type']}",flush=True)
+                raise Exception(f"Incorrect http status")
+            return response
+        except Exception as inst:
+            print(f"    Http request exception:",flush=True)
+            print(type(inst))
+            print(inst.args)
+            continue
+    raise Exception(f"Fail http request after multiple tentatives")
 
 def cameraCapture():
     global iteration
