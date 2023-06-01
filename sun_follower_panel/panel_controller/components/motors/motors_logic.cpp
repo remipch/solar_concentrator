@@ -128,12 +128,7 @@ void motors_logic_periodic_update(int time_since_boot_ms)
     bool moving = (state != motor_hw_state_t::STOPPED);
 
     if (current_status.state == motors_state_t::MOVING && !moving) {
-        // TODO : start move one more step
-        current_status = {
-            .state = motors_state_t::LOCKED,
-            .direction = motors_direction_t::NONE,
-            .current = motors_current_t::UNKNWON,
-        };
+        motors_hw_move_one_step(current_status.direction);
     }
     else if(current_status.state == motors_state_t::MOVING_ONE_STEP && !moving) {
         current_status = {
