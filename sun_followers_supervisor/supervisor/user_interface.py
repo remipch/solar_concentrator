@@ -45,8 +45,14 @@ def showDebugImage(img_name,img,x=0,y=0,w=400,h=300):
     cv2.namedWindow(img_name, cv2.WINDOW_NORMAL)
     cv2.imshow(img_name, debug_img)
     if not img_name in debug_images:
-        cv2.resizeWindow(img_name, w, h)
-        cv2.moveWindow(img_name, x, y)
+        # WTF :( opencv 'moveWindow' does random shit on 'y' parameter
+        # -> ugly workarround to place the window where I want
+        # (yes we have to insist, insist, insist and finally it works)
+        for i in range(100):
+            cv2.waitKey(1)
+            cv2.resizeWindow(img_name, w, h)
+            cv2.waitKey(1)
+            cv2.moveWindow(img_name, x, y)
     cv2.setMouseCallback(img_name, onMouse, img_name)
     debug_images[img_name] = debug_img
     return debug_img
