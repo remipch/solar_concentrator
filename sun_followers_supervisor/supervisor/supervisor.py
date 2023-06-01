@@ -25,16 +25,14 @@ N1_KEY = 49         # 1 : down-left step
 N4_KEY = 52         # 4 : left step
 N7_KEY = 55         # 7 : top-left step
 
-
-def captureAndShow():
-    current_img = cameraCapture()
-    showDebugImage("current",current_img,1200,20)
+def drawCurrentImage():
+    showDebugImage("current",current_img,800,0,800,600)
     drawTarget()
     drawRoi()
-    return current_img
 
 # initialisation
-captureAndShow()
+current_img = cameraCapture()
+drawCurrentImage()
 setState(State.WAITING_TARGET_DEFINITION)
 
 # application main loop
@@ -52,14 +50,14 @@ while True:
     elif clic_pos is not None and clic_flags & cv2.EVENT_FLAG_SHIFTKEY:
         setRoiCorner(clic_pos)
         resetTarget()
-        captureAndShow()
+        drawCurrentImage()
         setState(State.WAITING_TARGET_DEFINITION)
         continue
 
     # Define/redefine target pos on Ctrl+Clic in image
     elif clic_pos is not None and clic_flags & cv2.EVENT_FLAG_CTRLKEY:
         setTarget(clic_pos)
-        captureAndShow()
+        drawCurrentImage()
         if isTargetSet():
             setState(State.WAITING_SUN_MOVE)
         else:
@@ -69,7 +67,7 @@ while True:
     # Reset target pos
     elif key==DELETE_KEY:
         resetTarget()
-        captureAndShow()
+        drawCurrentImage()
         setState(State.WAITING_TARGET_DEFINITION)
 
     # Toggle 'pause_after_each_step'
@@ -81,7 +79,8 @@ while True:
     elif state==State.WAITING_TARGET_DEFINITION:
         # Refresh camera view every 10s
         if state_duration_s > 10.0 or key==SPACE_KEY:
-            captureAndShow()
+            current_img = cameraCapture()
+            drawCurrentImage()
             setState(State.WAITING_TARGET_DEFINITION)
         elif key==N8_KEY:
             moveOneStep(MotorsDirection.UP)
@@ -114,7 +113,6 @@ while True:
             setState(State.MANUAL_MOVE)
         # Check motors every 1s
         elif state_duration_s > 1.0:
-            #captureAndShow()
             status = getMotorsStatus()
             if status==MotorsStatus.MOVING_ONE_STEP:
                 # wait for the motors to finish the move
@@ -128,7 +126,8 @@ while True:
     elif state==State.WAITING_SUN_MOVE:
         # Start tracking every 60s
         if state_duration_s > 60.0 or key==SPACE_KEY:
-            current_img = captureAndShow()
+            current_img = cameraCapture()
+            drawCurrentImage()
             startTrackingOneStep(current_img, True)
             setState(State.TRACKING)
 
@@ -140,7 +139,8 @@ while True:
                 # wait for the motors to finish the move
                 setState(State.TRACKING)
             elif status==MotorsStatus.LOCKED:
-                current_img = captureAndShow()
+                current_img = cameraCapture()
+                drawCurrentImage()
                 target_reached = finishTrackingOneStep(current_img)
                 if target_reached:
                     print("TARGET REACHED",flush=True)
@@ -156,7 +156,6 @@ while True:
 
     elif state==State.TRACKING_PAUSED:
         if key==SPACE_KEY:
-            current_img = captureAndShow()
             startTrackingOneStep(current_img, False)
             setState(State.TRACKING)
 
