@@ -21,8 +21,8 @@ POSSIBLE_DIRECTION_COLOR =  BLUE
 CHOSEN_DIRECTION_COLOR =    CYAN
 
 # threshold to detect start blobs and finish blobs from diff image
-removed_hot_blob_max_level = 64
-new_hot_blob_min_level = 192
+REMOVED_HOT_BLOB_MAX_LEVEL = 64
+NEW_HOT_BLOB_MIN_LEVEL = 192
 
 # dictionary associating each direction to its delta in pixel
 # initialized by predefined value
@@ -36,12 +36,24 @@ direction_delta_px = {
 
 target_pos_px = None
 
-# tolerance arround target
-TARGET_TOL_PX = 10
+# Estimation of spot light size on the target area
+# It's used to compute some limits to determine
+# if various image detections are realistic or not
+# Following value correspond approximatively to :
+# - 800x600 camera resolution
+# - 15x15 cm square spotlight on target area
+# - 3 meters between camera and target area
+SPOT_SIZE_PX = 40
 
-# to check if a move is realistic (detect bad spot detections)
-MIN_MOVE_PX = 5
-MAX_MOVE_PX = 20
+# tolerance arround target
+TARGET_TOL_PX = SPOT_SIZE_PX/4
+
+# Limits used to check if a move is realistic (detect bad spot detections)
+# (motors command are chosen so there is always an overlap between two successive spotlight after one step)
+MIN_MOVE_PX = SPOT_SIZE_PX/4
+MAX_MOVE_PX = SPOT_SIZE_PX
+MIN_BLOB_AREA_PX = SPOT_SIZE_PX*SPOT_SIZE_PX/10
+MAX_BLOB_AREA_PX = SPOT_SIZE_PX*SPOT_SIZE_PX
 
 previous_img = None
 
@@ -54,6 +66,10 @@ previous_spot_center_px = None
 roi_corners_px = []
 top_left_roi_corner_px = None
 bottom_right_roi_corner_px = None
+
+class TrackingException(Exception):
+    "Cannot compute tracking"
+    pass
 
 def setTarget(target_pos):
     global target_pos_px
@@ -109,7 +125,7 @@ def drawRoi():
 def computeBlobCentroid(blob_img):
     M = cv2.moments(blob_img)
     if M["m00"] == 0:
-        raise Exception("Cannot compute blob centroid")
+        raise TrackingException("Cannot compute blob centroid")
     x = M["m10"] / M["m00"]
     y = M["m01"] / M["m00"]
     return x,y
@@ -137,9 +153,12 @@ def findSpot(previous_img,current_img):
     diff_norm_img = cv2.normalize(diff_img, None, alpha=0, beta=255, norm_type=cv2.NORM_MINMAX)
     showDebugImage("diff",diff_norm_img,800,620)
 
-    removed_hot_blob_img = cv2.threshold(diff_norm_img, removed_hot_blob_max_level, 255, cv2.THRESH_TOZERO_INV)[1]
-    new_hot_blob_img = cv2.threshold(diff_norm_img, new_hot_blob_min_level, 255, cv2.THRESH_TOZERO)[1]
+    removed_hot_blob_img = cv2.threshold(diff_norm_img, REMOVED_HOT_BLOB_MAX_LEVEL, 255, cv2.THRESH_TOZERO_INV)[1]
+    new_hot_blob_img = cv2.threshold(diff_norm_img, NEW_HOT_BLOB_MIN_LEVEL, 255, cv2.THRESH_TOZERO)[1]
     showDebugImage("blobs",removed_hot_blob_img+new_hot_blob_img,1200,620)
+
+    checkRealisticBlob(removed_hot_blob_img)
+    checkRealisticBlob(new_hot_blob_img)
 
     removed_blob_x,removed_blob_y = computeBlobCentroid(removed_hot_blob_img)
     new_blob_x,new_blob_y = computeBlobCentroid(new_hot_blob_img)
@@ -186,28 +205,34 @@ def getBestMotorsDirection(current_center_px, wanted_center_px):
     drawPoint(best_direction_point[0],best_direction_point[1],CHOSEN_DIRECTION_COLOR)
     return best_direction
 
-# return True if the move seems realistic
-def isRealisticMove(spot_center_px, move_direction_px):
+# raise an exception if the blob does not seem realistic
+def checkRealisticBlob(blob_img):
+    blob_area_px = np.count_nonzero((blob_img > 0))
+    print(f"blob_area_px: {blob_area_px}",flush=True)
+    if (blob_area_px < MIN_BLOB_AREA_PX):
+        raise TrackingException(f"Blob is too small (blob_area_px < {MIN_BLOB_AREA_PX})")
+    if (blob_area_px > MAX_BLOB_AREA_PX):
+        raise TrackingException(f"Blob is too large (blob_area_px > {MAX_BLOB_AREA_PX})")
+
+# raise an exception if the move does not seem realistic
+def checkRealisticMove(spot_center_px, move_direction_px):
     # WTF there is math.dist but no math.norm...
     move_direction_norm_px = math.dist([0,0], move_direction_px)
+    print(f"  move_direction_norm_px: {move_direction_norm_px}",flush=True)
     if move_direction_norm_px<MIN_MOVE_PX:
-        print(f"  move_direction_norm_px: {move_direction_norm_px} < {MIN_MOVE_PX}",flush=True)
-        return False
+        raise TrackingException(f"Move direction is too small (move_direction_norm_px < {MIN_MOVE_PX})")
     if move_direction_norm_px>MAX_MOVE_PX:
-        print(f"  move_direction_norm_px: {move_direction_norm_px} > {MAX_MOVE_PX}",flush=True)
-        return False
+        raise TrackingException(f"Move direction is too large (move_direction_norm_px > {MAX_MOVE_PX})")
 
     if previous_spot_center_px is not None:
         spot_move_px = math.dist(previous_spot_center_px,spot_center_px)
+        print(f"  spot_move_px: {spot_move_px}",flush=True)
         if spot_move_px > MAX_MOVE_PX:
-            print(f"  spot_move_px: {spot_move_px} > {MAX_MOVE_PX}",flush=True)
-            return False
-
-    return True
+            raise TrackingException(f"Spot move is too large (spot_move_px > {MAX_MOVE_PX})")
 
 def startTrackingOneStep(current_img, reset_tracking):
     global previous_img, previous_spot_center_px
-    print(f"startTrackingOneStep (reset_tracking: {reset_tracking}",flush=True)
+    print(f"startTrackingOneStep (reset_tracking: {reset_tracking})",flush=True)
 
     if reset_tracking:
         previous_spot_center_px = None
@@ -222,15 +247,16 @@ def finishTrackingOneStep(current_img):
     showDebugImage("previous",previous_img,400,0)
     showDebugImage("current",current_img)
 
-    current_center_px, move_direction_px = findSpot(previous_img,current_img)
-    print(f"finishTrackingOneStep:",flush=True)
-    print(f"  previous_spot_center_px: {previous_spot_center_px}",flush=True)
-    print(f"  current_center_px: {current_center_px}",flush=True)
-    print(f"  move_direction_px: {move_direction_px} ",flush=True)
-
-    if not isRealisticMove(current_center_px, move_direction_px):
+    try:
+        current_center_px, move_direction_px = findSpot(previous_img,current_img)
+        print(f"finishTrackingOneStep:",flush=True)
+        print(f"  previous_spot_center_px: {previous_spot_center_px}",flush=True)
+        print(f"  current_center_px: {current_center_px}",flush=True)
+        print(f"  move_direction_px: {move_direction_px} ",flush=True)
+        checkRealisticMove(current_center_px, move_direction_px)
+    except TrackingException as tracking_exception:
+        print(tracking_exception,flush=True)
         print(" -> SKIP STEP",flush=True)
-        previous_spot_center_px = current_center_px
         return False
 
     updateMotorsDirectionHistory(current_direction, move_direction_px)
