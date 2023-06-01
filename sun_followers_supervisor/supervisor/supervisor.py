@@ -79,8 +79,8 @@ while True:
 
     # Now, treat each state specifically
     elif state==State.WAITING_TARGET_DEFINITION:
-        # Refresh camera view every 5s
-        if state_duration_s > 5.0 or key==SPACE_KEY:
+        # Refresh camera view every 10s
+        if state_duration_s > 10.0 or key==SPACE_KEY:
             captureAndShow()
             setState(State.WAITING_TARGET_DEFINITION)
         elif key==N8_KEY:
@@ -114,7 +114,7 @@ while True:
             setState(State.MANUAL_MOVE)
         # Check motors every 1s
         elif state_duration_s > 1.0:
-            captureAndShow()
+            #captureAndShow()
             status = getMotorsStatus()
             if status==MotorsStatus.MOVING_ONE_STEP:
                 # wait for the motors to finish the move
@@ -126,8 +126,8 @@ while True:
                 raise Exception(f"Incorrect motors status: {status}")
 
     elif state==State.WAITING_SUN_MOVE:
-        # Start tracking every 10s
-        if state_duration_s > 10.0 or key==SPACE_KEY:
+        # Start tracking every 60s
+        if state_duration_s > 60.0 or key==SPACE_KEY:
             current_img = captureAndShow()
             startTrackingOneStep(current_img, True)
             setState(State.TRACKING)
