@@ -21,14 +21,13 @@ class SimuMode(str, Enum):
     REPLAY   = "REPLAY"
 
 
-simu=SimuMode.NONE
+simu=SimuMode.REPLAY
+
+replay_folder = "capture_move0"
 
 print(f"simu: '{simu}'",flush=True)
 
-if simu==SimuMode.RECORD:
-    iteration=100
-else:
-    iteration=0
+iteration=0
 
 esp32_http_address = "http://192.168.209.101"
 
@@ -44,19 +43,18 @@ def httpRequest(http_address):
 
 def cameraCapture():
     global iteration
-
-    img_path = f"camera_capture_{iteration}.png"
-
     iteration = iteration + 1
 
     if simu==SimuMode.REPLAY:
-        iteration = iteration % 10
+        img_path = f"{replay_folder}/camera_capture_{iteration}.png"
         if not os.path.isfile(img_path):
             print(f"file '{img_path}' does not exist: exit application",flush=True)
             exit(1)
 
         print(f"cameraCapture: read '{img_path}' from disk",flush=True)
         return cv2.imread(img_path,cv2.IMREAD_GRAYSCALE)
+
+    img_path = f"camera_capture_{iteration}.png"
 
     response = httpRequest(f"{esp32_http_address}/capture")
     byte_array = bytearray(response.content)
