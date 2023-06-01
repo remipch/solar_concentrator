@@ -28,7 +28,7 @@ N7_KEY = 55         # 7 : top-left step
 
 def captureAndShow():
     current_img = cameraCapture()
-    showDebugImage("current",current_img,1200,0)
+    showDebugImage("current",current_img,1200,20)
     drawTarget()
     drawRoi()
     return current_img

@@ -39,11 +39,14 @@ def onMouse(event,x,y,flags,img_name):
         last_left_clic_flags = flags
         #print(f"clic_pos: {last_left_clic_pos} ; clic_flags: {last_left_clic_flags}",flush=True)
 
-def showDebugImage(img_name,img,x=0,y=0):
+def showDebugImage(img_name,img,x=0,y=0,w=400,h=300):
     #print(f"show debug image {img_name}",flush=True)
     debug_img = cv2.cvtColor(img, cv2.COLOR_GRAY2BGR)
+    cv2.namedWindow(img_name, cv2.WINDOW_NORMAL)
     cv2.imshow(img_name, debug_img)
-    cv2.moveWindow(img_name, x, y)
+    if not img_name in debug_images:
+        cv2.resizeWindow(img_name, w, h)
+        cv2.moveWindow(img_name, x, y)
     cv2.setMouseCallback(img_name, onMouse, img_name)
     debug_images[img_name] = debug_img
     return debug_img

@@ -129,11 +129,11 @@ def findSpot(previous_img,current_img):
 
     diff_img = (128+cv2.divide(current_img, 2))-cv2.divide(previous_img, 2)
     diff_norm_img = cv2.normalize(diff_img, None, alpha=0, beta=255, norm_type=cv2.NORM_MINMAX)
-    showDebugImage("diff",diff_norm_img,800,400)
+    showDebugImage("diff",diff_norm_img,800,340)
 
     removed_hot_blob_img = cv2.threshold(diff_norm_img, removed_hot_blob_max_level, 255, cv2.THRESH_TOZERO_INV)[1]
     new_hot_blob_img = cv2.threshold(diff_norm_img, new_hot_blob_min_level, 255, cv2.THRESH_TOZERO)[1]
-    showDebugImage("blobs",removed_hot_blob_img+new_hot_blob_img,1200,400)
+    showDebugImage("blobs",removed_hot_blob_img+new_hot_blob_img,1200,340)
 
     removed_blob_x,removed_blob_y = computeBlobCentroid(removed_hot_blob_img)
     new_blob_x,new_blob_y = computeBlobCentroid(new_hot_blob_img)
@@ -213,8 +213,8 @@ def startTrackingOneStep(current_img, reset_tracking):
 def finishTrackingOneStep(current_img):
     global current_direction, previous_spot_center_px
 
-    showDebugImage("previous",previous_img,800,0)
-    showDebugImage("current",current_img,1200,0)
+    showDebugImage("previous",previous_img,800,20)
+    showDebugImage("current",current_img,1200,20)
 
     current_center_px, move_direction_px = findSpot(previous_img,current_img)
     print(f"finishTrackingOneStep:",flush=True)
