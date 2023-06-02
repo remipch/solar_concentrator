@@ -4,6 +4,7 @@ import cv2
 from enum import Enum
 import os.path
 from datetime import datetime
+from dateutil import tz
 
 class MotorsStatus(str, Enum):
     ERROR           = "ERROR"
@@ -13,8 +14,6 @@ class MotorsStatus(str, Enum):
     MOVING_ONE_STEP = "MOVING_ONE_STEP"
     TIGHTENING      = "TIGHTENING"
     LOCKED          = "LOCKED"
-
-
 
 class SimuMode(str, Enum):
     NONE     = "NONE"
@@ -51,8 +50,9 @@ def httpRequest(http_address):
     raise Exception(f"Fail http request after multiple tentatives")
 
 def addDate(img):
+    time = datetime.now().astimezone(tz.gettz('Europe/Paris'))
+    text = time.strftime("%Y-%m-%d %H:%M:%S")
     height = img.shape[0]
-    text = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     cv2.putText(img, text, (10, height - 10), cv2.FONT_HERSHEY_SIMPLEX, 1, (255,255,255), lineType = cv2.LINE_AA)
 
 def cameraCapture():
