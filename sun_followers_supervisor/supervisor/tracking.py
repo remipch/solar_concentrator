@@ -216,7 +216,7 @@ def checkRealisticBlob(blob_img):
         raise TrackingException(f"Blob is too large (blob_area_px > {MAX_BLOB_AREA_PX})")
 
 # raise an exception if the move does not seem realistic
-def checkRealisticMove(spot_center_px, move_direction_px):
+def checkRealisticMove(motors_direction, spot_center_px, move_direction_px):
     # WTF there is math.dist but no math.norm...
     move_direction_norm_px = math.dist([0,0], move_direction_px)
     print(f"  move_direction_norm_px: {move_direction_norm_px}",flush=True)
@@ -224,6 +224,11 @@ def checkRealisticMove(spot_center_px, move_direction_px):
         raise TrackingException(f"Move direction is too small (move_direction_norm_px < {MIN_MOVE_PX})")
     if move_direction_norm_px>MAX_MOVE_PX:
         raise TrackingException(f"Move direction is too large (move_direction_norm_px > {MAX_MOVE_PX})")
+
+    # Check the direction did not change quadrant
+    expected_move_direction_px = direction_delta_px[motors_direction]
+    if move_direction_px[0]*move_direction_px[0]<=0 or move_direction_px[1]*move_direction_px[1]<=0:
+        raise TrackingException(f"Move direction quadrant inconsistent with previous direction_delta_px")
 
     if previous_spot_center_px is not None:
         spot_move_px = math.dist(previous_spot_center_px,spot_center_px)
@@ -254,7 +259,7 @@ def finishTrackingOneStep(current_img):
         print(f"  previous_spot_center_px: {previous_spot_center_px}",flush=True)
         print(f"  current_center_px: {current_center_px}",flush=True)
         print(f"  move_direction_px: {move_direction_px} ",flush=True)
-        checkRealisticMove(current_center_px, move_direction_px)
+        checkRealisticMove(current_direction, current_center_px, move_direction_px)
     except TrackingException as tracking_exception:
         print(tracking_exception,flush=True)
         print(" -> SKIP STEP",flush=True)
