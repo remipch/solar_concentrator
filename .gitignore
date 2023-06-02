@@ -3,5 +3,5 @@ sdkconfig.old
 docker/config/*
 docker/local
 **/__pycache__/*
-**/capture*/*.png
+**/capture*/**/*.*
 
