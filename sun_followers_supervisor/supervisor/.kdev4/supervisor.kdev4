@@ -2,7 +2,7 @@
 BuildItems=@Variant(\x00\x00\x00\t\x00\x00\x00\x00\x01\x00\x00\x00\x0b\x00\x00\x00\x00\x01\x00\x00\x00\x14\x00s\x00u\x00p\x00e\x00r\x00v\x00i\x00s\x00o\x00r)
 
 [Launch]
-Launch Configurations=Launch Configuration 0
+Launch Configurations=Launch Configuration 0,Launch Configuration 1
 
 [Launch][Launch Configuration 0]
 Configured Launch Modes=execute
@@ -20,3 +20,15 @@ Output Filtering Mode=2
 Remote Host=
 Run current file=false
 Working Directory=
+
+[Launch][Launch Configuration 1]
+Configured Launch Modes=debug
+Configured Launchers=pdbdebugger
+Name=supervisor.py
+Type=Script Application
+
+[Launch][Launch Configuration 1][Data]
+Executable=file:///solar_concentrator/sun_followers_supervisor/supervisor/supervisor.py
+Interpreter=python3
+Output Filtering Mode=2
+Run current file=false

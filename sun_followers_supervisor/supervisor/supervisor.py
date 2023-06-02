@@ -6,7 +6,7 @@ import math
 from panel_web_access import *
 from user_interface import *
 from state import *
-from tracking import *
+from tracking2 import *
 
 pause_after_each_step = True
 
@@ -14,7 +14,9 @@ pause_after_each_step = True
 ESCAPE_KEY = 27     # quit progam
 SPACE_KEY = 32      # skip a waiting state
 DELETE_KEY = 255    # reset target pos
-P_KEY = 112           # toggle 'pause_after_each_step'
+A_KEY = 97          # is_morning = False
+M_KEY = 109         # is_morning = True
+P_KEY = 112         # toggle 'pause_after_each_step'
 N0_KEY = 48         # 0 : stop move
 N8_KEY = 56         # 8 : up step
 N9_KEY = 57         # 9 : top-right step
@@ -27,13 +29,39 @@ N7_KEY = 55         # 7 : top-left step
 
 def drawCurrentImage():
     showDebugImage("current",current_img,800,0,800,600)
-    drawTarget()
-    drawRoi()
+    drawArea(current_img)
 
 # initialisation
 current_img = cameraCapture()
 drawCurrentImage()
-setState(State.WAITING_TARGET_DEFINITION)
+setState(State.WAITING_AREA_DEFINITION)
+setMorning(True) # TODO : update in WAITING_SUN_MOVE state according to time change
+
+def treatManualMove(key):
+    if key==N8_KEY:
+        moveOneStep(MotorsDirection.UP)
+        setState(State.MANUAL_MOVE)
+    elif key==N1_KEY:
+        moveOneStep(MotorsDirection.DOWN_LEFT)
+        setState(State.MANUAL_MOVE)
+    elif key==N4_KEY:
+        moveOneStep(MotorsDirection.LEFT)
+        setState(State.MANUAL_MOVE)
+    elif key==N7_KEY:
+        moveOneStep(MotorsDirection.UP_LEFT)
+        setState(State.MANUAL_MOVE)
+    elif key==N2_KEY:
+        moveOneStep(MotorsDirection.DOWN)
+        setState(State.MANUAL_MOVE)
+    elif key==N3_KEY:
+        moveOneStep(MotorsDirection.DOWN_RIGHT)
+        setState(State.MANUAL_MOVE)
+    elif key==N6_KEY:
+        moveOneStep(MotorsDirection.RIGHT)
+        setState(State.MANUAL_MOVE)
+    elif key==N9_KEY:
+        moveOneStep(MotorsDirection.UP_RIGHT)
+        setState(State.MANUAL_MOVE)
 
 # application main loop
 while True:
@@ -48,27 +76,29 @@ while True:
 
     # Define/redefine ROI corner on Shift+Clic in image
     elif clic_pos is not None and clic_flags & cv2.EVENT_FLAG_SHIFTKEY:
-        setRoiCorner(clic_pos)
-        resetTarget()
+        setAreaCorner(clic_pos)
         drawCurrentImage()
-        setState(State.WAITING_TARGET_DEFINITION)
-        continue
-
-    # Define/redefine target pos on Ctrl+Clic in image
-    elif clic_pos is not None and clic_flags & cv2.EVENT_FLAG_CTRLKEY:
-        setTarget(clic_pos)
-        drawCurrentImage()
-        if isTargetSet():
+        if isAreaSet():
             setState(State.WAITING_SUN_MOVE)
         else:
-            setState(State.WAITING_TARGET_DEFINITION)
+            setState(State.WAITING_AREA_DEFINITION)
         continue
 
     # Reset target pos
     elif key==DELETE_KEY:
-        resetTarget()
+        resetArea()
         drawCurrentImage()
-        setState(State.WAITING_TARGET_DEFINITION)
+        setState(State.WAITING_AREA_DEFINITION)
+
+    # Afternoon
+    elif key==A_KEY:
+        setMorning(False)
+        drawCurrentImage()
+
+    # Morning
+    elif key==M_KEY:
+        setMorning(True)
+        drawCurrentImage()
 
     # Toggle 'pause_after_each_step'
     elif key==P_KEY:
@@ -76,36 +106,14 @@ while True:
         print(f"pause_after_each_step: {pause_after_each_step}",flush=True)
 
     # Now, treat each state specifically
-    elif state==State.WAITING_TARGET_DEFINITION:
+    elif state==State.WAITING_AREA_DEFINITION:
         # Refresh camera view every 10s
         if state_duration_s > 10.0 or key==SPACE_KEY:
             current_img = cameraCapture()
             drawCurrentImage()
-            setState(State.WAITING_TARGET_DEFINITION)
-        elif key==N8_KEY:
-            moveOneStep(MotorsDirection.UP)
-            setState(State.MANUAL_MOVE)
-        elif key==N1_KEY:
-            moveOneStep(MotorsDirection.DOWN_LEFT)
-            setState(State.MANUAL_MOVE)
-        elif key==N4_KEY:
-            moveOneStep(MotorsDirection.LEFT)
-            setState(State.MANUAL_MOVE)
-        elif key==N7_KEY:
-            moveOneStep(MotorsDirection.UP_LEFT)
-            setState(State.MANUAL_MOVE)
-        elif key==N2_KEY:
-            moveOneStep(MotorsDirection.DOWN)
-            setState(State.MANUAL_MOVE)
-        elif key==N3_KEY:
-            moveOneStep(MotorsDirection.DOWN_RIGHT)
-            setState(State.MANUAL_MOVE)
-        elif key==N6_KEY:
-            moveOneStep(MotorsDirection.RIGHT)
-            setState(State.MANUAL_MOVE)
-        elif key==N9_KEY:
-            moveOneStep(MotorsDirection.UP_RIGHT)
-            setState(State.MANUAL_MOVE)
+            setState(state)
+        else:
+            treatManualMove(key)
 
     elif state==State.MANUAL_MOVE:
         if key==N0_KEY:
@@ -119,7 +127,10 @@ while True:
                 setState(State.MANUAL_MOVE)
                 continue
             elif status==MotorsStatus.LOCKED:
-                setState(State.WAITING_TARGET_DEFINITION)
+                if isAreaSet():
+                    setState(State.WAITING_SUN_MOVE)
+                else:
+                    setState(State.WAITING_AREA_DEFINITION)
             else:
                 raise Exception(f"Incorrect motors status: {status}")
 
@@ -128,8 +139,12 @@ while True:
         if state_duration_s > 60.0 or key==SPACE_KEY:
             current_img = cameraCapture()
             drawCurrentImage()
-            startTrackingOneStep(current_img, True)
-            setState(State.TRACKING)
+            if startTracking(current_img):
+                setState(State.TRACKING)
+            else:
+                setState(State.WAITING_SUN_MOVE)
+        else:
+            treatManualMove(key)
 
     elif state==State.TRACKING:
         # Check motors every 1s
@@ -141,23 +156,21 @@ while True:
             elif status==MotorsStatus.LOCKED:
                 current_img = cameraCapture()
                 drawCurrentImage()
-                target_reached = finishTrackingOneStep(current_img)
-                if target_reached:
-                    print("TARGET REACHED",flush=True)
+                finished = updateTracking(current_img)
+                if finished:
+                    print("TRACKING FINISHED",flush=True)
                     saveLastColorCapture("target")
                     setState(State.WAITING_SUN_MOVE)
+                elif pause_after_each_step:
+                    setState(State.TRACKING_PAUSED)
                 else:
-                    if pause_after_each_step:
-                        setState(State.TRACKING_PAUSED)
-                    else:
-                        startTrackingOneStep(current_img, False)
-                        setState(State.TRACKING)
+                    setState(State.TRACKING)
+
             else:
                 raise Exception(f"Incorrect motors status: {status}")
 
     elif state==State.TRACKING_PAUSED:
         if key==SPACE_KEY:
-            startTrackingOneStep(current_img, False)
             setState(State.TRACKING)
 
     else:

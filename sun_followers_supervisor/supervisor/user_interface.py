@@ -81,9 +81,9 @@ def drawLine(x0,y0,x1,y1,color):
         cv2.imshow(img_name, img)
 
 # draw a rectangle in all debug images
-def drawRectangle(top_left,bottom_right,color):
+def drawRectangle(left,top,right,bottom,color):
     for img_name, img in debug_images.items():
-        cv2.rectangle(img,(int(top_left[0]),int(top_left[1])),(int(bottom_right[0]),int(bottom_right[1])),color)
+        cv2.rectangle(img,(int(left),int(top)),(int(right),int(bottom)),color)
         cv2.imshow(img_name, img)
 
 # draw a cross in all debug images
