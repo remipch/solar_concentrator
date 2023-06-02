@@ -50,7 +50,7 @@ TARGET_TOL_PX = SPOT_SIZE_PX/4
 
 # Limits used to check if a move is realistic (detect bad spot detections)
 # (motors command are chosen so there is always an overlap between two successive spotlight after one step)
-MIN_MOVE_PX = SPOT_SIZE_PX/4
+MIN_MOVE_PX = SPOT_SIZE_PX/8
 MAX_MOVE_PX = SPOT_SIZE_PX
 MIN_BLOB_AREA_PX = SPOT_SIZE_PX*SPOT_SIZE_PX/16
 MAX_BLOB_AREA_PX = SPOT_SIZE_PX*SPOT_SIZE_PX
