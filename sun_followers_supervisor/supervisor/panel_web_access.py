@@ -31,6 +31,9 @@ iteration=0
 
 esp32_http_address = "http://192.168.209.101"
 
+last_color_capture_img = None
+last_color_capture_time = None
+
 def httpRequest(http_address):
     for retry in range(20):
         print(f"    httpRequest: {http_address} (try {retry+1})",flush=True)
@@ -56,7 +59,7 @@ def addDate(img):
     cv2.putText(img, text, (10, height - 10), cv2.FONT_HERSHEY_SIMPLEX, 1, (255,255,255), lineType = cv2.LINE_AA)
 
 def cameraCapture():
-    global iteration
+    global iteration,last_color_capture_img,last_color_capture_time
     iteration = iteration + 1
 
     if simu==SimuMode.REPLAY:
@@ -73,14 +76,22 @@ def cameraCapture():
     response = httpRequest(f"{esp32_http_address}/capture")
     byte_array = bytearray(response.content)
     array = np.asarray(byte_array, dtype=np.uint8)
+    last_color_capture_img = cv2.imdecode(array, cv2.IMREAD_COLOR)
+    last_color_capture_time = datetime.now().astimezone(tz.gettz('Europe/Paris'))
     if simu==SimuMode.RECORD:
-        img = cv2.imdecode(array, cv2.IMREAD_COLOR)
-        addDate(img)
-        cv2.imwrite(img_path,img)
+        addDate(last_color_capture_img)
+        cv2.imwrite(img_path,last_color_capture_img)
         print(f"cameraCapture: write '{img_path}' to disk",flush=True)
     img = cv2.imdecode(array, cv2.IMREAD_GRAYSCALE)
     addDate(img)
     return img
+
+def saveLastColorCapture(img_path_prefix):
+    if last_color_capture_img is not None:
+        suffix = last_color_capture_time.strftime("-%Y%m%d-%H%M%S.png")
+        img_path = img_path_prefix+suffix
+        cv2.imwrite(img_path,last_color_capture_img)
+        print(f"saveLastColorCapture: write '{img_path}' to disk",flush=True)
 
 def moveOneStep(direction):
     print(f"moveOneStep: {direction}",flush=True)

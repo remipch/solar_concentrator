@@ -144,6 +144,7 @@ while True:
                 target_reached = finishTrackingOneStep(current_img)
                 if target_reached:
                     print("TARGET REACHED",flush=True)
+                    saveLastColorCapture("target")
                     setState(State.WAITING_SUN_MOVE)
                 else:
                     if pause_after_each_step:
