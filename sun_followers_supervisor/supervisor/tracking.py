@@ -105,6 +105,7 @@ def setRoiCorner(roi_corner_px):
         print(f"bottom_right_roi_corner_px: {bottom_right_roi_corner_px}",flush=True)
 
 def resetTarget():
+    global direction_delta_px
     direction_delta_px = {
         MotorsDirection.UP_LEFT      : [-10,-10],
         MotorsDirection.UP_RIGHT     : [10,-10],
