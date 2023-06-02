@@ -52,7 +52,7 @@ TARGET_TOL_PX = SPOT_SIZE_PX/4
 # (motors command are chosen so there is always an overlap between two successive spotlight after one step)
 MIN_MOVE_PX = SPOT_SIZE_PX/4
 MAX_MOVE_PX = SPOT_SIZE_PX
-MIN_BLOB_AREA_PX = SPOT_SIZE_PX*SPOT_SIZE_PX/10
+MIN_BLOB_AREA_PX = SPOT_SIZE_PX*SPOT_SIZE_PX/16
 MAX_BLOB_AREA_PX = SPOT_SIZE_PX*SPOT_SIZE_PX
 
 previous_img = None
