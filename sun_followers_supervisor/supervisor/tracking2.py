@@ -17,7 +17,8 @@ LIGHTED_SUN_BORDER_COLOR =          RED
 OPPOSITE_BORDER_COLOR =             BLUE
 LIGHTED_OPPOSITE_BORDER_COLOR  =    CYAN
 
-LIGHTED_PIXEL_MIN_LEVEL = 50
+LIGHTED_PIXEL_MIN_OFFSET = 30
+
 MIN_LIGHTED_PIXELS_COUNT = 10
 
 # contains eventually 2 corners defining the region of interrest in which computation
@@ -32,13 +33,15 @@ is_morning=None
 
 initial_lighted_pixels_count_in_opposite_borders = 0
 
-current_direction = None
+motors_direction = None
 
 class Border(str, Enum):
     LEFT   = "LEFT"
     TOP    = "TOP"
     RIGHT  = "RIGHT"
     BOTTOM = "BOTTOM"
+
+ALL_BORDERS = [Border.LEFT,Border.TOP,Border.RIGHT,Border.BOTTOM]
 
 class Segment:
     def __init__(self, x0, y0, x1, y1):
@@ -121,9 +124,18 @@ def getOppositeBorders():
     else:
         return [Border.RIGHT,Border.BOTTOM]
 
+def getBordersMinLevel(img):
+    borders_min_level = 255
+    for border in ALL_BORDERS:
+        segment = getBorderSegment(border)
+        segment_img = segment.getSubImage(img)
+        borders_min_level = min(borders_min_level, segment_img.min())
+    return borders_min_level
+
 def countLightedPixelsInSegment(img,segment):
+    borders_min_level = getBordersMinLevel(img)
     segment_img = segment.getSubImage(img)
-    return np.count_nonzero(segment_img >= LIGHTED_PIXEL_MIN_LEVEL)
+    return np.count_nonzero(segment_img >= borders_min_level + LIGHTED_PIXEL_MIN_OFFSET)
 
 def getBorderSegment(border):
     if border==Border.LEFT:
@@ -139,29 +151,27 @@ def getBorderSegment(border):
 # return True if tracking has started
 def startTracking(img):
     # Search the most lighted sun border
-    max_lighted_pixels_count = 0
-    most_lighted_sun_border = None
+    lighted_sun_borders = []
     for sun_border in getSunBorders():
         segment = getBorderSegment(sun_border)
-        lighted_pixels_count = countLightedPixelsInSegment(img,segment)
-        if lighted_pixels_count > max_lighted_pixels_count:
-            max_lighted_pixels_count = lighted_pixels_count
-            most_lighted_sun_border = sun_border
-    if most_lighted_sun_border is None:
+        if countLightedPixelsInSegment(img,segment) > MIN_LIGHTED_PIXELS_COUNT:
+            lighted_sun_borders.append(sun_border)
+
+    if len(lighted_sun_borders)==0:
         return False
 
-
-    print(f"most_lighted_sun_border: {most_lighted_sun_border} ; lighted_pixels_count: {lighted_pixels_count}",flush=True)
+    print(f"lighted_sun_borders: {lighted_sun_borders}",flush=True)
 
     # Store the lighted pixels count in opposite borders
     # it will be used later to determine when spot has reached the opposite borders
     global initial_lighted_pixels_count_in_opposite_borders
     initial_lighted_pixels_count_in_opposite_borders = countLightedPixelsInOppositeBorders(img)
+    print(f"initial_lighted_pixels_count_in_opposite_borders: {initial_lighted_pixels_count_in_opposite_borders}",flush=True)
 
     # Start moving in best opposite direction
-    global current_direction
-    current_direction = getBestMotorsDirection(most_lighted_sun_border)
-    moveOneStep(current_direction)
+    global motors_direction
+    motors_direction = getBestMotorsDirection(lighted_sun_borders)
+    moveOneStep(motors_direction)
 
     return True
 
@@ -176,7 +186,7 @@ def updateTracking(img):
     if lighted_pixels_count_in_opposite_borders < initial_lighted_pixels_count_in_opposite_borders:
         initial_lighted_pixels_count_in_opposite_borders = lighted_pixels_count_in_opposite_borders
 
-    moveOneStep(current_direction)
+    moveOneStep(motors_direction)
 
     return False
 
@@ -187,12 +197,19 @@ def countLightedPixelsInOppositeBorders(img):
         lighted_pixels_count += countLightedPixelsInSegment(img,segment)
     return lighted_pixels_count
 
-def getBestMotorsDirection(most_lighted_sun_border):
-    if most_lighted_sun_border == Border.LEFT:
-        return MotorsDirection.RIGHT
-    elif most_lighted_sun_border == Border.TOP:
+def getBestMotorsDirection(lighted_sun_borders):
+    if Border.LEFT in lighted_sun_borders:
+        if Border.TOP in lighted_sun_borders:
+            return MotorsDirection.BOTTOM_RIGHT
+        elif Border.BOTTOM in lighted_sun_borders:
+            return MotorsDirection.UP_RIGHT
+        else:
+            return MotorsDirection.RIGHT
+    elif Border.TOP in lighted_sun_borders:
         return MotorsDirection.DOWN
-    elif most_lighted_sun_border == Border.BOTTOM:
+    elif Border.BOTTOM in lighted_sun_borders:
         return MotorsDirection.UP
+    else:
+        raise Exception(f"Incorrect lighted_sun_borders: {lighted_sun_borders}")
 
 
