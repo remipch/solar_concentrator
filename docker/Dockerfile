@@ -42,6 +42,12 @@ RUN echo ". $IDF_PATH/export.sh" >> ~/.bashrc
 # RUN echo "touch /root/.config/kdeveloprc" >> ~/.bashrc
 # RUN echo "chmod 777 /root/.config/kdeveloprc" >> ~/.bashrc
 
-# Print useful project help from container
-RUN echo "cat /solar_concentrator/docker/docker_help.txt" >> ~/.bashrc
+# Add usefull aliases
+RUN echo "alias h='cat /solar_concentrator/docker/docker_help.txt && alias'" >> ~/.bashrc
+RUN echo "alias cdsup='cd /solar_concentrator/sun_followers_supervisor/supervisor'" >> ~/.bashrc
+RUN echo "alias cdesp='cd /solar_concentrator/sun_follower_panel/panel_controller/build_esp32/'" >> ~/.bashrc
+RUN echo "alias cdmot='cd /solar_concentrator/sun_follower_panel/motors_controller/'" >> ~/.bashrc
+
+# Finally print help
+RUN echo "h" >> ~/.bashrc
 
