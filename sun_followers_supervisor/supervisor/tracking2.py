@@ -18,8 +18,12 @@ OPPOSITE_BORDER_COLOR =             BLUE
 LIGHTED_OPPOSITE_BORDER_COLOR  =    CYAN
 
 LIGHTED_PIXEL_MIN_OFFSET = 30
+MAX_TRACKING_STEPS_COUNT = 5  # error if more step to reach opposite borders
 
 MIN_LIGHTED_PIXELS_COUNT = 10
+
+
+tracking_steps_count = 0
 
 # contains eventually 2 corners defining the region of interrest in which computation
 # must be restricted (pixels outside of this ROI are ignored)
@@ -59,10 +63,6 @@ def setMorning(is_morning_):
     global is_morning
     is_morning = is_morning_
     print(f"is_morning: {is_morning}",flush=True)
-
-class TrackingException(Exception):
-    "Cannot compute tracking"
-    pass
 
 def setAreaCorner(corner_px):
     global area_corners_px,area_top_px,area_right_px,area_bottom_px,area_left_px
@@ -164,6 +164,10 @@ def startTracking(img):
 
     print(f"lighted_sun_borders: {lighted_sun_borders}",flush=True)
 
+    # Reset steps count
+    global tracking_steps_count
+    tracking_steps_count = 1
+
     # Start moving in best opposite direction
     global motors_direction
     motors_direction = getBestMotorsDirection(lighted_sun_borders)
@@ -173,12 +177,20 @@ def startTracking(img):
 
 # return True if tracking is finished
 def updateTracking(img):
+    global tracking_steps_count
+    print(f"tracking_steps_count: {tracking_steps_count}",flush=True)
+
     lighted_opposite_borders = getLightedBorders(img,getOppositeBorders())
     print(f"lighted_opposite_borders: {lighted_opposite_borders}",flush=True)
     if len(lighted_opposite_borders)>0:
         return True
 
+    if tracking_steps_count>MAX_TRACKING_STEPS_COUNT:
+        raise Exception(f"Problem : cannot reach opposite borders after {tracking_steps_count} tracking steps")
+    tracking_steps_count = tracking_steps_count + 1
+
     moveOneStep(motors_direction)
+
     return False
 
 def getBestMotorsDirection(lighted_sun_borders):
