@@ -31,8 +31,6 @@ area_bottom_px = None
 
 is_morning=None
 
-initial_lighted_pixels_count_in_opposite_borders = 0
-
 motors_direction = None
 
 class Border(str, Enum):
@@ -147,26 +145,24 @@ def getBorderSegment(border):
     elif border==Border.BOTTOM:
         return Segment(area_left_px,area_bottom_px,area_right_px,area_bottom_px)
 
+# return an array containing all the lighted borders from the given 'borders_to_test'
+def getLightedBorders(img, borders_to_test):
+    lighted_borders = []
+    for border in borders_to_test:
+        segment = getBorderSegment(border)
+        if countLightedPixelsInSegment(img,segment) > MIN_LIGHTED_PIXELS_COUNT:
+            lighted_borders.append(border)
+    return lighted_borders
+
 # start tracking if sun borders are lighted
 # return True if tracking has started
 def startTracking(img):
     # Search the most lighted sun border
-    lighted_sun_borders = []
-    for sun_border in getSunBorders():
-        segment = getBorderSegment(sun_border)
-        if countLightedPixelsInSegment(img,segment) > MIN_LIGHTED_PIXELS_COUNT:
-            lighted_sun_borders.append(sun_border)
-
+    lighted_sun_borders = getLightedBorders(img,getSunBorders())
     if len(lighted_sun_borders)==0:
         return False
 
     print(f"lighted_sun_borders: {lighted_sun_borders}",flush=True)
-
-    # Store the lighted pixels count in opposite borders
-    # it will be used later to determine when spot has reached the opposite borders
-    global initial_lighted_pixels_count_in_opposite_borders
-    initial_lighted_pixels_count_in_opposite_borders = countLightedPixelsInOppositeBorders(img)
-    print(f"initial_lighted_pixels_count_in_opposite_borders: {initial_lighted_pixels_count_in_opposite_borders}",flush=True)
 
     # Start moving in best opposite direction
     global motors_direction
@@ -177,25 +173,13 @@ def startTracking(img):
 
 # return True if tracking is finished
 def updateTracking(img):
-    global initial_lighted_pixels_count_in_opposite_borders
-    lighted_pixels_count_in_opposite_borders = countLightedPixelsInOppositeBorders(img)
-    print(f"lighted_pixels_count_in_opposite_borders: {lighted_pixels_count_in_opposite_borders}",flush=True)
-    if lighted_pixels_count_in_opposite_borders > initial_lighted_pixels_count_in_opposite_borders + MIN_LIGHTED_PIXELS_COUNT:
+    lighted_opposite_borders = getLightedBorders(img,getOppositeBorders())
+    print(f"lighted_opposite_borders: {lighted_opposite_borders}",flush=True)
+    if len(lighted_opposite_borders)>0:
         return True
 
-    if lighted_pixels_count_in_opposite_borders < initial_lighted_pixels_count_in_opposite_borders:
-        initial_lighted_pixels_count_in_opposite_borders = lighted_pixels_count_in_opposite_borders
-
     moveOneStep(motors_direction)
-
     return False
-
-def countLightedPixelsInOppositeBorders(img):
-    lighted_pixels_count = 0
-    for opposite_border in getOppositeBorders():
-        segment = getBorderSegment(opposite_border)
-        lighted_pixels_count += countLightedPixelsInSegment(img,segment)
-    return lighted_pixels_count
 
 def getBestMotorsDirection(lighted_sun_borders):
     if Border.LEFT in lighted_sun_borders:
