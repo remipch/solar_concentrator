@@ -95,6 +95,9 @@ def resetArea():
     area_right_px = None
     area_bottom_px = None
 
+def getArea():
+    return area_left_px, area_top_px, area_right_px, area_bottom_px
+
 def drawArea(img):
     if isAreaSet():
         for border in getSunBorders():
