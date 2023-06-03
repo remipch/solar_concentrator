@@ -61,16 +61,43 @@ static size_t jpg_encode_stream(void *arg, size_t index, const void *data, size_
     return len;
 }
 
+static esp_err_t parse_get(httpd_req_t *req, char **obuf)
+{
+    char *buf = NULL;
+    size_t buf_len = 0;
+
+    buf_len = httpd_req_get_url_query_len(req) + 1;
+    if (buf_len > 1) {
+        buf = (char *)malloc(buf_len);
+        if (!buf) {
+            httpd_resp_send_500(req);
+            return ESP_FAIL;
+        }
+        if (httpd_req_get_url_query_str(req, buf, buf_len) == ESP_OK) {
+            *obuf = buf;
+            return ESP_OK;
+        }
+        free(buf);
+    }
+    httpd_resp_send_404(req);
+    return ESP_FAIL;
+}
+
 static esp_err_t capture_handler(httpd_req_t *req)
 {
     camera_fb_t *frame = NULL;
     esp_err_t res = ESP_OK;
 
+    ESP_LOGI(TAG, "capture_handler");
+
     // Ugly workarround to force the camera to take a new image now
     // otherwise it returns the frame in the queue, which is one frame late
+    ESP_LOGV(TAG, "esp_camera_fb_get 0");
     frame = esp_camera_fb_get();
     esp_camera_fb_return(frame);
+    ESP_LOGV(TAG, "esp_camera_fb_get 1");
     frame = esp_camera_fb_get();
+    ESP_LOGV(TAG, "esp_camera_fb_get 2");
 
 //     if (xQueueReceive(xQueueFrameI, &frame, portMAX_DELAY)) {
         httpd_resp_set_type(req, "image/jpeg");
@@ -106,6 +133,94 @@ static esp_err_t capture_handler(httpd_req_t *req)
 //         httpd_resp_send_500(req);
 //         return ESP_FAIL;
 //     }
+
+    return res;
+}
+
+// TODO: move image conversion stuff in custom camera component
+static esp_err_t capture_area_handler(httpd_req_t *req)
+{
+    camera_fb_t *frame = NULL;
+    esp_err_t res = ESP_OK;
+
+    ESP_LOGI(TAG, "capture_area_handler");
+
+    // Ugly workarround to force the camera to take a new image now
+    // otherwise it returns the frame in the queue, which is one frame late
+    ESP_LOGV(TAG, "esp_camera_fb_get 0");
+    frame = esp_camera_fb_get();
+    esp_camera_fb_return(frame);
+    ESP_LOGV(TAG, "esp_camera_fb_get 1");
+    frame = esp_camera_fb_get();
+    ESP_LOGV(TAG, "esp_camera_fb_get 2");
+
+    char *buf = NULL;
+    char left_px_str[32];
+    char top_px_str[32];
+    char right_px_str[32];
+    char bottom_px_str[32];
+
+    if (parse_get(req, &buf) != ESP_OK ||
+        httpd_query_key_value(buf, "left_px", left_px_str, sizeof(left_px_str)) != ESP_OK ||
+        httpd_query_key_value(buf, "top_px", top_px_str, sizeof(top_px_str)) != ESP_OK ||
+        httpd_query_key_value(buf, "right_px", right_px_str, sizeof(right_px_str)) != ESP_OK ||
+        httpd_query_key_value(buf, "bottom_px", bottom_px_str, sizeof(bottom_px_str)) != ESP_OK) {
+        free(buf);
+        httpd_resp_send_404(req);
+        return ESP_FAIL;
+    }
+    free(buf);
+
+    int left_px = atoi(left_px_str);
+    int top_px = atoi(top_px_str);
+    int right_px = atoi(right_px_str);
+    int bottom_px = atoi(bottom_px_str);
+
+    // Check consistency
+    if(left_px >= right_px || left_px < 0 || left_px>=frame->width || right_px < 0 || right_px>=frame->width ||
+       top_px >= bottom_px || top_px < 0 || top_px>=frame->height || bottom_px < 0 || bottom_px>=frame->height) {
+        ESP_LOGE(TAG, "Inconsistent area");
+        httpd_resp_send_404(req);
+        return ESP_FAIL;
+    }
+
+    int area_width = right_px - left_px + 1;
+    int area_height = bottom_px - top_px + 1;
+    uint8_t* area_gray = (uint8_t*)malloc(area_width * area_height);
+
+    ESP_LOGD(TAG, "Convert from RGB565 to gray");
+    for(int y=top_px; y<=bottom_px; y++) {
+        for(int x=left_px; x<=right_px; x++) {
+            // format is deduced from esp-who/components/esp-dl/include/image/dl_image.hpp
+            int source_index = x + y * frame->width;
+            uint16_t rgb565 = ((uint16_t*)frame->buf)[source_index];
+            uint8_t b = (uint8_t)((rgb565 & 0x1F00) >> 5);
+            uint8_t g = (uint8_t)(((rgb565 & 0x7) << 5) | ((rgb565 & 0xE000) >> 11));
+            uint8_t r = (uint8_t)(rgb565 & 0xF8);
+
+            int area_index = x - left_px + (y - top_px) * area_width;
+            uint8_t gray = (0.299 * r) + (0.587 * g) + (0.114 * b);
+            area_gray[area_index] = gray;
+        }
+    }
+
+    char ts[32];
+    snprintf(ts, 32, "%ld.%06ld", frame->timestamp.tv_sec, frame->timestamp.tv_usec);
+    httpd_resp_set_hdr(req, "X-Timestamp", (const char *)ts);
+
+    // size_t fb_len = 0;
+    if (frame->format == PIXFORMAT_RGB565) {
+        httpd_resp_set_type(req, "application/octet-stream");
+        httpd_resp_set_hdr(req, "Access-Control-Allow-Origin", "*");
+        res = httpd_resp_send(req, (const char *)area_gray, area_width * area_height);
+    }
+    else {
+        ESP_LOGE(TAG, "Unexpected pixel format : cannot serve capture_area_handler");
+    }
+
+    free(area_gray);
+
+    esp_camera_fb_return(frame);
 
     return res;
 }
@@ -175,28 +290,6 @@ static esp_err_t stream_handler(httpd_req_t *req)
     }
 
     return res;
-}
-
-static esp_err_t parse_get(httpd_req_t *req, char **obuf)
-{
-    char *buf = NULL;
-    size_t buf_len = 0;
-
-    buf_len = httpd_req_get_url_query_len(req) + 1;
-    if (buf_len > 1) {
-        buf = (char *)malloc(buf_len);
-        if (!buf) {
-            httpd_resp_send_500(req);
-            return ESP_FAIL;
-        }
-        if (httpd_req_get_url_query_str(req, buf, buf_len) == ESP_OK) {
-            *obuf = buf;
-            return ESP_OK;
-        }
-        free(buf);
-    }
-    httpd_resp_send_404(req);
-    return ESP_FAIL;
 }
 
 static esp_err_t cmd_handler(httpd_req_t *req)
@@ -398,6 +491,13 @@ void register_httpd(const QueueHandle_t frame_i, const QueueHandle_t frame_o, co
         .user_ctx = NULL
     };
 
+    httpd_uri_t capture_area_uri = {
+        .uri = "/capture_area",
+        .method = HTTP_GET,
+        .handler = capture_area_handler,
+        .user_ctx = NULL
+    };
+
     httpd_uri_t stream_uri = {
         .uri = "/stream",
         .method = HTTP_GET,
@@ -425,6 +525,7 @@ void register_httpd(const QueueHandle_t frame_i, const QueueHandle_t frame_o, co
         httpd_register_uri_handler(camera_httpd, &cmd_uri);
         httpd_register_uri_handler(camera_httpd, &status_uri);
         httpd_register_uri_handler(camera_httpd, &capture_uri);
+        httpd_register_uri_handler(camera_httpd, &capture_area_uri);
         httpd_register_uri_handler(camera_httpd, &motors_command_uri);
         httpd_register_uri_handler(camera_httpd, &motors_status_uri);
     }
