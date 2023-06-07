@@ -61,6 +61,9 @@ def addDate(img):
     cv2.putText(img, text, (10, height - 10), cv2.FONT_HERSHEY_SIMPLEX, 1, (255,255,255), lineType = cv2.LINE_AA)
 
 def cameraCaptureArea(left_px, top_px, right_px, bottom_px):
+    global iteration
+    iteration = iteration + 1
+
     response = httpRequest(f"{esp32_http_address}/capture_area?left_px={left_px}&top_px={top_px}&right_px={right_px}&bottom_px={bottom_px}")
     byte_array = bytearray(response.content)
 
@@ -68,8 +71,13 @@ def cameraCaptureArea(left_px, top_px, right_px, bottom_px):
     width = right_px - left_px + 1
     img = np.zeros((height, width), dtype=np.uint8)
     img = np.reshape(byte_array, (height, width))
-    return img
 
+    if simu==SimuMode.RECORD:
+        img_path = f"camera_capture_{iteration}.png"
+        cv2.imwrite(img_path,img)
+        print(f"cameraCapture: write '{img_path}' to disk",flush=True)
+
+    return img
 
 def cameraCapture():
     global iteration,last_color_capture_img,last_color_capture_time
