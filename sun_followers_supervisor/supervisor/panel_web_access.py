@@ -22,9 +22,12 @@ class SimuMode(str, Enum):
     REPLAY   = "REPLAY"
 
 
+#simu=SimuMode.RECORD
 simu=SimuMode.REPLAY
 
-replay_folder = "record_move_1"
+#replay_folder = "./solar_concentrator_manip_20230604/capture-20230604-a/"
+#replay_folder = "."
+replay_folder = "capture-20230602-c-plafond/"
 
 print(f"simu: '{simu}'",flush=True)
 
@@ -32,6 +35,7 @@ iteration=0
 
 esp32_http_address = "http://192.168.209.101"
 
+#TODO : remove and replace by cameraCaptureColor
 last_color_capture_img = None
 last_color_capture_time = None
 
@@ -64,6 +68,9 @@ def cameraCaptureArea(left_px, top_px, right_px, bottom_px):
     global iteration
     iteration = iteration + 1
 
+    if simu==SimuMode.REPLAY:
+        raise Exception("not implemented")
+
     response = httpRequest(f"{esp32_http_address}/capture_area?left_px={left_px}&top_px={top_px}&right_px={right_px}&bottom_px={bottom_px}")
     byte_array = bytearray(response.content)
 
@@ -77,6 +84,7 @@ def cameraCaptureArea(left_px, top_px, right_px, bottom_px):
         cv2.imwrite(img_path,img)
         print(f"cameraCapture: write '{img_path}' to disk",flush=True)
 
+    img = cv2.blur(img,(3,3))
     return img
 
 def cameraCapture():
@@ -109,6 +117,7 @@ def cameraCapture():
     addDate(img)
     return img
 
+#TODO : remove and replace by cameraCaptureColor
 def saveLastColorCapture(img_path_prefix):
     if last_color_capture_img is not None:
         suffix = last_color_capture_time.strftime("-%Y%m%d-%H%M%S.png")

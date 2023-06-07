@@ -7,7 +7,6 @@ import time
 class State(str, Enum):
     UNDEFINED                   = "UNDEFINED"
     WAITING_AREA_DEFINITION     = "WAITING_AREA_DEFINITION"
-    MANUAL_MOVE                 = "MANUAL_MOVE"
     WAITING_SUN_MOVE            = "WAITING_SUN_MOVE"
     TRACKING                    = "TRACKING"
     TRACKING_PAUSED             = "TRACKING_PAUSED"
