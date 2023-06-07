@@ -94,7 +94,9 @@ def cameraCapture():
         addDate(last_color_capture_img)
         cv2.imwrite(img_path,last_color_capture_img)
         print(f"cameraCapture: write '{img_path}' to disk",flush=True)
+
     img = cv2.imdecode(array, cv2.IMREAD_GRAYSCALE)
+    img = cv2.blur(img,(3,3))
     addDate(img)
     return img
 
