@@ -136,7 +136,9 @@ def getBordersMinLevel(img):
 def countLightedPixelsInSegment(img,segment):
     borders_min_level = getBordersMinLevel(img)
     segment_img = segment.getSubImage(img)
-    return np.count_nonzero(segment_img >= borders_min_level + LIGHTED_PIXEL_MIN_OFFSET)
+    # prevent false-positive if image is saturated :
+    min_level = borders_min_level + LIGHTED_PIXEL_MIN_OFFSET
+    return np.count_nonzero(segment_img >= min_level)
 
 def getBorderSegment(border):
     if border==Border.LEFT:
