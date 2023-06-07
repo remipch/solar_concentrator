@@ -49,6 +49,7 @@ def httpRequest(http_address):
             print(f"    Http request exception:",flush=True)
             print(type(inst))
             print(inst.args)
+            time.sleep(3)
             continue
     raise Exception(f"Fail http request after multiple tentatives")
 
