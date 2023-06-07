@@ -10,7 +10,7 @@ from tracking2 import *
 
 pause_after_each_step = True
 
-CAPTURE_ONLY_AREA_IN_TRACKING = True
+CAPTURE_ONLY_AREA_IN_TRACKING = False
 
 # user actions
 ESCAPE_KEY = 27     # quit progam
