@@ -167,6 +167,10 @@ try:
                     finished = updateTracking(current_img)
                     if finished:
                         print("TRACKING FINISHED",flush=True)
+                        # TODO replace by captureColor() in any case
+                        if CAPTURE_ONLY_AREA_IN_TRACKING:
+                            current_img = cameraCapture()
+                            drawCurrentImage()
                         saveLastColorCapture("target")
                         setState(State.WAITING_SUN_MOVE)
                     elif pause_after_each_step:
