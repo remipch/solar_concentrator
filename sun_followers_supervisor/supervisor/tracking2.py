@@ -17,7 +17,7 @@ LIGHTED_SUN_BORDER_COLOR =          RED
 OPPOSITE_BORDER_COLOR =             BLUE
 LIGHTED_OPPOSITE_BORDER_COLOR  =    CYAN
 
-LIGHTED_PIXEL_MIN_OFFSET = 30
+LIGHTED_PIXEL_MIN_OFFSET = 100
 MAX_TRACKING_STEPS_COUNT = 5  # error if more step to reach opposite borders
 
 MIN_LIGHTED_PIXELS_COUNT = 10
@@ -162,12 +162,14 @@ def getLightedBorders(img, borders_to_test):
 # start tracking if sun borders are lighted
 # return True if tracking has started
 def startTracking(img):
+    print(f"startTracking",flush=True)
+
     # Search the most lighted sun border
     lighted_sun_borders = getLightedBorders(img,getSunBorders())
+    print(f"  lighted_sun_borders: {lighted_sun_borders}",flush=True)
     if len(lighted_sun_borders)==0:
         return False
 
-    print(f"lighted_sun_borders: {lighted_sun_borders}",flush=True)
 
     # Reset steps count
     global tracking_steps_count
@@ -182,12 +184,28 @@ def startTracking(img):
 
 # return True if tracking is finished
 def updateTracking(img):
+    print(f"updateTracking",flush=True)
+
+    # Search the most lighted sun border
+    lighted_sun_borders = getLightedBorders(img,getSunBorders())
+    print(f"  lighted_sun_borders: {lighted_sun_borders}",flush=True)
+    if len(lighted_sun_borders)==0:
+        return True
+
+    # Start moving in best opposite direction
+    global motors_direction
+    motors_direction = getBestMotorsDirection(lighted_sun_borders)
+    moveOneStep(motors_direction)
+    return False
+
+
     global tracking_steps_count
     print(f"tracking_steps_count: {tracking_steps_count}",flush=True)
 
     lighted_opposite_borders = getLightedBorders(img,getOppositeBorders())
     print(f"lighted_opposite_borders: {lighted_opposite_borders}",flush=True)
     if len(lighted_opposite_borders)>0:
+        # TODO : test if it remains some lighted_sun_borders
         return True
 
     if tracking_steps_count>MAX_TRACKING_STEPS_COUNT:
