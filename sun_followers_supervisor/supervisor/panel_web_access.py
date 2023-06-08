@@ -6,6 +6,8 @@ import os.path
 from datetime import datetime
 from dateutil import tz
 import time
+import glob
+import os
 
 class MotorsStatus(str, Enum):
     ERROR           = "ERROR"
@@ -23,16 +25,17 @@ class SimuMode(str, Enum):
 
 
 simu=SimuMode.RECORD
-#simu=SimuMode.REPLAY
+simu=SimuMode.REPLAY
 
-#replay_folder = "./solar_concentrator_manip_20230604/capture-20230604-a/"
-replay_folder = "capture-20230602-c-plafond"
-record_folder = "capture"
-record_prefix = "camera_capture"
+REPLAY_FOLDER = "capture"
+RECORD_FOLDER = "capture"
+RECORD_PREFIX = "camera_capture"
 
 print(f"simu: '{simu}'",flush=True)
 
-iteration=0
+replay_files = sorted(filter( os.path.isfile, glob.glob(f"{REPLAY_FOLDER}/*.png") ) )
+assert len(replay_files)>0
+replay_file_index = 0
 
 esp32_http_address = "http://192.168.209.101"
 
@@ -61,8 +64,14 @@ def httpRequest(http_address):
             continue
     raise Exception(f"Fail http request after multiple tentatives")
 
-def addDate(img):
-    time = datetime.now().astimezone(tz.gettz('Europe/Paris'))
+# Return time in Paris (TODO: use locale config ?)
+def getCurrentTime():
+    return datetime.now().astimezone(tz.gettz('Europe/Paris'))
+
+def getFileTimeSuffix(time):
+    return time.strftime("-%Y%m%d-%H%M%S")
+
+def addDate(img,time):
     text = time.strftime("%Y-%m-%d %H:%M:%S")
     height = img.shape[0]
     cv2.putText(img, text, (10, height - 10), cv2.FONT_HERSHEY_SIMPLEX, 1, (255,255,255), lineType = cv2.LINE_AA)
@@ -85,19 +94,19 @@ def cameraCaptureAndReplaceArea(area):
     if last_full_color_img is None or simu==SimuMode.REPLAY:
         return cameraCapture()
 
-    global iteration
-    iteration = iteration + 1
+    time = getCurrentTime()
 
     area_img = cameraCaptureArea(area)
 
     img = cv2.cvtColor(last_full_color_img, cv2.COLOR_BGR2GRAY)
     img[area.top_px:area.bottom_px+1, area.left_px:area.right_px+1] = area_img
-    addDate(img)
+    addDate(img,time)
 
     if simu==SimuMode.RECORD:
-        img_path = f"capture/camera_capture_{iteration}.png"
+        time_suffix = getFileTimeSuffix(time)
+        img_path = f"{RECORD_FOLDER}/{RECORD_PREFIX}{time_suffix}.png"
         cv2.imwrite(img_path,img)
-        print(f"cameraCapture: write '{img_path}' to disk",flush=True)
+        print(f"cameraCaptureAndReplaceArea: write '{img_path}' to disk",flush=True)
 
     img = cv2.blur(img,(3,3))
     return img
@@ -106,11 +115,14 @@ def cameraCaptureAndReplaceArea(area):
 # Save color image if saved_filename_prefix is not None
 # Return gray image at full resolution
 def cameraCapture(saved_filename_prefix = None):
-    global iteration,last_full_color_img
-    iteration = iteration + 1
+    global last_full_color_img
 
     if simu==SimuMode.REPLAY:
-        img_path = f"{replay_folder}/camera_capture_{iteration}.png"
+        global replay_file_index
+        replay_file_path = replay_files[replay_file_index]
+        replay_file_index = (replay_file_index + 1) % len(replay_files)
+
+        img_path = f"{replay_file_path}"
         if not os.path.isfile(img_path):
             print(f"file '{img_path}' does not exist: exit application",flush=True)
             exit(1)
@@ -125,16 +137,18 @@ def cameraCapture(saved_filename_prefix = None):
     color_img = cv2.imdecode(array, cv2.IMREAD_COLOR)
 
     last_full_color_img = color_img.copy()
-    capture_time = datetime.now().astimezone(tz.gettz('Europe/Paris'))
-    time_suffix = capture_time.strftime("-%Y%m%d-%H%M%S")
 
-    addDate(color_img)
+    time = getCurrentTime()
+    time_suffix = getFileTimeSuffix(time)
+    addDate(color_img,time)
+
     if simu==SimuMode.RECORD:
-        img_path = f"{record_folder}/{record_prefix}_{iteration}.png"
+        img_path = f"{RECORD_FOLDER}/{RECORD_PREFIX}{time_suffix}.png"
         cv2.imwrite(img_path,color_img)
         print(f"cameraCapture: write '{img_path}' to disk",flush=True)
+
     if saved_filename_prefix is not None:
-        img_path = f"{record_folder}/{saved_filename_prefix}{time_suffix}.png"
+        img_path = f"{RECORD_FOLDER}/{saved_filename_prefix}{time_suffix}.png"
         cv2.imwrite(img_path,color_img)
         print(f"cameraCapture: write '{img_path}' to disk",flush=True)
 
