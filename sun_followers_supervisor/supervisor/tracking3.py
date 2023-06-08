@@ -197,18 +197,18 @@ def getHorizontalAreaSegment(y):
 def startTracking(before_sun_move_img, current_img):
     print(f"startTracking",flush=True)
 
-    showDebugImage("before_move",before_sun_move_img,400,0)
+    showDebugImage("before_move",before_sun_move_img,0,0,800,600)
     showDebugImage("current",current_img)
     drawArea()
+
+    # For debug only :
+    borders_min_level = getBordersMinLevel(current_img)
+    print(f"    borders_min_level: {borders_min_level}",flush=True)
 
     spot_light_rectangle_before_sun_move = getSpotLightRectangleInArea(before_sun_move_img)
     spot_light_rectangle = getSpotLightRectangleInArea(current_img)
     print(f"    spot_light_rectangle_before_sun_move: {spot_light_rectangle_before_sun_move}",flush=True)
     print(f"    spot_light_rectangle: {spot_light_rectangle}",flush=True)
-
-    # For debug only :
-    borders_min_level = getBordersMinLevel(current_img)
-    print(f"    borders_min_level: {borders_min_level}",flush=True)
 
     if spot_light_rectangle_before_sun_move is None or spot_light_rectangle is None:
         print(f"    NO SPOT DETECTED",flush=True)
@@ -255,6 +255,10 @@ def updateTracking(current_img):
     global motors_direction
 
     print(f"updateTracking",flush=True)
+
+    # For debug only :
+    borders_min_level = getBordersMinLevel(current_img)
+    print(f"    borders_min_level: {borders_min_level}",flush=True)
 
     spot_light_rectangle = getSpotLightRectangleInArea(current_img)
     print(f"    spot_light_rectangle: {spot_light_rectangle}",flush=True)
