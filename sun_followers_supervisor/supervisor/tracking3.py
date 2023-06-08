@@ -26,7 +26,7 @@ MAX_TRACKING_STEPS_COUNT = 20
 
 MIN_LIGHTED_PIXELS_COUNT = 10
 
-MIN_SUN_MOVE_PX = 3
+MIN_SUN_MOVE_PX = 2
 
 MAX_DISTANCE_FROM_CENTER_AXIS_PX = 5
 
@@ -230,7 +230,7 @@ def startTracking(before_sun_move_img, current_img):
     sun_move_y = spot_center_y - spot_center_y_before_sun_move
     print(f"    sun_move: {sun_move_x}, {sun_move_y}",flush=True)
 
-    if abs(sun_move_x) < MIN_SUN_MOVE_PX and abs(sun_move_y) < MIN_SUN_MOVE_PX:
+    if math.sqrt(sun_move_x**2 + sun_move_y**2) < MIN_SUN_MOVE_PX:
         print(f"    NO SUN MOVE DETECTED",flush=True)
         return False
 
