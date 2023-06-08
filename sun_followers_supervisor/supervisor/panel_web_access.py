@@ -80,7 +80,7 @@ def cameraCaptureArea(left_px, top_px, right_px, bottom_px):
     img = np.reshape(byte_array, (height, width))
 
     if simu==SimuMode.RECORD:
-        img_path = f"camera_capture_{iteration}.png"
+        img_path = f"capture/camera_capture_{iteration}.png"
         cv2.imwrite(img_path,img)
         print(f"cameraCapture: write '{img_path}' to disk",flush=True)
 
@@ -100,7 +100,7 @@ def cameraCapture():
         print(f"cameraCapture: read '{img_path}' from disk",flush=True)
         return cv2.imread(img_path,cv2.IMREAD_GRAYSCALE)
 
-    img_path = f"camera_capture_{iteration}.png"
+    img_path = f"capture/camera_capture_{iteration}.png"
 
     response = httpRequest(f"{esp32_http_address}/capture")
     byte_array = bytearray(response.content)
@@ -121,7 +121,7 @@ def cameraCapture():
 def saveLastColorCapture(img_path_prefix):
     if last_color_capture_img is not None:
         suffix = last_color_capture_time.strftime("-%Y%m%d-%H%M%S.png")
-        img_path = img_path_prefix+suffix
+        img_path = "capture/" + img_path_prefix + suffix
         cv2.imwrite(img_path,last_color_capture_img)
         print(f"saveLastColorCapture: write '{img_path}' to disk",flush=True)
 
