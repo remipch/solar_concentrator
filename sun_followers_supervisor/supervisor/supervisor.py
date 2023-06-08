@@ -114,15 +114,14 @@ try:
 
         # Now, treat each state specifically
         elif state==State.WAITING_AREA_DEFINITION:
+            if isAreaSet():
+                before_sun_move_img = current_img.copy()
+                setState(State.WAITING_SUN_MOVE)
             # Refresh camera view every 10s
-            if state_duration_s > 10.0 or key==SPACE_KEY:
-                if isAreaSet():
-                    before_sun_move_img = current_img.copy()
-                    setState(State.WAITING_SUN_MOVE)
-                else:
-                    current_img = cameraCapture()
-                    drawCurrentImage()
-                    setState(State.WAITING_AREA_DEFINITION)
+            elif state_duration_s > 10.0 or key==SPACE_KEY:
+                current_img = cameraCapture()
+                drawCurrentImage()
+                setState(State.WAITING_AREA_DEFINITION)
 
         elif state==State.WAITING_SUN_MOVE:
             # Start tracking every 60s
