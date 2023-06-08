@@ -15,7 +15,6 @@ DARK_CYAN = (128,102,0)
 
 TRACKING_ERROR = RED
 AREA_COLOR = ORANGE
-BEFORE_SUN_MOVE = DARK_GREEN
 AFTER_SUN_MOVE = GREEN
 BEFORE_MOTORS_MOVE = DARK_CYAN
 AFTER_MOTORS_MOVE = CYAN
@@ -25,8 +24,6 @@ LIGHTED_PIXEL_MIN_OFFSET = 70
 MAX_TRACKING_STEPS_COUNT = 20
 
 MIN_LIGHTED_PIXELS_COUNT = 10
-
-MIN_SUN_MOVE_PX = 2
 
 MAX_DISTANCE_FROM_CENTER_AXIS_PX = 5
 
@@ -106,6 +103,7 @@ class Rectangle:
 def setAreaCorner(corner_px):
     global area_corners_px,area
     print(f"NEW AREA CORNER: {corner_px}",flush=True)
+    closeDebugImage("before_motors_move")
     if len(area_corners_px)==0:
         area_corners_px = [corner_px]
     else:
@@ -128,6 +126,7 @@ def resetArea():
     print(f"reset area",flush=True)
     area_corners_px = []
     area = None
+    closeDebugImage("before_motors_move")
 
 def getArea():
     return area
@@ -188,12 +187,10 @@ def getVerticalAreaSegment(x):
 def getHorizontalAreaSegment(y):
     return Segment(area.left_px,int(y),area.right_px,int(y))
 
-# start tracking if sun borders are lighted
 # return True if tracking has started
-def startTracking(before_sun_move_img, current_img):
+def startTracking(current_img):
     print(f"startTracking",flush=True)
 
-    showDebugImage("before_move",before_sun_move_img,0,0,800,600)
     showDebugImage("current",current_img)
     drawArea()
 
@@ -201,29 +198,17 @@ def startTracking(before_sun_move_img, current_img):
     borders_min_level = getBordersMinLevel(current_img)
     print(f"    borders_min_level: {borders_min_level}",flush=True)
 
-    spot_light_rectangle_before_sun_move = getSpotLightRectangleInArea(before_sun_move_img)
     spot_light_rectangle = getSpotLightRectangleInArea(current_img)
-    print(f"    spot_light_rectangle_before_sun_move: {spot_light_rectangle_before_sun_move}",flush=True)
     print(f"    spot_light_rectangle: {spot_light_rectangle}",flush=True)
 
-    if spot_light_rectangle_before_sun_move is None or spot_light_rectangle is None:
+    if spot_light_rectangle is None:
         print(f"    NO SPOT DETECTED",flush=True)
         return False
 
-    spot_light_rectangle_before_sun_move.draw(BEFORE_SUN_MOVE)
     spot_light_rectangle.draw(AFTER_SUN_MOVE)
 
-    spot_center_x_before_sun_move,spot_center_y_before_sun_move = spot_light_rectangle_before_sun_move.getCenter()
     spot_center_x,spot_center_y = spot_light_rectangle.getCenter()
     print(f"    spot_center: {spot_center_x}, {spot_center_y}",flush=True)
-
-    sun_move_x = spot_center_x - spot_center_x_before_sun_move
-    sun_move_y = spot_center_y - spot_center_y_before_sun_move
-    print(f"    sun_move: {sun_move_x}, {sun_move_y}",flush=True)
-
-    if math.sqrt(sun_move_x**2 + sun_move_y**2) < MIN_SUN_MOVE_PX:
-        print(f"    NO SUN MOVE DETECTED",flush=True)
-        return False
 
     borders_to_move_away = getBordersToMoveAway(spot_light_rectangle)
     if len(borders_to_move_away)==0:
@@ -234,7 +219,7 @@ def startTracking(before_sun_move_img, current_img):
     global tracking_steps_count
     tracking_steps_count = 1
 
-    # Start moving in best opposite direction
+    # Start moving in best direction
     global motors_direction
     motors_direction = getBestMotorsDirection(borders_to_move_away)
     moveOneStep(motors_direction)
@@ -251,6 +236,12 @@ def updateTracking(current_img):
 
     print(f"updateTracking",flush=True)
 
+    global tracking_steps_count
+    print(f"    tracking_steps_count: {tracking_steps_count}",flush=True)
+    if tracking_steps_count>MAX_TRACKING_STEPS_COUNT:
+        raise Exception(f"Problem : cannot reach opposite borders after {tracking_steps_count} tracking steps")
+    tracking_steps_count = tracking_steps_count + 1
+
     # For debug only :
     borders_min_level = getBordersMinLevel(current_img)
     print(f"    borders_min_level: {borders_min_level}",flush=True)
@@ -258,8 +249,12 @@ def updateTracking(current_img):
     spot_light_rectangle = getSpotLightRectangleInArea(current_img)
     print(f"    spot_light_rectangle: {spot_light_rectangle}",flush=True)
 
+    if spot_light_rectangle is None:
+        print(f"    NO SPOT DETECTED",flush=True)
+        return False
+
     global spot_light_rectangle_before_motors_move,before_motors_move_img
-    showDebugImage("before_move",before_motors_move_img)
+    showDebugImage("before_motors_move",before_motors_move_img,0,0,800,600)
     showDebugImage("current",current_img)
     drawArea()
     spot_light_rectangle_before_motors_move.draw(BEFORE_MOTORS_MOVE)
@@ -269,12 +264,6 @@ def updateTracking(current_img):
     if len(borders_to_move_away)==0:
         print("    TRACKING FINISHED",flush=True)
         return True
-
-    global tracking_steps_count
-    print(f"    tracking_steps_count: {tracking_steps_count}",flush=True)
-    if tracking_steps_count>MAX_TRACKING_STEPS_COUNT:
-        raise Exception(f"Problem : cannot reach opposite borders after {tracking_steps_count} tracking steps")
-    tracking_steps_count = tracking_steps_count + 1
 
     # Only for multi-panel : if the current moving panel has made an overrun -> use next panel
     # The (theoretical) problem with multi-panel is that a panel spot light
@@ -313,7 +302,7 @@ def updateTracking(current_img):
         current_panel_index = (current_panel_index+1) % PANELS_COUNT
         print(f"    current_panel_index: {current_panel_index}",flush=True)
 
-    # Start moving in best opposite direction
+    # Start moving in best direction
     motors_direction = getBestMotorsDirection(borders_to_move_away)
     moveOneStep(motors_direction)# TODO for multi-panel : address current_panel_index
 

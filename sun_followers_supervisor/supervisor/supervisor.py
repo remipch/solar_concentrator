@@ -36,7 +36,6 @@ def drawCurrentImage():
 
 # initialisation
 current_img = cameraCapture()
-before_sun_move_img = None
 drawCurrentImage()
 setState(State.WAITING_AREA_DEFINITION)
 
@@ -115,7 +114,6 @@ try:
         # Now, treat each state specifically
         elif state==State.WAITING_AREA_DEFINITION:
             if isAreaSet():
-                before_sun_move_img = current_img.copy()
                 setState(State.WAITING_SUN_MOVE)
             # Refresh camera view every 10s
             elif state_duration_s > 10.0 or key==SPACE_KEY:
@@ -126,11 +124,8 @@ try:
         elif state==State.WAITING_SUN_MOVE:
             # Start tracking every 60s
             if state_duration_s > 60.0 or key==SPACE_KEY:
-                if CAPTURE_ONLY_AREA_IN_TRACKING:
-                    current_img = cameraCaptureAndReplaceArea(getArea())
-                else:
-                    current_img = cameraCapture()
-                if not startTracking(before_sun_move_img, current_img):
+                current_img = cameraCapture()
+                if not startTracking(current_img):
                     setState(State.WAITING_SUN_MOVE)
                 elif pause_after_each_step:
                     setState(State.TRACKING_PAUSED)
@@ -152,7 +147,6 @@ try:
                     if updateTracking(current_img):
                         current_img = cameraCapture("target")
                         drawCurrentImage()
-                        before_sun_move_img = current_img.copy()
                         setState(State.WAITING_SUN_MOVE)
                     elif pause_after_each_step:
                         setState(State.TRACKING_PAUSED)
