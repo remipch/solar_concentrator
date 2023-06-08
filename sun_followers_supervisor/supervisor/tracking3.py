@@ -39,9 +39,7 @@ current_panel_index = 0
 
 tracking_steps_count = 0
 
-# contains eventually 2 corners defining the region of interrest in which computation
-# must be restricted (pixels outside of this ROI are ignored)
-# TODO use rectangle class
+# Contain the area where spot light is searched
 area_corners_px = []
 area = None
 
