@@ -146,7 +146,6 @@ try:
                         current_img = cameraCapture()
                     if updateTracking(current_img):
                         current_img = cameraCapture("target")
-                        drawCurrentImage()
                         setState(State.WAITING_SUN_MOVE)
                     elif pause_after_each_step:
                         setState(State.TRACKING_PAUSED)
