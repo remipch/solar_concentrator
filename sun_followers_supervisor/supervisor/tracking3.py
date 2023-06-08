@@ -64,6 +64,10 @@ ALL_BORDERS = [Border.LEFT,Border.TOP,Border.RIGHT,Border.BOTTOM]
 
 class Segment:
     def __init__(self, x0, y0, x1, y1):
+        assert x0 is not None
+        assert y0 is not None
+        assert x1 is not None
+        assert y1 is not None
         self.x0 = x0
         self.y0 = y0
         self.x1 = x1
@@ -81,6 +85,10 @@ class Segment:
 
 class Rectangle:
     def __init__(self, left_px, top_px, right_px, bottom_px):
+        assert left_px is not None
+        assert top_px is not None
+        assert right_px is not None
+        assert bottom_px is not None
         self.left_px = left_px
         self.top_px = top_px
         self.right_px = right_px
@@ -94,7 +102,7 @@ class Rectangle:
         return (self.left_px + self.right_px) / 2 , (self.top_px + self.bottom_px) / 2
 
     def __str__(self):
-        return f"(left:{self.left_px}, top:{self.top_px}, right:{self.right_px}, bottom_:{self.bottom_px})"
+        return f"(left:{self.left_px}, top:{self.top_px}, right:{self.right_px}, bottom:{self.bottom_px})"
 
 def setAreaCorner(corner_px):
     global area_corners_px,area_top_px,area_right_px,area_bottom_px,area_left_px
@@ -138,7 +146,7 @@ def getSpotLightRectangleInArea(img):
             spot_light_left_px = x
             break
     spot_light_right_px = None
-    for x in range(area_right_px+1,area_left_px,-1):
+    for x in range(area_right_px,area_left_px-1,-1):
         segment = getVerticalAreaSegment(x)
         if countLightedPixelsInSegment(img, segment)>=MIN_LIGHTED_PIXELS_COUNT:
             spot_light_right_px = x
@@ -150,7 +158,7 @@ def getSpotLightRectangleInArea(img):
             spot_light_top_px = y
             break
     spot_light_bottom_px = None
-    for y in range(area_bottom_px+1,area_top_px,-1):
+    for y in range(area_bottom_px,area_top_px-1,-1):
         segment = getHorizontalAreaSegment(y)
         if countLightedPixelsInSegment(img, segment)>=MIN_LIGHTED_PIXELS_COUNT:
             spot_light_bottom_px = y
