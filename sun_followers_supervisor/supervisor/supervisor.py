@@ -128,9 +128,9 @@ try:
             # Start tracking every 60s
             if state_duration_s > 60.0 or key==SPACE_KEY:
                 if CAPTURE_ONLY_AREA_IN_TRACKING:
-                    area_left_px, area_top_px, area_right_px, area_bottom_px = getArea()
-                    area_img = cameraCaptureArea(area_left_px, area_top_px, area_right_px, area_bottom_px)
-                    current_img[area_top_px:area_bottom_px+1, area_left_px:area_right_px+1] = area_img
+                    area = getArea()
+                    area_img = cameraCaptureArea(area)
+                    current_img[area.top_px:area.bottom_px+1, area.left_px:area.right_px+1] = area_img
                 else:
                     current_img = cameraCapture()
                 if not startTracking(before_sun_move_img, current_img):
@@ -149,9 +149,9 @@ try:
                     setState(State.TRACKING)
                 elif status==MotorsStatus.LOCKED:
                     if CAPTURE_ONLY_AREA_IN_TRACKING:
-                        area_left_px, area_top_px, area_right_px, area_bottom_px = getArea()
-                        area_img = cameraCaptureArea(area_left_px, area_top_px, area_right_px, area_bottom_px)
-                        current_img[area_top_px:area_bottom_px+1, area_left_px:area_right_px+1] = area_img
+                        area = getArea()
+                        area_img = cameraCaptureArea(area)
+                        current_img[area.top_px:area.bottom_px+1, area.left_px:area.right_px+1] = area_img
                     else:
                         current_img = cameraCapture()
                     if updateTracking(current_img):

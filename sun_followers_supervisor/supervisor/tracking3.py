@@ -43,10 +43,7 @@ tracking_steps_count = 0
 # must be restricted (pixels outside of this ROI are ignored)
 # TODO use rectangle class
 area_corners_px = []
-area_left_px = None
-area_top_px = None
-area_right_px = None
-area_bottom_px = None
+area = None
 
 sun_move_x = 0
 sun_move_y = 0
@@ -101,11 +98,17 @@ class Rectangle:
     def getCenter(self):
         return (self.left_px + self.right_px) / 2 , (self.top_px + self.bottom_px) / 2
 
+    def getAllSegments(self):
+        return [Segment(area.left_px,area.top_px,area.left_px,area.bottom_px),
+                Segment(area.left_px,area.top_px,area.right_px,area.top_px),
+                Segment(area.right_px,area.top_px,area.right_px,area.bottom_px),
+                Segment(area.left_px,area.bottom_px,area.right_px,area.bottom_px)]
+
     def __str__(self):
         return f"(left:{self.left_px}, top:{self.top_px}, right:{self.right_px}, bottom:{self.bottom_px})"
 
 def setAreaCorner(corner_px):
-    global area_corners_px,area_top_px,area_right_px,area_bottom_px,area_left_px
+    global area_corners_px,area
     print(f"NEW AREA CORNER: {corner_px}",flush=True)
     if len(area_corners_px)==0:
         area_corners_px = [corner_px]
@@ -114,69 +117,64 @@ def setAreaCorner(corner_px):
         if len(area_corners_px)>2:
             area_corners_px.pop(0)
 
-        area_left_px = min(area_corners_px[0][0],area_corners_px[1][0])
-        area_top_px = min(area_corners_px[0][1],area_corners_px[1][1])
-        area_right_px = max(area_corners_px[0][0],area_corners_px[1][0])
-        area_bottom_px = max(area_corners_px[0][1],area_corners_px[1][1])
-        print(f"area_left_px: {area_left_px}",flush=True)
-        print(f"area_top_px: {area_top_px}",flush=True)
-        print(f"area_right_px: {area_right_px}",flush=True)
-        print(f"area_bottom_px: {area_bottom_px}",flush=True)
+        area = Rectangle(
+            min(area_corners_px[0][0],area_corners_px[1][0]),
+            min(area_corners_px[0][1],area_corners_px[1][1]),
+            max(area_corners_px[0][0],area_corners_px[1][0]),
+            max(area_corners_px[0][1],area_corners_px[1][1]))
+        print(f"area: {area}",flush=True)
 
 def isAreaSet():
-    return (len(area_corners_px)==2)
+    return (area is not None)
 
 def resetArea():
-    global area_corners_px,area_left_px,area_top_px,area_right_px,area_bottom_px
+    global area_corners_px,area
     print(f"reset area",flush=True)
     area_corners_px = []
-    area_left_px = None
-    area_top_px = None
-    area_right_px = None
-    area_bottom_px = None
+    area = None
 
 def getArea():
-    return area_left_px, area_top_px, area_right_px, area_bottom_px
+    return area
 
 def getSpotLightRectangleInArea(img):
     spot_light_left_px = None
-    for x in range(area_left_px, area_right_px+1):
+    for x in range(area.left_px, area.right_px+1):
         segment = getVerticalAreaSegment(x)
         if countLightedPixelsInSegment(img, segment)>=MIN_LIGHTED_PIXELS_COUNT:
             spot_light_left_px = x
             break
+    if spot_light_left_px is None:
+        return None
     spot_light_right_px = None
-    for x in range(area_right_px,area_left_px-1,-1):
+    for x in range(area.right_px,area.left_px-1,-1):
         segment = getVerticalAreaSegment(x)
         if countLightedPixelsInSegment(img, segment)>=MIN_LIGHTED_PIXELS_COUNT:
             spot_light_right_px = x
             break
     spot_light_top_px = None
-    for y in range(area_top_px,area_bottom_px+1):
+    for y in range(area.top_px,area.bottom_px+1):
         segment = getHorizontalAreaSegment(y)
         if countLightedPixelsInSegment(img, segment)>=MIN_LIGHTED_PIXELS_COUNT:
             spot_light_top_px = y
             break
     spot_light_bottom_px = None
-    for y in range(area_bottom_px,area_top_px-1,-1):
+    if spot_light_top_px is None:
+        return None
+    for y in range(area.bottom_px,area.top_px-1,-1):
         segment = getHorizontalAreaSegment(y)
         if countLightedPixelsInSegment(img, segment)>=MIN_LIGHTED_PIXELS_COUNT:
             spot_light_bottom_px = y
             break
 
-    if spot_light_right_px is None or spot_light_bottom_px is None:
-        return None
-
     return Rectangle(spot_light_left_px,spot_light_top_px,spot_light_right_px,spot_light_bottom_px)
 
 def drawArea():
     if isAreaSet():
-        drawRectangle(area_left_px,area_top_px,area_right_px,area_bottom_px,AREA_COLOR)
+        area.draw(AREA_COLOR)
 
 def getBordersMinLevel(img):
     borders_min_level = 255
-    for border in ALL_BORDERS:
-        segment = getBorderSegment(border)
+    for segment in area.getAllSegments():
         segment_img = segment.getSubImage(img)
         borders_min_level = min(borders_min_level, segment_img.min())
     return borders_min_level
@@ -188,21 +186,11 @@ def countLightedPixelsInSegment(img,segment):
     min_level = borders_min_level + LIGHTED_PIXEL_MIN_OFFSET
     return np.count_nonzero(segment_img >= min_level)
 
-def getBorderSegment(border):
-    if border==Border.LEFT:
-        return Segment(area_left_px,area_top_px,area_left_px,area_bottom_px)
-    elif border==Border.TOP:
-        return Segment(area_left_px,area_top_px,area_right_px,area_top_px)
-    elif border==Border.RIGHT:
-        return Segment(area_right_px,area_top_px,area_right_px,area_bottom_px)
-    elif border==Border.BOTTOM:
-        return Segment(area_left_px,area_bottom_px,area_right_px,area_bottom_px)
-
 def getVerticalAreaSegment(x):
-    return Segment(int(x),area_top_px,int(x),area_bottom_px)
+    return Segment(int(x),area.top_px,int(x),area.bottom_px)
 
 def getHorizontalAreaSegment(y):
-    return Segment(area_left_px,int(y),area_right_px,int(y))
+    return Segment(area.left_px,int(y),area.right_px,int(y))
 
 # start tracking if sun borders are lighted
 # return True if tracking has started
@@ -334,17 +322,16 @@ def updateTracking(current_img):
 
 # Depending on sun_move global value, find borders to move away
 def getBordersToMoveAway(spot_light_rectangle):
-    distance_from_left_border = abs(spot_light_rectangle.left_px - area_left_px)
-    distance_from_top_border = abs(spot_light_rectangle.top_px - area_top_px)
-    distance_from_right_border = abs(spot_light_rectangle.right_px - area_right_px)
-    distance_from_bottom_border = abs(spot_light_rectangle.bottom_px - area_bottom_px)
+    distance_from_left_border = abs(spot_light_rectangle.left_px - area.left_px)
+    distance_from_top_border = abs(spot_light_rectangle.top_px - area.top_px)
+    distance_from_right_border = abs(spot_light_rectangle.right_px - area.right_px)
+    distance_from_bottom_border = abs(spot_light_rectangle.bottom_px - area.bottom_px)
     print(f"    distance from borders: {distance_from_left_border}, {distance_from_top_border}, {distance_from_right_border}, {distance_from_bottom_border}",flush=True)
 
     spot_center_x,spot_center_y = spot_light_rectangle.getCenter()
     print(f"    spot_center: {spot_center_x}, {spot_center_y}",flush=True)
 
-    area_center_x = (area_left_px+area_right_px)/2 # TODO use Rectangle.getCenter()
-    area_center_y = (area_top_px+area_bottom_px)/2 # TODO use Rectangle.getCenter()
+    area_center_x, area_center_y = area.getCenter()
 
     spot_center_error_x = spot_center_x - area_center_x
     spot_center_error_y = spot_center_y - area_center_y
@@ -355,7 +342,7 @@ def getBordersToMoveAway(spot_light_rectangle):
     if sun_move_x<0:
         if distance_from_left_border < MIN_DISTANCE_FROM_BORDER_PX:
             borders_to_move_away.append(Border.LEFT)
-            getBorderSegment(Border.LEFT).draw(TRACKING_ERROR)
+            drawLine(area.left_px,area.top_px,area.left_px,area.bottom_px,TRACKING_ERROR)
         if -spot_center_error_x > MAX_DISTANCE_FROM_CENTER_AXIS_PX:
             borders_to_move_away.append(Border.LEFT)
             drawLine(spot_center_x,spot_center_y,area_center_x,spot_center_y,TRACKING_ERROR)
@@ -363,7 +350,7 @@ def getBordersToMoveAway(spot_light_rectangle):
     if sun_move_x>0:
         if distance_from_right_border < MIN_DISTANCE_FROM_BORDER_PX:
             borders_to_move_away.append(Border.RIGHT)
-            getBorderSegment(Border.RIGHT).draw(TRACKING_ERROR)
+            drawLine(area.right_px,area.top_px,area.right_px,area.bottom_px,TRACKING_ERROR)
         if spot_center_error_x > MAX_DISTANCE_FROM_CENTER_AXIS_PX:
             borders_to_move_away.append(Border.RIGHT)
             drawLine(spot_center_x,spot_center_y,area_center_x,spot_center_y,TRACKING_ERROR)
@@ -371,7 +358,7 @@ def getBordersToMoveAway(spot_light_rectangle):
     if sun_move_y<0:
         if distance_from_top_border < MIN_DISTANCE_FROM_BORDER_PX:
             borders_to_move_away.append(Border.TOP)
-            getBorderSegment(Border.TOP).draw(TRACKING_ERROR)
+            drawLine(area.left_px,area.top_px,area.right_px,area.top_px,TRACKING_ERROR)
         if -spot_center_error_y > MAX_DISTANCE_FROM_CENTER_AXIS_PX:
             borders_to_move_away.append(Border.TOP)
             drawLine(spot_center_x,spot_center_y,spot_center_x,area_center_y,TRACKING_ERROR)
@@ -379,7 +366,7 @@ def getBordersToMoveAway(spot_light_rectangle):
     if sun_move_y>0:
         if distance_from_bottom_border < MIN_DISTANCE_FROM_BORDER_PX:
             borders_to_move_away.append(Border.BOTTOM)
-            getBorderSegment(Border.BOTTOM).draw(TRACKING_ERROR)
+            drawLine(area.left_px,area.bottom_px,area.right_px,area.bottom_px,TRACKING_ERROR)
         if spot_center_error_y > MAX_DISTANCE_FROM_CENTER_AXIS_PX:
             borders_to_move_away.append(Border.BOTTOM)
             drawLine(spot_center_x,spot_center_y,spot_center_x,area_center_y,TRACKING_ERROR)
