@@ -128,9 +128,7 @@ try:
             # Start tracking every 60s
             if state_duration_s > 60.0 or key==SPACE_KEY:
                 if CAPTURE_ONLY_AREA_IN_TRACKING:
-                    area = getArea()
-                    area_img = cameraCaptureArea(area)
-                    current_img[area.top_px:area.bottom_px+1, area.left_px:area.right_px+1] = area_img
+                    current_img = cameraCaptureAndReplaceArea(getArea())
                 else:
                     current_img = cameraCapture()
                 if not startTracking(before_sun_move_img, current_img):
@@ -149,18 +147,13 @@ try:
                     setState(State.TRACKING)
                 elif status==MotorsStatus.LOCKED:
                     if CAPTURE_ONLY_AREA_IN_TRACKING:
-                        area = getArea()
-                        area_img = cameraCaptureArea(area)
-                        current_img[area.top_px:area.bottom_px+1, area.left_px:area.right_px+1] = area_img
+                        current_img = cameraCaptureAndReplaceArea(getArea())
                     else:
                         current_img = cameraCapture()
                     if updateTracking(current_img):
-                        # TODO replace by captureColor() in any case
-                        if CAPTURE_ONLY_AREA_IN_TRACKING:
-                            current_img = cameraCapture()
-                            drawCurrentImage()
+                        current_img = cameraCapture("target")
+                        drawCurrentImage()
                         before_sun_move_img = current_img.copy()
-                        saveLastColorCapture("target")
                         setState(State.WAITING_SUN_MOVE)
                     elif pause_after_each_step:
                         setState(State.TRACKING_PAUSED)
