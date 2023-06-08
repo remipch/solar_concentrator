@@ -12,8 +12,8 @@ import time
 
 pause_after_each_step = True
 
-CAPTURE_ONLY_AREA_IN_TRACKING = False
-#CAPTURE_ONLY_AREA_IN_TRACKING = True
+#CAPTURE_ONLY_AREA_IN_TRACKING = False
+CAPTURE_ONLY_AREA_IN_TRACKING = True
 
 # user actions
 ESCAPE_KEY = 27     # quit progam
@@ -117,7 +117,7 @@ try:
             # Refresh camera view every 10s
             if state_duration_s > 10.0 or key==SPACE_KEY:
                 if isAreaSet():
-                    before_sun_move_img = current_img
+                    before_sun_move_img = current_img.copy()
                     setState(State.WAITING_SUN_MOVE)
                 else:
                     current_img = cameraCapture()
@@ -159,6 +159,7 @@ try:
                         if CAPTURE_ONLY_AREA_IN_TRACKING:
                             current_img = cameraCapture()
                             drawCurrentImage()
+                        before_sun_move_img = current_img.copy()
                         saveLastColorCapture("target")
                         setState(State.WAITING_SUN_MOVE)
                     elif pause_after_each_step:

@@ -22,7 +22,7 @@ AFTER_MOTORS_MOVE = CYAN
 
 LIGHTED_PIXEL_MIN_OFFSET = 70
 
-MAX_TRACKING_STEPS_COUNT = 10
+MAX_TRACKING_STEPS_COUNT = 20
 
 MIN_LIGHTED_PIXELS_COUNT = 10
 
@@ -236,6 +236,7 @@ def startTracking(before_sun_move_img, current_img):
 
     borders_to_move_away = getBordersToMoveAway(spot_light_rectangle)
     if len(borders_to_move_away)==0:
+        print(f"    NO BORDERS TO MOVE AWAY",flush=True)
         return False
 
     # Reset steps count
@@ -271,7 +272,7 @@ def updateTracking(current_img):
 
     borders_to_move_away = getBordersToMoveAway(spot_light_rectangle)
     if len(borders_to_move_away)==0:
-        print("TRACKING FINISHED",flush=True)
+        print("    TRACKING FINISHED",flush=True)
         return True
 
     global tracking_steps_count
