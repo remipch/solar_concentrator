@@ -43,8 +43,6 @@ tracking_steps_count = 0
 area_corners_px = []
 area = None
 
-sun_move_x = 0
-sun_move_y = 0
 motors_direction = None
 spot_light_rectangle_before_motors_move = None
 before_motors_move_img = None
@@ -219,7 +217,6 @@ def startTracking(before_sun_move_img, current_img):
     spot_center_x,spot_center_y = spot_light_rectangle.getCenter()
     print(f"    spot_center: {spot_center_x}, {spot_center_y}",flush=True)
 
-    global sun_move_x,sun_move_y
     sun_move_x = spot_center_x - spot_center_x_before_sun_move
     sun_move_y = spot_center_y - spot_center_y_before_sun_move
     print(f"    sun_move: {sun_move_x}, {sun_move_y}",flush=True)
@@ -244,7 +241,7 @@ def startTracking(before_sun_move_img, current_img):
 
     global spot_light_rectangle_before_motors_move,before_motors_move_img
     spot_light_rectangle_before_motors_move = spot_light_rectangle
-    before_motors_move_img = current_img
+    before_motors_move_img = current_img.copy()
 
     return True
 
@@ -341,39 +338,40 @@ def getBordersToMoveAway(spot_light_rectangle):
 
     borders_to_move_away = []
 
-    if sun_move_x<0:
-        if distance_from_left_border < MIN_DISTANCE_FROM_BORDER_PX:
-            borders_to_move_away.append(Border.LEFT)
-            drawLine(area.left_px,area.top_px,area.left_px,area.bottom_px,TRACKING_ERROR)
-        if -spot_center_error_x > MAX_DISTANCE_FROM_CENTER_AXIS_PX:
-            borders_to_move_away.append(Border.LEFT)
-            drawLine(spot_center_x,spot_center_y,area_center_x,spot_center_y,TRACKING_ERROR)
+    if distance_from_left_border < MIN_DISTANCE_FROM_BORDER_PX:
+        borders_to_move_away.append(Border.LEFT)
+        drawLine(area.left_px,area.top_px,area.left_px,area.bottom_px,TRACKING_ERROR)
+    if -spot_center_error_x > MAX_DISTANCE_FROM_CENTER_AXIS_PX:
+        borders_to_move_away.append(Border.LEFT)
+        drawLine(spot_center_x,spot_center_y,area_center_x,spot_center_y,TRACKING_ERROR)
 
-    if sun_move_x>0:
-        if distance_from_right_border < MIN_DISTANCE_FROM_BORDER_PX:
-            borders_to_move_away.append(Border.RIGHT)
-            drawLine(area.right_px,area.top_px,area.right_px,area.bottom_px,TRACKING_ERROR)
-        if spot_center_error_x > MAX_DISTANCE_FROM_CENTER_AXIS_PX:
-            borders_to_move_away.append(Border.RIGHT)
-            drawLine(spot_center_x,spot_center_y,area_center_x,spot_center_y,TRACKING_ERROR)
+    if distance_from_right_border < MIN_DISTANCE_FROM_BORDER_PX:
+        borders_to_move_away.append(Border.RIGHT)
+        drawLine(area.right_px,area.top_px,area.right_px,area.bottom_px,TRACKING_ERROR)
+    if spot_center_error_x > MAX_DISTANCE_FROM_CENTER_AXIS_PX:
+        borders_to_move_away.append(Border.RIGHT)
+        drawLine(spot_center_x,spot_center_y,area_center_x,spot_center_y,TRACKING_ERROR)
 
-    if sun_move_y<0:
-        if distance_from_top_border < MIN_DISTANCE_FROM_BORDER_PX:
-            borders_to_move_away.append(Border.TOP)
-            drawLine(area.left_px,area.top_px,area.right_px,area.top_px,TRACKING_ERROR)
-        if -spot_center_error_y > MAX_DISTANCE_FROM_CENTER_AXIS_PX:
-            borders_to_move_away.append(Border.TOP)
-            drawLine(spot_center_x,spot_center_y,spot_center_x,area_center_y,TRACKING_ERROR)
+    if distance_from_top_border < MIN_DISTANCE_FROM_BORDER_PX:
+        borders_to_move_away.append(Border.TOP)
+        drawLine(area.left_px,area.top_px,area.right_px,area.top_px,TRACKING_ERROR)
+    if -spot_center_error_y > MAX_DISTANCE_FROM_CENTER_AXIS_PX:
+        borders_to_move_away.append(Border.TOP)
+        drawLine(spot_center_x,spot_center_y,spot_center_x,area_center_y,TRACKING_ERROR)
 
-    if sun_move_y>0:
-        if distance_from_bottom_border < MIN_DISTANCE_FROM_BORDER_PX:
-            borders_to_move_away.append(Border.BOTTOM)
-            drawLine(area.left_px,area.bottom_px,area.right_px,area.bottom_px,TRACKING_ERROR)
-        if spot_center_error_y > MAX_DISTANCE_FROM_CENTER_AXIS_PX:
-            borders_to_move_away.append(Border.BOTTOM)
-            drawLine(spot_center_x,spot_center_y,spot_center_x,area_center_y,TRACKING_ERROR)
+    if distance_from_bottom_border < MIN_DISTANCE_FROM_BORDER_PX:
+        borders_to_move_away.append(Border.BOTTOM)
+        drawLine(area.left_px,area.bottom_px,area.right_px,area.bottom_px,TRACKING_ERROR)
+    if spot_center_error_y > MAX_DISTANCE_FROM_CENTER_AXIS_PX:
+        borders_to_move_away.append(Border.BOTTOM)
+        drawLine(spot_center_x,spot_center_y,spot_center_x,area_center_y,TRACKING_ERROR)
 
     print(f"    borders_to_move_away: {borders_to_move_away}",flush=True)
+
+    if Border.LEFT in borders_to_move_away and Border.RIGHT in borders_to_move_away:
+        print(f"    INCONSISTENT BORDERS -> ignore",flush=True)
+        return []
+
     return borders_to_move_away
 
 def getBestMotorsDirection(borders_to_move_away):
