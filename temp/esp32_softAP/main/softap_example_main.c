@@ -18,6 +18,8 @@
 #include "lwip/err.h"
 #include "lwip/sys.h"
 
+#include <tcpip_adapter.h>
+
 /* The examples use WiFi configuration that you can set via project configuration menu.
 
    If you'd rather not, just change the below entries to strings with
@@ -93,4 +95,15 @@ void app_main(void)
 
     ESP_LOGI(TAG, "ESP_WIFI_MODE_AP");
     wifi_init_softap();
+
+    // Set static IPv4 network address
+    tcpip_adapter_dhcps_stop(TCPIP_ADAPTER_IF_AP);
+
+    tcpip_adapter_ip_info_t ip_info;
+    IP4_ADDR(&ip_info.ip, 192, 168, 10, 1);
+    IP4_ADDR(&ip_info.gw, 192, 168, 10, 1);
+    IP4_ADDR(&ip_info.netmask,255,255,255,0);
+    printf("set ip ret: %d\n", tcpip_adapter_set_ip_info(TCPIP_ADAPTER_IF_AP, &ip_info)); //set static IP
+
+    tcpip_adapter_dhcps_start(TCPIP_ADAPTER_IF_AP);
 }
