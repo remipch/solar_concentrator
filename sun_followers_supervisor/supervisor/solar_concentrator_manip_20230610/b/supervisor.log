@@ -1,0 +1,3666 @@
+simu: 'RECORD'
+    httpRequest: http://192.168.209.101/capture (try 1)
+cameraCapture: write 'capture/camera_capture-20230610-111952.png' to disk
+
+setState: WAITING_AREA_DEFINITION (at 378381.565911275 s)
+    httpRequest: http://192.168.209.101/capture (try 1)
+cameraCapture: write 'capture/camera_capture-20230610-112011.png' to disk
+
+setState: WAITING_AREA_DEFINITION (at 378400.374089886 s)
+key pressed: 225
+NEW AREA CORNER: [122, 271]
+
+setState: WAITING_AREA_DEFINITION (at 378405.51579362 s)
+NEW AREA CORNER: [176, 326]
+area: (left:122, top:271, right:176, bottom:326)
+
+setState: WAITING_AREA_DEFINITION (at 378407.10527137 s)
+
+setState: WAITING_SUN_MOVE (at 378407.155568277 s)
+key pressed: 32
+    httpRequest: http://192.168.209.101/capture (try 1)
+cameraCapture: write 'capture/camera_capture-20230610-112029.png' to disk
+startTracking
+    borders_min_level: 25
+    spot_light_rectangle: (left:122, top:277, right:154, bottom:310)
+    spot_center: 138.0, 293.5
+    distance from borders: 0, 6, 22, 16
+    spot_center: 138.0, 293.5
+    spot_center_error: -11.0, -5.0
+    borders_to_move_away: [<Border.LEFT: 'LEFT'>, <Border.LEFT: 'LEFT'>]
+moveOneStep: right
+    httpRequest: http://192.168.209.101/motors_command?cmd=right&continuous=0 (try 1)
+
+setState: TRACKING_PAUSED (at 378419.357662691 s)
+key pressed: 235
+key pressed: 112
+pause_after_each_step: False
+key pressed: 32
+
+setState: TRACKING (at 378423.42549356 s)
+    httpRequest: http://192.168.209.101/motors_status (try 1)
+getMotorsStatus: LOCKED
+    httpRequest: http://192.168.209.101/capture_area?left_px=122&top_px=271&right_px=176&bottom_px=326 (try 1)
+cameraCaptureAndReplaceArea: write 'capture/camera_capture-20230610-112036.png' to disk
+updateTracking
+    tracking_steps_count: 1
+    borders_min_level: 26
+    spot_light_rectangle: (left:126, top:279, right:161, bottom:312)
+    distance from borders: 4, 8, 15, 14
+    spot_center: 143.5, 295.5
+    spot_center_error: -5.5, -3.0
+    borders_to_move_away: [<Border.LEFT: 'LEFT'>, <Border.LEFT: 'LEFT'>]
+moveOneStep: right
+    httpRequest: http://192.168.209.101/motors_command?cmd=right&continuous=0 (try 1)
+
+setState: TRACKING (at 378428.265152933 s)
+    httpRequest: http://192.168.209.101/motors_status (try 1)
+getMotorsStatus: LOCKED
+    httpRequest: http://192.168.209.101/capture_area?left_px=122&top_px=271&right_px=176&bottom_px=326 (try 1)
+cameraCaptureAndReplaceArea: write 'capture/camera_capture-20230610-112041.png' to disk
+updateTracking
+    tracking_steps_count: 2
+    borders_min_level: 25
+    spot_light_rectangle: (left:133, top:281, right:169, bottom:314)
+    distance from borders: 11, 10, 7, 12
+    spot_center: 151.0, 297.5
+    spot_center_error: 2.0, -1.0
+    borders_to_move_away: []
+    TRACKING FINISHED
+    httpRequest: http://192.168.209.101/capture (try 1)
+cameraCapture: write 'capture/camera_capture-20230610-112050.png' to disk
+cameraCapture: write 'capture/target-20230610-112050.png' to disk
+
+setState: WAITING_SUN_MOVE (at 378439.304972512 s)
+    httpRequest: http://192.168.209.101/capture (try 1)
+cameraCapture: write 'capture/camera_capture-20230610-112158.png' to disk
+startTracking
+    borders_min_level: 25
+    spot_light_rectangle: (left:131, top:282, right:166, bottom:316)
+    spot_center: 148.5, 299.0
+    distance from borders: 9, 11, 10, 10
+    spot_center: 148.5, 299.0
+    spot_center_error: -0.5, 0.5
+    borders_to_move_away: []
+    NO BORDERS TO MOVE AWAY
+
+setState: WAITING_SUN_MOVE (at 378506.657757955 s)
+    httpRequest: http://192.168.209.101/capture (try 1)
+cameraCapture: write 'capture/camera_capture-20230610-112305.png' to disk
+startTracking
+    borders_min_level: 24
+    spot_light_rectangle: (left:128, top:282, right:164, bottom:316)
+    spot_center: 146.0, 299.0
+    distance from borders: 6, 11, 12, 10
+    spot_center: 146.0, 299.0
+    spot_center_error: -3.0, 0.5
+    borders_to_move_away: []
+    NO BORDERS TO MOVE AWAY
+
+setState: WAITING_SUN_MOVE (at 378574.048965024 s)
+    httpRequest: http://192.168.209.101/capture (try 1)
+cameraCapture: write 'capture/camera_capture-20230610-112413.png' to disk
+startTracking
+    borders_min_level: 24
+    spot_light_rectangle: (left:126, top:283, right:161, bottom:317)
+    spot_center: 143.5, 300.0
+    distance from borders: 4, 12, 15, 9
+    spot_center: 143.5, 300.0
+    spot_center_error: -5.5, 1.5
+    borders_to_move_away: [<Border.LEFT: 'LEFT'>, <Border.LEFT: 'LEFT'>]
+moveOneStep: right
+    httpRequest: http://192.168.209.101/motors_command?cmd=right&continuous=0 (try 1)
+
+setState: TRACKING (at 378642.661247997 s)
+    httpRequest: http://192.168.209.101/motors_status (try 1)
+getMotorsStatus: LOCKED
+    httpRequest: http://192.168.209.101/capture_area?left_px=122&top_px=271&right_px=176&bottom_px=326 (try 1)
+cameraCaptureAndReplaceArea: write 'capture/camera_capture-20230610-112415.png' to disk
+updateTracking
+    tracking_steps_count: 1
+    borders_min_level: 23
+    spot_light_rectangle: (left:133, top:285, right:168, bottom:318)
+    distance from borders: 11, 14, 8, 8
+    spot_center: 150.5, 301.5
+    spot_center_error: 1.5, 3.0
+    borders_to_move_away: []
+    TRACKING FINISHED
+    httpRequest: http://192.168.209.101/capture (try 1)
+cameraCapture: write 'capture/camera_capture-20230610-112424.png' to disk
+cameraCapture: write 'capture/target-20230610-112424.png' to disk
+
+setState: WAITING_SUN_MOVE (at 378653.412182607 s)
+    httpRequest: http://192.168.209.101/capture (try 1)
+cameraCapture: write 'capture/camera_capture-20230610-112533.png' to disk
+startTracking
+    borders_min_level: 23
+    spot_light_rectangle: (left:131, top:286, right:167, bottom:319)
+    spot_center: 149.0, 302.5
+    distance from borders: 9, 15, 9, 7
+    spot_center: 149.0, 302.5
+    spot_center_error: 0.0, 4.0
+    borders_to_move_away: []
+    NO BORDERS TO MOVE AWAY
+
+setState: WAITING_SUN_MOVE (at 378722.178535871 s)
+    httpRequest: http://192.168.209.101/capture (try 1)
+cameraCapture: write 'capture/camera_capture-20230610-112644.png' to disk
+startTracking
+    borders_min_level: 24
+    spot_light_rectangle: (left:129, top:287, right:165, bottom:320)
+    spot_center: 147.0, 303.5
+    distance from borders: 7, 16, 11, 6
+    spot_center: 147.0, 303.5
+    spot_center_error: -2.0, 5.0
+    borders_to_move_away: []
+    NO BORDERS TO MOVE AWAY
+
+setState: WAITING_SUN_MOVE (at 378793.235462099 s)
+    httpRequest: http://192.168.209.101/capture (try 1)
+    Http request exception:
+<class 'requests.exceptions.ConnectionError'>
+(ReadTimeoutError("HTTPConnectionPool(host='192.168.209.101', port=80): Read timed out."),)
+    httpRequest: http://192.168.209.101/capture (try 2)
+cameraCapture: write 'capture/camera_capture-20230610-112805.png' to disk
+startTracking
+    borders_min_level: 250
+    spot_light_rectangle: None
+    NO SPOT DETECTED
+
+setState: WAITING_SUN_MOVE (at 378874.070438867 s)
+    httpRequest: http://192.168.209.101/capture (try 1)
+cameraCapture: write 'capture/camera_capture-20230610-112913.png' to disk
+startTracking
+    borders_min_level: 43
+    spot_light_rectangle: (left:123, top:289, right:159, bottom:323)
+    spot_center: 141.0, 306.0
+    distance from borders: 1, 18, 17, 3
+    spot_center: 141.0, 306.0
+    spot_center_error: -8.0, 7.5
+    borders_to_move_away: [<Border.LEFT: 'LEFT'>, <Border.LEFT: 'LEFT'>, <Border.BOTTOM: 'BOTTOM'>, <Border.BOTTOM: 'BOTTOM'>]
+moveOneStep: up-right
+    httpRequest: http://192.168.209.101/motors_command?cmd=up-right&continuous=0 (try 1)
+
+setState: TRACKING (at 378942.851926633 s)
+    httpRequest: http://192.168.209.101/motors_status (try 1)
+getMotorsStatus: LOCKED
+    httpRequest: http://192.168.209.101/capture_area?left_px=122&top_px=271&right_px=176&bottom_px=326 (try 1)
+cameraCaptureAndReplaceArea: write 'capture/camera_capture-20230610-112916.png' to disk
+updateTracking
+    tracking_steps_count: 1
+    borders_min_level: 43
+    spot_light_rectangle: (left:127, top:288, right:162, bottom:322)
+    distance from borders: 5, 17, 14, 4
+    spot_center: 144.5, 305.0
+    spot_center_error: -4.5, 6.5
+    borders_to_move_away: [<Border.BOTTOM: 'BOTTOM'>, <Border.BOTTOM: 'BOTTOM'>]
+moveOneStep: up
+    httpRequest: http://192.168.209.101/motors_command?cmd=up&continuous=0 (try 1)
+
+setState: TRACKING (at 378946.947683238 s)
+    httpRequest: http://192.168.209.101/motors_status (try 1)
+getMotorsStatus: LOCKED
+    httpRequest: http://192.168.209.101/capture_area?left_px=122&top_px=271&right_px=176&bottom_px=326 (try 1)
+cameraCaptureAndReplaceArea: write 'capture/camera_capture-20230610-112920.png' to disk
+updateTracking
+    tracking_steps_count: 2
+    borders_min_level: 44
+    spot_light_rectangle: (left:124, top:282, right:160, bottom:316)
+    distance from borders: 2, 11, 16, 10
+    spot_center: 142.0, 299.0
+    spot_center_error: -7.0, 0.5
+    borders_to_move_away: [<Border.LEFT: 'LEFT'>, <Border.LEFT: 'LEFT'>]
+moveOneStep: right
+    httpRequest: http://192.168.209.101/motors_command?cmd=right&continuous=0 (try 1)
+
+setState: TRACKING (at 378950.841345413 s)
+    httpRequest: http://192.168.209.101/motors_status (try 1)
+getMotorsStatus: LOCKED
+    httpRequest: http://192.168.209.101/capture_area?left_px=122&top_px=271&right_px=176&bottom_px=326 (try 1)
+cameraCaptureAndReplaceArea: write 'capture/camera_capture-20230610-112923.png' to disk
+updateTracking
+    tracking_steps_count: 3
+    borders_min_level: 44
+    spot_light_rectangle: (left:133, top:284, right:168, bottom:318)
+    distance from borders: 11, 13, 8, 8
+    spot_center: 150.5, 301.0
+    spot_center_error: 1.5, 2.5
+    borders_to_move_away: []
+    TRACKING FINISHED
+    httpRequest: http://192.168.209.101/capture (try 1)
+cameraCapture: write 'capture/camera_capture-20230610-112933.png' to disk
+cameraCapture: write 'capture/target-20230610-112933.png' to disk
+
+setState: WAITING_SUN_MOVE (at 378961.80203081 s)
+    httpRequest: http://192.168.209.101/capture (try 1)
+    Http request exception:
+<class 'requests.exceptions.ConnectionError'>
+(ReadTimeoutError("HTTPConnectionPool(host='192.168.209.101', port=80): Read timed out."),)
+    httpRequest: http://192.168.209.101/capture (try 2)
+cameraCapture: write 'capture/camera_capture-20230610-113054.png' to disk
+startTracking
+    borders_min_level: 250
+    spot_light_rectangle: None
+    NO SPOT DETECTED
+
+setState: WAITING_SUN_MOVE (at 379042.886857081 s)
+    httpRequest: http://192.168.209.101/capture (try 1)
+    Http request exception:
+<class 'requests.exceptions.ConnectionError'>
+(ReadTimeoutError("HTTPConnectionPool(host='192.168.209.101', port=80): Read timed out."),)
+    httpRequest: http://192.168.209.101/capture (try 2)
+cameraCapture: write 'capture/camera_capture-20230610-113212.png' to disk
+startTracking
+    borders_min_level: 250
+    spot_light_rectangle: None
+    NO SPOT DETECTED
+
+setState: WAITING_SUN_MOVE (at 379120.821138336 s)
+    httpRequest: http://192.168.209.101/capture (try 1)
+cameraCapture: write 'capture/camera_capture-20230610-113320.png' to disk
+startTracking
+    borders_min_level: 42
+    spot_light_rectangle: (left:125, top:287, right:161, bottom:321)
+    spot_center: 143.0, 304.0
+    distance from borders: 3, 16, 15, 5
+    spot_center: 143.0, 304.0
+    spot_center_error: -6.0, 5.5
+    borders_to_move_away: [<Border.LEFT: 'LEFT'>, <Border.LEFT: 'LEFT'>, <Border.BOTTOM: 'BOTTOM'>]
+moveOneStep: up-right
+    httpRequest: http://192.168.209.101/motors_command?cmd=up-right&continuous=0 (try 1)
+
+setState: TRACKING (at 379190.46903575 s)
+    httpRequest: http://192.168.209.101/motors_status (try 1)
+getMotorsStatus: LOCKED
+    httpRequest: http://192.168.209.101/capture_area?left_px=122&top_px=271&right_px=176&bottom_px=326 (try 1)
+cameraCaptureAndReplaceArea: write 'capture/camera_capture-20230610-113323.png' to disk
+updateTracking
+    tracking_steps_count: 1
+    borders_min_level: 43
+    spot_light_rectangle: (left:129, top:286, right:165, bottom:320)
+    distance from borders: 7, 15, 11, 6
+    spot_center: 147.0, 303.0
+    spot_center_error: -2.0, 4.5
+    borders_to_move_away: []
+    TRACKING FINISHED
+    httpRequest: http://192.168.209.101/capture (try 1)
+cameraCapture: write 'capture/camera_capture-20230610-113332.png' to disk
+cameraCapture: write 'capture/target-20230610-113332.png' to disk
+
+setState: WAITING_SUN_MOVE (at 379201.264362176 s)
+    httpRequest: http://192.168.209.101/capture (try 1)
+cameraCapture: write 'capture/camera_capture-20230610-113441.png' to disk
+startTracking
+    borders_min_level: 49
+    spot_light_rectangle: (left:127, top:287, right:163, bottom:321)
+    spot_center: 145.0, 304.0
+    distance from borders: 5, 16, 13, 5
+    spot_center: 145.0, 304.0
+    spot_center_error: -4.0, 5.5
+    borders_to_move_away: [<Border.BOTTOM: 'BOTTOM'>]
+moveOneStep: up
+    httpRequest: http://192.168.209.101/motors_command?cmd=up&continuous=0 (try 1)
+
+setState: TRACKING (at 379270.949154711 s)
+    httpRequest: http://192.168.209.101/motors_status (try 1)
+getMotorsStatus: LOCKED
+    httpRequest: http://192.168.209.101/capture_area?left_px=122&top_px=271&right_px=176&bottom_px=326 (try 1)
+cameraCaptureAndReplaceArea: write 'capture/camera_capture-20230610-113443.png' to disk
+updateTracking
+    tracking_steps_count: 1
+    borders_min_level: 51
+    spot_light_rectangle: (left:125, top:280, right:160, bottom:315)
+    distance from borders: 3, 9, 16, 11
+    spot_center: 142.5, 297.5
+    spot_center_error: -6.5, -1.0
+    borders_to_move_away: [<Border.LEFT: 'LEFT'>, <Border.LEFT: 'LEFT'>]
+moveOneStep: right
+    httpRequest: http://192.168.209.101/motors_command?cmd=right&continuous=0 (try 1)
+
+setState: TRACKING (at 379274.346709708 s)
+    httpRequest: http://192.168.209.101/motors_status (try 1)
+getMotorsStatus: LOCKED
+    httpRequest: http://192.168.209.101/capture_area?left_px=122&top_px=271&right_px=176&bottom_px=326 (try 1)
+cameraCaptureAndReplaceArea: write 'capture/camera_capture-20230610-113447.png' to disk
+updateTracking
+    tracking_steps_count: 2
+    borders_min_level: 48
+    spot_light_rectangle: (left:134, top:283, right:169, bottom:317)
+    distance from borders: 12, 12, 7, 9
+    spot_center: 151.5, 300.0
+    spot_center_error: 2.5, 1.5
+    borders_to_move_away: []
+    TRACKING FINISHED
+    httpRequest: http://192.168.209.101/capture (try 1)
+cameraCapture: write 'capture/camera_capture-20230610-113456.png' to disk
+cameraCapture: write 'capture/target-20230610-113456.png' to disk
+
+setState: WAITING_SUN_MOVE (at 379285.18636469 s)
+    httpRequest: http://192.168.209.101/capture (try 1)
+cameraCapture: write 'capture/camera_capture-20230610-113604.png' to disk
+startTracking
+    borders_min_level: 33
+    spot_light_rectangle: (left:132, top:283, right:167, bottom:316)
+    spot_center: 149.5, 299.5
+    distance from borders: 10, 12, 9, 10
+    spot_center: 149.5, 299.5
+    spot_center_error: 0.5, 1.0
+    borders_to_move_away: []
+    NO BORDERS TO MOVE AWAY
+
+setState: WAITING_SUN_MOVE (at 379353.071960833 s)
+    httpRequest: http://192.168.209.101/capture (try 1)
+cameraCapture: write 'capture/camera_capture-20230610-113713.png' to disk
+startTracking
+    borders_min_level: 67
+    spot_light_rectangle: (left:130, top:283, right:166, bottom:318)
+    spot_center: 148.0, 300.5
+    distance from borders: 8, 12, 10, 8
+    spot_center: 148.0, 300.5
+    spot_center_error: -1.0, 2.0
+    borders_to_move_away: []
+    NO BORDERS TO MOVE AWAY
+
+setState: WAITING_SUN_MOVE (at 379422.554180631 s)
+    httpRequest: http://192.168.209.101/capture (try 1)
+cameraCapture: write 'capture/camera_capture-20230610-113821.png' to disk
+startTracking
+    borders_min_level: 53
+    spot_light_rectangle: (left:127, top:285, right:163, bottom:319)
+    spot_center: 145.0, 302.0
+    distance from borders: 5, 14, 13, 7
+    spot_center: 145.0, 302.0
+    spot_center_error: -4.0, 3.5
+    borders_to_move_away: []
+    NO BORDERS TO MOVE AWAY
+
+setState: WAITING_SUN_MOVE (at 379489.996900016 s)
+    httpRequest: http://192.168.209.101/capture (try 1)
+cameraCapture: write 'capture/camera_capture-20230610-113928.png' to disk
+startTracking
+    borders_min_level: 42
+    spot_light_rectangle: (left:124, top:286, right:160, bottom:320)
+    spot_center: 142.0, 303.0
+    distance from borders: 2, 15, 16, 6
+    spot_center: 142.0, 303.0
+    spot_center_error: -7.0, 4.5
+    borders_to_move_away: [<Border.LEFT: 'LEFT'>, <Border.LEFT: 'LEFT'>]
+moveOneStep: right
+    httpRequest: http://192.168.209.101/motors_command?cmd=right&continuous=0 (try 1)
+
+setState: TRACKING (at 379558.167632709 s)
+    httpRequest: http://192.168.209.101/motors_status (try 1)
+getMotorsStatus: LOCKED
+    httpRequest: http://192.168.209.101/capture_area?left_px=122&top_px=271&right_px=176&bottom_px=326 (try 1)
+cameraCaptureAndReplaceArea: write 'capture/camera_capture-20230610-113931.png' to disk
+updateTracking
+    tracking_steps_count: 1
+    borders_min_level: 30
+    spot_light_rectangle: (left:132, top:288, right:166, bottom:320)
+    distance from borders: 10, 17, 10, 6
+    spot_center: 149.0, 304.0
+    spot_center_error: 0.0, 5.5
+    borders_to_move_away: [<Border.BOTTOM: 'BOTTOM'>]
+moveOneStep: up
+    httpRequest: http://192.168.209.101/motors_command?cmd=up&continuous=0 (try 1)
+
+setState: TRACKING (at 379561.489644793 s)
+    httpRequest: http://192.168.209.101/motors_status (try 1)
+getMotorsStatus: LOCKED
+    httpRequest: http://192.168.209.101/capture_area?left_px=122&top_px=271&right_px=176&bottom_px=326 (try 1)
+cameraCaptureAndReplaceArea: write 'capture/camera_capture-20230610-113934.png' to disk
+updateTracking
+    tracking_steps_count: 2
+    borders_min_level: 31
+    spot_light_rectangle: (left:131, top:282, right:162, bottom:313)
+    distance from borders: 9, 11, 14, 13
+    spot_center: 146.5, 297.5
+    spot_center_error: -2.5, -1.0
+    borders_to_move_away: []
+    TRACKING FINISHED
+    httpRequest: http://192.168.209.101/capture (try 1)
+cameraCapture: write 'capture/camera_capture-20230610-113941.png' to disk
+cameraCapture: write 'capture/target-20230610-113941.png' to disk
+
+setState: WAITING_SUN_MOVE (at 379570.527382842 s)
+    httpRequest: http://192.168.209.101/capture (try 1)
+cameraCapture: write 'capture/camera_capture-20230610-114049.png' to disk
+startTracking
+    borders_min_level: 78
+    spot_light_rectangle: None
+    NO SPOT DETECTED
+
+setState: WAITING_SUN_MOVE (at 379638.514165577 s)
+    httpRequest: http://192.168.209.101/capture (try 1)
+cameraCapture: write 'capture/camera_capture-20230610-114158.png' to disk
+startTracking
+    borders_min_level: 48
+    spot_light_rectangle: (left:126, top:283, right:159, bottom:316)
+    spot_center: 142.5, 299.5
+    distance from borders: 4, 12, 17, 10
+    spot_center: 142.5, 299.5
+    spot_center_error: -6.5, 1.0
+    borders_to_move_away: [<Border.LEFT: 'LEFT'>, <Border.LEFT: 'LEFT'>]
+moveOneStep: right
+    httpRequest: http://192.168.209.101/motors_command?cmd=right&continuous=0 (try 1)
+
+setState: TRACKING (at 379707.45966782 s)
+    httpRequest: http://192.168.209.101/motors_status (try 1)
+getMotorsStatus: LOCKED
+    httpRequest: http://192.168.209.101/capture_area?left_px=122&top_px=271&right_px=176&bottom_px=326 (try 1)
+cameraCaptureAndReplaceArea: write 'capture/camera_capture-20230610-114200.png' to disk
+updateTracking
+    tracking_steps_count: 1
+    borders_min_level: 58
+    spot_light_rectangle: (left:132, top:285, right:170, bottom:320)
+    distance from borders: 10, 14, 6, 6
+    spot_center: 151.0, 302.5
+    spot_center_error: 2.0, 4.0
+    borders_to_move_away: []
+    TRACKING FINISHED
+    httpRequest: http://192.168.209.101/capture (try 1)
+cameraCapture: write 'capture/camera_capture-20230610-114209.png' to disk
+cameraCapture: write 'capture/target-20230610-114209.png' to disk
+
+setState: WAITING_SUN_MOVE (at 379718.368616129 s)
+    httpRequest: http://192.168.209.101/capture (try 1)
+cameraCapture: write 'capture/camera_capture-20230610-114317.png' to disk
+startTracking
+    borders_min_level: 70
+    spot_light_rectangle: None
+    NO SPOT DETECTED
+
+setState: WAITING_SUN_MOVE (at 379786.492319623 s)
+    httpRequest: http://192.168.209.101/capture (try 1)
+    Http request exception:
+<class 'requests.exceptions.ConnectionError'>
+(ReadTimeoutError("HTTPConnectionPool(host='192.168.209.101', port=80): Read timed out."),)
+    httpRequest: http://192.168.209.101/capture (try 2)
+    Http request exception:
+<class 'requests.exceptions.ConnectTimeout'>
+(MaxRetryError("HTTPConnectionPool(host='192.168.209.101', port=80): Max retries exceeded with url: /capture (Caused by ConnectTimeoutError(<urllib3.connection.HTTPConnection object at 0x7f44d5933eb0>, 'Connection to 192.168.209.101 timed out. (connect timeout=10)'))"),)
+    httpRequest: http://192.168.209.101/capture (try 3)
+cameraCapture: write 'capture/camera_capture-20230610-114500.png' to disk
+startTracking
+    borders_min_level: 65
+    spot_light_rectangle: (left:129, top:290, right:159, bottom:318)
+    spot_center: 144.0, 304.0
+    distance from borders: 7, 19, 17, 8
+    spot_center: 144.0, 304.0
+    spot_center_error: -5.0, 5.5
+    borders_to_move_away: [<Border.BOTTOM: 'BOTTOM'>]
+moveOneStep: up
+    httpRequest: http://192.168.209.101/motors_command?cmd=up&continuous=0 (try 1)
+
+setState: TRACKING (at 379889.945226985 s)
+    httpRequest: http://192.168.209.101/motors_status (try 1)
+getMotorsStatus: LOCKED
+    httpRequest: http://192.168.209.101/capture_area?left_px=122&top_px=271&right_px=176&bottom_px=326 (try 1)
+cameraCaptureAndReplaceArea: write 'capture/camera_capture-20230610-114502.png' to disk
+updateTracking
+    tracking_steps_count: 1
+    borders_min_level: 49
+    spot_light_rectangle: (left:131, top:288, right:153, bottom:307)
+    distance from borders: 9, 17, 23, 19
+    spot_center: 142.0, 297.5
+    spot_center_error: -7.0, -1.0
+    borders_to_move_away: [<Border.LEFT: 'LEFT'>]
+moveOneStep: right
+    httpRequest: http://192.168.209.101/motors_command?cmd=right&continuous=0 (try 1)
+
+setState: TRACKING (at 379893.250050219 s)
+    httpRequest: http://192.168.209.101/motors_status (try 1)
+getMotorsStatus: LOCKED
+    httpRequest: http://192.168.209.101/capture_area?left_px=122&top_px=271&right_px=176&bottom_px=326 (try 1)
+cameraCaptureAndReplaceArea: write 'capture/camera_capture-20230610-114506.png' to disk
+updateTracking
+    tracking_steps_count: 2
+    borders_min_level: 47
+    spot_light_rectangle: (left:145, top:292, right:160, bottom:308)
+    distance from borders: 23, 21, 16, 18
+    spot_center: 152.5, 300.0
+    spot_center_error: 3.5, 1.5
+    borders_to_move_away: []
+    TRACKING FINISHED
+    httpRequest: http://192.168.209.101/capture (try 1)
+    Http request exception:
+<class 'requests.exceptions.ConnectionError'>
+(ReadTimeoutError("HTTPConnectionPool(host='192.168.209.101', port=80): Read timed out."),)
+    httpRequest: http://192.168.209.101/capture (try 2)
+cameraCapture: write 'capture/camera_capture-20230610-114529.png' to disk
+cameraCapture: write 'capture/target-20230610-114529.png' to disk
+
+setState: WAITING_SUN_MOVE (at 379917.876562766 s)
+    httpRequest: http://192.168.209.101/capture (try 1)
+cameraCapture: write 'capture/camera_capture-20230610-114636.png' to disk
+startTracking
+    borders_min_level: 50
+    spot_light_rectangle: (left:131, top:287, right:164, bottom:319)
+    spot_center: 147.5, 303.0
+    distance from borders: 9, 16, 12, 7
+    spot_center: 147.5, 303.0
+    spot_center_error: -1.5, 4.5
+    borders_to_move_away: []
+    NO BORDERS TO MOVE AWAY
+
+setState: WAITING_SUN_MOVE (at 379984.681876846 s)
+    httpRequest: http://192.168.209.101/capture (try 1)
+    Http request exception:
+<class 'requests.exceptions.ConnectionError'>
+(ReadTimeoutError("HTTPConnectionPool(host='192.168.209.101', port=80): Read timed out."),)
+    httpRequest: http://192.168.209.101/capture (try 2)
+cameraCapture: write 'capture/camera_capture-20230610-114757.png' to disk
+startTracking
+    borders_min_level: 250
+    spot_light_rectangle: None
+    NO SPOT DETECTED
+
+setState: WAITING_SUN_MOVE (at 380065.540057761 s)
+key pressed: 32
+    httpRequest: http://192.168.209.101/capture (try 1)
+cameraCapture: write 'capture/camera_capture-20230610-114832.png' to disk
+startTracking
+    borders_min_level: 48
+    spot_light_rectangle: (left:126, top:288, right:160, bottom:321)
+    spot_center: 143.0, 304.5
+    distance from borders: 4, 17, 16, 5
+    spot_center: 143.0, 304.5
+    spot_center_error: -6.0, 6.0
+    borders_to_move_away: [<Border.LEFT: 'LEFT'>, <Border.LEFT: 'LEFT'>, <Border.BOTTOM: 'BOTTOM'>]
+moveOneStep: up-right
+    httpRequest: http://192.168.209.101/motors_command?cmd=up-right&continuous=0 (try 1)
+
+setState: TRACKING (at 380101.947180136 s)
+    httpRequest: http://192.168.209.101/motors_status (try 1)
+getMotorsStatus: LOCKED
+    httpRequest: http://192.168.209.101/capture_area?left_px=122&top_px=271&right_px=176&bottom_px=326 (try 1)
+cameraCaptureAndReplaceArea: write 'capture/camera_capture-20230610-114834.png' to disk
+updateTracking
+    tracking_steps_count: 1
+    borders_min_level: 47
+    spot_light_rectangle: (left:130, top:287, right:163, bottom:318)
+    distance from borders: 8, 16, 13, 8
+    spot_center: 146.5, 302.5
+    spot_center_error: -2.5, 4.0
+    borders_to_move_away: []
+    TRACKING FINISHED
+    httpRequest: http://192.168.209.101/capture (try 1)
+cameraCapture: write 'capture/camera_capture-20230610-114843.png' to disk
+cameraCapture: write 'capture/target-20230610-114843.png' to disk
+
+setState: WAITING_SUN_MOVE (at 380111.738478227 s)
+    httpRequest: http://192.168.209.101/capture (try 1)
+cameraCapture: write 'capture/camera_capture-20230610-114950.png' to disk
+startTracking
+    borders_min_level: 59
+    spot_light_rectangle: (left:134, top:291, right:161, bottom:316)
+    spot_center: 147.5, 303.5
+    distance from borders: 12, 20, 15, 10
+    spot_center: 147.5, 303.5
+    spot_center_error: -1.5, 5.0
+    borders_to_move_away: []
+    NO BORDERS TO MOVE AWAY
+
+setState: WAITING_SUN_MOVE (at 380178.584683489 s)
+    httpRequest: http://192.168.209.101/capture (try 1)
+cameraCapture: write 'capture/camera_capture-20230610-115058.png' to disk
+startTracking
+    borders_min_level: 65
+    spot_light_rectangle: None
+    NO SPOT DETECTED
+
+setState: WAITING_SUN_MOVE (at 380246.607647949 s)
+    httpRequest: http://192.168.209.101/capture (try 1)
+cameraCapture: write 'capture/camera_capture-20230610-115206.png' to disk
+startTracking
+    borders_min_level: 68
+    spot_light_rectangle: None
+    NO SPOT DETECTED
+
+setState: WAITING_SUN_MOVE (at 380314.943110852 s)
+    httpRequest: http://192.168.209.101/capture (try 1)
+cameraCapture: write 'capture/camera_capture-20230610-115318.png' to disk
+startTracking
+    borders_min_level: 48
+    spot_light_rectangle: (left:128, top:300, right:150, bottom:315)
+    spot_center: 139.0, 307.5
+    distance from borders: 6, 29, 26, 11
+    spot_center: 139.0, 307.5
+    spot_center_error: -10.0, 9.0
+    borders_to_move_away: [<Border.LEFT: 'LEFT'>, <Border.BOTTOM: 'BOTTOM'>]
+moveOneStep: up-right
+    httpRequest: http://192.168.209.101/motors_command?cmd=up-right&continuous=0 (try 1)
+
+setState: TRACKING (at 380388.073001644 s)
+    httpRequest: http://192.168.209.101/motors_status (try 1)
+getMotorsStatus: LOCKED
+    httpRequest: http://192.168.209.101/capture_area?left_px=122&top_px=271&right_px=176&bottom_px=326 (try 1)
+cameraCaptureAndReplaceArea: write 'capture/camera_capture-20230610-115321.png' to disk
+updateTracking
+    tracking_steps_count: 1
+    borders_min_level: 49
+    spot_light_rectangle: (left:134, top:300, right:152, bottom:312)
+    distance from borders: 12, 29, 24, 14
+    spot_center: 143.0, 306.0
+    spot_center_error: -6.0, 7.5
+    borders_to_move_away: [<Border.LEFT: 'LEFT'>, <Border.BOTTOM: 'BOTTOM'>]
+moveOneStep: up-right
+    httpRequest: http://192.168.209.101/motors_command?cmd=up-right&continuous=0 (try 1)
+
+setState: TRACKING (at 380391.548222937 s)
+    httpRequest: http://192.168.209.101/motors_status (try 1)
+getMotorsStatus: LOCKED
+    httpRequest: http://192.168.209.101/capture_area?left_px=122&top_px=271&right_px=176&bottom_px=326 (try 1)
+cameraCaptureAndReplaceArea: write 'capture/camera_capture-20230610-115324.png' to disk
+updateTracking
+    tracking_steps_count: 2
+    borders_min_level: 47
+    spot_light_rectangle: (left:141, top:300, right:153, bottom:310)
+    distance from borders: 19, 29, 23, 16
+    spot_center: 147.0, 305.0
+    spot_center_error: -2.0, 6.5
+    borders_to_move_away: [<Border.BOTTOM: 'BOTTOM'>]
+moveOneStep: up
+    httpRequest: http://192.168.209.101/motors_command?cmd=up&continuous=0 (try 1)
+
+setState: TRACKING (at 380395.139221209 s)
+    httpRequest: http://192.168.209.101/motors_status (try 1)
+getMotorsStatus: LOCKED
+    httpRequest: http://192.168.209.101/capture_area?left_px=122&top_px=271&right_px=176&bottom_px=326 (try 1)
+cameraCaptureAndReplaceArea: write 'capture/camera_capture-20230610-115328.png' to disk
+updateTracking
+    tracking_steps_count: 3
+    borders_min_level: 49
+    spot_light_rectangle: None
+    NO SPOT DETECTED
+
+setState: TRACKING (at 380398.18031142 s)
+    httpRequest: http://192.168.209.101/motors_status (try 1)
+getMotorsStatus: LOCKED
+    httpRequest: http://192.168.209.101/capture_area?left_px=122&top_px=271&right_px=176&bottom_px=326 (try 1)
+cameraCaptureAndReplaceArea: write 'capture/camera_capture-20230610-115331.png' to disk
+updateTracking
+    tracking_steps_count: 4
+    borders_min_level: 49
+    spot_light_rectangle: None
+    NO SPOT DETECTED
+
+setState: TRACKING (at 380401.16917749 s)
+    httpRequest: http://192.168.209.101/motors_status (try 1)
+getMotorsStatus: LOCKED
+    httpRequest: http://192.168.209.101/capture_area?left_px=122&top_px=271&right_px=176&bottom_px=326 (try 1)
+cameraCaptureAndReplaceArea: write 'capture/camera_capture-20230610-115334.png' to disk
+updateTracking
+    tracking_steps_count: 5
+    borders_min_level: 49
+    spot_light_rectangle: (left:143, top:300, right:148, bottom:302)
+    distance from borders: 21, 29, 28, 24
+    spot_center: 145.5, 301.0
+    spot_center_error: -3.5, 2.5
+    borders_to_move_away: []
+    TRACKING FINISHED
+    httpRequest: http://192.168.209.101/capture (try 1)
+cameraCapture: write 'capture/camera_capture-20230610-115342.png' to disk
+cameraCapture: write 'capture/target-20230610-115342.png' to disk
+
+setState: WAITING_SUN_MOVE (at 380411.368232905 s)
+    httpRequest: http://192.168.209.101/capture (try 1)
+    Http request exception:
+<class 'requests.exceptions.ConnectionError'>
+(ReadTimeoutError("HTTPConnectionPool(host='192.168.209.101', port=80): Read timed out."),)
+    httpRequest: http://192.168.209.101/capture (try 2)
+cameraCapture: write 'capture/camera_capture-20230610-115504.png' to disk
+startTracking
+    borders_min_level: 250
+    spot_light_rectangle: None
+    NO SPOT DETECTED
+
+setState: WAITING_SUN_MOVE (at 380493.186437374 s)
+key pressed: 32
+    httpRequest: http://192.168.209.101/capture (try 1)
+    Http request exception:
+<class 'requests.exceptions.ConnectionError'>
+(ReadTimeoutError("HTTPConnectionPool(host='192.168.209.101', port=80): Read timed out."),)
+    httpRequest: http://192.168.209.101/capture (try 2)
+cameraCapture: write 'capture/camera_capture-20230610-115612.png' to disk
+startTracking
+    borders_min_level: 104
+    spot_light_rectangle: (left:122, top:283, right:155, bottom:315)
+    spot_center: 138.5, 299.0
+    distance from borders: 0, 12, 21, 11
+    spot_center: 138.5, 299.0
+    spot_center_error: -10.5, 0.5
+    borders_to_move_away: [<Border.LEFT: 'LEFT'>, <Border.LEFT: 'LEFT'>]
+moveOneStep: right
+    httpRequest: http://192.168.209.101/motors_command?cmd=right&continuous=0 (try 1)
+
+setState: TRACKING (at 380561.218321107 s)
+    httpRequest: http://192.168.209.101/motors_status (try 1)
+getMotorsStatus: LOCKED
+    httpRequest: http://192.168.209.101/capture_area?left_px=122&top_px=271&right_px=176&bottom_px=326 (try 1)
+cameraCaptureAndReplaceArea: write 'capture/camera_capture-20230610-115614.png' to disk
+updateTracking
+    tracking_steps_count: 1
+    borders_min_level: 58
+    spot_light_rectangle: (left:144, top:299, right:152, bottom:307)
+    distance from borders: 22, 28, 24, 19
+    spot_center: 148.0, 303.0
+    spot_center_error: -1.0, 4.5
+    borders_to_move_away: []
+    TRACKING FINISHED
+    httpRequest: http://192.168.209.101/capture (try 1)
+cameraCapture: write 'capture/camera_capture-20230610-115622.png' to disk
+cameraCapture: write 'capture/target-20230610-115622.png' to disk
+
+setState: WAITING_SUN_MOVE (at 380570.94873224 s)
+    httpRequest: http://192.168.209.101/capture (try 1)
+cameraCapture: write 'capture/camera_capture-20230610-115730.png' to disk
+startTracking
+    borders_min_level: 56
+    spot_light_rectangle: (left:129, top:290, right:155, bottom:312)
+    spot_center: 142.0, 301.0
+    distance from borders: 7, 19, 21, 14
+    spot_center: 142.0, 301.0
+    spot_center_error: -7.0, 2.5
+    borders_to_move_away: [<Border.LEFT: 'LEFT'>]
+moveOneStep: right
+    httpRequest: http://192.168.209.101/motors_command?cmd=right&continuous=0 (try 1)
+
+setState: TRACKING (at 380640.126175946 s)
+    httpRequest: http://192.168.209.101/motors_status (try 1)
+getMotorsStatus: LOCKED
+    httpRequest: http://192.168.209.101/capture_area?left_px=122&top_px=271&right_px=176&bottom_px=326 (try 1)
+cameraCaptureAndReplaceArea: write 'capture/camera_capture-20230610-115733.png' to disk
+updateTracking
+    tracking_steps_count: 1
+    borders_min_level: 39
+    spot_light_rectangle: None
+    NO SPOT DETECTED
+
+setState: TRACKING (at 380642.949723854 s)
+    httpRequest: http://192.168.209.101/motors_status (try 1)
+getMotorsStatus: LOCKED
+    httpRequest: http://192.168.209.101/capture_area?left_px=122&top_px=271&right_px=176&bottom_px=326 (try 1)
+cameraCaptureAndReplaceArea: write 'capture/camera_capture-20230610-115735.png' to disk
+updateTracking
+    tracking_steps_count: 2
+    borders_min_level: 40
+    spot_light_rectangle: None
+    NO SPOT DETECTED
+
+setState: TRACKING (at 380645.930346855 s)
+    httpRequest: http://192.168.209.101/motors_status (try 1)
+getMotorsStatus: LOCKED
+    httpRequest: http://192.168.209.101/capture_area?left_px=122&top_px=271&right_px=176&bottom_px=326 (try 1)
+cameraCaptureAndReplaceArea: write 'capture/camera_capture-20230610-115739.png' to disk
+updateTracking
+    tracking_steps_count: 3
+    borders_min_level: 54
+    spot_light_rectangle: (left:135, top:292, right:160, bottom:312)
+    distance from borders: 13, 21, 16, 14
+    spot_center: 147.5, 302.0
+    spot_center_error: -1.5, 3.5
+    borders_to_move_away: []
+    TRACKING FINISHED
+    httpRequest: http://192.168.209.101/capture (try 1)
+    Http request exception:
+<class 'requests.exceptions.ConnectionError'>
+(ReadTimeoutError("HTTPConnectionPool(host='192.168.209.101', port=80): Read timed out."),)
+    httpRequest: http://192.168.209.101/capture (try 2)
+    Http request exception:
+<class 'requests.exceptions.ConnectTimeout'>
+(MaxRetryError("HTTPConnectionPool(host='192.168.209.101', port=80): Max retries exceeded with url: /capture (Caused by ConnectTimeoutError(<urllib3.connection.HTTPConnection object at 0x7f44d58faa30>, 'Connection to 192.168.209.101 timed out. (connect timeout=10)'))"),)
+    httpRequest: http://192.168.209.101/capture (try 3)
+    Http request exception:
+<class 'requests.exceptions.ConnectionError'>
+(ReadTimeoutError("HTTPConnectionPool(host='192.168.209.101', port=80): Read timed out."),)
+    httpRequest: http://192.168.209.101/capture (try 4)
+    Http request exception:
+<class 'requests.exceptions.ConnectionError'>
+(MaxRetryError("HTTPConnectionPool(host='192.168.209.101', port=80): Max retries exceeded with url: /capture (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7f44e084d6a0>: Failed to establish a new connection: [Errno 111] Connection refused'))"),)
+    httpRequest: http://192.168.209.101/capture (try 5)
+cameraCapture: write 'capture/camera_capture-20230610-115832.png' to disk
+cameraCapture: write 'capture/target-20230610-115832.png' to disk
+
+setState: WAITING_SUN_MOVE (at 380700.866694711 s)
+    httpRequest: http://192.168.209.101/capture (try 1)
+cameraCapture: write 'capture/camera_capture-20230610-115940.png' to disk
+startTracking
+    borders_min_level: 42
+    spot_light_rectangle: (left:127, top:287, right:160, bottom:320)
+    spot_center: 143.5, 303.5
+    distance from borders: 5, 16, 16, 6
+    spot_center: 143.5, 303.5
+    spot_center_error: -5.5, 5.0
+    borders_to_move_away: [<Border.LEFT: 'LEFT'>]
+moveOneStep: right
+    httpRequest: http://192.168.209.101/motors_command?cmd=right&continuous=0 (try 1)
+
+setState: TRACKING (at 380769.448868363 s)
+    httpRequest: http://192.168.209.101/motors_status (try 1)
+getMotorsStatus: LOCKED
+    httpRequest: http://192.168.209.101/capture_area?left_px=122&top_px=271&right_px=176&bottom_px=326 (try 1)
+cameraCaptureAndReplaceArea: write 'capture/camera_capture-20230610-115942.png' to disk
+updateTracking
+    tracking_steps_count: 1
+    borders_min_level: 39
+    spot_light_rectangle: (left:134, top:288, right:166, bottom:320)
+    distance from borders: 12, 17, 10, 6
+    spot_center: 150.0, 304.0
+    spot_center_error: 1.0, 5.5
+    borders_to_move_away: [<Border.BOTTOM: 'BOTTOM'>]
+moveOneStep: up
+    httpRequest: http://192.168.209.101/motors_command?cmd=up&continuous=0 (try 1)
+
+setState: TRACKING (at 380772.899354199 s)
+    httpRequest: http://192.168.209.101/motors_status (try 1)
+getMotorsStatus: LOCKED
+    httpRequest: http://192.168.209.101/capture_area?left_px=122&top_px=271&right_px=176&bottom_px=326 (try 1)
+cameraCaptureAndReplaceArea: write 'capture/camera_capture-20230610-115945.png' to disk
+updateTracking
+    tracking_steps_count: 2
+    borders_min_level: 41
+    spot_light_rectangle: (left:132, top:282, right:163, bottom:313)
+    distance from borders: 10, 11, 13, 13
+    spot_center: 147.5, 297.5
+    spot_center_error: -1.5, -1.0
+    borders_to_move_away: []
+    TRACKING FINISHED
+    httpRequest: http://192.168.209.101/capture (try 1)
+cameraCapture: write 'capture/camera_capture-20230610-115954.png' to disk
+cameraCapture: write 'capture/target-20230610-115954.png' to disk
+
+setState: WAITING_SUN_MOVE (at 380782.882179434 s)
+    httpRequest: http://192.168.209.101/capture (try 1)
+    Http request exception:
+<class 'requests.exceptions.ConnectionError'>
+(ReadTimeoutError("HTTPConnectionPool(host='192.168.209.101', port=80): Read timed out."),)
+    httpRequest: http://192.168.209.101/capture (try 2)
+    Http request exception:
+<class 'requests.exceptions.ConnectTimeout'>
+(MaxRetryError("HTTPConnectionPool(host='192.168.209.101', port=80): Max retries exceeded with url: /capture (Caused by ConnectTimeoutError(<urllib3.connection.HTTPConnection object at 0x7f44e0857550>, 'Connection to 192.168.209.101 timed out. (connect timeout=10)'))"),)
+    httpRequest: http://192.168.209.101/capture (try 3)
+    Http request exception:
+<class 'requests.exceptions.ConnectionError'>
+(ReadTimeoutError("HTTPConnectionPool(host='192.168.209.101', port=80): Read timed out."),)
+    httpRequest: http://192.168.209.101/capture (try 4)
+    response:
+      status: 404
+      content-type: text/html
+    Http request exception:
+<class 'Exception'>
+('Incorrect http status',)
+    httpRequest: http://192.168.209.101/capture (try 5)
+cameraCapture: write 'capture/camera_capture-20230610-120149.png' to disk
+startTracking
+    borders_min_level: 214
+    spot_light_rectangle: None
+    NO SPOT DETECTED
+
+setState: WAITING_SUN_MOVE (at 380898.220198235 s)
+    httpRequest: http://192.168.209.101/capture (try 1)
+cameraCapture: write 'capture/camera_capture-20230610-120256.png' to disk
+startTracking
+    borders_min_level: 31
+    spot_light_rectangle: (left:132, top:299, right:151, bottom:311)
+    spot_center: 141.5, 305.0
+    distance from borders: 10, 28, 25, 15
+    spot_center: 141.5, 305.0
+    spot_center_error: -7.5, 6.5
+    borders_to_move_away: [<Border.LEFT: 'LEFT'>, <Border.BOTTOM: 'BOTTOM'>]
+moveOneStep: up-right
+    httpRequest: http://192.168.209.101/motors_command?cmd=up-right&continuous=0 (try 1)
+
+setState: TRACKING (at 380966.092716057 s)
+    httpRequest: http://192.168.209.101/motors_status (try 1)
+getMotorsStatus: LOCKED
+    httpRequest: http://192.168.209.101/capture_area?left_px=122&top_px=271&right_px=176&bottom_px=326 (try 1)
+cameraCaptureAndReplaceArea: write 'capture/camera_capture-20230610-120259.png' to disk
+updateTracking
+    tracking_steps_count: 1
+    borders_min_level: 32
+    spot_light_rectangle: (left:131, top:288, right:158, bottom:312)
+    distance from borders: 9, 17, 18, 14
+    spot_center: 144.5, 300.0
+    spot_center_error: -4.5, 1.5
+    borders_to_move_away: []
+    TRACKING FINISHED
+    httpRequest: http://192.168.209.101/capture (try 1)
+cameraCapture: write 'capture/camera_capture-20230610-120307.png' to disk
+cameraCapture: write 'capture/target-20230610-120307.png' to disk
+
+setState: WAITING_SUN_MOVE (at 380975.82648198 s)
+    httpRequest: http://192.168.209.101/capture (try 1)
+cameraCapture: write 'capture/camera_capture-20230610-120416.png' to disk
+startTracking
+    borders_min_level: 33
+    spot_light_rectangle: None
+    NO SPOT DETECTED
+
+setState: WAITING_SUN_MOVE (at 381044.592901527 s)
+    httpRequest: http://192.168.209.101/capture (try 1)
+cameraCapture: write 'capture/camera_capture-20230610-120524.png' to disk
+startTracking
+    borders_min_level: 48
+    spot_light_rectangle: (left:122, top:282, right:156, bottom:316)
+    spot_center: 139.0, 299.0
+    distance from borders: 0, 11, 20, 10
+    spot_center: 139.0, 299.0
+    spot_center_error: -10.0, 0.5
+    borders_to_move_away: [<Border.LEFT: 'LEFT'>, <Border.LEFT: 'LEFT'>]
+moveOneStep: right
+    httpRequest: http://192.168.209.101/motors_command?cmd=right&continuous=0 (try 1)
+
+setState: TRACKING (at 381113.692711557 s)
+    httpRequest: http://192.168.209.101/motors_status (try 1)
+getMotorsStatus: LOCKED
+    httpRequest: http://192.168.209.101/capture_area?left_px=122&top_px=271&right_px=176&bottom_px=326 (try 1)
+cameraCaptureAndReplaceArea: write 'capture/camera_capture-20230610-120526.png' to disk
+updateTracking
+    tracking_steps_count: 1
+    borders_min_level: 51
+    spot_light_rectangle: (left:128, top:283, right:164, bottom:318)
+    distance from borders: 6, 12, 12, 8
+    spot_center: 146.0, 300.5
+    spot_center_error: -3.0, 2.0
+    borders_to_move_away: []
+    TRACKING FINISHED
+    httpRequest: http://192.168.209.101/capture (try 1)
+    Http request exception:
+<class 'requests.exceptions.ConnectionError'>
+(ReadTimeoutError("HTTPConnectionPool(host='192.168.209.101', port=80): Read timed out."),)
+    httpRequest: http://192.168.209.101/capture (try 2)
+    Http request exception:
+<class 'requests.exceptions.ConnectTimeout'>
+(MaxRetryError("HTTPConnectionPool(host='192.168.209.101', port=80): Max retries exceeded with url: /capture (Caused by ConnectTimeoutError(<urllib3.connection.HTTPConnection object at 0x7f44e0857c10>, 'Connection to 192.168.209.101 timed out. (connect timeout=10)'))"),)
+    httpRequest: http://192.168.209.101/capture (try 3)
+cameraCapture: write 'capture/camera_capture-20230610-120608.png' to disk
+cameraCapture: write 'capture/target-20230610-120608.png' to disk
+
+setState: WAITING_SUN_MOVE (at 381157.351009259 s)
+    httpRequest: http://192.168.209.101/capture (try 1)
+cameraCapture: write 'capture/camera_capture-20230610-120716.png' to disk
+startTracking
+    borders_min_level: 20
+    spot_light_rectangle: (left:126, top:286, right:159, bottom:318)
+    spot_center: 142.5, 302.0
+    distance from borders: 4, 15, 17, 8
+    spot_center: 142.5, 302.0
+    spot_center_error: -6.5, 3.5
+    borders_to_move_away: [<Border.LEFT: 'LEFT'>, <Border.LEFT: 'LEFT'>]
+moveOneStep: right
+    httpRequest: http://192.168.209.101/motors_command?cmd=right&continuous=0 (try 1)
+
+setState: TRACKING (at 381225.414567844 s)
+    httpRequest: http://192.168.209.101/motors_status (try 1)
+getMotorsStatus: LOCKED
+    httpRequest: http://192.168.209.101/capture_area?left_px=122&top_px=271&right_px=176&bottom_px=326 (try 1)
+cameraCaptureAndReplaceArea: write 'capture/camera_capture-20230610-120719.png' to disk
+updateTracking
+    tracking_steps_count: 1
+    borders_min_level: 34
+    spot_light_rectangle: (left:130, top:285, right:167, bottom:321)
+    distance from borders: 8, 14, 9, 5
+    spot_center: 148.5, 303.0
+    spot_center_error: -0.5, 4.5
+    borders_to_move_away: []
+    TRACKING FINISHED
+    httpRequest: http://192.168.209.101/capture (try 1)
+cameraCapture: write 'capture/camera_capture-20230610-120728.png' to disk
+cameraCapture: write 'capture/target-20230610-120728.png' to disk
+
+setState: WAITING_SUN_MOVE (at 381236.879863247 s)
+    httpRequest: http://192.168.209.101/capture (try 1)
+    Http request exception:
+<class 'requests.exceptions.ConnectionError'>
+(ReadTimeoutError("HTTPConnectionPool(host='192.168.209.101', port=80): Read timed out."),)
+    httpRequest: http://192.168.209.101/capture (try 2)
+    Http request exception:
+<class 'requests.exceptions.ConnectionError'>
+(MaxRetryError("HTTPConnectionPool(host='192.168.209.101', port=80): Max retries exceeded with url: /capture (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7f44e084ddf0>: Failed to establish a new connection: [Errno 111] Connection refused'))"),)
+    httpRequest: http://192.168.209.101/capture (try 3)
+    Http request exception:
+<class 'requests.exceptions.ReadTimeout'>
+(ReadTimeoutError("HTTPConnectionPool(host='192.168.209.101', port=80): Read timed out. (read timeout=10)"),)
+    httpRequest: http://192.168.209.101/capture (try 4)
+    Http request exception:
+<class 'requests.exceptions.ConnectionError'>
+(MaxRetryError("HTTPConnectionPool(host='192.168.209.101', port=80): Max retries exceeded with url: /capture (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7f44d5933d00>: Failed to establish a new connection: [Errno 111] Connection refused'))"),)
+    httpRequest: http://192.168.209.101/capture (try 5)
+    Http request exception:
+<class 'requests.exceptions.ReadTimeout'>
+(ReadTimeoutError("HTTPConnectionPool(host='192.168.209.101', port=80): Read timed out. (read timeout=10)"),)
+    httpRequest: http://192.168.209.101/capture (try 6)
+    Http request exception:
+<class 'requests.exceptions.ConnectionError'>
+(MaxRetryError("HTTPConnectionPool(host='192.168.209.101', port=80): Max retries exceeded with url: /capture (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7f44e085ee50>: Failed to establish a new connection: [Errno 111] Connection refused'))"),)
+    httpRequest: http://192.168.209.101/capture (try 7)
+cameraCapture: write 'capture/camera_capture-20230610-120930.png' to disk
+startTracking
+    borders_min_level: 250
+    spot_light_rectangle: None
+    NO SPOT DETECTED
+
+setState: WAITING_SUN_MOVE (at 381359.013713696 s)
+    httpRequest: http://192.168.209.101/capture (try 1)
+cameraCapture: write 'capture/camera_capture-20230610-121037.png' to disk
+startTracking
+    borders_min_level: 30
+    spot_light_rectangle: (left:125, top:288, right:159, bottom:322)
+    spot_center: 142.0, 305.0
+    distance from borders: 3, 17, 17, 4
+    spot_center: 142.0, 305.0
+    spot_center_error: -7.0, 6.5
+    borders_to_move_away: [<Border.LEFT: 'LEFT'>, <Border.LEFT: 'LEFT'>, <Border.BOTTOM: 'BOTTOM'>, <Border.BOTTOM: 'BOTTOM'>]
+moveOneStep: up-right
+    httpRequest: http://192.168.209.101/motors_command?cmd=up-right&continuous=0 (try 1)
+
+setState: TRACKING (at 381427.351447636 s)
+    httpRequest: http://192.168.209.101/motors_status (try 1)
+getMotorsStatus: LOCKED
+    httpRequest: http://192.168.209.101/capture_area?left_px=122&top_px=271&right_px=176&bottom_px=326 (try 1)
+cameraCaptureAndReplaceArea: write 'capture/camera_capture-20230610-121040.png' to disk
+updateTracking
+    tracking_steps_count: 1
+    borders_min_level: 47
+    spot_light_rectangle: (left:127, top:284, right:164, bottom:321)
+    distance from borders: 5, 13, 12, 5
+    spot_center: 145.5, 302.5
+    spot_center_error: -3.5, 4.0
+    borders_to_move_away: []
+    TRACKING FINISHED
+    httpRequest: http://192.168.209.101/capture (try 1)
+cameraCapture: write 'capture/camera_capture-20230610-121049.png' to disk
+cameraCapture: write 'capture/target-20230610-121049.png' to disk
+
+setState: WAITING_SUN_MOVE (at 381438.41479527 s)
+    httpRequest: http://192.168.209.101/capture (try 1)
+cameraCapture: write 'capture/camera_capture-20230610-121157.png' to disk
+startTracking
+    borders_min_level: 40
+    spot_light_rectangle: (left:126, top:286, right:160, bottom:321)
+    spot_center: 143.0, 303.5
+    distance from borders: 4, 15, 16, 5
+    spot_center: 143.0, 303.5
+    spot_center_error: -6.0, 5.0
+    borders_to_move_away: [<Border.LEFT: 'LEFT'>, <Border.LEFT: 'LEFT'>]
+moveOneStep: right
+    httpRequest: http://192.168.209.101/motors_command?cmd=right&continuous=0 (try 1)
+
+setState: TRACKING (at 381507.005867436 s)
+    httpRequest: http://192.168.209.101/motors_status (try 1)
+getMotorsStatus: LOCKED
+    httpRequest: http://192.168.209.101/capture_area?left_px=122&top_px=271&right_px=176&bottom_px=326 (try 1)
+cameraCaptureAndReplaceArea: write 'capture/camera_capture-20230610-121200.png' to disk
+updateTracking
+    tracking_steps_count: 1
+    borders_min_level: 38
+    spot_light_rectangle: (left:132, top:287, right:166, bottom:321)
+    distance from borders: 10, 16, 10, 5
+    spot_center: 149.0, 304.0
+    spot_center_error: 0.0, 5.5
+    borders_to_move_away: [<Border.BOTTOM: 'BOTTOM'>]
+moveOneStep: up
+    httpRequest: http://192.168.209.101/motors_command?cmd=up&continuous=0 (try 1)
+
+setState: TRACKING (at 381510.67099688 s)
+    httpRequest: http://192.168.209.101/motors_status (try 1)
+getMotorsStatus: LOCKED
+    httpRequest: http://192.168.209.101/capture_area?left_px=122&top_px=271&right_px=176&bottom_px=326 (try 1)
+cameraCaptureAndReplaceArea: write 'capture/camera_capture-20230610-121203.png' to disk
+updateTracking
+    tracking_steps_count: 2
+    borders_min_level: 39
+    spot_light_rectangle: (left:129, top:280, right:163, bottom:314)
+    distance from borders: 7, 9, 13, 12
+    spot_center: 146.0, 297.0
+    spot_center_error: -3.0, -1.5
+    borders_to_move_away: []
+    TRACKING FINISHED
+    httpRequest: http://192.168.209.101/capture (try 1)
+cameraCapture: write 'capture/camera_capture-20230610-121212.png' to disk
+cameraCapture: write 'capture/target-20230610-121212.png' to disk
+
+setState: WAITING_SUN_MOVE (at 381520.917777542 s)
+    httpRequest: http://192.168.209.101/capture (try 1)
+cameraCapture: write 'capture/camera_capture-20230610-121320.png' to disk
+startTracking
+    borders_min_level: 41
+    spot_light_rectangle: (left:127, top:281, right:161, bottom:315)
+    spot_center: 144.0, 298.0
+    distance from borders: 5, 10, 15, 11
+    spot_center: 144.0, 298.0
+    spot_center_error: -5.0, -0.5
+    borders_to_move_away: []
+    NO BORDERS TO MOVE AWAY
+
+setState: WAITING_SUN_MOVE (at 381589.280884473 s)
+    httpRequest: http://192.168.209.101/capture (try 1)
+cameraCapture: write 'capture/camera_capture-20230610-121429.png' to disk
+startTracking
+    borders_min_level: 71
+    spot_light_rectangle: (left:124, top:281, right:159, bottom:316)
+    spot_center: 141.5, 298.5
+    distance from borders: 2, 10, 17, 10
+    spot_center: 141.5, 298.5
+    spot_center_error: -7.5, 0.0
+    borders_to_move_away: [<Border.LEFT: 'LEFT'>, <Border.LEFT: 'LEFT'>]
+moveOneStep: right
+    httpRequest: http://192.168.209.101/motors_command?cmd=right&continuous=0 (try 1)
+
+setState: TRACKING (at 381659.156385205 s)
+    httpRequest: http://192.168.209.101/motors_status (try 1)
+getMotorsStatus: LOCKED
+    httpRequest: http://192.168.209.101/capture_area?left_px=122&top_px=271&right_px=176&bottom_px=326 (try 1)
+cameraCaptureAndReplaceArea: write 'capture/camera_capture-20230610-121432.png' to disk
+updateTracking
+    tracking_steps_count: 1
+    borders_min_level: 45
+    spot_light_rectangle: (left:132, top:283, right:165, bottom:316)
+    distance from borders: 10, 12, 11, 10
+    spot_center: 148.5, 299.5
+    spot_center_error: -0.5, 1.0
+    borders_to_move_away: []
+    TRACKING FINISHED
+    httpRequest: http://192.168.209.101/capture (try 1)
+cameraCapture: write 'capture/camera_capture-20230610-121440.png' to disk
+cameraCapture: write 'capture/target-20230610-121440.png' to disk
+
+setState: WAITING_SUN_MOVE (at 381669.520171008 s)
+    httpRequest: http://192.168.209.101/capture (try 1)
+cameraCapture: write 'capture/camera_capture-20230610-121549.png' to disk
+startTracking
+    borders_min_level: 69
+    spot_light_rectangle: (left:128, top:284, right:164, bottom:319)
+    spot_center: 146.0, 301.5
+    distance from borders: 6, 13, 12, 7
+    spot_center: 146.0, 301.5
+    spot_center_error: -3.0, 3.0
+    borders_to_move_away: []
+    NO BORDERS TO MOVE AWAY
+
+setState: WAITING_SUN_MOVE (at 381738.564180258 s)
+    httpRequest: http://192.168.209.101/capture (try 1)
+cameraCapture: write 'capture/camera_capture-20230610-121659.png' to disk
+startTracking
+    borders_min_level: 72
+    spot_light_rectangle: (left:126, top:284, right:161, bottom:320)
+    spot_center: 143.5, 302.0
+    distance from borders: 4, 13, 15, 6
+    spot_center: 143.5, 302.0
+    spot_center_error: -5.5, 3.5
+    borders_to_move_away: [<Border.LEFT: 'LEFT'>, <Border.LEFT: 'LEFT'>]
+moveOneStep: right
+    httpRequest: http://192.168.209.101/motors_command?cmd=right&continuous=0 (try 1)
+
+setState: TRACKING (at 381808.751500056 s)
+    httpRequest: http://192.168.209.101/motors_status (try 1)
+getMotorsStatus: LOCKED
+    httpRequest: http://192.168.209.101/capture_area?left_px=122&top_px=271&right_px=176&bottom_px=326 (try 1)
+cameraCaptureAndReplaceArea: write 'capture/camera_capture-20230610-121701.png' to disk
+updateTracking
+    tracking_steps_count: 1
+    borders_min_level: 48
+    spot_light_rectangle: (left:133, top:286, right:166, bottom:320)
+    distance from borders: 11, 15, 10, 6
+    spot_center: 149.5, 303.0
+    spot_center_error: 0.5, 4.5
+    borders_to_move_away: []
+    TRACKING FINISHED
+    httpRequest: http://192.168.209.101/capture (try 1)
+cameraCapture: write 'capture/camera_capture-20230610-121710.png' to disk
+cameraCapture: write 'capture/target-20230610-121710.png' to disk
+
+setState: WAITING_SUN_MOVE (at 381819.182609924 s)
+    httpRequest: http://192.168.209.101/capture (try 1)
+cameraCapture: write 'capture/camera_capture-20230610-121817.png' to disk
+startTracking
+    borders_min_level: 38
+    spot_light_rectangle: (left:130, top:286, right:164, bottom:321)
+    spot_center: 147.0, 303.5
+    distance from borders: 8, 15, 12, 5
+    spot_center: 147.0, 303.5
+    spot_center_error: -2.0, 5.0
+    borders_to_move_away: []
+    NO BORDERS TO MOVE AWAY
+
+setState: WAITING_SUN_MOVE (at 381886.25085487 s)
+    httpRequest: http://192.168.209.101/capture (try 1)
+cameraCapture: write 'capture/camera_capture-20230610-121925.png' to disk
+startTracking
+    borders_min_level: 32
+    spot_light_rectangle: (left:128, top:287, right:161, bottom:322)
+    spot_center: 144.5, 304.5
+    distance from borders: 6, 16, 15, 4
+    spot_center: 144.5, 304.5
+    spot_center_error: -4.5, 6.0
+    borders_to_move_away: [<Border.BOTTOM: 'BOTTOM'>, <Border.BOTTOM: 'BOTTOM'>]
+moveOneStep: up
+    httpRequest: http://192.168.209.101/motors_command?cmd=up&continuous=0 (try 1)
+
+setState: TRACKING (at 381954.706293448 s)
+    httpRequest: http://192.168.209.101/motors_status (try 1)
+getMotorsStatus: LOCKED
+    httpRequest: http://192.168.209.101/capture_area?left_px=122&top_px=271&right_px=176&bottom_px=326 (try 1)
+cameraCaptureAndReplaceArea: write 'capture/camera_capture-20230610-121928.png' to disk
+updateTracking
+    tracking_steps_count: 1
+    borders_min_level: 46
+    spot_light_rectangle: (left:123, top:279, right:159, bottom:315)
+    distance from borders: 1, 8, 17, 11
+    spot_center: 141.0, 297.0
+    spot_center_error: -8.0, -1.5
+    borders_to_move_away: [<Border.LEFT: 'LEFT'>, <Border.LEFT: 'LEFT'>]
+moveOneStep: right
+    httpRequest: http://192.168.209.101/motors_command?cmd=right&continuous=0 (try 1)
+
+setState: TRACKING (at 381958.242669133 s)
+    httpRequest: http://192.168.209.101/motors_status (try 1)
+getMotorsStatus: LOCKED
+    httpRequest: http://192.168.209.101/capture_area?left_px=122&top_px=271&right_px=176&bottom_px=326 (try 1)
+cameraCaptureAndReplaceArea: write 'capture/camera_capture-20230610-121931.png' to disk
+updateTracking
+    tracking_steps_count: 2
+    borders_min_level: 48
+    spot_light_rectangle: (left:131, top:281, right:167, bottom:316)
+    distance from borders: 9, 10, 9, 10
+    spot_center: 149.0, 298.5
+    spot_center_error: 0.0, 0.0
+    borders_to_move_away: []
+    TRACKING FINISHED
+    httpRequest: http://192.168.209.101/capture (try 1)
+cameraCapture: write 'capture/camera_capture-20230610-121940.png' to disk
+cameraCapture: write 'capture/target-20230610-121940.png' to disk
+
+setState: WAITING_SUN_MOVE (at 381969.390444808 s)
+    httpRequest: http://192.168.209.101/capture (try 1)
+    Http request exception:
+<class 'requests.exceptions.ConnectionError'>
+(ReadTimeoutError("HTTPConnectionPool(host='192.168.209.101', port=80): Read timed out."),)
+    httpRequest: http://192.168.209.101/capture (try 2)
+cameraCapture: write 'capture/camera_capture-20230610-122110.png' to disk
+startTracking
+    borders_min_level: 108
+    spot_light_rectangle: (left:127, top:282, right:165, bottom:318)
+    spot_center: 146.0, 300.0
+    distance from borders: 5, 11, 11, 8
+    spot_center: 146.0, 300.0
+    spot_center_error: -3.0, 1.5
+    borders_to_move_away: []
+    NO BORDERS TO MOVE AWAY
+
+setState: WAITING_SUN_MOVE (at 382059.518645141 s)
+    httpRequest: http://192.168.209.101/capture (try 1)
+cameraCapture: write 'capture/camera_capture-20230610-122218.png' to disk
+startTracking
+    borders_min_level: 33
+    spot_light_rectangle: (left:126, top:283, right:160, bottom:318)
+    spot_center: 143.0, 300.5
+    distance from borders: 4, 12, 16, 8
+    spot_center: 143.0, 300.5
+    spot_center_error: -6.0, 2.0
+    borders_to_move_away: [<Border.LEFT: 'LEFT'>, <Border.LEFT: 'LEFT'>]
+moveOneStep: right
+    httpRequest: http://192.168.209.101/motors_command?cmd=right&continuous=0 (try 1)
+
+setState: TRACKING (at 382127.93914559 s)
+    httpRequest: http://192.168.209.101/motors_status (try 1)
+getMotorsStatus: LOCKED
+    httpRequest: http://192.168.209.101/capture_area?left_px=122&top_px=271&right_px=176&bottom_px=326 (try 1)
+cameraCaptureAndReplaceArea: write 'capture/camera_capture-20230610-122220.png' to disk
+updateTracking
+    tracking_steps_count: 1
+    borders_min_level: 31
+    spot_light_rectangle: (left:132, top:284, right:166, bottom:318)
+    distance from borders: 10, 13, 10, 8
+    spot_center: 149.0, 301.0
+    spot_center_error: 0.0, 2.5
+    borders_to_move_away: []
+    TRACKING FINISHED
+    httpRequest: http://192.168.209.101/capture (try 1)
+cameraCapture: write 'capture/camera_capture-20230610-122229.png' to disk
+cameraCapture: write 'capture/target-20230610-122229.png' to disk
+
+setState: WAITING_SUN_MOVE (at 382138.205538109 s)
+    httpRequest: http://192.168.209.101/capture (try 1)
+cameraCapture: write 'capture/camera_capture-20230610-122338.png' to disk
+startTracking
+    borders_min_level: 30
+    spot_light_rectangle: (left:130, top:285, right:164, bottom:319)
+    spot_center: 147.0, 302.0
+    distance from borders: 8, 14, 12, 7
+    spot_center: 147.0, 302.0
+    spot_center_error: -2.0, 3.5
+    borders_to_move_away: []
+    NO BORDERS TO MOVE AWAY
+
+setState: WAITING_SUN_MOVE (at 382206.765020459 s)
+    httpRequest: http://192.168.209.101/capture (try 1)
+cameraCapture: write 'capture/camera_capture-20230610-122446.png' to disk
+startTracking
+    borders_min_level: 34
+    spot_light_rectangle: (left:127, top:285, right:161, bottom:320)
+    spot_center: 144.0, 302.5
+    distance from borders: 5, 14, 15, 6
+    spot_center: 144.0, 302.5
+    spot_center_error: -5.0, 4.0
+    borders_to_move_away: []
+    NO BORDERS TO MOVE AWAY
+
+setState: WAITING_SUN_MOVE (at 382275.126266377 s)
+    httpRequest: http://192.168.209.101/capture (try 1)
+cameraCapture: write 'capture/camera_capture-20230610-122553.png' to disk
+startTracking
+    borders_min_level: 26
+    spot_light_rectangle: (left:124, top:287, right:158, bottom:321)
+    spot_center: 141.0, 304.0
+    distance from borders: 2, 16, 18, 5
+    spot_center: 141.0, 304.0
+    spot_center_error: -8.0, 5.5
+    borders_to_move_away: [<Border.LEFT: 'LEFT'>, <Border.LEFT: 'LEFT'>, <Border.BOTTOM: 'BOTTOM'>]
+moveOneStep: up-right
+    httpRequest: http://192.168.209.101/motors_command?cmd=up-right&continuous=0 (try 1)
+
+setState: TRACKING (at 382342.415520874 s)
+    httpRequest: http://192.168.209.101/motors_status (try 1)
+getMotorsStatus: LOCKED
+    httpRequest: http://192.168.209.101/capture_area?left_px=122&top_px=271&right_px=176&bottom_px=326 (try 1)
+cameraCaptureAndReplaceArea: write 'capture/camera_capture-20230610-122555.png' to disk
+updateTracking
+    tracking_steps_count: 1
+    borders_min_level: 27
+    spot_light_rectangle: (left:128, top:285, right:161, bottom:318)
+    distance from borders: 6, 14, 15, 8
+    spot_center: 144.5, 301.5
+    spot_center_error: -4.5, 3.0
+    borders_to_move_away: []
+    TRACKING FINISHED
+    httpRequest: http://192.168.209.101/capture (try 1)
+cameraCapture: write 'capture/camera_capture-20230610-122603.png' to disk
+cameraCapture: write 'capture/target-20230610-122603.png' to disk
+
+setState: WAITING_SUN_MOVE (at 382352.567352464 s)
+    httpRequest: http://192.168.209.101/capture (try 1)
+cameraCapture: write 'capture/camera_capture-20230610-122711.png' to disk
+startTracking
+    borders_min_level: 32
+    spot_light_rectangle: (left:125, top:285, right:159, bottom:320)
+    spot_center: 142.0, 302.5
+    distance from borders: 3, 14, 17, 6
+    spot_center: 142.0, 302.5
+    spot_center_error: -7.0, 4.0
+    borders_to_move_away: [<Border.LEFT: 'LEFT'>, <Border.LEFT: 'LEFT'>]
+moveOneStep: right
+    httpRequest: http://192.168.209.101/motors_command?cmd=right&continuous=0 (try 1)
+
+setState: TRACKING (at 382420.44522893 s)
+    httpRequest: http://192.168.209.101/motors_status (try 1)
+getMotorsStatus: LOCKED
+    httpRequest: http://192.168.209.101/capture_area?left_px=122&top_px=271&right_px=176&bottom_px=326 (try 1)
+cameraCaptureAndReplaceArea: write 'capture/camera_capture-20230610-122713.png' to disk
+updateTracking
+    tracking_steps_count: 1
+    borders_min_level: 32
+    spot_light_rectangle: (left:131, top:285, right:165, bottom:320)
+    distance from borders: 9, 14, 11, 6
+    spot_center: 148.0, 302.5
+    spot_center_error: -1.0, 4.0
+    borders_to_move_away: []
+    TRACKING FINISHED
+    httpRequest: http://192.168.209.101/capture (try 1)
+cameraCapture: write 'capture/camera_capture-20230610-122723.png' to disk
+cameraCapture: write 'capture/target-20230610-122723.png' to disk
+
+setState: WAITING_SUN_MOVE (at 382431.607483249 s)
+    httpRequest: http://192.168.209.101/capture (try 1)
+cameraCapture: write 'capture/camera_capture-20230610-122829.png' to disk
+startTracking
+    borders_min_level: 27
+    spot_light_rectangle: (left:128, top:286, right:162, bottom:320)
+    spot_center: 145.0, 303.0
+    distance from borders: 6, 15, 14, 6
+    spot_center: 145.0, 303.0
+    spot_center_error: -4.0, 4.5
+    borders_to_move_away: []
+    NO BORDERS TO MOVE AWAY
+
+setState: WAITING_SUN_MOVE (at 382498.482551261 s)
+    httpRequest: http://192.168.209.101/capture (try 1)
+cameraCapture: write 'capture/camera_capture-20230610-122936.png' to disk
+startTracking
+    borders_min_level: 29
+    spot_light_rectangle: (left:126, top:287, right:160, bottom:321)
+    spot_center: 143.0, 304.0
+    distance from borders: 4, 16, 16, 5
+    spot_center: 143.0, 304.0
+    spot_center_error: -6.0, 5.5
+    borders_to_move_away: [<Border.LEFT: 'LEFT'>, <Border.LEFT: 'LEFT'>, <Border.BOTTOM: 'BOTTOM'>]
+moveOneStep: up-right
+    httpRequest: http://192.168.209.101/motors_command?cmd=up-right&continuous=0 (try 1)
+
+setState: TRACKING (at 382565.761223848 s)
+    httpRequest: http://192.168.209.101/motors_status (try 1)
+getMotorsStatus: LOCKED
+    httpRequest: http://192.168.209.101/capture_area?left_px=122&top_px=271&right_px=176&bottom_px=326 (try 1)
+cameraCaptureAndReplaceArea: write 'capture/camera_capture-20230610-122939.png' to disk
+updateTracking
+    tracking_steps_count: 1
+    borders_min_level: 47
+    spot_light_rectangle: (left:128, top:283, right:165, bottom:320)
+    distance from borders: 6, 12, 11, 6
+    spot_center: 146.5, 301.5
+    spot_center_error: -2.5, 3.0
+    borders_to_move_away: []
+    TRACKING FINISHED
+    httpRequest: http://192.168.209.101/capture (try 1)
+cameraCapture: write 'capture/camera_capture-20230610-122948.png' to disk
+cameraCapture: write 'capture/target-20230610-122948.png' to disk
+
+setState: WAITING_SUN_MOVE (at 382576.988328975 s)
+    httpRequest: http://192.168.209.101/capture (try 1)
+cameraCapture: write 'capture/camera_capture-20230610-123057.png' to disk
+startTracking
+    borders_min_level: 71
+    spot_light_rectangle: (left:126, top:284, right:162, bottom:319)
+    spot_center: 144.0, 301.5
+    distance from borders: 4, 13, 14, 7
+    spot_center: 144.0, 301.5
+    spot_center_error: -5.0, 3.0
+    borders_to_move_away: [<Border.LEFT: 'LEFT'>]
+moveOneStep: right
+    httpRequest: http://192.168.209.101/motors_command?cmd=right&continuous=0 (try 1)
+
+setState: TRACKING (at 382647.126842658 s)
+    httpRequest: http://192.168.209.101/motors_status (try 1)
+getMotorsStatus: LOCKED
+    httpRequest: http://192.168.209.101/capture_area?left_px=122&top_px=271&right_px=176&bottom_px=326 (try 1)
+cameraCaptureAndReplaceArea: write 'capture/camera_capture-20230610-123100.png' to disk
+updateTracking
+    tracking_steps_count: 1
+    borders_min_level: 69
+    spot_light_rectangle: (left:131, top:284, right:167, bottom:319)
+    distance from borders: 9, 13, 9, 7
+    spot_center: 149.0, 301.5
+    spot_center_error: 0.0, 3.0
+    borders_to_move_away: []
+    TRACKING FINISHED
+    httpRequest: http://192.168.209.101/capture (try 1)
+cameraCapture: write 'capture/camera_capture-20230610-123109.png' to disk
+cameraCapture: write 'capture/target-20230610-123109.png' to disk
+
+setState: WAITING_SUN_MOVE (at 382658.09400486 s)
+    httpRequest: http://192.168.209.101/capture (try 1)
+cameraCapture: write 'capture/camera_capture-20230610-123218.png' to disk
+startTracking
+    borders_min_level: 64
+    spot_light_rectangle: (left:129, top:284, right:165, bottom:320)
+    spot_center: 147.0, 302.0
+    distance from borders: 7, 13, 11, 6
+    spot_center: 147.0, 302.0
+    spot_center_error: -2.0, 3.5
+    borders_to_move_away: []
+    NO BORDERS TO MOVE AWAY
+
+setState: WAITING_SUN_MOVE (at 382726.702566394 s)
+    httpRequest: http://192.168.209.101/capture (try 1)
+cameraCapture: write 'capture/camera_capture-20230610-123327.png' to disk
+startTracking
+    borders_min_level: 28
+    spot_light_rectangle: (left:127, top:286, right:161, bottom:320)
+    spot_center: 144.0, 303.0
+    distance from borders: 5, 15, 15, 6
+    spot_center: 144.0, 303.0
+    spot_center_error: -5.0, 4.5
+    borders_to_move_away: []
+    NO BORDERS TO MOVE AWAY
+
+setState: WAITING_SUN_MOVE (at 382796.249280002 s)
+    httpRequest: http://192.168.209.101/capture (try 1)
+cameraCapture: write 'capture/camera_capture-20230610-123438.png' to disk
+startTracking
+    borders_min_level: 32
+    spot_light_rectangle: (left:124, top:286, right:159, bottom:321)
+    spot_center: 141.5, 303.5
+    distance from borders: 2, 15, 17, 5
+    spot_center: 141.5, 303.5
+    spot_center_error: -7.5, 5.0
+    borders_to_move_away: [<Border.LEFT: 'LEFT'>, <Border.LEFT: 'LEFT'>]
+moveOneStep: right
+    httpRequest: http://192.168.209.101/motors_command?cmd=right&continuous=0 (try 1)
+
+setState: TRACKING (at 382867.40252898 s)
+    httpRequest: http://192.168.209.101/motors_status (try 1)
+getMotorsStatus: LOCKED
+    httpRequest: http://192.168.209.101/capture_area?left_px=122&top_px=271&right_px=176&bottom_px=326 (try 1)
+cameraCaptureAndReplaceArea: write 'capture/camera_capture-20230610-123440.png' to disk
+updateTracking
+    tracking_steps_count: 1
+    borders_min_level: 31
+    spot_light_rectangle: (left:129, top:287, right:164, bottom:322)
+    distance from borders: 7, 16, 12, 4
+    spot_center: 146.5, 304.5
+    spot_center_error: -2.5, 6.0
+    borders_to_move_away: [<Border.BOTTOM: 'BOTTOM'>, <Border.BOTTOM: 'BOTTOM'>]
+moveOneStep: up
+    httpRequest: http://192.168.209.101/motors_command?cmd=up&continuous=0 (try 1)
+
+setState: TRACKING (at 382870.928822891 s)
+    httpRequest: http://192.168.209.101/motors_status (try 1)
+getMotorsStatus: LOCKED
+    httpRequest: http://192.168.209.101/capture_area?left_px=122&top_px=271&right_px=176&bottom_px=326 (try 1)
+cameraCaptureAndReplaceArea: write 'capture/camera_capture-20230610-123444.png' to disk
+updateTracking
+    tracking_steps_count: 2
+    borders_min_level: 32
+    spot_light_rectangle: (left:126, top:279, right:160, bottom:314)
+    distance from borders: 4, 8, 16, 12
+    spot_center: 143.0, 296.5
+    spot_center_error: -6.0, -2.0
+    borders_to_move_away: [<Border.LEFT: 'LEFT'>, <Border.LEFT: 'LEFT'>]
+moveOneStep: right
+    httpRequest: http://192.168.209.101/motors_command?cmd=right&continuous=0 (try 1)
+
+setState: TRACKING (at 382874.337147885 s)
+    httpRequest: http://192.168.209.101/motors_status (try 1)
+getMotorsStatus: LOCKED
+    httpRequest: http://192.168.209.101/capture_area?left_px=122&top_px=271&right_px=176&bottom_px=326 (try 1)
+cameraCaptureAndReplaceArea: write 'capture/camera_capture-20230610-123447.png' to disk
+updateTracking
+    tracking_steps_count: 3
+    borders_min_level: 32
+    spot_light_rectangle: (left:134, top:280, right:167, bottom:315)
+    distance from borders: 12, 9, 9, 11
+    spot_center: 150.5, 297.5
+    spot_center_error: 1.5, -1.0
+    borders_to_move_away: []
+    TRACKING FINISHED
+    httpRequest: http://192.168.209.101/capture (try 1)
+cameraCapture: write 'capture/camera_capture-20230610-123458.png' to disk
+cameraCapture: write 'capture/target-20230610-123458.png' to disk
+
+setState: WAITING_SUN_MOVE (at 382886.69953595 s)
+    httpRequest: http://192.168.209.101/capture (try 1)
+cameraCapture: write 'capture/camera_capture-20230610-123611.png' to disk
+startTracking
+    borders_min_level: 33
+    spot_light_rectangle: (left:131, top:281, right:165, bottom:316)
+    spot_center: 148.0, 298.5
+    distance from borders: 9, 10, 11, 10
+    spot_center: 148.0, 298.5
+    spot_center_error: -1.0, 0.0
+    borders_to_move_away: []
+    NO BORDERS TO MOVE AWAY
+
+setState: WAITING_SUN_MOVE (at 382960.525325847 s)
+    httpRequest: http://192.168.209.101/capture (try 1)
+cameraCapture: write 'capture/camera_capture-20230610-123721.png' to disk
+startTracking
+    borders_min_level: 35
+    spot_light_rectangle: (left:128, top:282, right:163, bottom:317)
+    spot_center: 145.5, 299.5
+    distance from borders: 6, 11, 13, 9
+    spot_center: 145.5, 299.5
+    spot_center_error: -3.5, 1.0
+    borders_to_move_away: []
+    NO BORDERS TO MOVE AWAY
+
+setState: WAITING_SUN_MOVE (at 383030.097905723 s)
+    httpRequest: http://192.168.209.101/capture (try 1)
+cameraCapture: write 'capture/camera_capture-20230610-123830.png' to disk
+startTracking
+    borders_min_level: 37
+    spot_light_rectangle: (left:125, top:283, right:160, bottom:318)
+    spot_center: 142.5, 300.5
+    distance from borders: 3, 12, 16, 8
+    spot_center: 142.5, 300.5
+    spot_center_error: -6.5, 2.0
+    borders_to_move_away: [<Border.LEFT: 'LEFT'>, <Border.LEFT: 'LEFT'>]
+moveOneStep: right
+    httpRequest: http://192.168.209.101/motors_command?cmd=right&continuous=0 (try 1)
+
+setState: TRACKING (at 383100.152567796 s)
+    httpRequest: http://192.168.209.101/motors_status (try 1)
+getMotorsStatus: LOCKED
+    httpRequest: http://192.168.209.101/capture_area?left_px=122&top_px=271&right_px=176&bottom_px=326 (try 1)
+cameraCaptureAndReplaceArea: write 'capture/camera_capture-20230610-123833.png' to disk
+updateTracking
+    tracking_steps_count: 1
+    borders_min_level: 37
+    spot_light_rectangle: (left:131, top:284, right:166, bottom:319)
+    distance from borders: 9, 13, 10, 7
+    spot_center: 148.5, 301.5
+    spot_center_error: -0.5, 3.0
+    borders_to_move_away: []
+    TRACKING FINISHED
+    httpRequest: http://192.168.209.101/capture (try 1)
+cameraCapture: write 'capture/camera_capture-20230610-123843.png' to disk
+cameraCapture: write 'capture/target-20230610-123843.png' to disk
+
+setState: WAITING_SUN_MOVE (at 383112.606859792 s)
+    httpRequest: http://192.168.209.101/capture (try 1)
+    Http request exception:
+<class 'requests.exceptions.ConnectionError'>
+(ReadTimeoutError("HTTPConnectionPool(host='192.168.209.101', port=80): Read timed out."),)
+    httpRequest: http://192.168.209.101/capture (try 2)
+cameraCapture: write 'capture/camera_capture-20230610-124005.png' to disk
+startTracking
+    borders_min_level: 250
+    spot_light_rectangle: None
+    NO SPOT DETECTED
+
+setState: WAITING_SUN_MOVE (at 383194.384980064 s)
+    httpRequest: http://192.168.209.101/capture (try 1)
+cameraCapture: write 'capture/camera_capture-20230610-124114.png' to disk
+startTracking
+    borders_min_level: 39
+    spot_light_rectangle: (left:126, top:285, right:160, bottom:320)
+    spot_center: 143.0, 302.5
+    distance from borders: 4, 14, 16, 6
+    spot_center: 143.0, 302.5
+    spot_center_error: -6.0, 4.0
+    borders_to_move_away: [<Border.LEFT: 'LEFT'>, <Border.LEFT: 'LEFT'>]
+moveOneStep: right
+    httpRequest: http://192.168.209.101/motors_command?cmd=right&continuous=0 (try 1)
+
+setState: TRACKING (at 383264.10441456 s)
+    httpRequest: http://192.168.209.101/motors_status (try 1)
+getMotorsStatus: LOCKED
+    httpRequest: http://192.168.209.101/capture_area?left_px=122&top_px=271&right_px=176&bottom_px=326 (try 1)
+cameraCaptureAndReplaceArea: write 'capture/camera_capture-20230610-124117.png' to disk
+updateTracking
+    tracking_steps_count: 1
+    borders_min_level: 38
+    spot_light_rectangle: (left:131, top:285, right:166, bottom:321)
+    distance from borders: 9, 14, 10, 5
+    spot_center: 148.5, 303.0
+    spot_center_error: -0.5, 4.5
+    borders_to_move_away: []
+    TRACKING FINISHED
+    httpRequest: http://192.168.209.101/capture (try 1)
+    Http request exception:
+<class 'requests.exceptions.ConnectionError'>
+(ReadTimeoutError("HTTPConnectionPool(host='192.168.209.101', port=80): Read timed out."),)
+    httpRequest: http://192.168.209.101/capture (try 2)
+cameraCapture: write 'capture/camera_capture-20230610-124136.png' to disk
+cameraCapture: write 'capture/target-20230610-124136.png' to disk
+
+setState: WAITING_SUN_MOVE (at 383285.074433086 s)
+    httpRequest: http://192.168.209.101/capture (try 1)
+    Http request exception:
+<class 'requests.exceptions.ConnectionError'>
+(ReadTimeoutError("HTTPConnectionPool(host='192.168.209.101', port=80): Read timed out."),)
+    httpRequest: http://192.168.209.101/capture (try 2)
+    Http request exception:
+<class 'requests.exceptions.ConnectionError'>
+(ReadTimeoutError("HTTPConnectionPool(host='192.168.209.101', port=80): Read timed out."),)
+    httpRequest: http://192.168.209.101/capture (try 3)
+    Http request exception:
+<class 'requests.exceptions.ConnectionError'>
+(ReadTimeoutError("HTTPConnectionPool(host='192.168.209.101', port=80): Read timed out."),)
+    httpRequest: http://192.168.209.101/capture (try 4)
+    Http request exception:
+<class 'requests.exceptions.ConnectTimeout'>
+(MaxRetryError("HTTPConnectionPool(host='192.168.209.101', port=80): Max retries exceeded with url: /capture (Caused by ConnectTimeoutError(<urllib3.connection.HTTPConnection object at 0x7f44e085e700>, 'Connection to 192.168.209.101 timed out. (connect timeout=10)'))"),)
+    httpRequest: http://192.168.209.101/capture (try 5)
+cameraCapture: write 'capture/camera_capture-20230610-124346.png' to disk
+startTracking
+    borders_min_level: 87
+    spot_light_rectangle: (left:125, top:286, right:162, bottom:323)
+    spot_center: 143.5, 304.5
+    distance from borders: 3, 15, 14, 3
+    spot_center: 143.5, 304.5
+    spot_center_error: -5.5, 6.0
+    borders_to_move_away: [<Border.LEFT: 'LEFT'>, <Border.LEFT: 'LEFT'>, <Border.BOTTOM: 'BOTTOM'>, <Border.BOTTOM: 'BOTTOM'>]
+moveOneStep: up-right
+    httpRequest: http://192.168.209.101/motors_command?cmd=up-right&continuous=0 (try 1)
+
+setState: TRACKING (at 383415.304036265 s)
+    httpRequest: http://192.168.209.101/motors_status (try 1)
+getMotorsStatus: LOCKED
+    httpRequest: http://192.168.209.101/capture_area?left_px=122&top_px=271&right_px=176&bottom_px=326 (try 1)
+cameraCaptureAndReplaceArea: write 'capture/camera_capture-20230610-124348.png' to disk
+updateTracking
+    tracking_steps_count: 1
+    borders_min_level: 56
+    spot_light_rectangle: (left:129, top:284, right:162, bottom:319)
+    distance from borders: 7, 13, 14, 7
+    spot_center: 145.5, 301.5
+    spot_center_error: -3.5, 3.0
+    borders_to_move_away: []
+    TRACKING FINISHED
+    httpRequest: http://192.168.209.101/capture (try 1)
+cameraCapture: write 'capture/camera_capture-20230610-124400.png' to disk
+cameraCapture: write 'capture/target-20230610-124400.png' to disk
+
+setState: WAITING_SUN_MOVE (at 383429.314047685 s)
+    httpRequest: http://192.168.209.101/capture (try 1)
+cameraCapture: write 'capture/camera_capture-20230610-124511.png' to disk
+startTracking
+    borders_min_level: 41
+    spot_light_rectangle: (left:126, top:285, right:160, bottom:320)
+    spot_center: 143.0, 302.5
+    distance from borders: 4, 14, 16, 6
+    spot_center: 143.0, 302.5
+    spot_center_error: -6.0, 4.0
+    borders_to_move_away: [<Border.LEFT: 'LEFT'>, <Border.LEFT: 'LEFT'>]
+moveOneStep: right
+    httpRequest: http://192.168.209.101/motors_command?cmd=right&continuous=0 (try 1)
+
+setState: TRACKING (at 383500.877968575 s)
+    httpRequest: http://192.168.209.101/motors_status (try 1)
+getMotorsStatus: LOCKED
+    httpRequest: http://192.168.209.101/capture_area?left_px=122&top_px=271&right_px=176&bottom_px=326 (try 1)
+cameraCaptureAndReplaceArea: write 'capture/camera_capture-20230610-124514.png' to disk
+updateTracking
+    tracking_steps_count: 1
+    borders_min_level: 40
+    spot_light_rectangle: (left:132, top:285, right:166, bottom:320)
+    distance from borders: 10, 14, 10, 6
+    spot_center: 149.0, 302.5
+    spot_center_error: 0.0, 4.0
+    borders_to_move_away: []
+    TRACKING FINISHED
+    httpRequest: http://192.168.209.101/capture (try 1)
+cameraCapture: write 'capture/camera_capture-20230610-124525.png' to disk
+cameraCapture: write 'capture/target-20230610-124525.png' to disk
+
+setState: WAITING_SUN_MOVE (at 383514.24430621 s)
+    httpRequest: http://192.168.209.101/capture (try 1)
+cameraCapture: write 'capture/camera_capture-20230610-124636.png' to disk
+startTracking
+    borders_min_level: 41
+    spot_light_rectangle: (left:129, top:286, right:164, bottom:322)
+    spot_center: 146.5, 304.0
+    distance from borders: 7, 15, 12, 4
+    spot_center: 146.5, 304.0
+    spot_center_error: -2.5, 5.5
+    borders_to_move_away: [<Border.BOTTOM: 'BOTTOM'>, <Border.BOTTOM: 'BOTTOM'>]
+moveOneStep: up
+    httpRequest: http://192.168.209.101/motors_command?cmd=up&continuous=0 (try 1)
+
+setState: TRACKING (at 383585.320454475 s)
+    httpRequest: http://192.168.209.101/motors_status (try 1)
+getMotorsStatus: LOCKED
+    httpRequest: http://192.168.209.101/capture_area?left_px=122&top_px=271&right_px=176&bottom_px=326 (try 1)
+cameraCaptureAndReplaceArea: write 'capture/camera_capture-20230610-124638.png' to disk
+updateTracking
+    tracking_steps_count: 1
+    borders_min_level: 42
+    spot_light_rectangle: (left:125, top:279, right:160, bottom:315)
+    distance from borders: 3, 8, 16, 11
+    spot_center: 142.5, 297.0
+    spot_center_error: -6.5, -1.5
+    borders_to_move_away: [<Border.LEFT: 'LEFT'>, <Border.LEFT: 'LEFT'>]
+moveOneStep: right
+    httpRequest: http://192.168.209.101/motors_command?cmd=right&continuous=0 (try 1)
+
+setState: TRACKING (at 383588.81511824 s)
+    httpRequest: http://192.168.209.101/motors_status (try 1)
+getMotorsStatus: LOCKED
+    httpRequest: http://192.168.209.101/capture_area?left_px=122&top_px=271&right_px=176&bottom_px=326 (try 1)
+cameraCaptureAndReplaceArea: write 'capture/camera_capture-20230610-124642.png' to disk
+updateTracking
+    tracking_steps_count: 2
+    borders_min_level: 42
+    spot_light_rectangle: (left:132, top:280, right:167, bottom:315)
+    distance from borders: 10, 9, 9, 11
+    spot_center: 149.5, 297.5
+    spot_center_error: 0.5, -1.0
+    borders_to_move_away: []
+    TRACKING FINISHED
+    httpRequest: http://192.168.209.101/capture (try 1)
+cameraCapture: write 'capture/camera_capture-20230610-124651.png' to disk
+cameraCapture: write 'capture/target-20230610-124651.png' to disk
+
+setState: WAITING_SUN_MOVE (at 383600.458629513 s)
+    httpRequest: http://192.168.209.101/capture (try 1)
+cameraCapture: write 'capture/camera_capture-20230610-124802.png' to disk
+startTracking
+    borders_min_level: 21
+    spot_light_rectangle: (left:131, top:281, right:164, bottom:315)
+    spot_center: 147.5, 298.0
+    distance from borders: 9, 10, 12, 11
+    spot_center: 147.5, 298.0
+    spot_center_error: -1.5, -0.5
+    borders_to_move_away: []
+    NO BORDERS TO MOVE AWAY
+
+setState: WAITING_SUN_MOVE (at 383670.602637644 s)
+    httpRequest: http://192.168.209.101/capture (try 1)
+cameraCapture: write 'capture/camera_capture-20230610-124911.png' to disk
+startTracking
+    borders_min_level: 39
+    spot_light_rectangle: (left:127, top:281, right:162, bottom:317)
+    spot_center: 144.5, 299.0
+    distance from borders: 5, 10, 14, 9
+    spot_center: 144.5, 299.0
+    spot_center_error: -4.5, 0.5
+    borders_to_move_away: []
+    NO BORDERS TO MOVE AWAY
+
+setState: WAITING_SUN_MOVE (at 383740.10486944 s)
+    httpRequest: http://192.168.209.101/capture (try 1)
+cameraCapture: write 'capture/camera_capture-20230610-125018.png' to disk
+startTracking
+    borders_min_level: 30
+    spot_light_rectangle: (left:125, top:282, right:159, bottom:318)
+    spot_center: 142.0, 300.0
+    distance from borders: 3, 11, 17, 8
+    spot_center: 142.0, 300.0
+    spot_center_error: -7.0, 1.5
+    borders_to_move_away: [<Border.LEFT: 'LEFT'>, <Border.LEFT: 'LEFT'>]
+moveOneStep: right
+    httpRequest: http://192.168.209.101/motors_command?cmd=right&continuous=0 (try 1)
+
+setState: TRACKING (at 383808.503202803 s)
+    httpRequest: http://192.168.209.101/motors_status (try 1)
+getMotorsStatus: LOCKED
+    httpRequest: http://192.168.209.101/capture_area?left_px=122&top_px=271&right_px=176&bottom_px=326 (try 1)
+cameraCaptureAndReplaceArea: write 'capture/camera_capture-20230610-125021.png' to disk
+updateTracking
+    tracking_steps_count: 1
+    borders_min_level: 31
+    spot_light_rectangle: (left:130, top:283, right:164, bottom:318)
+    distance from borders: 8, 12, 12, 8
+    spot_center: 147.0, 300.5
+    spot_center_error: -2.0, 2.0
+    borders_to_move_away: []
+    TRACKING FINISHED
+    httpRequest: http://192.168.209.101/capture (try 1)
+cameraCapture: write 'capture/camera_capture-20230610-125030.png' to disk
+cameraCapture: write 'capture/target-20230610-125030.png' to disk
+
+setState: WAITING_SUN_MOVE (at 383818.841070553 s)
+    httpRequest: http://192.168.209.101/capture (try 1)
+cameraCapture: write 'capture/camera_capture-20230610-125138.png' to disk
+startTracking
+    borders_min_level: 33
+    spot_light_rectangle: (left:127, top:283, right:162, bottom:319)
+    spot_center: 144.5, 301.0
+    distance from borders: 5, 12, 14, 7
+    spot_center: 144.5, 301.0
+    spot_center_error: -4.5, 2.5
+    borders_to_move_away: []
+    NO BORDERS TO MOVE AWAY
+
+setState: WAITING_SUN_MOVE (at 383887.327729306 s)
+    httpRequest: http://192.168.209.101/capture (try 1)
+cameraCapture: write 'capture/camera_capture-20230610-125247.png' to disk
+startTracking
+    borders_min_level: 34
+    spot_light_rectangle: (left:125, top:284, right:159, bottom:320)
+    spot_center: 142.0, 302.0
+    distance from borders: 3, 13, 17, 6
+    spot_center: 142.0, 302.0
+    spot_center_error: -7.0, 3.5
+    borders_to_move_away: [<Border.LEFT: 'LEFT'>, <Border.LEFT: 'LEFT'>]
+moveOneStep: right
+    httpRequest: http://192.168.209.101/motors_command?cmd=right&continuous=0 (try 1)
+
+setState: TRACKING (at 383956.445939651 s)
+    httpRequest: http://192.168.209.101/motors_status (try 1)
+getMotorsStatus: LOCKED
+    httpRequest: http://192.168.209.101/capture_area?left_px=122&top_px=271&right_px=176&bottom_px=326 (try 1)
+cameraCaptureAndReplaceArea: write 'capture/camera_capture-20230610-125249.png' to disk
+updateTracking
+    tracking_steps_count: 1
+    borders_min_level: 34
+    spot_light_rectangle: (left:130, top:285, right:165, bottom:321)
+    distance from borders: 8, 14, 11, 5
+    spot_center: 147.5, 303.0
+    spot_center_error: -1.5, 4.5
+    borders_to_move_away: []
+    TRACKING FINISHED
+    httpRequest: http://192.168.209.101/capture (try 1)
+cameraCapture: write 'capture/camera_capture-20230610-125257.png' to disk
+cameraCapture: write 'capture/target-20230610-125257.png' to disk
+
+setState: WAITING_SUN_MOVE (at 383966.53917413 s)
+    httpRequest: http://192.168.209.101/capture (try 1)
+cameraCapture: write 'capture/camera_capture-20230610-125406.png' to disk
+startTracking
+    borders_min_level: 34
+    spot_light_rectangle: (left:128, top:286, right:163, bottom:322)
+    spot_center: 145.5, 304.0
+    distance from borders: 6, 15, 13, 4
+    spot_center: 145.5, 304.0
+    spot_center_error: -3.5, 5.5
+    borders_to_move_away: [<Border.BOTTOM: 'BOTTOM'>, <Border.BOTTOM: 'BOTTOM'>]
+moveOneStep: up
+    httpRequest: http://192.168.209.101/motors_command?cmd=up&continuous=0 (try 1)
+
+setState: TRACKING (at 384035.487400086 s)
+    httpRequest: http://192.168.209.101/motors_status (try 1)
+getMotorsStatus: LOCKED
+    httpRequest: http://192.168.209.101/capture_area?left_px=122&top_px=271&right_px=176&bottom_px=326 (try 1)
+cameraCaptureAndReplaceArea: write 'capture/camera_capture-20230610-125408.png' to disk
+updateTracking
+    tracking_steps_count: 1
+    borders_min_level: 35
+    spot_light_rectangle: (left:124, top:279, right:159, bottom:314)
+    distance from borders: 2, 8, 17, 12
+    spot_center: 141.5, 296.5
+    spot_center_error: -7.5, -2.0
+    borders_to_move_away: [<Border.LEFT: 'LEFT'>, <Border.LEFT: 'LEFT'>]
+moveOneStep: right
+    httpRequest: http://192.168.209.101/motors_command?cmd=right&continuous=0 (try 1)
+
+setState: TRACKING (at 384039.050683327 s)
+    httpRequest: http://192.168.209.101/motors_status (try 1)
+getMotorsStatus: LOCKED
+    httpRequest: http://192.168.209.101/capture_area?left_px=122&top_px=271&right_px=176&bottom_px=326 (try 1)
+cameraCaptureAndReplaceArea: write 'capture/camera_capture-20230610-125412.png' to disk
+updateTracking
+    tracking_steps_count: 2
+    borders_min_level: 35
+    spot_light_rectangle: (left:131, top:280, right:166, bottom:315)
+    distance from borders: 9, 9, 10, 11
+    spot_center: 148.5, 297.5
+    spot_center_error: -0.5, -1.0
+    borders_to_move_away: []
+    TRACKING FINISHED
+    httpRequest: http://192.168.209.101/capture (try 1)
+cameraCapture: write 'capture/camera_capture-20230610-125420.png' to disk
+cameraCapture: write 'capture/target-20230610-125420.png' to disk
+
+setState: WAITING_SUN_MOVE (at 384049.381780248 s)
+    httpRequest: http://192.168.209.101/capture (try 1)
+cameraCapture: write 'capture/camera_capture-20230610-125529.png' to disk
+startTracking
+    borders_min_level: 36
+    spot_light_rectangle: (left:129, top:280, right:163, bottom:316)
+    spot_center: 146.0, 298.0
+    distance from borders: 7, 9, 13, 10
+    spot_center: 146.0, 298.0
+    spot_center_error: -3.0, -0.5
+    borders_to_move_away: []
+    NO BORDERS TO MOVE AWAY
+
+setState: WAITING_SUN_MOVE (at 384118.561003101 s)
+    httpRequest: http://192.168.209.101/capture (try 1)
+cameraCapture: write 'capture/camera_capture-20230610-125638.png' to disk
+startTracking
+    borders_min_level: 35
+    spot_light_rectangle: (left:126, top:281, right:161, bottom:317)
+    spot_center: 143.5, 299.0
+    distance from borders: 4, 10, 15, 9
+    spot_center: 143.5, 299.0
+    spot_center_error: -5.5, 0.5
+    borders_to_move_away: [<Border.LEFT: 'LEFT'>, <Border.LEFT: 'LEFT'>]
+moveOneStep: right
+    httpRequest: http://192.168.209.101/motors_command?cmd=right&continuous=0 (try 1)
+
+setState: TRACKING (at 384187.43081207 s)
+    httpRequest: http://192.168.209.101/motors_status (try 1)
+getMotorsStatus: LOCKED
+    httpRequest: http://192.168.209.101/capture_area?left_px=122&top_px=271&right_px=176&bottom_px=326 (try 1)
+cameraCaptureAndReplaceArea: write 'capture/camera_capture-20230610-125640.png' to disk
+updateTracking
+    tracking_steps_count: 1
+    borders_min_level: 36
+    spot_light_rectangle: (left:132, top:281, right:166, bottom:317)
+    distance from borders: 10, 10, 10, 9
+    spot_center: 149.0, 299.0
+    spot_center_error: 0.0, 0.5
+    borders_to_move_away: []
+    TRACKING FINISHED
+    httpRequest: http://192.168.209.101/capture (try 1)
+cameraCapture: write 'capture/camera_capture-20230610-125649.png' to disk
+cameraCapture: write 'capture/target-20230610-125649.png' to disk
+
+setState: WAITING_SUN_MOVE (at 384197.83055567 s)
+    httpRequest: http://192.168.209.101/capture (try 1)
+    Http request exception:
+<class 'requests.exceptions.ConnectionError'>
+(ReadTimeoutError("HTTPConnectionPool(host='192.168.209.101', port=80): Read timed out."),)
+    httpRequest: http://192.168.209.101/capture (try 2)
+cameraCapture: write 'capture/camera_capture-20230610-125810.png' to disk
+startTracking
+    borders_min_level: 250
+    spot_light_rectangle: None
+    NO SPOT DETECTED
+
+setState: WAITING_SUN_MOVE (at 384278.988964393 s)
+    httpRequest: http://192.168.209.101/capture (try 1)
+cameraCapture: write 'capture/camera_capture-20230610-125918.png' to disk
+startTracking
+    borders_min_level: 43
+    spot_light_rectangle: (left:126, top:283, right:161, bottom:319)
+    spot_center: 143.5, 301.0
+    distance from borders: 4, 12, 15, 7
+    spot_center: 143.5, 301.0
+    spot_center_error: -5.5, 2.5
+    borders_to_move_away: [<Border.LEFT: 'LEFT'>, <Border.LEFT: 'LEFT'>]
+moveOneStep: right
+    httpRequest: http://192.168.209.101/motors_command?cmd=right&continuous=0 (try 1)
+
+setState: TRACKING (at 384347.954954431 s)
+    httpRequest: http://192.168.209.101/motors_status (try 1)
+getMotorsStatus: LOCKED
+    httpRequest: http://192.168.209.101/capture_area?left_px=122&top_px=271&right_px=176&bottom_px=326 (try 1)
+cameraCaptureAndReplaceArea: write 'capture/camera_capture-20230610-125921.png' to disk
+updateTracking
+    tracking_steps_count: 1
+    borders_min_level: 43
+    spot_light_rectangle: (left:132, top:283, right:166, bottom:319)
+    distance from borders: 10, 12, 10, 7
+    spot_center: 149.0, 301.0
+    spot_center_error: 0.0, 2.5
+    borders_to_move_away: []
+    TRACKING FINISHED
+    httpRequest: http://192.168.209.101/capture (try 1)
+cameraCapture: write 'capture/camera_capture-20230610-125929.png' to disk
+cameraCapture: write 'capture/target-20230610-125929.png' to disk
+
+setState: WAITING_SUN_MOVE (at 384358.263646136 s)
+    httpRequest: http://192.168.209.101/capture (try 1)
+cameraCapture: write 'capture/camera_capture-20230610-130038.png' to disk
+startTracking
+    borders_min_level: 45
+    spot_light_rectangle: (left:129, top:284, right:164, bottom:320)
+    spot_center: 146.5, 302.0
+    distance from borders: 7, 13, 12, 6
+    spot_center: 146.5, 302.0
+    spot_center_error: -2.5, 3.5
+    borders_to_move_away: []
+    NO BORDERS TO MOVE AWAY
+
+setState: WAITING_SUN_MOVE (at 384426.733610416 s)
+    httpRequest: http://192.168.209.101/capture (try 1)
+cameraCapture: write 'capture/camera_capture-20230610-130145.png' to disk
+startTracking
+    borders_min_level: 19
+    spot_light_rectangle: (left:127, top:286, right:160, bottom:319)
+    spot_center: 143.5, 302.5
+    distance from borders: 5, 15, 16, 7
+    spot_center: 143.5, 302.5
+    spot_center_error: -5.5, 4.0
+    borders_to_move_away: [<Border.LEFT: 'LEFT'>]
+moveOneStep: right
+    httpRequest: http://192.168.209.101/motors_command?cmd=right&continuous=0 (try 1)
+
+setState: TRACKING (at 384494.414911259 s)
+    httpRequest: http://192.168.209.101/motors_status (try 1)
+getMotorsStatus: LOCKED
+    httpRequest: http://192.168.209.101/capture_area?left_px=122&top_px=271&right_px=176&bottom_px=326 (try 1)
+cameraCaptureAndReplaceArea: write 'capture/camera_capture-20230610-130147.png' to disk
+updateTracking
+    tracking_steps_count: 1
+    borders_min_level: 27
+    spot_light_rectangle: (left:133, top:286, right:164, bottom:318)
+    distance from borders: 11, 15, 12, 8
+    spot_center: 148.5, 302.0
+    spot_center_error: -0.5, 3.5
+    borders_to_move_away: []
+    TRACKING FINISHED
+    httpRequest: http://192.168.209.101/capture (try 1)
+cameraCapture: write 'capture/camera_capture-20230610-130155.png' to disk
+cameraCapture: write 'capture/target-20230610-130155.png' to disk
+
+setState: WAITING_SUN_MOVE (at 384504.177491654 s)
+    httpRequest: http://192.168.209.101/capture (try 1)
+cameraCapture: write 'capture/camera_capture-20230610-130304.png' to disk
+startTracking
+    borders_min_level: 52
+    spot_light_rectangle: (left:129, top:286, right:163, bottom:322)
+    spot_center: 146.0, 304.0
+    distance from borders: 7, 15, 13, 4
+    spot_center: 146.0, 304.0
+    spot_center_error: -3.0, 5.5
+    borders_to_move_away: [<Border.BOTTOM: 'BOTTOM'>, <Border.BOTTOM: 'BOTTOM'>]
+moveOneStep: up
+    httpRequest: http://192.168.209.101/motors_command?cmd=up&continuous=0 (try 1)
+
+setState: TRACKING (at 384574.04858515 s)
+    httpRequest: http://192.168.209.101/motors_status (try 1)
+getMotorsStatus: LOCKED
+    httpRequest: http://192.168.209.101/capture_area?left_px=122&top_px=271&right_px=176&bottom_px=326 (try 1)
+cameraCaptureAndReplaceArea: write 'capture/camera_capture-20230610-130308.png' to disk
+updateTracking
+    tracking_steps_count: 1
+    borders_min_level: 52
+    spot_light_rectangle: (left:125, top:279, right:159, bottom:315)
+    distance from borders: 3, 8, 17, 11
+    spot_center: 142.0, 297.0
+    spot_center_error: -7.0, -1.5
+    borders_to_move_away: [<Border.LEFT: 'LEFT'>, <Border.LEFT: 'LEFT'>]
+moveOneStep: right
+    httpRequest: http://192.168.209.101/motors_command?cmd=right&continuous=0 (try 1)
+
+setState: TRACKING (at 384579.290914735 s)
+    httpRequest: http://192.168.209.101/motors_status (try 1)
+getMotorsStatus: LOCKED
+    httpRequest: http://192.168.209.101/capture_area?left_px=122&top_px=271&right_px=176&bottom_px=326 (try 1)
+cameraCaptureAndReplaceArea: write 'capture/camera_capture-20230610-130312.png' to disk
+updateTracking
+    tracking_steps_count: 2
+    borders_min_level: 50
+    spot_light_rectangle: (left:131, top:280, right:166, bottom:315)
+    distance from borders: 9, 9, 10, 11
+    spot_center: 148.5, 297.5
+    spot_center_error: -0.5, -1.0
+    borders_to_move_away: []
+    TRACKING FINISHED
+    httpRequest: http://192.168.209.101/capture (try 1)
+cameraCapture: write 'capture/camera_capture-20230610-130324.png' to disk
+cameraCapture: write 'capture/target-20230610-130324.png' to disk
+
+setState: WAITING_SUN_MOVE (at 384592.633981478 s)
+    httpRequest: http://192.168.209.101/capture (try 1)
+cameraCapture: write 'capture/camera_capture-20230610-130434.png' to disk
+startTracking
+    borders_min_level: 44
+    spot_light_rectangle: (left:129, top:280, right:163, bottom:316)
+    spot_center: 146.0, 298.0
+    distance from borders: 7, 9, 13, 10
+    spot_center: 146.0, 298.0
+    spot_center_error: -3.0, -0.5
+    borders_to_move_away: []
+    NO BORDERS TO MOVE AWAY
+
+setState: WAITING_SUN_MOVE (at 384663.137736621 s)
+    httpRequest: http://192.168.209.101/capture (try 1)
+cameraCapture: write 'capture/camera_capture-20230610-130546.png' to disk
+startTracking
+    borders_min_level: 44
+    spot_light_rectangle: (left:126, top:281, right:161, bottom:317)
+    spot_center: 143.5, 299.0
+    distance from borders: 4, 10, 15, 9
+    spot_center: 143.5, 299.0
+    spot_center_error: -5.5, 0.5
+    borders_to_move_away: [<Border.LEFT: 'LEFT'>, <Border.LEFT: 'LEFT'>]
+moveOneStep: right
+    httpRequest: http://192.168.209.101/motors_command?cmd=right&continuous=0 (try 1)
+
+setState: TRACKING (at 384736.134949455 s)
+    httpRequest: http://192.168.209.101/motors_status (try 1)
+getMotorsStatus: LOCKED
+    httpRequest: http://192.168.209.101/capture_area?left_px=122&top_px=271&right_px=176&bottom_px=326 (try 1)
+cameraCaptureAndReplaceArea: write 'capture/camera_capture-20230610-130549.png' to disk
+updateTracking
+    tracking_steps_count: 1
+    borders_min_level: 44
+    spot_light_rectangle: (left:132, top:281, right:166, bottom:317)
+    distance from borders: 10, 10, 10, 9
+    spot_center: 149.0, 299.0
+    spot_center_error: 0.0, 0.5
+    borders_to_move_away: []
+    TRACKING FINISHED
+    httpRequest: http://192.168.209.101/capture (try 1)
+    Http request exception:
+<class 'requests.exceptions.ConnectionError'>
+(ReadTimeoutError("HTTPConnectionPool(host='192.168.209.101', port=80): Read timed out."),)
+    httpRequest: http://192.168.209.101/capture (try 2)
+cameraCapture: write 'capture/camera_capture-20230610-130609.png' to disk
+cameraCapture: write 'capture/target-20230610-130609.png' to disk
+
+setState: WAITING_SUN_MOVE (at 384758.117948856 s)
+    httpRequest: http://192.168.209.101/capture (try 1)
+cameraCapture: write 'capture/camera_capture-20230610-130718.png' to disk
+startTracking
+    borders_min_level: 37
+    spot_light_rectangle: (left:129, top:282, right:163, bottom:318)
+    spot_center: 146.0, 300.0
+    distance from borders: 7, 11, 13, 8
+    spot_center: 146.0, 300.0
+    spot_center_error: -3.0, 1.5
+    borders_to_move_away: []
+    NO BORDERS TO MOVE AWAY
+
+setState: WAITING_SUN_MOVE (at 384826.753425122 s)
+    httpRequest: http://192.168.209.101/capture (try 1)
+cameraCapture: write 'capture/camera_capture-20230610-130825.png' to disk
+startTracking
+    borders_min_level: 37
+    spot_light_rectangle: (left:126, top:283, right:161, bottom:319)
+    spot_center: 143.5, 301.0
+    distance from borders: 4, 12, 15, 7
+    spot_center: 143.5, 301.0
+    spot_center_error: -5.5, 2.5
+    borders_to_move_away: [<Border.LEFT: 'LEFT'>, <Border.LEFT: 'LEFT'>]
+moveOneStep: right
+    httpRequest: http://192.168.209.101/motors_command?cmd=right&continuous=0 (try 1)
+
+setState: TRACKING (at 384894.924508216 s)
+    httpRequest: http://192.168.209.101/motors_status (try 1)
+getMotorsStatus: LOCKED
+    httpRequest: http://192.168.209.101/capture_area?left_px=122&top_px=271&right_px=176&bottom_px=326 (try 1)
+cameraCaptureAndReplaceArea: write 'capture/camera_capture-20230610-130827.png' to disk
+updateTracking
+    tracking_steps_count: 1
+    borders_min_level: 37
+    spot_light_rectangle: (left:131, top:283, right:166, bottom:319)
+    distance from borders: 9, 12, 10, 7
+    spot_center: 148.5, 301.0
+    spot_center_error: -0.5, 2.5
+    borders_to_move_away: []
+    TRACKING FINISHED
+    httpRequest: http://192.168.209.101/capture (try 1)
+cameraCapture: write 'capture/camera_capture-20230610-130836.png' to disk
+cameraCapture: write 'capture/target-20230610-130836.png' to disk
+
+setState: WAITING_SUN_MOVE (at 384905.165690778 s)
+    httpRequest: http://192.168.209.101/capture (try 1)
+cameraCapture: write 'capture/camera_capture-20230610-130944.png' to disk
+startTracking
+    borders_min_level: 36
+    spot_light_rectangle: (left:129, top:283, right:163, bottom:320)
+    spot_center: 146.0, 301.5
+    distance from borders: 7, 12, 13, 6
+    spot_center: 146.0, 301.5
+    spot_center_error: -3.0, 3.0
+    borders_to_move_away: []
+    NO BORDERS TO MOVE AWAY
+
+setState: WAITING_SUN_MOVE (at 384973.405324732 s)
+    httpRequest: http://192.168.209.101/capture (try 1)
+cameraCapture: write 'capture/camera_capture-20230610-131051.png' to disk
+startTracking
+    borders_min_level: 35
+    spot_light_rectangle: (left:126, top:284, right:161, bottom:320)
+    spot_center: 143.5, 302.0
+    distance from borders: 4, 13, 15, 6
+    spot_center: 143.5, 302.0
+    spot_center_error: -5.5, 3.5
+    borders_to_move_away: [<Border.LEFT: 'LEFT'>, <Border.LEFT: 'LEFT'>]
+moveOneStep: right
+    httpRequest: http://192.168.209.101/motors_command?cmd=right&continuous=0 (try 1)
+
+setState: TRACKING (at 385041.625078106 s)
+    httpRequest: http://192.168.209.101/motors_status (try 1)
+getMotorsStatus: LOCKED
+    httpRequest: http://192.168.209.101/capture_area?left_px=122&top_px=271&right_px=176&bottom_px=326 (try 1)
+cameraCaptureAndReplaceArea: write 'capture/camera_capture-20230610-131054.png' to disk
+updateTracking
+    tracking_steps_count: 1
+    borders_min_level: 36
+    spot_light_rectangle: (left:132, top:284, right:166, bottom:320)
+    distance from borders: 10, 13, 10, 6
+    spot_center: 149.0, 302.0
+    spot_center_error: 0.0, 3.5
+    borders_to_move_away: []
+    TRACKING FINISHED
+    httpRequest: http://192.168.209.101/capture (try 1)
+cameraCapture: write 'capture/camera_capture-20230610-131103.png' to disk
+cameraCapture: write 'capture/target-20230610-131103.png' to disk
+
+setState: WAITING_SUN_MOVE (at 385052.467430899 s)
+    httpRequest: http://192.168.209.101/capture (try 1)
+cameraCapture: write 'capture/camera_capture-20230610-131211.png' to disk
+startTracking
+    borders_min_level: 34
+    spot_light_rectangle: (left:129, top:284, right:164, bottom:321)
+    spot_center: 146.5, 302.5
+    distance from borders: 7, 13, 12, 5
+    spot_center: 146.5, 302.5
+    spot_center_error: -2.5, 4.0
+    borders_to_move_away: []
+    NO BORDERS TO MOVE AWAY
+
+setState: WAITING_SUN_MOVE (at 385120.112787754 s)
+    httpRequest: http://192.168.209.101/capture (try 1)
+cameraCapture: write 'capture/camera_capture-20230610-131318.png' to disk
+startTracking
+    borders_min_level: 23
+    spot_light_rectangle: None
+    NO SPOT DETECTED
+
+setState: WAITING_SUN_MOVE (at 385186.886129 s)
+    httpRequest: http://192.168.209.101/capture (try 1)
+cameraCapture: write 'capture/camera_capture-20230610-131425.png' to disk
+startTracking
+    borders_min_level: 22
+    spot_light_rectangle: (left:124, top:287, right:158, bottom:322)
+    spot_center: 141.0, 304.5
+    distance from borders: 2, 16, 18, 4
+    spot_center: 141.0, 304.5
+    spot_center_error: -8.0, 6.0
+    borders_to_move_away: [<Border.LEFT: 'LEFT'>, <Border.LEFT: 'LEFT'>, <Border.BOTTOM: 'BOTTOM'>, <Border.BOTTOM: 'BOTTOM'>]
+moveOneStep: up-right
+    httpRequest: http://192.168.209.101/motors_command?cmd=up-right&continuous=0 (try 1)
+
+setState: TRACKING (at 385255.288294507 s)
+    httpRequest: http://192.168.209.101/motors_status (try 1)
+getMotorsStatus: LOCKED
+    httpRequest: http://192.168.209.101/capture_area?left_px=122&top_px=271&right_px=176&bottom_px=326 (try 1)
+cameraCaptureAndReplaceArea: write 'capture/camera_capture-20230610-131428.png' to disk
+updateTracking
+    tracking_steps_count: 1
+    borders_min_level: 28
+    spot_light_rectangle: (left:127, top:283, right:162, bottom:320)
+    distance from borders: 5, 12, 14, 6
+    spot_center: 144.5, 301.5
+    spot_center_error: -4.5, 3.0
+    borders_to_move_away: []
+    TRACKING FINISHED
+    httpRequest: http://192.168.209.101/capture (try 1)
+    Http request exception:
+<class 'requests.exceptions.ConnectionError'>
+(ReadTimeoutError("HTTPConnectionPool(host='192.168.209.101', port=80): Read timed out."),)
+    httpRequest: http://192.168.209.101/capture (try 2)
+cameraCapture: write 'capture/camera_capture-20230610-131447.png' to disk
+cameraCapture: write 'capture/target-20230610-131447.png' to disk
+
+setState: WAITING_SUN_MOVE (at 385276.186436852 s)
+    httpRequest: http://192.168.209.101/capture (try 1)
+cameraCapture: write 'capture/camera_capture-20230610-131555.png' to disk
+startTracking
+    borders_min_level: 42
+    spot_light_rectangle: (left:123, top:284, right:159, bottom:320)
+    spot_center: 141.0, 302.0
+    distance from borders: 1, 13, 17, 6
+    spot_center: 141.0, 302.0
+    spot_center_error: -8.0, 3.5
+    borders_to_move_away: [<Border.LEFT: 'LEFT'>, <Border.LEFT: 'LEFT'>]
+moveOneStep: right
+    httpRequest: http://192.168.209.101/motors_command?cmd=right&continuous=0 (try 1)
+
+setState: TRACKING (at 385345.012362249 s)
+    httpRequest: http://192.168.209.101/motors_status (try 1)
+getMotorsStatus: LOCKED
+    httpRequest: http://192.168.209.101/capture_area?left_px=122&top_px=271&right_px=176&bottom_px=326 (try 1)
+cameraCaptureAndReplaceArea: write 'capture/camera_capture-20230610-131558.png' to disk
+updateTracking
+    tracking_steps_count: 1
+    borders_min_level: 45
+    spot_light_rectangle: (left:129, top:284, right:164, bottom:320)
+    distance from borders: 7, 13, 12, 6
+    spot_center: 146.5, 302.0
+    spot_center_error: -2.5, 3.5
+    borders_to_move_away: []
+    TRACKING FINISHED
+    httpRequest: http://192.168.209.101/capture (try 1)
+cameraCapture: write 'capture/camera_capture-20230610-131606.png' to disk
+cameraCapture: write 'capture/target-20230610-131606.png' to disk
+
+setState: WAITING_SUN_MOVE (at 385355.36571744 s)
+    httpRequest: http://192.168.209.101/capture (try 1)
+cameraCapture: write 'capture/camera_capture-20230610-131713.png' to disk
+startTracking
+    borders_min_level: 45
+    spot_light_rectangle: (left:126, top:285, right:162, bottom:321)
+    spot_center: 144.0, 303.0
+    distance from borders: 4, 14, 14, 5
+    spot_center: 144.0, 303.0
+    spot_center_error: -5.0, 4.5
+    borders_to_move_away: [<Border.LEFT: 'LEFT'>]
+moveOneStep: right
+    httpRequest: http://192.168.209.101/motors_command?cmd=right&continuous=0 (try 1)
+
+setState: TRACKING (at 385423.057846465 s)
+    httpRequest: http://192.168.209.101/motors_status (try 1)
+getMotorsStatus: LOCKED
+    httpRequest: http://192.168.209.101/capture_area?left_px=122&top_px=271&right_px=176&bottom_px=326 (try 1)
+cameraCaptureAndReplaceArea: write 'capture/camera_capture-20230610-131716.png' to disk
+updateTracking
+    tracking_steps_count: 1
+    borders_min_level: 45
+    spot_light_rectangle: (left:132, top:284, right:167, bottom:321)
+    distance from borders: 10, 13, 9, 5
+    spot_center: 149.5, 302.5
+    spot_center_error: 0.5, 4.0
+    borders_to_move_away: []
+    TRACKING FINISHED
+    httpRequest: http://192.168.209.101/capture (try 1)
+cameraCapture: write 'capture/camera_capture-20230610-131725.png' to disk
+cameraCapture: write 'capture/target-20230610-131725.png' to disk
+
+setState: WAITING_SUN_MOVE (at 385433.629260883 s)
+    httpRequest: http://192.168.209.101/capture (try 1)
+cameraCapture: write 'capture/camera_capture-20230610-131831.png' to disk
+startTracking
+    borders_min_level: 42
+    spot_light_rectangle: (left:129, top:285, right:165, bottom:321)
+    spot_center: 147.0, 303.0
+    distance from borders: 7, 14, 11, 5
+    spot_center: 147.0, 303.0
+    spot_center_error: -2.0, 4.5
+    borders_to_move_away: []
+    NO BORDERS TO MOVE AWAY
+
+setState: WAITING_SUN_MOVE (at 385500.486581864 s)
+    httpRequest: http://192.168.209.101/capture (try 1)
+cameraCapture: write 'capture/camera_capture-20230610-131939.png' to disk
+startTracking
+    borders_min_level: 43
+    spot_light_rectangle: (left:127, top:286, right:162, bottom:322)
+    spot_center: 144.5, 304.0
+    distance from borders: 5, 15, 14, 4
+    spot_center: 144.5, 304.0
+    spot_center_error: -4.5, 5.5
+    borders_to_move_away: [<Border.BOTTOM: 'BOTTOM'>, <Border.BOTTOM: 'BOTTOM'>]
+moveOneStep: up
+    httpRequest: http://192.168.209.101/motors_command?cmd=up&continuous=0 (try 1)
+
+setState: TRACKING (at 385569.098267104 s)
+    httpRequest: http://192.168.209.101/motors_status (try 1)
+getMotorsStatus: LOCKED
+    httpRequest: http://192.168.209.101/capture_area?left_px=122&top_px=271&right_px=176&bottom_px=326 (try 1)
+cameraCaptureAndReplaceArea: write 'capture/camera_capture-20230610-131942.png' to disk
+updateTracking
+    tracking_steps_count: 1
+    borders_min_level: 43
+    spot_light_rectangle: (left:123, top:279, right:158, bottom:315)
+    distance from borders: 1, 8, 18, 11
+    spot_center: 140.5, 297.0
+    spot_center_error: -8.5, -1.5
+    borders_to_move_away: [<Border.LEFT: 'LEFT'>, <Border.LEFT: 'LEFT'>]
+moveOneStep: right
+    httpRequest: http://192.168.209.101/motors_command?cmd=right&continuous=0 (try 1)
+
+setState: TRACKING (at 385572.668536491 s)
+    httpRequest: http://192.168.209.101/motors_status (try 1)
+getMotorsStatus: LOCKED
+    httpRequest: http://192.168.209.101/capture_area?left_px=122&top_px=271&right_px=176&bottom_px=326 (try 1)
+cameraCaptureAndReplaceArea: write 'capture/camera_capture-20230610-131945.png' to disk
+updateTracking
+    tracking_steps_count: 2
+    borders_min_level: 44
+    spot_light_rectangle: (left:129, top:279, right:165, bottom:315)
+    distance from borders: 7, 8, 11, 11
+    spot_center: 147.0, 297.0
+    spot_center_error: -2.0, -1.5
+    borders_to_move_away: []
+    TRACKING FINISHED
+    httpRequest: http://192.168.209.101/capture (try 1)
+cameraCapture: write 'capture/camera_capture-20230610-131954.png' to disk
+cameraCapture: write 'capture/target-20230610-131954.png' to disk
+
+setState: WAITING_SUN_MOVE (at 385583.316921176 s)
+    httpRequest: http://192.168.209.101/capture (try 1)
+    Http request exception:
+<class 'requests.exceptions.ConnectionError'>
+(ReadTimeoutError("HTTPConnectionPool(host='192.168.209.101', port=80): Read timed out."),)
+    httpRequest: http://192.168.209.101/capture (try 2)
+cameraCapture: write 'capture/camera_capture-20230610-132119.png' to disk
+startTracking
+    borders_min_level: 250
+    spot_light_rectangle: None
+    NO SPOT DETECTED
+
+setState: WAITING_SUN_MOVE (at 385667.597531733 s)
+    httpRequest: http://192.168.209.101/capture (try 1)
+cameraCapture: write 'capture/camera_capture-20230610-132227.png' to disk
+startTracking
+    borders_min_level: 39
+    spot_light_rectangle: (left:123, top:281, right:159, bottom:317)
+    spot_center: 141.0, 299.0
+    distance from borders: 1, 10, 17, 9
+    spot_center: 141.0, 299.0
+    spot_center_error: -8.0, 0.5
+    borders_to_move_away: [<Border.LEFT: 'LEFT'>, <Border.LEFT: 'LEFT'>]
+moveOneStep: right
+    httpRequest: http://192.168.209.101/motors_command?cmd=right&continuous=0 (try 1)
+
+setState: TRACKING (at 385736.346246409 s)
+    httpRequest: http://192.168.209.101/motors_status (try 1)
+getMotorsStatus: LOCKED
+    httpRequest: http://192.168.209.101/capture_area?left_px=122&top_px=271&right_px=176&bottom_px=326 (try 1)
+cameraCaptureAndReplaceArea: write 'capture/camera_capture-20230610-132229.png' to disk
+updateTracking
+    tracking_steps_count: 1
+    borders_min_level: 39
+    spot_light_rectangle: (left:129, top:280, right:164, bottom:317)
+    distance from borders: 7, 9, 12, 9
+    spot_center: 146.5, 298.5
+    spot_center_error: -2.5, 0.0
+    borders_to_move_away: []
+    TRACKING FINISHED
+    httpRequest: http://192.168.209.101/capture (try 1)
+cameraCapture: write 'capture/camera_capture-20230610-132238.png' to disk
+cameraCapture: write 'capture/target-20230610-132238.png' to disk
+
+setState: WAITING_SUN_MOVE (at 385746.743877257 s)
+    httpRequest: http://192.168.209.101/capture (try 1)
+cameraCapture: write 'capture/camera_capture-20230610-132344.png' to disk
+startTracking
+    borders_min_level: 41
+    spot_light_rectangle: (left:126, top:281, right:162, bottom:318)
+    spot_center: 144.0, 299.5
+    distance from borders: 4, 10, 14, 8
+    spot_center: 144.0, 299.5
+    spot_center_error: -5.0, 1.0
+    borders_to_move_away: [<Border.LEFT: 'LEFT'>]
+moveOneStep: right
+    httpRequest: http://192.168.209.101/motors_command?cmd=right&continuous=0 (try 1)
+
+setState: TRACKING (at 385814.137816878 s)
+    httpRequest: http://192.168.209.101/motors_status (try 1)
+getMotorsStatus: LOCKED
+    httpRequest: http://192.168.209.101/capture_area?left_px=122&top_px=271&right_px=176&bottom_px=326 (try 1)
+cameraCaptureAndReplaceArea: write 'capture/camera_capture-20230610-132347.png' to disk
+updateTracking
+    tracking_steps_count: 1
+    borders_min_level: 41
+    spot_light_rectangle: (left:132, top:281, right:168, bottom:317)
+    distance from borders: 10, 10, 8, 9
+    spot_center: 150.0, 299.0
+    spot_center_error: 1.0, 0.5
+    borders_to_move_away: []
+    TRACKING FINISHED
+    httpRequest: http://192.168.209.101/capture (try 1)
+cameraCapture: write 'capture/camera_capture-20230610-132356.png' to disk
+cameraCapture: write 'capture/target-20230610-132356.png' to disk
+
+setState: WAITING_SUN_MOVE (at 385825.254975271 s)
+    httpRequest: http://192.168.209.101/capture (try 1)
+cameraCapture: write 'capture/camera_capture-20230610-132504.png' to disk
+startTracking
+    borders_min_level: 42
+    spot_light_rectangle: (left:130, top:282, right:165, bottom:318)
+    spot_center: 147.5, 300.0
+    distance from borders: 8, 11, 11, 8
+    spot_center: 147.5, 300.0
+    spot_center_error: -1.5, 1.5
+    borders_to_move_away: []
+    NO BORDERS TO MOVE AWAY
+
+setState: WAITING_SUN_MOVE (at 385893.257243566 s)
+    httpRequest: http://192.168.209.101/capture (try 1)
+cameraCapture: write 'capture/camera_capture-20230610-132612.png' to disk
+startTracking
+    borders_min_level: 43
+    spot_light_rectangle: (left:127, top:282, right:163, bottom:319)
+    spot_center: 145.0, 300.5
+    distance from borders: 5, 11, 13, 7
+    spot_center: 145.0, 300.5
+    spot_center_error: -4.0, 2.0
+    borders_to_move_away: []
+    NO BORDERS TO MOVE AWAY
+
+setState: WAITING_SUN_MOVE (at 385961.113004263 s)
+    httpRequest: http://192.168.209.101/capture (try 1)
+cameraCapture: write 'capture/camera_capture-20230610-132720.png' to disk
+startTracking
+    borders_min_level: 41
+    spot_light_rectangle: (left:124, top:283, right:160, bottom:320)
+    spot_center: 142.0, 301.5
+    distance from borders: 2, 12, 16, 6
+    spot_center: 142.0, 301.5
+    spot_center_error: -7.0, 3.0
+    borders_to_move_away: [<Border.LEFT: 'LEFT'>, <Border.LEFT: 'LEFT'>]
+moveOneStep: right
+    httpRequest: http://192.168.209.101/motors_command?cmd=right&continuous=0 (try 1)
+
+setState: TRACKING (at 386029.759211908 s)
+    httpRequest: http://192.168.209.101/motors_status (try 1)
+getMotorsStatus: LOCKED
+    httpRequest: http://192.168.209.101/capture_area?left_px=122&top_px=271&right_px=176&bottom_px=326 (try 1)
+cameraCaptureAndReplaceArea: write 'capture/camera_capture-20230610-132723.png' to disk
+updateTracking
+    tracking_steps_count: 1
+    borders_min_level: 40
+    spot_light_rectangle: (left:130, top:283, right:165, bottom:319)
+    distance from borders: 8, 12, 11, 7
+    spot_center: 147.5, 301.0
+    spot_center_error: -1.5, 2.5
+    borders_to_move_away: []
+    TRACKING FINISHED
+    httpRequest: http://192.168.209.101/capture (try 1)
+cameraCapture: write 'capture/camera_capture-20230610-132731.png' to disk
+cameraCapture: write 'capture/target-20230610-132731.png' to disk
+
+setState: WAITING_SUN_MOVE (at 386040.036604707 s)
+    httpRequest: http://192.168.209.101/capture (try 1)
+cameraCapture: write 'capture/camera_capture-20230610-132839.png' to disk
+startTracking
+    borders_min_level: 39
+    spot_light_rectangle: (left:127, top:283, right:163, bottom:320)
+    spot_center: 145.0, 301.5
+    distance from borders: 5, 12, 13, 6
+    spot_center: 145.0, 301.5
+    spot_center_error: -4.0, 3.0
+    borders_to_move_away: []
+    NO BORDERS TO MOVE AWAY
+
+setState: WAITING_SUN_MOVE (at 386108.279192742 s)
+    httpRequest: http://192.168.209.101/capture (try 1)
+cameraCapture: write 'capture/camera_capture-20230610-132947.png' to disk
+startTracking
+    borders_min_level: 38
+    spot_light_rectangle: (left:124, top:284, right:160, bottom:320)
+    spot_center: 142.0, 302.0
+    distance from borders: 2, 13, 16, 6
+    spot_center: 142.0, 302.0
+    spot_center_error: -7.0, 3.5
+    borders_to_move_away: [<Border.LEFT: 'LEFT'>, <Border.LEFT: 'LEFT'>]
+moveOneStep: right
+    httpRequest: http://192.168.209.101/motors_command?cmd=right&continuous=0 (try 1)
+
+setState: TRACKING (at 386177.225152322 s)
+    httpRequest: http://192.168.209.101/motors_status (try 1)
+getMotorsStatus: LOCKED
+    httpRequest: http://192.168.209.101/capture_area?left_px=122&top_px=271&right_px=176&bottom_px=326 (try 1)
+cameraCaptureAndReplaceArea: write 'capture/camera_capture-20230610-132950.png' to disk
+updateTracking
+    tracking_steps_count: 1
+    borders_min_level: 39
+    spot_light_rectangle: (left:130, top:284, right:166, bottom:320)
+    distance from borders: 8, 13, 10, 6
+    spot_center: 148.0, 302.0
+    spot_center_error: -1.0, 3.5
+    borders_to_move_away: []
+    TRACKING FINISHED
+    httpRequest: http://192.168.209.101/capture (try 1)
+cameraCapture: write 'capture/camera_capture-20230610-132959.png' to disk
+cameraCapture: write 'capture/target-20230610-132959.png' to disk
+
+setState: WAITING_SUN_MOVE (at 386187.652914316 s)
+    httpRequest: http://192.168.209.101/capture (try 1)
+cameraCapture: write 'capture/camera_capture-20230610-133107.png' to disk
+startTracking
+    borders_min_level: 38
+    spot_light_rectangle: (left:127, top:284, right:163, bottom:321)
+    spot_center: 145.0, 302.5
+    distance from borders: 5, 13, 13, 5
+    spot_center: 145.0, 302.5
+    spot_center_error: -4.0, 4.0
+    borders_to_move_away: []
+    NO BORDERS TO MOVE AWAY
+
+setState: WAITING_SUN_MOVE (at 386255.812338662 s)
+    httpRequest: http://192.168.209.101/capture (try 1)
+    Http request exception:
+<class 'requests.exceptions.ConnectionError'>
+(ReadTimeoutError("HTTPConnectionPool(host='192.168.209.101', port=80): Read timed out."),)
+    httpRequest: http://192.168.209.101/capture (try 2)
+cameraCapture: write 'capture/camera_capture-20230610-133227.png' to disk
+startTracking
+    borders_min_level: 250
+    spot_light_rectangle: None
+    NO SPOT DETECTED
+
+setState: WAITING_SUN_MOVE (at 386335.578143994 s)
+    httpRequest: http://192.168.209.101/capture (try 1)
+cameraCapture: write 'capture/camera_capture-20230610-133337.png' to disk
+startTracking
+    borders_min_level: 39
+    spot_light_rectangle: (left:122, top:286, right:158, bottom:323)
+    spot_center: 140.0, 304.5
+    distance from borders: 0, 15, 18, 3
+    spot_center: 140.0, 304.5
+    spot_center_error: -9.0, 6.0
+    borders_to_move_away: [<Border.LEFT: 'LEFT'>, <Border.LEFT: 'LEFT'>, <Border.BOTTOM: 'BOTTOM'>, <Border.BOTTOM: 'BOTTOM'>]
+moveOneStep: up-right
+    httpRequest: http://192.168.209.101/motors_command?cmd=up-right&continuous=0 (try 1)
+
+setState: TRACKING (at 386407.054349924 s)
+    httpRequest: http://192.168.209.101/motors_status (try 1)
+getMotorsStatus: LOCKED
+    httpRequest: http://192.168.209.101/capture_area?left_px=122&top_px=271&right_px=176&bottom_px=326 (try 1)
+cameraCaptureAndReplaceArea: write 'capture/camera_capture-20230610-133340.png' to disk
+updateTracking
+    tracking_steps_count: 1
+    borders_min_level: 38
+    spot_light_rectangle: (left:125, top:283, right:161, bottom:320)
+    distance from borders: 3, 12, 15, 6
+    spot_center: 143.0, 301.5
+    spot_center_error: -6.0, 3.0
+    borders_to_move_away: [<Border.LEFT: 'LEFT'>, <Border.LEFT: 'LEFT'>]
+moveOneStep: right
+    httpRequest: http://192.168.209.101/motors_command?cmd=right&continuous=0 (try 1)
+
+setState: TRACKING (at 386410.755929321 s)
+    httpRequest: http://192.168.209.101/motors_status (try 1)
+getMotorsStatus: LOCKED
+    httpRequest: http://192.168.209.101/capture_area?left_px=122&top_px=271&right_px=176&bottom_px=326 (try 1)
+cameraCaptureAndReplaceArea: write 'capture/camera_capture-20230610-133344.png' to disk
+updateTracking
+    tracking_steps_count: 2
+    borders_min_level: 38
+    spot_light_rectangle: (left:131, top:282, right:167, bottom:319)
+    distance from borders: 9, 11, 9, 7
+    spot_center: 149.0, 300.5
+    spot_center_error: 0.0, 2.0
+    borders_to_move_away: []
+    TRACKING FINISHED
+    httpRequest: http://192.168.209.101/capture (try 1)
+cameraCapture: write 'capture/camera_capture-20230610-133354.png' to disk
+cameraCapture: write 'capture/target-20230610-133354.png' to disk
+
+setState: WAITING_SUN_MOVE (at 386422.752239068 s)
+    httpRequest: http://192.168.209.101/capture (try 1)
+cameraCapture: write 'capture/camera_capture-20230610-133502.png' to disk
+startTracking
+    borders_min_level: 39
+    spot_light_rectangle: (left:128, top:283, right:164, bottom:320)
+    spot_center: 146.0, 301.5
+    distance from borders: 6, 12, 12, 6
+    spot_center: 146.0, 301.5
+    spot_center_error: -3.0, 3.0
+    borders_to_move_away: []
+    NO BORDERS TO MOVE AWAY
+
+setState: WAITING_SUN_MOVE (at 386491.145831771 s)
+    httpRequest: http://192.168.209.101/capture (try 1)
+cameraCapture: write 'capture/camera_capture-20230610-133612.png' to disk
+startTracking
+    borders_min_level: 39
+    spot_light_rectangle: (left:125, top:284, right:162, bottom:321)
+    spot_center: 143.5, 302.5
+    distance from borders: 3, 13, 14, 5
+    spot_center: 143.5, 302.5
+    spot_center_error: -5.5, 4.0
+    borders_to_move_away: [<Border.LEFT: 'LEFT'>, <Border.LEFT: 'LEFT'>]
+moveOneStep: right
+    httpRequest: http://192.168.209.101/motors_command?cmd=right&continuous=0 (try 1)
+
+setState: TRACKING (at 386561.853687939 s)
+    httpRequest: http://192.168.209.101/motors_status (try 1)
+getMotorsStatus: LOCKED
+    httpRequest: http://192.168.209.101/capture_area?left_px=122&top_px=271&right_px=176&bottom_px=326 (try 1)
+cameraCaptureAndReplaceArea: write 'capture/camera_capture-20230610-133615.png' to disk
+updateTracking
+    tracking_steps_count: 1
+    borders_min_level: 39
+    spot_light_rectangle: (left:131, top:284, right:167, bottom:320)
+    distance from borders: 9, 13, 9, 6
+    spot_center: 149.0, 302.0
+    spot_center_error: 0.0, 3.5
+    borders_to_move_away: []
+    TRACKING FINISHED
+    httpRequest: http://192.168.209.101/capture (try 1)
+cameraCapture: write 'capture/camera_capture-20230610-133624.png' to disk
+cameraCapture: write 'capture/target-20230610-133624.png' to disk
+
+setState: WAITING_SUN_MOVE (at 386573.083624621 s)
+    httpRequest: http://192.168.209.101/capture (try 1)
+cameraCapture: write 'capture/camera_capture-20230610-133732.png' to disk
+startTracking
+    borders_min_level: 39
+    spot_light_rectangle: (left:128, top:284, right:165, bottom:321)
+    spot_center: 146.5, 302.5
+    distance from borders: 6, 13, 11, 5
+    spot_center: 146.5, 302.5
+    spot_center_error: -2.5, 4.0
+    borders_to_move_away: []
+    NO BORDERS TO MOVE AWAY
+
+setState: WAITING_SUN_MOVE (at 386641.368595064 s)
+    httpRequest: http://192.168.209.101/capture (try 1)
+    Http request exception:
+<class 'requests.exceptions.ConnectionError'>
+(ReadTimeoutError("HTTPConnectionPool(host='192.168.209.101', port=80): Read timed out."),)
+    httpRequest: http://192.168.209.101/capture (try 2)
+cameraCapture: write 'capture/camera_capture-20230610-133856.png' to disk
+startTracking
+    borders_min_level: 250
+    spot_light_rectangle: None
+    NO SPOT DETECTED
+
+setState: WAITING_SUN_MOVE (at 386725.009211085 s)
+    httpRequest: http://192.168.209.101/capture (try 1)
+cameraCapture: write 'capture/camera_capture-20230610-134006.png' to disk
+startTracking
+    borders_min_level: 43
+    spot_light_rectangle: (left:122, top:285, right:159, bottom:322)
+    spot_center: 140.5, 303.5
+    distance from borders: 0, 14, 17, 4
+    spot_center: 140.5, 303.5
+    spot_center_error: -8.5, 5.0
+    borders_to_move_away: [<Border.LEFT: 'LEFT'>, <Border.LEFT: 'LEFT'>, <Border.BOTTOM: 'BOTTOM'>]
+moveOneStep: up-right
+    httpRequest: http://192.168.209.101/motors_command?cmd=up-right&continuous=0 (try 1)
+
+setState: TRACKING (at 386795.637106994 s)
+    httpRequest: http://192.168.209.101/motors_status (try 1)
+getMotorsStatus: LOCKED
+    httpRequest: http://192.168.209.101/capture_area?left_px=122&top_px=271&right_px=176&bottom_px=326 (try 1)
+cameraCaptureAndReplaceArea: write 'capture/camera_capture-20230610-134008.png' to disk
+updateTracking
+    tracking_steps_count: 1
+    borders_min_level: 45
+    spot_light_rectangle: (left:126, top:282, right:162, bottom:319)
+    distance from borders: 4, 11, 14, 7
+    spot_center: 144.0, 300.5
+    spot_center_error: -5.0, 2.0
+    borders_to_move_away: [<Border.LEFT: 'LEFT'>]
+moveOneStep: right
+    httpRequest: http://192.168.209.101/motors_command?cmd=right&continuous=0 (try 1)
+
+setState: TRACKING (at 386799.1526224 s)
+    httpRequest: http://192.168.209.101/motors_status (try 1)
+getMotorsStatus: LOCKED
+    httpRequest: http://192.168.209.101/capture_area?left_px=122&top_px=271&right_px=176&bottom_px=326 (try 1)
+cameraCaptureAndReplaceArea: write 'capture/camera_capture-20230610-134012.png' to disk
+updateTracking
+    tracking_steps_count: 2
+    borders_min_level: 45
+    spot_light_rectangle: (left:132, top:281, right:168, bottom:318)
+    distance from borders: 10, 10, 8, 8
+    spot_center: 150.0, 299.5
+    spot_center_error: 1.0, 1.0
+    borders_to_move_away: []
+    TRACKING FINISHED
+    httpRequest: http://192.168.209.101/capture (try 1)
+    Http request exception:
+<class 'requests.exceptions.ConnectionError'>
+(ReadTimeoutError("HTTPConnectionPool(host='192.168.209.101', port=80): Read timed out."),)
+    httpRequest: http://192.168.209.101/capture (try 2)
+cameraCapture: write 'capture/camera_capture-20230610-134035.png' to disk
+cameraCapture: write 'capture/target-20230610-134035.png' to disk
+
+setState: WAITING_SUN_MOVE (at 386823.711517634 s)
+    httpRequest: http://192.168.209.101/capture (try 1)
+cameraCapture: write 'capture/camera_capture-20230610-134142.png' to disk
+startTracking
+    borders_min_level: 39
+    spot_light_rectangle: (left:129, top:282, right:165, bottom:319)
+    spot_center: 147.0, 300.5
+    distance from borders: 7, 11, 11, 7
+    spot_center: 147.0, 300.5
+    spot_center_error: -2.0, 2.0
+    borders_to_move_away: []
+    NO BORDERS TO MOVE AWAY
+
+setState: WAITING_SUN_MOVE (at 386891.071542317 s)
+    httpRequest: http://192.168.209.101/capture (try 1)
+cameraCapture: write 'capture/camera_capture-20230610-134252.png' to disk
+startTracking
+    borders_min_level: 38
+    spot_light_rectangle: (left:126, top:283, right:163, bottom:319)
+    spot_center: 144.5, 301.0
+    distance from borders: 4, 12, 13, 7
+    spot_center: 144.5, 301.0
+    spot_center_error: -4.5, 2.5
+    borders_to_move_away: [<Border.LEFT: 'LEFT'>]
+moveOneStep: right
+    httpRequest: http://192.168.209.101/motors_command?cmd=right&continuous=0 (try 1)
+
+setState: TRACKING (at 386961.801630758 s)
+    httpRequest: http://192.168.209.101/motors_status (try 1)
+getMotorsStatus: LOCKED
+    httpRequest: http://192.168.209.101/capture_area?left_px=122&top_px=271&right_px=176&bottom_px=326 (try 1)
+cameraCaptureAndReplaceArea: write 'capture/camera_capture-20230610-134254.png' to disk
+updateTracking
+    tracking_steps_count: 1
+    borders_min_level: 39
+    spot_light_rectangle: (left:132, top:282, right:168, bottom:318)
+    distance from borders: 10, 11, 8, 8
+    spot_center: 150.0, 300.0
+    spot_center_error: 1.0, 1.5
+    borders_to_move_away: []
+    TRACKING FINISHED
+    httpRequest: http://192.168.209.101/capture (try 1)
+cameraCapture: write 'capture/camera_capture-20230610-134303.png' to disk
+cameraCapture: write 'capture/target-20230610-134303.png' to disk
+
+setState: WAITING_SUN_MOVE (at 386972.025461447 s)
+    httpRequest: http://192.168.209.101/capture (try 1)
+cameraCapture: write 'capture/camera_capture-20230610-134412.png' to disk
+startTracking
+    borders_min_level: 38
+    spot_light_rectangle: (left:129, top:283, right:165, bottom:319)
+    spot_center: 147.0, 301.0
+    distance from borders: 7, 12, 11, 7
+    spot_center: 147.0, 301.0
+    spot_center_error: -2.0, 2.5
+    borders_to_move_away: []
+    NO BORDERS TO MOVE AWAY
+
+setState: WAITING_SUN_MOVE (at 387040.707049078 s)
+    httpRequest: http://192.168.209.101/capture (try 1)
+cameraCapture: write 'capture/camera_capture-20230610-134521.png' to disk
+startTracking
+    borders_min_level: 61
+    spot_light_rectangle: (left:125, top:283, right:163, bottom:320)
+    spot_center: 144.0, 301.5
+    distance from borders: 3, 12, 13, 6
+    spot_center: 144.0, 301.5
+    spot_center_error: -5.0, 3.0
+    borders_to_move_away: [<Border.LEFT: 'LEFT'>]
+moveOneStep: right
+    httpRequest: http://192.168.209.101/motors_command?cmd=right&continuous=0 (try 1)
+
+setState: TRACKING (at 387110.499397576 s)
+    httpRequest: http://192.168.209.101/motors_status (try 1)
+getMotorsStatus: LOCKED
+    httpRequest: http://192.168.209.101/capture_area?left_px=122&top_px=271&right_px=176&bottom_px=326 (try 1)
+cameraCaptureAndReplaceArea: write 'capture/camera_capture-20230610-134523.png' to disk
+updateTracking
+    tracking_steps_count: 1
+    borders_min_level: 43
+    spot_light_rectangle: (left:132, top:282, right:168, bottom:319)
+    distance from borders: 10, 11, 8, 7
+    spot_center: 150.0, 300.5
+    spot_center_error: 1.0, 2.0
+    borders_to_move_away: []
+    TRACKING FINISHED
+    httpRequest: http://192.168.209.101/capture (try 1)
+cameraCapture: write 'capture/camera_capture-20230610-134532.png' to disk
+cameraCapture: write 'capture/target-20230610-134532.png' to disk
+
+setState: WAITING_SUN_MOVE (at 387121.417142131 s)
+    httpRequest: http://192.168.209.101/capture (try 1)
+cameraCapture: write 'capture/camera_capture-20230610-134641.png' to disk
+startTracking
+    borders_min_level: 38
+    spot_light_rectangle: (left:129, top:283, right:166, bottom:320)
+    spot_center: 147.5, 301.5
+    distance from borders: 7, 12, 10, 6
+    spot_center: 147.5, 301.5
+    spot_center_error: -1.5, 3.0
+    borders_to_move_away: []
+    NO BORDERS TO MOVE AWAY
+
+setState: WAITING_SUN_MOVE (at 387190.149939754 s)
+    httpRequest: http://192.168.209.101/capture (try 1)
+    Http request exception:
+<class 'requests.exceptions.ConnectionError'>
+(ReadTimeoutError("HTTPConnectionPool(host='192.168.209.101', port=80): Read timed out."),)
+    httpRequest: http://192.168.209.101/capture (try 2)
+cameraCapture: write 'capture/camera_capture-20230610-134813.png' to disk
+startTracking
+    borders_min_level: 246
+    spot_light_rectangle: None
+    NO SPOT DETECTED
+
+setState: WAITING_SUN_MOVE (at 387281.627018063 s)
+    httpRequest: http://192.168.209.101/capture (try 1)
+cameraCapture: write 'capture/camera_capture-20230610-134919.png' to disk
+startTracking
+    borders_min_level: 40
+    spot_light_rectangle: (left:123, top:285, right:160, bottom:322)
+    spot_center: 141.5, 303.5
+    distance from borders: 1, 14, 16, 4
+    spot_center: 141.5, 303.5
+    spot_center_error: -7.5, 5.0
+    borders_to_move_away: [<Border.LEFT: 'LEFT'>, <Border.LEFT: 'LEFT'>, <Border.BOTTOM: 'BOTTOM'>]
+moveOneStep: up-right
+    httpRequest: http://192.168.209.101/motors_command?cmd=up-right&continuous=0 (try 1)
+
+setState: TRACKING (at 387349.660360018 s)
+    httpRequest: http://192.168.209.101/motors_status (try 1)
+getMotorsStatus: LOCKED
+    httpRequest: http://192.168.209.101/capture_area?left_px=122&top_px=271&right_px=176&bottom_px=326 (try 1)
+cameraCaptureAndReplaceArea: write 'capture/camera_capture-20230610-134922.png' to disk
+updateTracking
+    tracking_steps_count: 1
+    borders_min_level: 40
+    spot_light_rectangle: (left:126, top:281, right:163, bottom:317)
+    distance from borders: 4, 10, 13, 9
+    spot_center: 144.5, 299.0
+    spot_center_error: -4.5, 0.5
+    borders_to_move_away: [<Border.LEFT: 'LEFT'>]
+moveOneStep: right
+    httpRequest: http://192.168.209.101/motors_command?cmd=right&continuous=0 (try 1)
+
+setState: TRACKING (at 387353.141244441 s)
+    httpRequest: http://192.168.209.101/motors_status (try 1)
+getMotorsStatus: LOCKED
+    httpRequest: http://192.168.209.101/capture_area?left_px=122&top_px=271&right_px=176&bottom_px=326 (try 1)
+cameraCaptureAndReplaceArea: write 'capture/camera_capture-20230610-134926.png' to disk
+updateTracking
+    tracking_steps_count: 2
+    borders_min_level: 41
+    spot_light_rectangle: (left:132, top:280, right:168, bottom:316)
+    distance from borders: 10, 9, 8, 10
+    spot_center: 150.0, 298.0
+    spot_center_error: 1.0, -0.5
+    borders_to_move_away: []
+    TRACKING FINISHED
+    httpRequest: http://192.168.209.101/capture (try 1)
+cameraCapture: write 'capture/camera_capture-20230610-134934.png' to disk
+cameraCapture: write 'capture/target-20230610-134934.png' to disk
+
+setState: WAITING_SUN_MOVE (at 387363.539826904 s)
+    httpRequest: http://192.168.209.101/capture (try 1)
+cameraCapture: write 'capture/camera_capture-20230610-135042.png' to disk
+startTracking
+    borders_min_level: 42
+    spot_light_rectangle: (left:129, top:280, right:166, bottom:317)
+    spot_center: 147.5, 298.5
+    distance from borders: 7, 9, 10, 9
+    spot_center: 147.5, 298.5
+    spot_center_error: -1.5, 0.0
+    borders_to_move_away: []
+    NO BORDERS TO MOVE AWAY
+
+setState: WAITING_SUN_MOVE (at 387431.415620129 s)
+    httpRequest: http://192.168.209.101/capture (try 1)
+cameraCapture: write 'capture/camera_capture-20230610-135149.png' to disk
+startTracking
+    borders_min_level: 41
+    spot_light_rectangle: (left:127, top:281, right:164, bottom:318)
+    spot_center: 145.5, 299.5
+    distance from borders: 5, 10, 12, 8
+    spot_center: 145.5, 299.5
+    spot_center_error: -3.5, 1.0
+    borders_to_move_away: []
+    NO BORDERS TO MOVE AWAY
+
+setState: WAITING_SUN_MOVE (at 387497.882657327 s)
+    httpRequest: http://192.168.209.101/capture (try 1)
+cameraCapture: write 'capture/camera_capture-20230610-135257.png' to disk
+startTracking
+    borders_min_level: 40
+    spot_light_rectangle: (left:123, top:282, right:161, bottom:319)
+    spot_center: 142.0, 300.5
+    distance from borders: 1, 11, 15, 7
+    spot_center: 142.0, 300.5
+    spot_center_error: -7.0, 2.0
+    borders_to_move_away: [<Border.LEFT: 'LEFT'>, <Border.LEFT: 'LEFT'>]
+moveOneStep: right
+    httpRequest: http://192.168.209.101/motors_command?cmd=right&continuous=0 (try 1)
+
+setState: TRACKING (at 387566.853601123 s)
+    httpRequest: http://192.168.209.101/motors_status (try 1)
+getMotorsStatus: LOCKED
+    httpRequest: http://192.168.209.101/capture_area?left_px=122&top_px=271&right_px=176&bottom_px=326 (try 1)
+cameraCaptureAndReplaceArea: write 'capture/camera_capture-20230610-135300.png' to disk
+updateTracking
+    tracking_steps_count: 1
+    borders_min_level: 40
+    spot_light_rectangle: (left:129, top:281, right:166, bottom:317)
+    distance from borders: 7, 10, 10, 9
+    spot_center: 147.5, 299.0
+    spot_center_error: -1.5, 0.5
+    borders_to_move_away: []
+    TRACKING FINISHED
+    httpRequest: http://192.168.209.101/capture (try 1)
+cameraCapture: write 'capture/camera_capture-20230610-135310.png' to disk
+cameraCapture: write 'capture/target-20230610-135310.png' to disk
+
+setState: WAITING_SUN_MOVE (at 387579.050721977 s)
+    httpRequest: http://192.168.209.101/capture (try 1)
+cameraCapture: write 'capture/camera_capture-20230610-135418.png' to disk
+startTracking
+    borders_min_level: 40
+    spot_light_rectangle: (left:126, top:282, right:163, bottom:318)
+    spot_center: 144.5, 300.0
+    distance from borders: 4, 11, 13, 8
+    spot_center: 144.5, 300.0
+    spot_center_error: -4.5, 1.5
+    borders_to_move_away: [<Border.LEFT: 'LEFT'>]
+moveOneStep: right
+    httpRequest: http://192.168.209.101/motors_command?cmd=right&continuous=0 (try 1)
+
+setState: TRACKING (at 387647.546311548 s)
+    httpRequest: http://192.168.209.101/motors_status (try 1)
+getMotorsStatus: LOCKED
+    httpRequest: http://192.168.209.101/capture_area?left_px=122&top_px=271&right_px=176&bottom_px=326 (try 1)
+cameraCaptureAndReplaceArea: write 'capture/camera_capture-20230610-135420.png' to disk
+updateTracking
+    tracking_steps_count: 1
+    borders_min_level: 40
+    spot_light_rectangle: (left:132, top:280, right:169, bottom:317)
+    distance from borders: 10, 9, 7, 9
+    spot_center: 150.5, 298.5
+    spot_center_error: 1.5, 0.0
+    borders_to_move_away: []
+    TRACKING FINISHED
+    httpRequest: http://192.168.209.101/capture (try 1)
+cameraCapture: write 'capture/camera_capture-20230610-135430.png' to disk
+cameraCapture: write 'capture/target-20230610-135430.png' to disk
+
+setState: WAITING_SUN_MOVE (at 387658.664856682 s)
+    httpRequest: http://192.168.209.101/capture (try 1)
+cameraCapture: write 'capture/camera_capture-20230610-135538.png' to disk
+startTracking
+    borders_min_level: 42
+    spot_light_rectangle: (left:129, top:281, right:166, bottom:318)
+    spot_center: 147.5, 299.5
+    distance from borders: 7, 10, 10, 8
+    spot_center: 147.5, 299.5
+    spot_center_error: -1.5, 1.0
+    borders_to_move_away: []
+    NO BORDERS TO MOVE AWAY
+
+setState: WAITING_SUN_MOVE (at 387726.680751075 s)
+    httpRequest: http://192.168.209.101/capture (try 1)
+cameraCapture: write 'capture/camera_capture-20230610-135644.png' to disk
+startTracking
+    borders_min_level: 14
+    spot_light_rectangle: (left:130, top:284, right:160, bottom:315)
+    spot_center: 145.0, 299.5
+    distance from borders: 8, 13, 16, 11
+    spot_center: 145.0, 299.5
+    spot_center_error: -4.0, 1.0
+    borders_to_move_away: []
+    NO BORDERS TO MOVE AWAY
+
+setState: WAITING_SUN_MOVE (at 387793.496163915 s)
+    httpRequest: http://192.168.209.101/capture (try 1)
+cameraCapture: write 'capture/camera_capture-20230610-135753.png' to disk
+startTracking
+    borders_min_level: 42
+    spot_light_rectangle: (left:123, top:283, right:161, bottom:319)
+    spot_center: 142.0, 301.0
+    distance from borders: 1, 12, 15, 7
+    spot_center: 142.0, 301.0
+    spot_center_error: -7.0, 2.5
+    borders_to_move_away: [<Border.LEFT: 'LEFT'>, <Border.LEFT: 'LEFT'>]
+moveOneStep: right
+    httpRequest: http://192.168.209.101/motors_command?cmd=right&continuous=0 (try 1)
+
+setState: TRACKING (at 387862.271129597 s)
+    httpRequest: http://192.168.209.101/motors_status (try 1)
+getMotorsStatus: LOCKED
+    httpRequest: http://192.168.209.101/capture_area?left_px=122&top_px=271&right_px=176&bottom_px=326 (try 1)
+cameraCaptureAndReplaceArea: write 'capture/camera_capture-20230610-135755.png' to disk
+updateTracking
+    tracking_steps_count: 1
+    borders_min_level: 43
+    spot_light_rectangle: (left:128, top:282, right:166, bottom:318)
+    distance from borders: 6, 11, 10, 8
+    spot_center: 147.0, 300.0
+    spot_center_error: -2.0, 1.5
+    borders_to_move_away: []
+    TRACKING FINISHED
+    httpRequest: http://192.168.209.101/capture (try 1)
+cameraCapture: write 'capture/camera_capture-20230610-135804.png' to disk
+cameraCapture: write 'capture/target-20230610-135804.png' to disk
+
+setState: WAITING_SUN_MOVE (at 387872.660136087 s)
+    httpRequest: http://192.168.209.101/capture (try 1)
+cameraCapture: write 'capture/camera_capture-20230610-135910.png' to disk
+startTracking
+    borders_min_level: 42
+    spot_light_rectangle: (left:126, top:282, right:163, bottom:319)
+    spot_center: 144.5, 300.5
+    distance from borders: 4, 11, 13, 7
+    spot_center: 144.5, 300.5
+    spot_center_error: -4.5, 2.0
+    borders_to_move_away: [<Border.LEFT: 'LEFT'>]
+moveOneStep: right
+    httpRequest: http://192.168.209.101/motors_command?cmd=right&continuous=0 (try 1)
+
+setState: TRACKING (at 387940.011626196 s)
+    httpRequest: http://192.168.209.101/motors_status (try 1)
+getMotorsStatus: LOCKED
+    httpRequest: http://192.168.209.101/capture_area?left_px=122&top_px=271&right_px=176&bottom_px=326 (try 1)
+cameraCaptureAndReplaceArea: write 'capture/camera_capture-20230610-135913.png' to disk
+updateTracking
+    tracking_steps_count: 1
+    borders_min_level: 41
+    spot_light_rectangle: (left:131, top:282, right:168, bottom:318)
+    distance from borders: 9, 11, 8, 8
+    spot_center: 149.5, 300.0
+    spot_center_error: 0.5, 1.5
+    borders_to_move_away: []
+    TRACKING FINISHED
+    httpRequest: http://192.168.209.101/capture (try 1)
+cameraCapture: write 'capture/camera_capture-20230610-135921.png' to disk
+cameraCapture: write 'capture/target-20230610-135921.png' to disk
+
+setState: WAITING_SUN_MOVE (at 387950.335807533 s)
+    httpRequest: http://192.168.209.101/capture (try 1)
+cameraCapture: write 'capture/camera_capture-20230610-140029.png' to disk
+startTracking
+    borders_min_level: 41
+    spot_light_rectangle: (left:128, top:282, right:165, bottom:319)
+    spot_center: 146.5, 300.5
+    distance from borders: 6, 11, 11, 7
+    spot_center: 146.5, 300.5
+    spot_center_error: -2.5, 2.0
+    borders_to_move_away: []
+    NO BORDERS TO MOVE AWAY
+
+setState: WAITING_SUN_MOVE (at 388018.115456907 s)
+    httpRequest: http://192.168.209.101/capture (try 1)
+cameraCapture: write 'capture/camera_capture-20230610-140137.png' to disk
+startTracking
+    borders_min_level: 42
+    spot_light_rectangle: (left:125, top:283, right:163, bottom:320)
+    spot_center: 144.0, 301.5
+    distance from borders: 3, 12, 13, 6
+    spot_center: 144.0, 301.5
+    spot_center_error: -5.0, 3.0
+    borders_to_move_away: [<Border.LEFT: 'LEFT'>]
+moveOneStep: right
+    httpRequest: http://192.168.209.101/motors_command?cmd=right&continuous=0 (try 1)
+
+setState: TRACKING (at 388086.542887616 s)
+    httpRequest: http://192.168.209.101/motors_status (try 1)
+getMotorsStatus: LOCKED
+    httpRequest: http://192.168.209.101/capture_area?left_px=122&top_px=271&right_px=176&bottom_px=326 (try 1)
+cameraCaptureAndReplaceArea: write 'capture/camera_capture-20230610-140139.png' to disk
+updateTracking
+    tracking_steps_count: 1
+    borders_min_level: 40
+    spot_light_rectangle: (left:130, top:282, right:168, bottom:319)
+    distance from borders: 8, 11, 8, 7
+    spot_center: 149.0, 300.5
+    spot_center_error: 0.0, 2.0
+    borders_to_move_away: []
+    TRACKING FINISHED
+    httpRequest: http://192.168.209.101/capture (try 1)
+cameraCapture: write 'capture/camera_capture-20230610-140148.png' to disk
+cameraCapture: write 'capture/target-20230610-140148.png' to disk
+
+setState: WAITING_SUN_MOVE (at 388097.088031283 s)
+    httpRequest: http://192.168.209.101/capture (try 1)
+cameraCapture: write 'capture/camera_capture-20230610-140256.png' to disk
+startTracking
+    borders_min_level: 40
+    spot_light_rectangle: (left:127, top:283, right:165, bottom:320)
+    spot_center: 146.0, 301.5
+    distance from borders: 5, 12, 11, 6
+    spot_center: 146.0, 301.5
+    spot_center_error: -3.0, 3.0
+    borders_to_move_away: []
+    NO BORDERS TO MOVE AWAY
+
+setState: WAITING_SUN_MOVE (at 388165.555407222 s)
+    httpRequest: http://192.168.209.101/capture (try 1)
+    Http request exception:
+<class 'requests.exceptions.ConnectionError'>
+(ReadTimeoutError("HTTPConnectionPool(host='192.168.209.101', port=80): Read timed out."),)
+    httpRequest: http://192.168.209.101/capture (try 2)
+cameraCapture: write 'capture/camera_capture-20230610-140415.png' to disk
+startTracking
+    borders_min_level: 250
+    spot_light_rectangle: None
+    NO SPOT DETECTED
+
+setState: WAITING_SUN_MOVE (at 388244.171623867 s)
+key pressed: 32
+    httpRequest: http://192.168.209.101/capture (try 1)
+cameraCapture: write 'capture/camera_capture-20230610-140427.png' to disk
+startTracking
+    borders_min_level: 77
+    spot_light_rectangle: (left:123, top:284, right:162, bottom:321)
+    spot_center: 142.5, 302.5
+    distance from borders: 1, 13, 14, 5
+    spot_center: 142.5, 302.5
+    spot_center_error: -6.5, 4.0
+    borders_to_move_away: [<Border.LEFT: 'LEFT'>, <Border.LEFT: 'LEFT'>]
+moveOneStep: right
+    httpRequest: http://192.168.209.101/motors_command?cmd=right&continuous=0 (try 1)
+
+setState: TRACKING (at 388256.722235381 s)
+    httpRequest: http://192.168.209.101/motors_status (try 1)
+getMotorsStatus: LOCKED
+    httpRequest: http://192.168.209.101/capture_area?left_px=122&top_px=271&right_px=176&bottom_px=326 (try 1)
+cameraCaptureAndReplaceArea: write 'capture/camera_capture-20230610-140430.png' to disk
+updateTracking
+    tracking_steps_count: 1
+    borders_min_level: 48
+    spot_light_rectangle: (left:129, top:283, right:166, bottom:319)
+    distance from borders: 7, 12, 10, 7
+    spot_center: 147.5, 301.0
+    spot_center_error: -1.5, 2.5
+    borders_to_move_away: []
+    TRACKING FINISHED
+    httpRequest: http://192.168.209.101/capture (try 1)
+cameraCapture: write 'capture/camera_capture-20230610-140438.png' to disk
+cameraCapture: write 'capture/target-20230610-140438.png' to disk
+
+setState: WAITING_SUN_MOVE (at 388267.174316662 s)
+    httpRequest: http://192.168.209.101/capture (try 1)
+cameraCapture: write 'capture/camera_capture-20230610-140546.png' to disk
+startTracking
+    borders_min_level: 34
+    spot_light_rectangle: (left:126, top:283, right:164, bottom:320)
+    spot_center: 145.0, 301.5
+    distance from borders: 4, 12, 12, 6
+    spot_center: 145.0, 301.5
+    spot_center_error: -4.0, 3.0
+    borders_to_move_away: [<Border.LEFT: 'LEFT'>]
+moveOneStep: right
+    httpRequest: http://192.168.209.101/motors_command?cmd=right&continuous=0 (try 1)
+
+setState: TRACKING (at 388336.097571682 s)
+    httpRequest: http://192.168.209.101/motors_status (try 1)
+getMotorsStatus: LOCKED
+    httpRequest: http://192.168.209.101/capture_area?left_px=122&top_px=271&right_px=176&bottom_px=326 (try 1)
+cameraCaptureAndReplaceArea: write 'capture/camera_capture-20230610-140549.png' to disk
+updateTracking
+    tracking_steps_count: 1
+    borders_min_level: 34
+    spot_light_rectangle: (left:131, top:282, right:169, bottom:319)
+    distance from borders: 9, 11, 7, 7
+    spot_center: 150.0, 300.5
+    spot_center_error: 1.0, 2.0
+    borders_to_move_away: []
+    TRACKING FINISHED
+    httpRequest: http://192.168.209.101/capture (try 1)
+    Http request exception:
+<class 'requests.exceptions.ConnectionError'>
+(ReadTimeoutError("HTTPConnectionPool(host='192.168.209.101', port=80): Read timed out."),)
+    httpRequest: http://192.168.209.101/capture (try 2)
+cameraCapture: write 'capture/camera_capture-20230610-140608.png' to disk
+cameraCapture: write 'capture/target-20230610-140608.png' to disk
+
+setState: WAITING_SUN_MOVE (at 388356.951856655 s)
+    httpRequest: http://192.168.209.101/capture (try 1)
+    Http request exception:
+<class 'requests.exceptions.ConnectionError'>
+(ReadTimeoutError("HTTPConnectionPool(host='192.168.209.101', port=80): Read timed out."),)
+    httpRequest: http://192.168.209.101/capture (try 2)
+cameraCapture: write 'capture/camera_capture-20230610-140740.png' to disk
+startTracking
+    borders_min_level: 219
+    spot_light_rectangle: None
+    NO SPOT DETECTED
+
+setState: WAITING_SUN_MOVE (at 388448.906730026 s)
+    httpRequest: http://192.168.209.101/capture (try 1)
+cameraCapture: write 'capture/camera_capture-20230610-140847.png' to disk
+startTracking
+    borders_min_level: 33
+    spot_light_rectangle: (left:124, top:284, right:162, bottom:321)
+    spot_center: 143.0, 302.5
+    distance from borders: 2, 13, 14, 5
+    spot_center: 143.0, 302.5
+    spot_center_error: -6.0, 4.0
+    borders_to_move_away: [<Border.LEFT: 'LEFT'>, <Border.LEFT: 'LEFT'>]
+moveOneStep: right
+    httpRequest: http://192.168.209.101/motors_command?cmd=right&continuous=0 (try 1)
+
+setState: TRACKING (at 388516.619926365 s)
+    httpRequest: http://192.168.209.101/motors_status (try 1)
+getMotorsStatus: LOCKED
+    httpRequest: http://192.168.209.101/capture_area?left_px=122&top_px=271&right_px=176&bottom_px=326 (try 1)
+cameraCaptureAndReplaceArea: write 'capture/camera_capture-20230610-140849.png' to disk
+updateTracking
+    tracking_steps_count: 1
+    borders_min_level: 33
+    spot_light_rectangle: (left:129, top:283, right:167, bottom:320)
+    distance from borders: 7, 12, 9, 6
+    spot_center: 148.0, 301.5
+    spot_center_error: -1.0, 3.0
+    borders_to_move_away: []
+    TRACKING FINISHED
+    httpRequest: http://192.168.209.101/capture (try 1)
+cameraCapture: write 'capture/camera_capture-20230610-140858.png' to disk
+cameraCapture: write 'capture/target-20230610-140858.png' to disk
+
+setState: WAITING_SUN_MOVE (at 388527.146737763 s)
+    httpRequest: http://192.168.209.101/capture (try 1)
+cameraCapture: write 'capture/camera_capture-20230610-141005.png' to disk
+startTracking
+    borders_min_level: 33
+    spot_light_rectangle: (left:126, top:284, right:164, bottom:321)
+    spot_center: 145.0, 302.5
+    distance from borders: 4, 13, 12, 5
+    spot_center: 145.0, 302.5
+    spot_center_error: -4.0, 4.0
+    borders_to_move_away: [<Border.LEFT: 'LEFT'>]
+moveOneStep: right
+    httpRequest: http://192.168.209.101/motors_command?cmd=right&continuous=0 (try 1)
+
+setState: TRACKING (at 388595.230006995 s)
+    httpRequest: http://192.168.209.101/motors_status (try 1)
+getMotorsStatus: LOCKED
+    httpRequest: http://192.168.209.101/capture_area?left_px=122&top_px=271&right_px=176&bottom_px=326 (try 1)
+cameraCaptureAndReplaceArea: write 'capture/camera_capture-20230610-141008.png' to disk
+updateTracking
+    tracking_steps_count: 1
+    borders_min_level: 33
+    spot_light_rectangle: (left:131, top:283, right:169, bottom:319)
+    distance from borders: 9, 12, 7, 7
+    spot_center: 150.0, 301.0
+    spot_center_error: 1.0, 2.5
+    borders_to_move_away: []
+    TRACKING FINISHED
+    httpRequest: http://192.168.209.101/capture (try 1)
+    Http request exception:
+<class 'requests.exceptions.ConnectionError'>
+(ReadTimeoutError("HTTPConnectionPool(host='192.168.209.101', port=80): Read timed out."),)
+    httpRequest: http://192.168.209.101/capture (try 2)
+cameraCapture: write 'capture/camera_capture-20230610-141028.png' to disk
+cameraCapture: write 'capture/target-20230610-141028.png' to disk
+
+setState: WAITING_SUN_MOVE (at 388616.767359748 s)
+    httpRequest: http://192.168.209.101/capture (try 1)
+cameraCapture: write 'capture/camera_capture-20230610-141136.png' to disk
+startTracking
+    borders_min_level: 31
+    spot_light_rectangle: (left:128, top:283, right:166, bottom:320)
+    spot_center: 147.0, 301.5
+    distance from borders: 6, 12, 10, 6
+    spot_center: 147.0, 301.5
+    spot_center_error: -2.0, 3.0
+    borders_to_move_away: []
+    NO BORDERS TO MOVE AWAY
+
+setState: WAITING_SUN_MOVE (at 388685.222304336 s)
+    httpRequest: http://192.168.209.101/capture (try 1)
+cameraCapture: write 'capture/camera_capture-20230610-141243.png' to disk
+startTracking
+    borders_min_level: 32
+    spot_light_rectangle: (left:126, top:284, right:164, bottom:321)
+    spot_center: 145.0, 302.5
+    distance from borders: 4, 13, 12, 5
+    spot_center: 145.0, 302.5
+    spot_center_error: -4.0, 4.0
+    borders_to_move_away: [<Border.LEFT: 'LEFT'>]
+moveOneStep: right
+    httpRequest: http://192.168.209.101/motors_command?cmd=right&continuous=0 (try 1)
+
+setState: TRACKING (at 388752.783347758 s)
+    httpRequest: http://192.168.209.101/motors_status (try 1)
+getMotorsStatus: LOCKED
+    httpRequest: http://192.168.209.101/capture_area?left_px=122&top_px=271&right_px=176&bottom_px=326 (try 1)
+cameraCaptureAndReplaceArea: write 'capture/camera_capture-20230610-141245.png' to disk
+updateTracking
+    tracking_steps_count: 1
+    borders_min_level: 32
+    spot_light_rectangle: (left:130, top:283, right:168, bottom:320)
+    distance from borders: 8, 12, 8, 6
+    spot_center: 149.0, 301.5
+    spot_center_error: 0.0, 3.0
+    borders_to_move_away: []
+    TRACKING FINISHED
+    httpRequest: http://192.168.209.101/capture (try 1)
+    Http request exception:
+<class 'requests.exceptions.ConnectionError'>
+(ReadTimeoutError("HTTPConnectionPool(host='192.168.209.101', port=80): Read timed out."),)
+    httpRequest: http://192.168.209.101/capture (try 2)
+cameraCapture: write 'capture/camera_capture-20230610-141311.png' to disk
+cameraCapture: write 'capture/target-20230610-141311.png' to disk
+
+setState: WAITING_SUN_MOVE (at 388779.721755035 s)
+    httpRequest: http://192.168.209.101/capture (try 1)
+cameraCapture: write 'capture/camera_capture-20230610-141417.png' to disk
+startTracking
+    borders_min_level: 31
+    spot_light_rectangle: (left:127, top:284, right:165, bottom:321)
+    spot_center: 146.0, 302.5
+    distance from borders: 5, 13, 11, 5
+    spot_center: 146.0, 302.5
+    spot_center_error: -3.0, 4.0
+    borders_to_move_away: []
+    NO BORDERS TO MOVE AWAY
+
+setState: WAITING_SUN_MOVE (at 388846.177834678 s)
+    httpRequest: http://192.168.209.101/capture (try 1)
+cameraCapture: write 'capture/camera_capture-20230610-141526.png' to disk
+startTracking
+    borders_min_level: 32
+    spot_light_rectangle: (left:124, top:284, right:162, bottom:321)
+    spot_center: 143.0, 302.5
+    distance from borders: 2, 13, 14, 5
+    spot_center: 143.0, 302.5
+    spot_center_error: -6.0, 4.0
+    borders_to_move_away: [<Border.LEFT: 'LEFT'>, <Border.LEFT: 'LEFT'>]
+moveOneStep: right
+    httpRequest: http://192.168.209.101/motors_command?cmd=right&continuous=0 (try 1)
+
+setState: TRACKING (at 388915.652241798 s)
+    httpRequest: http://192.168.209.101/motors_status (try 1)
+getMotorsStatus: LOCKED
+    httpRequest: http://192.168.209.101/capture_area?left_px=122&top_px=271&right_px=176&bottom_px=326 (try 1)
+cameraCaptureAndReplaceArea: write 'capture/camera_capture-20230610-141529.png' to disk
+updateTracking
+    tracking_steps_count: 1
+    borders_min_level: 47
+    spot_light_rectangle: (left:128, top:283, right:168, bottom:321)
+    distance from borders: 6, 12, 8, 5
+    spot_center: 148.0, 302.0
+    spot_center_error: -1.0, 3.5
+    borders_to_move_away: []
+    TRACKING FINISHED
+    httpRequest: http://192.168.209.101/capture (try 1)
+cameraCapture: write 'capture/camera_capture-20230610-141538.png' to disk
+cameraCapture: write 'capture/target-20230610-141538.png' to disk
+
+setState: WAITING_SUN_MOVE (at 388926.847344004 s)
+    httpRequest: http://192.168.209.101/capture (try 1)
+cameraCapture: write 'capture/camera_capture-20230610-141648.png' to disk
+startTracking
+    borders_min_level: 67
+    spot_light_rectangle: (left:126, top:284, right:165, bottom:322)
+    spot_center: 145.5, 303.0
+    distance from borders: 4, 13, 11, 4
+    spot_center: 145.5, 303.0
+    spot_center_error: -3.5, 4.5
+    borders_to_move_away: [<Border.LEFT: 'LEFT'>, <Border.BOTTOM: 'BOTTOM'>]
+moveOneStep: up-right
+    httpRequest: http://192.168.209.101/motors_command?cmd=up-right&continuous=0 (try 1)
+
+setState: TRACKING (at 388997.214698996 s)
+    httpRequest: http://192.168.209.101/motors_status (try 1)
+getMotorsStatus: LOCKED
+    httpRequest: http://192.168.209.101/capture_area?left_px=122&top_px=271&right_px=176&bottom_px=326 (try 1)
+cameraCaptureAndReplaceArea: write 'capture/camera_capture-20230610-141650.png' to disk
+updateTracking
+    tracking_steps_count: 1
+    borders_min_level: 43
+    spot_light_rectangle: (left:130, top:281, right:167, bottom:317)
+    distance from borders: 8, 10, 9, 9
+    spot_center: 148.5, 299.0
+    spot_center_error: -0.5, 0.5
+    borders_to_move_away: []
+    TRACKING FINISHED
+    httpRequest: http://192.168.209.101/capture (try 1)
+cameraCapture: write 'capture/camera_capture-20230610-141658.png' to disk
+cameraCapture: write 'capture/target-20230610-141658.png' to disk
+
+setState: WAITING_SUN_MOVE (at 389007.412154594 s)
+    httpRequest: http://192.168.209.101/capture (try 1)
+    Http request exception:
+<class 'requests.exceptions.ConnectionError'>
+(ReadTimeoutError("HTTPConnectionPool(host='192.168.209.101', port=80): Read timed out."),)
+    httpRequest: http://192.168.209.101/capture (try 2)
+    Http request exception:
+<class 'requests.exceptions.ConnectTimeout'>
+(MaxRetryError("HTTPConnectionPool(host='192.168.209.101', port=80): Max retries exceeded with url: /capture (Caused by ConnectTimeoutError(<urllib3.connection.HTTPConnection object at 0x7f44d58fa8e0>, 'Connection to 192.168.209.101 timed out. (connect timeout=10)'))"),)
+    httpRequest: http://192.168.209.101/capture (try 3)
+cameraCapture: write 'capture/camera_capture-20230610-141833.png' to disk
+startTracking
+    borders_min_level: 71
+    spot_light_rectangle: (left:125, top:282, right:164, bottom:319)
+    spot_center: 144.5, 300.5
+    distance from borders: 3, 11, 12, 7
+    spot_center: 144.5, 300.5
+    spot_center_error: -4.5, 2.0
+    borders_to_move_away: [<Border.LEFT: 'LEFT'>]
+moveOneStep: right
+    httpRequest: http://192.168.209.101/motors_command?cmd=right&continuous=0 (try 1)
+
+setState: TRACKING (at 389102.738493656 s)
+    httpRequest: http://192.168.209.101/motors_status (try 1)
+getMotorsStatus: LOCKED
+    httpRequest: http://192.168.209.101/capture_area?left_px=122&top_px=271&right_px=176&bottom_px=326 (try 1)
+cameraCaptureAndReplaceArea: write 'capture/camera_capture-20230610-141835.png' to disk
+updateTracking
+    tracking_steps_count: 1
+    borders_min_level: 45
+    spot_light_rectangle: (left:131, top:281, right:168, bottom:317)
+    distance from borders: 9, 10, 8, 9
+    spot_center: 149.5, 299.0
+    spot_center_error: 0.5, 0.5
+    borders_to_move_away: []
+    TRACKING FINISHED
+    httpRequest: http://192.168.209.101/capture (try 1)
+    Http request exception:
+<class 'requests.exceptions.ConnectionError'>
+(ReadTimeoutError("HTTPConnectionPool(host='192.168.209.101', port=80): Read timed out."),)
+    httpRequest: http://192.168.209.101/capture (try 2)
+cameraCapture: write 'capture/camera_capture-20230610-141857.png' to disk
+cameraCapture: write 'capture/target-20230610-141857.png' to disk
+
+setState: WAITING_SUN_MOVE (at 389126.030004356 s)
+    httpRequest: http://192.168.209.101/capture (try 1)
+cameraCapture: write 'capture/camera_capture-20230610-142004.png' to disk
+startTracking
+    borders_min_level: 32
+    spot_light_rectangle: (left:127, top:281, right:165, bottom:318)
+    spot_center: 146.0, 299.5
+    distance from borders: 5, 10, 11, 8
+    spot_center: 146.0, 299.5
+    spot_center_error: -3.0, 1.0
+    borders_to_move_away: []
+    NO BORDERS TO MOVE AWAY
+
+setState: WAITING_SUN_MOVE (at 389192.661495112 s)
+    httpRequest: http://192.168.209.101/capture (try 1)
+cameraCapture: write 'capture/camera_capture-20230610-142112.png' to disk
+startTracking
+    borders_min_level: 67
+    spot_light_rectangle: (left:124, top:282, right:163, bottom:319)
+    spot_center: 143.5, 300.5
+    distance from borders: 2, 11, 13, 7
+    spot_center: 143.5, 300.5
+    spot_center_error: -5.5, 2.0
+    borders_to_move_away: [<Border.LEFT: 'LEFT'>, <Border.LEFT: 'LEFT'>]
+moveOneStep: right
+    httpRequest: http://192.168.209.101/motors_command?cmd=right&continuous=0 (try 1)
+
+setState: TRACKING (at 389261.884920778 s)
+    httpRequest: http://192.168.209.101/motors_status (try 1)
+getMotorsStatus: LOCKED
+    httpRequest: http://192.168.209.101/capture_area?left_px=122&top_px=271&right_px=176&bottom_px=326 (try 1)
+cameraCaptureAndReplaceArea: write 'capture/camera_capture-20230610-142115.png' to disk
+updateTracking
+    tracking_steps_count: 1
+    borders_min_level: 68
+    spot_light_rectangle: (left:129, top:281, right:168, bottom:318)
+    distance from borders: 7, 10, 8, 8
+    spot_center: 148.5, 299.5
+    spot_center_error: -0.5, 1.0
+    borders_to_move_away: []
+    TRACKING FINISHED
+    httpRequest: http://192.168.209.101/capture (try 1)
+cameraCapture: write 'capture/camera_capture-20230610-142124.png' to disk
+cameraCapture: write 'capture/target-20230610-142124.png' to disk
+
+setState: WAITING_SUN_MOVE (at 389273.370669249 s)
+    httpRequest: http://192.168.209.101/capture (try 1)
+cameraCapture: write 'capture/camera_capture-20230610-142232.png' to disk
+startTracking
+    borders_min_level: 40
+    spot_light_rectangle: (left:127, top:282, right:165, bottom:318)
+    spot_center: 146.0, 300.0
+    distance from borders: 5, 11, 11, 8
+    spot_center: 146.0, 300.0
+    spot_center_error: -3.0, 1.5
+    borders_to_move_away: []
+    NO BORDERS TO MOVE AWAY
+
+setState: WAITING_SUN_MOVE (at 389341.450108164 s)
+    httpRequest: http://192.168.209.101/capture (try 1)
+cameraCapture: write 'capture/camera_capture-20230610-142340.png' to disk
+startTracking
+    borders_min_level: 38
+    spot_light_rectangle: (left:124, top:282, right:162, bottom:319)
+    spot_center: 143.0, 300.5
+    distance from borders: 2, 11, 14, 7
+    spot_center: 143.0, 300.5
+    spot_center_error: -6.0, 2.0
+    borders_to_move_away: [<Border.LEFT: 'LEFT'>, <Border.LEFT: 'LEFT'>]
+moveOneStep: right
+    httpRequest: http://192.168.209.101/motors_command?cmd=right&continuous=0 (try 1)
+
+setState: TRACKING (at 389409.674910987 s)
+    httpRequest: http://192.168.209.101/motors_status (try 1)
+getMotorsStatus: LOCKED
+    httpRequest: http://192.168.209.101/capture_area?left_px=122&top_px=271&right_px=176&bottom_px=326 (try 1)
+cameraCaptureAndReplaceArea: write 'capture/camera_capture-20230610-142343.png' to disk
+updateTracking
+    tracking_steps_count: 1
+    borders_min_level: 38
+    spot_light_rectangle: (left:129, top:281, right:167, bottom:317)
+    distance from borders: 7, 10, 9, 9
+    spot_center: 148.0, 299.0
+    spot_center_error: -1.0, 0.5
+    borders_to_move_away: []
+    TRACKING FINISHED
+    httpRequest: http://192.168.209.101/capture (try 1)
+cameraCapture: write 'capture/camera_capture-20230610-142351.png' to disk
+cameraCapture: write 'capture/target-20230610-142351.png' to disk
+
+setState: WAITING_SUN_MOVE (at 389420.333508996 s)
+key pressed: 27
