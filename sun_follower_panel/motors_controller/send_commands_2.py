@@ -49,19 +49,27 @@ while True:
     elif ch == '8':
         writeCommand("Step UP", "o:20,50,30")
     elif ch == '6':
-        writeCommand("Step RIGHT", "o:24,50,30")
+        writeCommand("Step RIGHT", "o:24,80,80")
     elif ch == '2':
-        writeCommand("Step DOWN", "o:40,50,30")
+        writeCommand("Step DOWN", "o:40,100,80")
     elif ch == '4':
-        writeCommand("Step LEFT", "o:36,50,30")
+        writeCommand("Step LEFT", "o:36,80,80")
     elif ch == 't':
-        writeCommand("Step UP", "o:20,200,30")
+        writeCommand("Step UP", "o:20,500,30")
     elif ch == 'g':
-        writeCommand("Step RIGHT", "o:24,200,30")
+        writeCommand("Step RIGHT", "o:24,750,80")
     elif ch == 'v':
-        writeCommand("Step DOWN", "o:40,200,30")
+        writeCommand("Step DOWN", "o:40,1000,80")
     elif ch == 'f':
-        writeCommand("Step LEFT", "o:36,200,30")
+        writeCommand("Step LEFT", "o:36,750,80")
+    elif ch == 'T':
+        writeCommand("Step UP", "o:20,2500,30")
+    elif ch == 'G':
+        writeCommand("Step RIGHT", "o:24,3750,80")
+    elif ch == 'V':
+        writeCommand("Step DOWN", "o:40,5000,80")
+    elif ch == 'F':
+        writeCommand("Step LEFT", "o:36,3750,80")
     else:
         print("unkown key")
         continue
