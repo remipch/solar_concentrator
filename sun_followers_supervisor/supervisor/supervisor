@@ -1,5 +1,0 @@
-#!/bin/bash
-
-# launch supervisor and save output
-python3 supervisor.py 2>&1 | tee supervisor.log
-
