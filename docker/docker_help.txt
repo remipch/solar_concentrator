@@ -28,13 +28,13 @@ cd ~/Documents/Projets/solar_concentrator/docker/
 Usefull commands from container to build and run tests
 
 # Configure cmake (done once)
-cd /solar_concentrator/sun_follower_panel/panel_controller
+cd /solar_concentrator/supervisor/supervisor_controller
 mkdir build_tests
 cd build_tests
 cmake -DTESTS_ON_HOST=1 -DCMAKE_BUILD_TYPE:STRING=DEBUG ..
 
 # Build and run tests
-cd /solar_concentrator/sun_follower_panel/panel_controller/build_tests
+cd /solar_concentrator/supervisor/supervisor_controller/build_tests
 ninja                 # build all tests
 ctest                 # run all tests
 ctest -V              # run tests verbose
@@ -46,7 +46,7 @@ ctest -V -R "suffix$"
 Usefull commands from container to build and run production
 
 # Configure cmake (done once)
-cd /solar_concentrator/sun_follower_panel/panel_controller
+cd /solar_concentrator/supervisor/supervisor_controller
 mkdir build_esp32
 cd build_esp32
 cmake -DTESTS_ON_HOST=0 -DCMAKE_BUILD_TYPE:STRING=DEBUG ..
@@ -55,7 +55,7 @@ ninja menuconfig
 make menuconfig
 
 # Build production
-cd /solar_concentrator/sun_follower_panel/panel_controller/build_esp32
+cd /solar_concentrator/supervisor/supervisor_controller/build_esp32
 # depending on build system :
 ninja
 make
@@ -63,7 +63,7 @@ make
 # Upload production
 # - connect IO0 to GND
 # - reboot device
-cd /solar_concentrator/sun_follower_panel/panel_controller/build_esp32
+cd /solar_concentrator/supervisor/supervisor_controller/build_esp32
 # depending on build system :
 ESPPORT=/dev/ttyUSB0 ninja flash
 ESPPORT=/dev/ttyUSB0 make flash
