@@ -1,0 +1,51 @@
+menu "Custom Wi-Fi Configuration"
+
+    config ESP_STATIC_IP_ADDR
+        string "Static IP address"
+        default "192.168.209.101"
+        help
+            Set static IP address.
+
+    config ESP_STATIC_NETMASK_ADDR
+        string "Static netmask address"
+        default "255.255.255.0"
+        help
+            Set static netmask address.
+
+    config ESP_STATIC_GW_ADDR
+        string "Static gateway address"
+        default "192.168.209.1"
+        help
+            Set static gateway address.
+
+    config ESP_WIFI_STA_SSID
+        string "WiFi STA SSID"
+        default ""
+        help
+        WiFi SSID (network name) to connect to or empty for Off.
+
+    config ESP_WIFI_STA_PASSWORD
+        string "WiFi STA Password"
+        default ""
+        help
+        WiFi Password if WEP/WPA/WPA2 or empty if Open.
+
+    config ESP_MAXIMUM_RETRY
+        int "Maximum retry"
+        default 5
+        help
+        Set the Maximum retry to avoid station reconnecting to the AP unlimited when the AP is really inexistent.
+
+    config ESP_WIFI_AP_SSID
+        string "WiFi AP SSID"
+        default ""
+        help
+        WiFi SSID (network name) to open to or empty for Off.
+
+    config ESP_WIFI_AP_PASSWORD
+        string "WiFi AP Password"
+        default ""
+        help
+        WiFi Password if WEP/WPA/WPA2 or empty if Open.
+
+endmenu

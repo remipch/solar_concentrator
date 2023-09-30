@@ -1,0 +1,13 @@
+menu "ESP Test Image Processing"
+    
+    menu "Fake menu"
+
+        config FAK_TOTO
+            string "Toto name"
+            default ""
+            help
+            (fake config)
+
+    endmenu
+
+endmenu

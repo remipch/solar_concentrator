@@ -1,3 +1,6 @@
 [submodule "sun_follower_panel/panel_controller/components/esp32-camera"]
 	path = sun_follower_panel/panel_controller/components/esp32-camera
 	url = https://github.com/espressif/esp32-camera.git
+[submodule "supervisor/supervisor_controller/components/esp32-camera"]
+	path = supervisor/supervisor_controller/components/esp32-camera
+	url = https://github.com/espressif/esp32-camera.git
