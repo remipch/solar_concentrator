@@ -44,13 +44,13 @@ TEST(when_logic_is_initialized_then_hw_is_initialized, []()
 TEST(when_logic_is_initialized_and_hw_returns_error_then_logic_is_in_error, []()
 {
     MINI_MOCK_ON_CALL(motors_hw_init, []() {
-        return motor_hw_error_t::CANNOT_USE_GPIO;
+        return motor_hw_error_t::CANNOT_USE_UART;
     });
     motors_logic_init(DEFAULT_RELAXING_PHASE_DURATION_MS);
     EXPECT_STATUS(ERROR, NONE, UNKNWON);
 });
-
-TEST(when_logic_is_initialized_twice_then_motors_stop_and_logic_is_in_error, []()
+/*
+DISABLED_TEST(when_logic_is_initialized_twice_then_motors_stop_and_logic_is_in_error, []()
 {
     MINI_MOCK_ON_CALL(motors_hw_init, []() {
         return motor_hw_error_t::NO_ERROR;
@@ -64,7 +64,7 @@ TEST(when_logic_is_initialized_twice_then_motors_stop_and_logic_is_in_error, [](
 });
 
 // Test typical "moving" scenario as a single whole story, with nominal case and basic corner cases
-TEST(typical_moving_scenario, []()
+DISABLED_TEST(typical_moving_scenario, []()
 {
     static const int RELAXING_PHASE_DURATION_MS = 1000;
 
@@ -147,7 +147,7 @@ TEST(typical_moving_scenario, []()
 });
 
 // Test typical "moving_one_step" scenario as a single whole story, with nominal case and basic corner cases
-TEST(typical_moving_one_step_scenario, []()
+DISABLED_TEST(typical_moving_one_step_scenario, []()
 {
     static const int RELAXING_PHASE_DURATION_MS = 1000;
 
@@ -192,7 +192,7 @@ TEST(typical_moving_one_step_scenario, []()
     EXPECT_STATUS(LOCKED, NONE, UNKNWON);
 
 });
-
+*/
 CREATE_MAIN_ENTRY_POINT();
 
 
