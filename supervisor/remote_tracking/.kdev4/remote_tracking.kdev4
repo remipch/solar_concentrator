@@ -1,0 +1,32 @@
+[Launch]
+Launch Configurations=Launch Configuration 0,Launch Configuration 1
+
+[Launch][Launch Configuration 0]
+Configured Launch Modes=debug
+Configured Launchers=pdbdebugger
+Name=supervisor.py
+Type=Script Application
+
+[Launch][Launch Configuration 0][Data]
+Arguments=
+Configured from ProjectItem=remote_tracking,supervisor.py
+EnvironmentGroup=
+Executable=file:///solar_concentrator/supervisor/remote_tracking/supervisor.py
+Execute on Remote Host=false
+Interpreter=python3
+Output Filtering Mode=2
+Remote Host=
+Run current file=false
+Working Directory=file:///solar_concentrator/supervisor/remote_tracking
+
+[Launch][Launch Configuration 1]
+Configured Launch Modes=debug
+Configured Launchers=pdbdebugger
+Name=save_images.py
+Type=Script Application
+
+[Launch][Launch Configuration 1][Data]
+Executable=file:///solar_concentrator/supervisor/remote_tracking/save_images.py
+Interpreter=python3
+Output Filtering Mode=2
+Run current file=false
