@@ -45,11 +45,9 @@ inline const char* str(motors_direction_t direction)
 enum class motors_state_t : signed char {
     ERROR = -1,
     UNINITIALIZED = 0,
-    IDLE,
+    STOPPED,
     MOVING,
     MOVING_ONE_STEP,
-    TIGHTENING,
-    LOCKED,
 };
 
 inline const char* str(motors_state_t state)
@@ -59,16 +57,12 @@ inline const char* str(motors_state_t state)
         return "ERROR";
     case motors_state_t::UNINITIALIZED:
         return "UNINITIALIZED";
-    case motors_state_t::IDLE:
-        return "IDLE";
+    case motors_state_t::STOPPED:
+        return "STOPPED";
     case motors_state_t::MOVING:
         return "MOVING";
     case motors_state_t::MOVING_ONE_STEP:
         return "MOVING_ONE_STEP";
-    case motors_state_t::TIGHTENING:
-        return "TIGHTENING";
-    case motors_state_t::LOCKED:
-        return "LOCKED";
     default:
         abort();
     }

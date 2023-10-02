@@ -47,21 +47,21 @@ while True:
     elif ch == '0':
         writeCommand("Off", "o:0,1000")
     elif ch == '8':
-        writeCommand("Step UP", "o:20,50,30")
+        writeCommand("Step UP", "o:20,500,30")
     elif ch == '9':
-        writeCommand("Step UP_RIGHT", "o:16,80,30")
+        writeCommand("Step UP_RIGHT", "o:16,800,30")
     elif ch == '6':
-        writeCommand("Step RIGHT", "o:24,80,80")
+        writeCommand("Step RIGHT", "o:24,800,80")
     elif ch == '3':
-        writeCommand("Step DOWN_RIGHT", "o:8,100,80")
+        writeCommand("Step DOWN_RIGHT", "o:8,1000,80")
     elif ch == '2':
-        writeCommand("Step DOWN", "o:40,100,80")
+        writeCommand("Step DOWN", "o:40,1000,80")
     elif ch == '1':
-        writeCommand("Step DOWN_LEFT", "o:32,100,80")
+        writeCommand("Step DOWN_LEFT", "o:32,1000,80")
     elif ch == '4':
-        writeCommand("Step LEFT", "o:36,80,80")
+        writeCommand("Step LEFT", "o:36,800,80")
     elif ch == '7':
-        writeCommand("Step UP_LEFT", "o:4,80,80")
+        writeCommand("Step UP_LEFT", "o:4,800,80")
     elif ch == 't':
         writeCommand("Step UP", "o:20,500,30")
     elif ch == 'g':

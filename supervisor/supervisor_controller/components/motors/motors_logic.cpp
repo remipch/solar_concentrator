@@ -13,13 +13,6 @@ static motors_full_status_t current_status = {
     .current = motors_current_t::UNKNWON,
 };
 
-// Param set at initialization
-static int relaxing_duration_ms;
-
-// Set when relaxing phase starts
-// 0 if no current relaxing phase
-static int relaxing_end_time_ms;
-
 // Shortcut to treat errors consistently if condition is false
 #define CHECK(condition) \
     if(!(condition)) { \
@@ -49,18 +42,16 @@ motors_full_status_t motors_logic_get_status()
     return current_status;
 }
 
-void motors_logic_init(int relaxing_phase_duration_ms)
+void motors_logic_init()
 {
-    ESP_LOGI(TAG, "motors_logic_init(relaxing_phase_duration_ms = %i)", relaxing_phase_duration_ms);
+    ESP_LOGI(TAG, "motors_logic_init()");
     CHECK(current_status.state == motors_state_t::UNINITIALIZED);
     CHECK(motors_hw_init()== motor_hw_error_t::NO_ERROR);
     current_status = {
-        .state = motors_state_t::IDLE,
+        .state = motors_state_t::STOPPED,
         .direction = motors_direction_t::NONE,
         .current = motors_current_t::UNKNWON,
     };
-    relaxing_duration_ms = relaxing_phase_duration_ms;
-    relaxing_end_time_ms = 0;
 }
 
 void motors_logic_start_move(motors_direction_t direction, int time_since_boot_ms)
@@ -73,8 +64,7 @@ void motors_logic_start_move(motors_direction_t direction, int time_since_boot_m
         .direction = direction,
         .current = motors_current_t::UNKNWON, // will be updated by 'motors_logic_periodic_update'
     };
-    relaxing_end_time_ms = time_since_boot_ms + relaxing_duration_ms;
-    motors_hw_move_one_step(direction);
+    motors_hw_move_big_step(direction);
 }
 
 void motors_logic_start_move_one_step(motors_direction_t direction, int time_since_boot_ms)
@@ -87,20 +77,7 @@ void motors_logic_start_move_one_step(motors_direction_t direction, int time_sin
         .direction = direction,
         .current = motors_current_t::UNKNWON, // will be updated by 'motors_logic_periodic_update'
     };
-    relaxing_end_time_ms = time_since_boot_ms + relaxing_duration_ms;
-    motors_hw_move_one_step(direction);
-}
-
-// TODO remove this ?
-void motors_logic_start_tighten()
-{
-    ESP_LOGD(TAG, "motors_logic_start_tighten");
-    CHECK(current_status.state > motors_state_t::UNINITIALIZED);
-    current_status = {
-        .state = motors_state_t::TIGHTENING,
-        .direction = motors_direction_t::NONE,
-        .current = motors_current_t::UNKNWON, // will be updated by 'motors_logic_periodic_update'
-    };
+    motors_hw_move_small_step(direction);
 }
 
 void motors_logic_stop()
@@ -109,7 +86,7 @@ void motors_logic_stop()
     CHECK(current_status.state > motors_state_t::UNINITIALIZED);
     motors_hw_stop();
     current_status = {
-        .state = motors_state_t::IDLE,
+        .state = motors_state_t::STOPPED,
         .direction = motors_direction_t::NONE,
         .current = motors_current_t::UNKNWON, // will be updated by 'motors_logic_periodic_update'
     };
@@ -128,11 +105,11 @@ void motors_logic_periodic_update(int time_since_boot_ms)
     bool moving = (state != motor_hw_state_t::STOPPED);
 
     if (current_status.state == motors_state_t::MOVING && !moving) {
-        motors_hw_move_one_step(current_status.direction);
+        motors_hw_move_big_step(current_status.direction);
     }
     else if(current_status.state == motors_state_t::MOVING_ONE_STEP && !moving) {
         current_status = {
-            .state = motors_state_t::LOCKED,
+            .state = motors_state_t::STOPPED,
             .direction = motors_direction_t::NONE,
             .current = motors_current_t::UNKNWON,
         };

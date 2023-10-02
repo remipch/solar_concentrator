@@ -45,7 +45,7 @@ def waitUntilMotorsStop():
         status = getMotorsStatus()
         if status==MotorsStatus.MOVING_ONE_STEP:
             continue
-        elif status==MotorsStatus.LOCKED:
+        elif status==MotorsStatus.STOPPED:
             return
         else:
             raise Exception(f"Incorrect motors status: {status}")
@@ -139,7 +139,7 @@ try:
                 if status==MotorsStatus.MOVING_ONE_STEP:
                     # wait for the motors to finish the move
                     setState(State.TRACKING)
-                elif status==MotorsStatus.LOCKED:
+                elif status==MotorsStatus.STOPPED:
                     if CAPTURE_ONLY_AREA_IN_TRACKING:
                         current_img = cameraCaptureAndReplaceArea(getArea())
                     else:

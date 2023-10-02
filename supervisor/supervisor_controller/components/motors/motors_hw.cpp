@@ -67,25 +67,49 @@ void motors_hw_stop()
     motors_hw_write_commands("c");
 }
 
-void motors_hw_move_one_step(motors_direction_t direction)
+void motors_hw_move_big_step(motors_direction_t direction)
 {
     ESP_LOGI(TAG, "motors_hw_move_one_step(direction = %s)", str(direction));
     if (direction == motors_direction_t::UP) {
-        motors_hw_write_commands("o:20,200,100;o:2,5000,30;o:42,1000,80");
+        motors_hw_write_commands("o:20,500,30");
     } else if (direction == motors_direction_t::UP_RIGHT) {
-        motors_hw_write_commands("o:16,200,100;o:2,5000,30;o:42,1000,80");
+        motors_hw_write_commands("o:16,800,30");
     } else if (direction == motors_direction_t::RIGHT) {
-        motors_hw_write_commands("o:16,200,100;o:8,5000,30;o:42,1000,80");
+        motors_hw_write_commands("o:24,800,80");
     } else if (direction == motors_direction_t::DOWN_RIGHT) {
-        motors_hw_write_commands("o:1,200,100;o:8,5000,30;o:42,1000,80");
+        motors_hw_write_commands("o:8,1000,80");
     } else if (direction == motors_direction_t::DOWN) {
-        motors_hw_write_commands("o:1,200,100;o:40,5000,30;o:42,1000,80");
+        motors_hw_write_commands("o:40,1000,80");
     } else if (direction == motors_direction_t::DOWN_LEFT) {
-        motors_hw_write_commands("o:1,200,100;o:32,5000,30;o:42,1000,80");
+        motors_hw_write_commands("o:32,1000,80");
     } else if (direction == motors_direction_t::LEFT) {
-        motors_hw_write_commands("o:4,200,100;o:32,5000,30;o:42,1000,80");
+        motors_hw_write_commands("o:36,800,80");
     } else if (direction == motors_direction_t::UP_LEFT) {
-        motors_hw_write_commands("o:4,200,100;o:2,5000,30;o:42,1000,80");
+        motors_hw_write_commands("o:4,800,80");
+    } else {
+        abort();
+    }
+}
+
+void motors_hw_move_small_step(motors_direction_t direction)
+{
+    ESP_LOGI(TAG, "motors_hw_move_one_step(direction = %s)", str(direction));
+    if (direction == motors_direction_t::UP) {
+        motors_hw_write_commands("o:20,50,30");
+    } else if (direction == motors_direction_t::UP_RIGHT) {
+        motors_hw_write_commands("o:16,80,30");
+    } else if (direction == motors_direction_t::RIGHT) {
+        motors_hw_write_commands("o:24,80,80");
+    } else if (direction == motors_direction_t::DOWN_RIGHT) {
+        motors_hw_write_commands("o:8,100,80");
+    } else if (direction == motors_direction_t::DOWN) {
+        motors_hw_write_commands("o:40,100,80");
+    } else if (direction == motors_direction_t::DOWN_LEFT) {
+        motors_hw_write_commands("o:32,100,80");
+    } else if (direction == motors_direction_t::LEFT) {
+        motors_hw_write_commands("o:36,80,80");
+    } else if (direction == motors_direction_t::UP_LEFT) {
+        motors_hw_write_commands("o:4,80,80");
     } else {
         abort();
     }

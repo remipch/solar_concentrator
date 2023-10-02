@@ -32,6 +32,8 @@ motor_hw_error_t motors_hw_init();
 
 void motors_hw_stop();
 
-void motors_hw_move_one_step(motors_direction_t direction);
+void motors_hw_move_big_step(motors_direction_t direction);
+
+void motors_hw_move_small_step(motors_direction_t direction);
 
 motor_hw_state_t motor_hw_get_state();

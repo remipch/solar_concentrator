@@ -12,11 +12,9 @@ import os
 class MotorsStatus(str, Enum):
     ERROR           = "ERROR"
     UNINITIALIZED   = "UNINITIALIZED"
-    IDLE            = "IDLE"
+    STOPPED            = "STOPPED"
     MOVING          = "MOVING"
     MOVING_ONE_STEP = "MOVING_ONE_STEP"
-    TIGHTENING      = "TIGHTENING"
-    LOCKED          = "LOCKED"
 
 class SimuMode(str, Enum):
     NONE     = "NONE"
@@ -24,10 +22,9 @@ class SimuMode(str, Enum):
     REPLAY   = "REPLAY"
 
 
-simu=SimuMode.RECORD
-simu=SimuMode.REPLAY
+simu=SimuMode.NONE
 
-REPLAY_FOLDER = "capture"
+REPLAY_FOLDER = "capture3"
 RECORD_FOLDER = "capture"
 RECORD_PREFIX = "camera_capture"
 
@@ -37,7 +34,7 @@ replay_files = sorted(filter( os.path.isfile, glob.glob(f"{REPLAY_FOLDER}/*.png"
 assert len(replay_files)>0
 replay_file_index = 0
 
-esp32_http_address = "http://192.168.209.101"
+esp32_http_address = "http://192.168.1.10"
 
 # Last full color capture is cached to be reused by cameraCaptureAndReplaceArea, it's :
 # - color
@@ -168,7 +165,7 @@ def stopMove():
 
 def getMotorsStatus():
     if simu==SimuMode.REPLAY:
-        status = MotorsStatus.LOCKED
+        status = MotorsStatus.STOPPED
     else:
         response = httpRequest(f"{esp32_http_address}/motors_status")
         #print(f"   json: {response.json()}",flush=True)

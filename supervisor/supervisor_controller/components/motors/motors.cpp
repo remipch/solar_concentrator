@@ -10,8 +10,6 @@
 
 static const char* TAG = "motors";
 
-int RELAXING_PHASE_DURATION_MS = 2000;
-
 // This file has the only responsibility to provide thread safety to motors_logic layer
 // It's accomplished by :
 // - preventing multiple simultaneous calls to motors_logic functions by calling them
@@ -30,7 +28,6 @@ enum {
     MOTORS_INIT_EVENT,
     MOTORS_START_MOVE_EVENT,
     MOTORS_START_MOVE_ONE_STEP_EVENT,
-    MOTORS_START_TIGHTEN_EVENT,
     MOTORS_STOP_EVENT,
     MOTORS_PERIODIC_UPDATE_EVENT,
 };
@@ -63,7 +60,7 @@ static void motors_event_handler(void* handler_args, esp_event_base_t base, int3
     int64_t time_since_boot_ms = esp_timer_get_time() / 1000;
     switch (id) {
     case MOTORS_INIT_EVENT:
-        motors_logic_init(RELAXING_PHASE_DURATION_MS);
+        motors_logic_init();
         break;
     case MOTORS_START_MOVE_EVENT: {
         motors_direction_t direction = *((motors_direction_t*)event_data);
@@ -75,9 +72,6 @@ static void motors_event_handler(void* handler_args, esp_event_base_t base, int3
         motors_logic_start_move_one_step(direction, time_since_boot_ms);
         break;
     }
-    case MOTORS_START_TIGHTEN_EVENT:
-        motors_logic_start_tighten();
-        break;
     case MOTORS_STOP_EVENT:
         motors_logic_stop();
         break;
@@ -158,11 +152,6 @@ void motors_start_move(motors_direction_t direction)
 void motors_start_move_one_step(motors_direction_t direction)
 {
     post_event(MOTORS_START_MOVE_ONE_STEP_EVENT, &direction, sizeof(motors_direction_t));
-}
-
-void motors_start_tighten()
-{
-    post_event(MOTORS_START_TIGHTEN_EVENT);
 }
 
 void motors_stop()

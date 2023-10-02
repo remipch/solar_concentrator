@@ -10,6 +10,4 @@ void motors_start_move(motors_direction_t direction);
 
 void motors_start_move_one_step(motors_direction_t direction);
 
-void motors_start_tighten();
-
 void motors_stop();
