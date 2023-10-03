@@ -18,6 +18,9 @@ RUN /opt/esp/python_env/idf4.4_py3.8_env/bin/pip install getch # for manual pyth
 
 RUN apt-get update && apt-get install -y nano               # minimal text editor
 
+RUN apt-get update && apt-get install -y libjpeg-dev    # to build quirc in container (not necessary for ESP32)
+RUN apt-get update && apt-get install -y libpng-dev     # to build quirc in container (not necessary for ESP32)
+
 # avahi needs dbus daemon, both service are correctly listed by 'ls /etc/rc*' command
 # but they don't start correctly at startup
 # FORCE start for each session (ugly hack.. I don't know how to solve it cleanly) :
