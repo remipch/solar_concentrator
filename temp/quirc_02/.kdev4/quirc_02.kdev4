@@ -1,0 +1,37 @@
+[CMake]
+Build Directory Count=1
+Current Build Directory Index-Host System=0
+
+[CMake][CMake Build Directory 0]
+Build Directory Path=/solar_concentrator/temp/quirc_02/build
+Build Type=Debug
+CMake Binary=/opt/esp/tools/cmake/3.23.1/bin/cmake
+CMake Executable=/opt/esp/tools/cmake/3.23.1/bin/cmake
+Environment Profile=
+Extra Arguments=
+Install Directory=/usr/local
+Runtime=Host System
+
+[Launch]
+Launch Configurations=Launch Configuration 0
+
+[Launch][Launch Configuration 0]
+Configured Launch Modes=execute
+Configured Launchers=nativeAppLauncher
+Name=qrtest
+Type=Native Application
+
+[Launch][Launch Configuration 0][Data]
+Arguments=-v -d .
+Dependencies=@Variant(\x00\x00\x00\t\x00\x00\x00\x00\x01\x00\x00\x00\x0b\x00\x00\x00\x00\x02\x00\x00\x00\x10\x00q\x00u\x00i\x00r\x00c\x00_\x000\x002\x00\x00\x00\x10\x00q\x00u\x00i\x00r\x00c\x00_\x000\x002)
+Dependency Action=Build
+EnvironmentGroup=
+Executable=file:///solar_concentrator/temp/quirc_02
+External Terminal=konsole --noclose --workdir %workdir -e %exe
+Project Target=quirc_02,quirc_02
+Use External Terminal=false
+Working Directory=file:///solar_concentrator/temp/quirc_02
+isExecutable=false
+
+[Project]
+VersionControlSupport=

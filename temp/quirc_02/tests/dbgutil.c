@@ -22,6 +22,7 @@
 #include <png.h>
 
 #include <quirc.h>
+#include <quirc_internal.h>
 
 #include "dbgutil.h"
 
@@ -49,6 +50,17 @@ void dump_data(const struct quirc_data *data)
 
 	if (data->eci)
 		printf("    ECI: %d\n", data->eci);
+}
+
+void dump_capstone(const struct quirc_capstone *capstone)
+{
+	printf("Capstone:\n");
+	printf("    ring: %i\n", capstone->ring);
+	printf("    stone: %i\n", capstone->stone);
+    for(int i=0;i<4;i++) {
+        printf("    corners[%i]: %i , %i\n", i, capstone->corners[i].x, capstone->corners[i].y);
+    }
+    printf("    center: %i , %i\n", capstone->center.x, capstone->center.y);
 }
 
 void dump_cells(const struct quirc_code *code)

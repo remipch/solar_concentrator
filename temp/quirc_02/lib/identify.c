@@ -464,6 +464,8 @@ static void find_region_corners(struct quirc *q,
 			find_other_corners, &psd);
 }
 
+void dump_capstone(const struct quirc_capstone *capstone);
+
 static void record_capstone(struct quirc *q, int ring, int stone)
 {
 	struct quirc_region *stone_reg = &q->regions[stone];
@@ -491,6 +493,8 @@ static void record_capstone(struct quirc *q, int ring, int stone)
 	/* Set up the perspective transform and find the center */
 	perspective_setup(capstone->c, capstone->corners, 7.0, 7.0);
 	perspective_map(capstone->c, 3.5, 3.5, &capstone->center);
+
+    dump_capstone(capstone);
 }
 
 static void test_capstone(struct quirc *q, unsigned int x, unsigned int y,
@@ -675,11 +679,11 @@ static void measure_grid_size(struct quirc *q, int index)
 	quirc_float_t bc = length(b->corners[0], c->corners[1]);
 	quirc_float_t capstone_bc_size = (length(b->corners[0], b->corners[1]) + length(c->corners[0], c->corners[1]))/2.0;
 	quirc_float_t hor_grid = 7.0 * bc / capstone_bc_size;
-	
+
 	quirc_float_t grid_size_estimate = (ver_grid + hor_grid) / 2;
 
 	int ver = (int)((grid_size_estimate - 17.0 + 2.0) / 4.0);
-	
+
 	qr->grid_size =  4*ver + 17;
 }
 
