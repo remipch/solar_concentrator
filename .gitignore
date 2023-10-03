@@ -3,6 +3,7 @@ sdkconfig.old
 docker/config/*
 docker/local
 **/__pycache__/*
+**/.kdev4/*
 **/capture*/**/*.*
 **/solar_concentrator_manip*/**/camera_capture*
 **/solar_concentrator_manip*/**/target*
