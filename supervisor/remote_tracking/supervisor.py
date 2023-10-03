@@ -12,6 +12,8 @@ import time
 
 pause_after_each_step = True
 
+continuous_move = False
+
 #CAPTURE_ONLY_AREA_IN_TRACKING = False
 CAPTURE_ONLY_AREA_IN_TRACKING = True
 
@@ -19,6 +21,7 @@ CAPTURE_ONLY_AREA_IN_TRACKING = True
 ESCAPE_KEY = 27     # quit progam
 SPACE_KEY = 32      # skip a waiting state
 DELETE_KEY = 255    # reset target pos
+C_KEY = 99          # toggle 'continuous_move'
 P_KEY = 112         # toggle 'pause_after_each_step'
 N0_KEY = 48         # 0 : stop move
 N8_KEY = 56         # 8 : up step
@@ -39,18 +42,6 @@ current_img = cameraCapture()
 drawCurrentImage()
 setState(State.WAITING_AREA_DEFINITION)
 
-# After a manual move
-def waitUntilMotorsStop():
-    while True:
-        status = getMotorsStatus()
-        if status==MotorsStatus.MOVING_ONE_STEP:
-            continue
-        elif status==MotorsStatus.STOPPED:
-            return
-        else:
-            raise Exception(f"Incorrect motors status: {status}")
-        time.sleep(1)
-
 # application main loop
 try:
     while True:
@@ -68,30 +59,24 @@ try:
         # - wait motors stop
         # - stay in the same state
         # (it allows to simulate sun move manually at any state)
+        elif key==N0_KEY:
+            stopMove()
         elif key==N8_KEY:
-            moveOneStep(MotorsDirection.UP)
-            waitUntilMotorsStop()
+            moveOneStep(MotorsDirection.UP, continuous_move)
         elif key==N1_KEY:
-            moveOneStep(MotorsDirection.DOWN_LEFT)
-            waitUntilMotorsStop()
+            moveOneStep(MotorsDirection.DOWN_LEFT, continuous_move)
         elif key==N4_KEY:
-            moveOneStep(MotorsDirection.LEFT)
-            waitUntilMotorsStop()
+            moveOneStep(MotorsDirection.LEFT, continuous_move)
         elif key==N7_KEY:
-            moveOneStep(MotorsDirection.UP_LEFT)
-            waitUntilMotorsStop()
+            moveOneStep(MotorsDirection.UP_LEFT, continuous_move)
         elif key==N2_KEY:
-            moveOneStep(MotorsDirection.DOWN)
-            waitUntilMotorsStop()
+            moveOneStep(MotorsDirection.DOWN, continuous_move)
         elif key==N3_KEY:
-            moveOneStep(MotorsDirection.DOWN_RIGHT)
-            waitUntilMotorsStop()
+            moveOneStep(MotorsDirection.DOWN_RIGHT, continuous_move)
         elif key==N6_KEY:
-            moveOneStep(MotorsDirection.RIGHT)
-            waitUntilMotorsStop()
+            moveOneStep(MotorsDirection.RIGHT, continuous_move)
         elif key==N9_KEY:
-            moveOneStep(MotorsDirection.UP_RIGHT)
-            waitUntilMotorsStop()
+            moveOneStep(MotorsDirection.UP_RIGHT, continuous_move)
 
         # Define/redefine ROI corner on Shift+Clic in image
         elif clic_pos is not None and clic_flags & cv2.EVENT_FLAG_SHIFTKEY:
@@ -105,6 +90,11 @@ try:
             resetArea()
             drawCurrentImage()
             setState(State.WAITING_AREA_DEFINITION)
+
+        # Toggle 'continuous_move'
+        elif key==C_KEY:
+            continuous_move = not continuous_move
+            print(f"continuous_move: {continuous_move}",flush=True)
 
         # Toggle 'pause_after_each_step'
         elif key==P_KEY:

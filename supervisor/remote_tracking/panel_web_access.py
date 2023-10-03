@@ -153,10 +153,25 @@ def cameraCapture(saved_filename_prefix = None):
     img = cv2.blur(img,(3,3))
     return img
 
-def moveOneStep(direction):
-    print(f"moveOneStep: {direction}",flush=True)
+# After a manual move
+def waitUntilMotorsStop():
+    while True:
+        status = getMotorsStatus()
+        if status==MotorsStatus.MOVING_ONE_STEP:
+            continue
+        elif status==MotorsStatus.STOPPED:
+            return
+        else:
+            raise Exception(f"Incorrect motors status: {status}")
+        time.sleep(1)
+
+def moveOneStep(direction, continuous):
+    c = 1 if continuous else 0
+    print(f"moveOneStep: {direction}, continuous:{c}",flush=True)
     if not simu==SimuMode.REPLAY:
-        response = httpRequest(f"{esp32_http_address}/motors_command?cmd={direction}&continuous=0")
+        response = httpRequest(f"{esp32_http_address}/motors_command?cmd={direction}&continuous={c}")
+        if not continuous:
+            waitUntilMotorsStop()
 
 def stopMove():
     print("stopMove",flush=True)
