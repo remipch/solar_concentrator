@@ -11,9 +11,7 @@ include_directories(${JPEG_INCLUDE_DIR})
 include_directories(lib)
 
 add_library(capstone_detector
-    lib/decode.c
     lib/identify.c
-    lib/version_db.c
     lib/quirc.c)
 
 target_link_libraries(capstone_detector)

@@ -23,11 +23,7 @@
 extern "C" {
 #endif
 
-/* Dump decoded information on stdout. */
-void dump_data(const struct quirc_data *data);
-
-/* Dump a grid cell map on stdout. */
-void dump_cells(const struct quirc_code *code);
+void dump_capstones(const struct quirc *q);
 
 /* Read a JPEG image into the decoder.
  *

@@ -18,11 +18,6 @@
 #include <string.h>
 #include "quirc_internal.h"
 
-const char *quirc_version(void)
-{
-	return "1.0";
-}
-
 struct quirc *quirc_new(void)
 {
 	struct quirc *q = malloc(sizeof(*q));
@@ -140,26 +135,14 @@ fail:
 	return -1;
 }
 
-int quirc_count(const struct quirc *q)
+int quirc_capstone_count(const struct quirc *q)
 {
-	return q->num_grids;
+	return q->num_capstones;
 }
 
-static const char *const error_table[] = {
-	[QUIRC_SUCCESS] = "Success",
-	[QUIRC_ERROR_INVALID_GRID_SIZE] = "Invalid grid size",
-	[QUIRC_ERROR_INVALID_VERSION] = "Invalid version",
-	[QUIRC_ERROR_FORMAT_ECC] = "Format data ECC failure",
-	[QUIRC_ERROR_DATA_ECC] = "ECC failure",
-	[QUIRC_ERROR_UNKNOWN_DATA_TYPE] = "Unknown data type",
-	[QUIRC_ERROR_DATA_OVERFLOW] = "Data overflow",
-	[QUIRC_ERROR_DATA_UNDERFLOW] = "Data underflow"
-};
+const struct quirc_capstone * quirc_get_capstone(const struct quirc *q, int index) {
+    if(index < 0 || index>=q->num_capstones)
+        return NULL;
 
-const char *quirc_strerror(quirc_decode_error_t err)
-{
-	if (err >= 0 && err < sizeof(error_table) / sizeof(error_table[0]))
-		return error_table[err];
-
-	return "Unknown error";
+    return q->capstones + index;
 }

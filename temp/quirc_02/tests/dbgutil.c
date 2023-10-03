@@ -26,65 +26,22 @@
 
 #include "dbgutil.h"
 
-static const char *data_type_str(int dt)
+void dump_capstones(const struct quirc *q)
 {
-	switch (dt) {
-	case QUIRC_DATA_TYPE_NUMERIC: return "NUMERIC";
-	case QUIRC_DATA_TYPE_ALPHA:   return "ALPHA";
-	case QUIRC_DATA_TYPE_BYTE:    return "BYTE";
-	case QUIRC_DATA_TYPE_KANJI:   return "KANJI";
-	}
+    int n = quirc_capstone_count(q);
+    if(n==0)
+        return;
 
-	return "unknown";
-}
-
-void dump_data(const struct quirc_data *data)
-{
-	printf("    Version: %d\n", data->version);
-	printf("    ECC level: %c\n", "MLHQ"[data->ecc_level]);
-	printf("    Mask: %d\n", data->mask);
-	printf("    Data type: %d (%s)\n",
-	    data->data_type, data_type_str(data->data_type));
-	printf("    Length: %d\n", data->payload_len);
-	printf("    Payload: %s\n", data->payload);
-
-	if (data->eci)
-		printf("    ECI: %d\n", data->eci);
-}
-
-void dump_capstone(const struct quirc_capstone *capstone)
-{
-	printf("Capstone:\n");
-	printf("    ring: %i\n", capstone->ring);
-	printf("    stone: %i\n", capstone->stone);
-    for(int i=0;i<4;i++) {
-        printf("    corners[%i]: %i , %i\n", i, capstone->corners[i].x, capstone->corners[i].y);
+    for(int i=0;i<n;i++) {
+        printf("  capstone[%i]:\n",i);
+        const struct quirc_capstone *capstone = quirc_get_capstone(q,i);
+        printf("    ring: %i\n", capstone->ring);
+        printf("    stone: %i\n", capstone->stone);
+        for(int i=0;i<4;i++) {
+            printf("    corners[%i]: %i , %i\n", i, capstone->corners[i].x, capstone->corners[i].y);
+        }
+        printf("    center: %i , %i\n", capstone->center.x, capstone->center.y);
     }
-    printf("    center: %i , %i\n", capstone->center.x, capstone->center.y);
-}
-
-void dump_cells(const struct quirc_code *code)
-{
-	int u, v;
-
-	printf("    %d cells, corners:", code->size);
-	for (u = 0; u < 4; u++)
-		printf(" (%d,%d)", code->corners[u].x,
-				   code->corners[u].y);
-	printf("\n");
-
-	for (v = 0; v < code->size; v++) {
-		printf("    ");
-		for (u = 0; u < code->size; u++) {
-			int p = v * code->size + u;
-
-			if (code->cell_bitmap[p >> 3] & (1 << (p & 7)))
-				printf("[]");
-			else
-				printf("  ");
-		}
-		printf("\n");
-	}
 }
 
 struct my_jpeg_error {
