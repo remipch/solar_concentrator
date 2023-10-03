@@ -1,3 +1,6 @@
+[Buildset]
+BuildItems=@Variant(\x00\x00\x00\t\x00\x00\x00\x00\x01\x00\x00\x00\x0b\x00\x00\x00\x00\x01\x00\x00\x00*\x00s\x00u\x00p\x00e\x00r\x00v\x00i\x00s\x00o\x00r\x00_\x00c\x00o\x00n\x00t\x00r\x00o\x00l\x00l\x00e\x00r)
+
 [CMake]
 Build Directory Count=2
 Current Build Directory Index-Host System=1
@@ -20,6 +23,7 @@ CMake Executable=/opt/esp/tools/cmake/3.23.1/bin/cmake
 Environment Profile=
 Extra Arguments=-DTESTS_ON_HOST=0 -DCMAKE_BUILD_TYPE:STRING=DEBUG
 Install Directory=/usr/local
+Runtime=Host System
 
 [Launch]
 Launch Configurations=Launch Configuration 0

@@ -1,3 +1,6 @@
+[Buildset]
+BuildItems=@Variant(\x00\x00\x00\t\x00\x00\x00\x00\x00)
+
 [Launch]
 Launch Configurations=Launch Configuration 0,Launch Configuration 1
 
@@ -26,6 +29,7 @@ Name=save_images.py
 Type=Script Application
 
 [Launch][Launch Configuration 1][Data]
+Configured from ProjectItem=remote_tracking,save_images.py
 Executable=file:///solar_concentrator/supervisor/remote_tracking/save_images.py
 Interpreter=python3
 Output Filtering Mode=2
