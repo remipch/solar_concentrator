@@ -15,9 +15,7 @@ add_executable(quirc_02
     lib/identify.c
     lib/quirc.c
     lib/version_db.c
-#     main.c
     tests/dbgutil.c
-#     tests/inspect.c
     tests/qrtest.c)
 
 target_link_libraries(quirc_02 ${JPEG_LIBRARIES} ${PNG_LIBRARIES}  m)
