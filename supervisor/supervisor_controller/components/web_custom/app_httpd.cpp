@@ -21,6 +21,7 @@
 #include "sdkconfig.h"
 
 #include "camera.h"
+#include "image_processing.hpp"
 #include "motors.hpp"
 
 #if defined(ARDUINO_ARCH_ESP32) && defined(CONFIG_ARDUHAL_ESP_LOG)
@@ -98,6 +99,8 @@ static esp_err_t capture_handler(httpd_req_t *req)
     ESP_LOGV(TAG, "esp_camera_fb_get 1");
     frame = esp_camera_fb_get();
     ESP_LOGV(TAG, "esp_camera_fb_get 2");
+
+    detect_target(frame);
 
 //     if (xQueueReceive(xQueueFrameI, &frame, portMAX_DELAY)) {
         httpd_resp_set_type(req, "image/jpeg");

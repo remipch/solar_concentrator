@@ -617,7 +617,7 @@ document.addEventListener('DOMContentLoaded', function (event) {
   const viewContainer = document.getElementById('stream-container')
   const stillButton = document.getElementById('get-still')
   const streamButton = document.getElementById('toggle-stream')
-  streamButton.style.visibility = "hidden";
+//   streamButton.style.visibility = "hidden";
   const closeButton = document.getElementById('close-stream')
   const saveButton = document.getElementById('save-still')
 
@@ -634,6 +634,7 @@ document.addEventListener('DOMContentLoaded', function (event) {
 
   // Attach actions to buttons
   stillButton.onclick = () => {
+    view.src = ""
     stopStream()
     view.src = `${baseHost}/capture?_cb=${Date.now()}`
     show(viewContainer)

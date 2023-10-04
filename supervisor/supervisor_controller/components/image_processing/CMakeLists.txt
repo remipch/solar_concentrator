@@ -1,5 +1,6 @@
 set(requires
-        esp32-camera)
+        esp32-camera
+        capstone_detector)
 
 idf_component_register(SRC_DIRS . INCLUDE_DIRS . REQUIRES ${requires})
 

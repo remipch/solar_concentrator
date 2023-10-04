@@ -6,6 +6,7 @@ set(requires
         nvs_flash
         mdns
         camera_custom
+        image_processing
         motors)
 
 idf_component_register(SRC_DIRS . INCLUDE_DIRS . REQUIRES ${requires} EMBED_FILES ${embed_files})
