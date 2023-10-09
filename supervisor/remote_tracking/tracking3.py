@@ -222,7 +222,7 @@ def startTracking(current_img):
     # Start moving in best direction
     global motors_direction
     motors_direction = getBestMotorsDirection(borders_to_move_away)
-    moveOneStep(motors_direction)
+    moveOneStep(motors_direction, False)
 
     global spot_light_rectangle_before_motors_move,before_motors_move_img
     spot_light_rectangle_before_motors_move = spot_light_rectangle
@@ -304,7 +304,7 @@ def updateTracking(current_img):
 
     # Start moving in best direction
     motors_direction = getBestMotorsDirection(borders_to_move_away)
-    moveOneStep(motors_direction)# TODO for multi-panel : address current_panel_index
+    moveOneStep(motors_direction, False)# TODO for multi-panel : address current_panel_index
 
     return False
 
