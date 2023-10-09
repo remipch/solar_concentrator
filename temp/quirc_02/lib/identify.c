@@ -25,6 +25,9 @@
 #endif // QUIRC_USE_TGMATH
 #include "quirc_internal.h"
 
+// This value is faster and gives better results than original otsu adaptative filter
+const uint8_t PIXEL_THRESHOLD = 50;
+
 /************************************************************************
  * Linear algebra routines
  */
@@ -245,61 +248,6 @@ static void flood_fill_seed(struct quirc *q,
 		/* We've done. */
 		break;
 	}
-}
-
-/************************************************************************
- * Adaptive thresholding
- */
-
-static uint8_t otsu(const struct quirc *q)
-{
-	unsigned int numPixels = q->w * q->h;
-
-	// Calculate histogram
-	unsigned int histogram[UINT8_MAX + 1];
-	(void)memset(histogram, 0, sizeof(histogram));
-	uint8_t* ptr = q->image;
-	unsigned int length = numPixels;
-	while (length--) {
-		uint8_t value = *ptr++;
-		histogram[value]++;
-	}
-
-	// Calculate weighted sum of histogram values
-	quirc_float_t sum = 0;
-	unsigned int i = 0;
-	for (i = 0; i <= UINT8_MAX; ++i) {
-		sum += i * histogram[i];
-	}
-
-	// Compute threshold
-	quirc_float_t sumB = 0;
-	unsigned int q1 = 0;
-	quirc_float_t max = 0;
-	uint8_t threshold = 0;
-	for (i = 0; i <= UINT8_MAX; ++i) {
-		// Weighted background
-		q1 += histogram[i];
-		if (q1 == 0)
-			continue;
-
-		// Weighted foreground
-		const unsigned int q2 = numPixels - q1;
-		if (q2 == 0)
-			break;
-
-		sumB += i * histogram[i];
-		const quirc_float_t m1 = sumB / q1;
-		const quirc_float_t m2 = (sum - sumB) / q2;
-		const quirc_float_t m1m2 = m1 - m2;
-		const quirc_float_t variance = m1m2 * m1m2 * q1 * q2;
-		if (variance >= max) {
-			threshold = i;
-			max = variance;
-		}
-	}
-
-	return threshold;
 }
 
 static void area_count(void *user_data, int y, int left, int right)
@@ -537,7 +485,7 @@ static void finder_scan(struct quirc *q, unsigned int y)
 	}
 }
 
-static void pixels_setup(struct quirc *q, uint8_t threshold)
+static void pixels_setup(struct quirc *q)
 {
 	if (QUIRC_PIXEL_ALIAS_IMAGE) {
 		q->pixels = (quirc_pixel_t *)q->image;
@@ -548,7 +496,7 @@ static void pixels_setup(struct quirc *q, uint8_t threshold)
 	int length = q->w * q->h;
 	while (length--) {
 		uint8_t value = *source++;
-		*dest++ = (value < threshold) ? QUIRC_PIXEL_BLACK : QUIRC_PIXEL_WHITE;
+		*dest++ = (value < PIXEL_THRESHOLD) ? QUIRC_PIXEL_BLACK : QUIRC_PIXEL_WHITE;
 	}
 }
 
@@ -569,8 +517,8 @@ void quirc_end(struct quirc *q)
 {
 	int i;
 
-	uint8_t threshold = otsu(q);
-	pixels_setup(q, threshold);
+	uint8_t threshold = 50;
+	pixels_setup(q);
 
 	for (i = 0; i < q->h; i++)
 		finder_scan(q, i);
