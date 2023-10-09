@@ -100,7 +100,7 @@ static esp_err_t capture_handler(httpd_req_t *req)
     frame = esp_camera_fb_get();
     ESP_LOGV(TAG, "esp_camera_fb_get 2");
 
-    detect_target(frame);
+//     detect_target(frame);
 
 //     if (xQueueReceive(xQueueFrameI, &frame, portMAX_DELAY)) {
         httpd_resp_set_type(req, "image/jpeg");
