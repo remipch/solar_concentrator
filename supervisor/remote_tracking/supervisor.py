@@ -61,22 +61,31 @@ try:
         # (it allows to simulate sun move manually at any state)
         elif key==N0_KEY:
             stopMove()
+            setState(state)
         elif key==N8_KEY:
             moveOneStep(MotorsDirection.UP, continuous_move)
+            setState(state)
         elif key==N1_KEY:
             moveOneStep(MotorsDirection.DOWN_LEFT, continuous_move)
+            setState(state)
         elif key==N4_KEY:
             moveOneStep(MotorsDirection.LEFT, continuous_move)
+            setState(state)
         elif key==N7_KEY:
             moveOneStep(MotorsDirection.UP_LEFT, continuous_move)
+            setState(state)
         elif key==N2_KEY:
             moveOneStep(MotorsDirection.DOWN, continuous_move)
+            setState(state)
         elif key==N3_KEY:
             moveOneStep(MotorsDirection.DOWN_RIGHT, continuous_move)
+            setState(state)
         elif key==N6_KEY:
             moveOneStep(MotorsDirection.RIGHT, continuous_move)
+            setState(state)
         elif key==N9_KEY:
             moveOneStep(MotorsDirection.UP_RIGHT, continuous_move)
+            setState(state)
 
         # Define/redefine ROI corner on Shift+Clic in image
         elif clic_pos is not None and clic_flags & cv2.EVENT_FLAG_SHIFTKEY:
