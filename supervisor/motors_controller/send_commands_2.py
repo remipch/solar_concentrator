@@ -29,55 +29,43 @@ while True:
     elif ch == 'm':
         writeCommand("Measure buffer", "m:100")
     elif ch == 'a':
-        writeCommand("Unroll all", "o:21,1000,80")
+        writeCommand("Unroll all", "o:21,1000,100")
     elif ch == 'A':
-        writeCommand("Roll all", "o:42,1000,80")
+        writeCommand("Roll all", "o:42,1000,100")
+
     elif ch == 'u':
-        writeCommand("Unroll up", "o:1,1000,30")
+        writeCommand("Unroll up", "o:1,50,100")
     elif ch == 'U':
-        writeCommand("Roll up", "o:2,5000,30")
+        writeCommand("Roll up", "o:2,100,30")
     elif ch == 'j':
-        writeCommand("Unroll down right", "o:4,100,30")
+        writeCommand("Unroll down right", "o:4,50,100")
     elif ch == 'J':
-        writeCommand("Roll down right", "o:8,500,30")
+        writeCommand("Roll down right", "o:8,100,30")
     elif ch == 'h':
-        writeCommand("Unroll down left", "o:16,100,30")
+        writeCommand("Unroll down left", "o:16,50,100")
     elif ch == 'H':
-        writeCommand("Roll down left", "o:32,500,30")
+        writeCommand("Roll down left", "o:32,100,30")
+
     elif ch == '0':
         writeCommand("Off", "o:0,1000")
+
     elif ch == '8':
-        writeCommand("Step UP", "o:20,500,30")
+        writeCommand("Step UP", "o:20,100,30;o:2,2000,30")
     elif ch == '9':
-        writeCommand("Step UP_RIGHT", "o:16,800,30")
+        writeCommand("Step UP_RIGHT", "o:16,100,30;o:2,2000,30")
     elif ch == '6':
-        writeCommand("Step RIGHT", "o:24,800,80")
+        writeCommand("Step RIGHT", "o:16,100,30;o:8,2000,30")
     elif ch == '3':
-        writeCommand("Step DOWN_RIGHT", "o:8,1000,80")
+        writeCommand("Step DOWN_RIGHT", "o:1,100,30;o:8,2000,30")
     elif ch == '2':
-        writeCommand("Step DOWN", "o:40,1000,80")
+        writeCommand("Step DOWN", "o:1,100,30;o:40,2000,60")
     elif ch == '1':
-        writeCommand("Step DOWN_LEFT", "o:32,1000,80")
+        writeCommand("Step DOWN_LEFT", "o:1,100,30;o:32,2000,30")
     elif ch == '4':
-        writeCommand("Step LEFT", "o:36,800,80")
+        writeCommand("Step LEFT", "o:4,100,30;o:32,2000,30")
     elif ch == '7':
-        writeCommand("Step UP_LEFT", "o:4,800,80")
-    elif ch == 't':
-        writeCommand("Step UP", "o:20,500,30")
-    elif ch == 'g':
-        writeCommand("Step RIGHT", "o:24,750,80")
-    elif ch == 'v':
-        writeCommand("Step DOWN", "o:40,1000,80")
-    elif ch == 'f':
-        writeCommand("Step LEFT", "o:36,750,80")
-    elif ch == 'T':
-        writeCommand("Step UP", "o:20,2500,30")
-    elif ch == 'G':
-        writeCommand("Step RIGHT", "o:24,3750,80")
-    elif ch == 'V':
-        writeCommand("Step DOWN", "o:40,5000,80")
-    elif ch == 'F':
-        writeCommand("Step LEFT", "o:36,3750,80")
+        writeCommand("Step UP_LEFT", "o:4,100,30;o:2,2000,30")
+
     else:
         print("unkown key")
         continue

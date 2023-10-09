@@ -64,7 +64,7 @@ void motors_logic_start_move(motors_direction_t direction, int time_since_boot_m
         .direction = direction,
         .current = motors_current_t::UNKNWON, // will be updated by 'motors_logic_periodic_update'
     };
-    motors_hw_move_big_step(direction);
+    motors_hw_move_one_step(direction);
 }
 
 void motors_logic_start_move_one_step(motors_direction_t direction, int time_since_boot_ms)
@@ -77,7 +77,7 @@ void motors_logic_start_move_one_step(motors_direction_t direction, int time_sin
         .direction = direction,
         .current = motors_current_t::UNKNWON, // will be updated by 'motors_logic_periodic_update'
     };
-    motors_hw_move_small_step(direction);
+    motors_hw_move_one_step(direction);
 }
 
 void motors_logic_stop()
@@ -105,7 +105,7 @@ void motors_logic_periodic_update(int time_since_boot_ms)
     bool moving = (state != motor_hw_state_t::STOPPED);
 
     if (current_status.state == motors_state_t::MOVING && !moving) {
-        motors_hw_move_big_step(current_status.direction);
+        motors_hw_move_one_step(current_status.direction);
     }
     else if(current_status.state == motors_state_t::MOVING_ONE_STEP && !moving) {
         current_status = {
