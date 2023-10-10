@@ -4,7 +4,7 @@ set(requires
         esp32-camera
         esp_http_server
         nvs_flash
-        mdns
+        esp_wifi
         camera_custom
         image_processing
         motors)

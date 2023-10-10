@@ -51,9 +51,7 @@ else()
     add_compile_options(-fdiagnostics-color=always)
     include($ENV{IDF_PATH}/tools/cmake/project.cmake)
 
-    # set only 'main' component to be built
-    # all 'required' component will also be built
-    # This line can be removed but make all components to be systematically built
-    set(COMPONENTS main)
+    # !!!WTF!!! this line must be removed (after esp idf v5.0) otherwise CONFIG_SPIRAM will not appear in menuconfig :
+    # set(COMPONENTS main)
     project(panel_controller)
 endif()

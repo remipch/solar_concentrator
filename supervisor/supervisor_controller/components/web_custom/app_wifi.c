@@ -69,12 +69,10 @@ static void event_handler(void* arg, esp_event_base_t event_base,
 {
     if (event_base == WIFI_EVENT && event_id == WIFI_EVENT_AP_STACONNECTED) {
         wifi_event_ap_staconnected_t* event = (wifi_event_ap_staconnected_t*) event_data;
-        ESP_LOGI(TAG, "station "MACSTR" join, AID=%d",
-                 MAC2STR(event->mac), event->aid);
+        ESP_LOGI(TAG, "station join, AID=%d", event->aid);
     } else if (event_base == WIFI_EVENT && event_id == WIFI_EVENT_AP_STADISCONNECTED) {
         wifi_event_ap_stadisconnected_t* event = (wifi_event_ap_stadisconnected_t*) event_data;
-        ESP_LOGI(TAG, "station "MACSTR" leave, AID=%d",
-                 MAC2STR(event->mac), event->aid);
+        ESP_LOGI(TAG, "station leave, AID=%d", event->aid);
     } else if (event_base == WIFI_EVENT && event_id == WIFI_EVENT_STA_START) {
         esp_wifi_connect();
     } else if (event_base == WIFI_EVENT && event_id == WIFI_EVENT_STA_CONNECTED) {
@@ -219,13 +217,13 @@ void app_wifi_main(void)
     wifi_init_softap();
 
     // Set static IPv4 network address
-    tcpip_adapter_dhcps_stop(TCPIP_ADAPTER_IF_AP);
-    tcpip_adapter_ip_info_t ip_info;
-    ip_info.ip.addr = ipaddr_addr(EXAMPLE_STATIC_IP_ADDR);
-    ip_info.gw.addr = ipaddr_addr(EXAMPLE_STATIC_GW_ADDR);
-    ip_info.netmask.addr = ipaddr_addr(EXAMPLE_STATIC_NETMASK_ADDR);
-    printf("set ip ret: %d\n", tcpip_adapter_set_ip_info(TCPIP_ADAPTER_IF_AP, &ip_info)); //set static IP
-    tcpip_adapter_dhcps_start(TCPIP_ADAPTER_IF_AP);
+//     tcpip_adapter_dhcps_stop(TCPIP_ADAPTER_IF_AP);
+//     tcpip_adapter_ip_info_t ip_info;
+//     ip_info.ip.addr = ipaddr_addr(EXAMPLE_STATIC_IP_ADDR);
+//     ip_info.gw.addr = ipaddr_addr(EXAMPLE_STATIC_GW_ADDR);
+//     ip_info.netmask.addr = ipaddr_addr(EXAMPLE_STATIC_NETMASK_ADDR);
+//     printf("set ip ret: %d\n", tcpip_adapter_set_ip_info(TCPIP_ADAPTER_IF_AP, &ip_info)); //set static IP
+//     tcpip_adapter_dhcps_start(TCPIP_ADAPTER_IF_AP);
 }
 
 
