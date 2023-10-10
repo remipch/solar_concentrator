@@ -46,21 +46,18 @@ static const char *TAG = "app_wifi";
 
 static int s_retry_num = 0;
 
-static void set_sta_static_ip(esp_netif_t *netif)
+static void set_static_ip(esp_netif_t *netif)
 {
-    if (esp_netif_dhcpc_stop(netif) != ESP_OK) {
-        ESP_LOGE(TAG, "Failed to stop dhcp client");
-        return;
-    }
+    ESP_ERROR_CHECK(esp_netif_dhcps_stop(netif));
+
     esp_netif_ip_info_t ip;
     memset(&ip, 0 , sizeof(esp_netif_ip_info_t));
     ip.ip.addr = ipaddr_addr(EXAMPLE_STATIC_IP_ADDR);
     ip.netmask.addr = ipaddr_addr(EXAMPLE_STATIC_NETMASK_ADDR);
     ip.gw.addr = ipaddr_addr(EXAMPLE_STATIC_GW_ADDR);
-    if (esp_netif_set_ip_info(netif, &ip) != ESP_OK) {
-        ESP_LOGE(TAG, "Failed to set ip info");
-        return;
-    }
+
+    ESP_ERROR_CHECK(esp_netif_set_ip_info(netif, &ip));
+    ESP_ERROR_CHECK(esp_netif_dhcps_start(netif));
     ESP_LOGD(TAG, "Success to set static ip: %s, netmask: %s, gw: %s", EXAMPLE_STATIC_IP_ADDR, EXAMPLE_STATIC_NETMASK_ADDR, EXAMPLE_STATIC_GW_ADDR);
 }
 
@@ -76,7 +73,7 @@ static void event_handler(void* arg, esp_event_base_t event_base,
     } else if (event_base == WIFI_EVENT && event_id == WIFI_EVENT_STA_START) {
         esp_wifi_connect();
     } else if (event_base == WIFI_EVENT && event_id == WIFI_EVENT_STA_CONNECTED) {
-        set_sta_static_ip(arg);
+        set_static_ip(arg);
     } else if (event_base == WIFI_EVENT && event_id == WIFI_EVENT_STA_DISCONNECTED) {
         if (s_retry_num < EXAMPLE_MAXIMUM_RETRY) {
             esp_wifi_connect();
@@ -96,12 +93,19 @@ static void event_handler(void* arg, esp_event_base_t event_base,
 
 void wifi_init_softap(void)
 {
-    ESP_ERROR_CHECK(esp_netif_init());
-    ESP_ERROR_CHECK(esp_event_loop_create_default());
-    esp_netif_create_default_wifi_ap();
+    // Warning : set_static_ip works with function calls in this exact order
 
     wifi_init_config_t cfg = WIFI_INIT_CONFIG_DEFAULT();
     ESP_ERROR_CHECK(esp_wifi_init(&cfg));
+
+    ESP_ERROR_CHECK(esp_netif_init());
+    ESP_ERROR_CHECK(esp_event_loop_create_default());
+    esp_netif_t *netif = esp_netif_create_default_wifi_ap();
+
+    ESP_ERROR_CHECK(esp_wifi_stop());
+    ESP_ERROR_CHECK(esp_wifi_set_mode(WIFI_MODE_NULL));
+
+
 
     ESP_ERROR_CHECK(esp_event_handler_instance_register(WIFI_EVENT,
                                                         ESP_EVENT_ANY_ID,
@@ -124,11 +128,18 @@ void wifi_init_softap(void)
     }
 
     ESP_ERROR_CHECK(esp_wifi_set_mode(WIFI_MODE_AP));
+
+    set_static_ip(netif);
+
     ESP_ERROR_CHECK(esp_wifi_set_config(WIFI_IF_AP, &wifi_config));
     ESP_ERROR_CHECK(esp_wifi_start());
 
     ESP_LOGI(TAG, "wifi_init_softap finished. SSID:%s password:%s channel:%d",
              EXAMPLE_WIFI_AP_SSID, EXAMPLE_WIFI_AP_PASSWORD, EXAMPLE_WIFI_CHANNEL);
+
+    int8_t max_power;
+    ESP_ERROR_CHECK(esp_wifi_get_max_tx_power(&max_power));
+    ESP_LOGI(TAG, "wifi_init_softap finished. max_power:%d", max_power);
 }
 
 void wifi_init_sta(void)
@@ -215,15 +226,6 @@ void app_wifi_main(void)
 
     ESP_LOGI(TAG, "ESP_WIFI_MODE_AP");
     wifi_init_softap();
-
-    // Set static IPv4 network address
-//     tcpip_adapter_dhcps_stop(TCPIP_ADAPTER_IF_AP);
-//     tcpip_adapter_ip_info_t ip_info;
-//     ip_info.ip.addr = ipaddr_addr(EXAMPLE_STATIC_IP_ADDR);
-//     ip_info.gw.addr = ipaddr_addr(EXAMPLE_STATIC_GW_ADDR);
-//     ip_info.netmask.addr = ipaddr_addr(EXAMPLE_STATIC_NETMASK_ADDR);
-//     printf("set ip ret: %d\n", tcpip_adapter_set_ip_info(TCPIP_ADAPTER_IF_AP, &ip_info)); //set static IP
-//     tcpip_adapter_dhcps_start(TCPIP_ADAPTER_IF_AP);
 }
 
 
