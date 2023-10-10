@@ -1,4 +1,4 @@
-FROM espressif/idf:release-v4.4
+FROM espressif/idf:release-v5.0
 ARG DEBIAN_FRONTEND=noninteractive # to prevent installer from asking questions
 RUN apt-get update && apt-get install -y kdevelop
 RUN apt-get update && apt-get install -y breeze-icon-theme  # used by kdevelop but not managed as an apt dependency
@@ -7,16 +7,16 @@ RUN apt-get update && apt-get install -y cu                 # serial communicati
 RUN apt-get update && apt-get install -y iputils-ping       # ping
 RUN apt-get update && apt-get install -y kdevelop-python    # python plugin
 RUN apt-get update && apt-get install -y python3-tk         # python tk (matplotlib backend)
+RUN apt-get update && apt-get install -y arduino            # for motors_controller arduino script
+RUN apt-get update && apt-get install -y nano               # minimal text editor
 
-RUN apt-get update && apt-get install -y arduino
+RUN apt-get update && apt-get install -y python3-pip        # pip (used just below)
 
 # Note : full pip path must be sepcified here otherwise pip package seems to be installed for anotehr python version
-RUN /opt/esp/python_env/idf4.4_py3.8_env/bin/pip install --upgrade pip
-RUN /opt/esp/python_env/idf4.4_py3.8_env/bin/pip install opencv-python
-RUN /opt/esp/python_env/idf4.4_py3.8_env/bin/pip install matplotlib
-RUN /opt/esp/python_env/idf4.4_py3.8_env/bin/pip install getch # for manual python script using keyboard
-
-RUN apt-get update && apt-get install -y nano               # minimal text editor
+RUN /opt/esp/python_env/idf5.0_py3.8_env/bin/pip install --upgrade pip
+RUN /opt/esp/python_env/idf5.0_py3.8_env/bin/pip install opencv-python
+RUN /opt/esp/python_env/idf5.0_py3.8_env/bin/pip install matplotlib
+RUN /opt/esp/python_env/idf5.0_py3.8_env/bin/pip install getch # for manual python script using keyboard
 
 RUN apt-get update && apt-get install -y libjpeg-dev    # to build quirc in container (not necessary for ESP32)
 RUN apt-get update && apt-get install -y libpng-dev     # to build quirc in container (not necessary for ESP32)
