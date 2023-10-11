@@ -9,6 +9,8 @@
 #undef cimg_display
 #define cimg_display 0
 
+#include "camera.h"
+
 #include "CImg.h"
 
 using namespace cimg_library;
@@ -114,11 +116,16 @@ void rgb888ToQuircGrayscale(CImg<unsigned char>& input, uint8_t * output) {
     }
 }
 
+// Working image, defined once at startup to save future allocations
+CImg<unsigned char> img(CAMERA_WIDTH, CAMERA_HEIGHT, 1, 3);
+
 void draw_something(camera_fb_t *frame) {
-    ESP_LOGD(TAG, "Frame received (%u * %u)",(int)frame->width,(int)frame->height);
+    ESP_LOGD(TAG, "draw_something(%u * %u)",(int)frame->width,(int)frame->height);
+    assert(frame->width==CAMERA_WIDTH);
+    assert(frame->height==CAMERA_HEIGHT);
 
     // Create working image (allocate new buffer)
-    CImg<unsigned char> img(frame->width,frame->height,1,3);
+
     rgb565ToRgb888(frame, img);
 
     // Draw something using CImg lib
@@ -137,10 +144,9 @@ void draw_something(camera_fb_t *frame) {
 }
 
 void detect_target(camera_fb_t *frame) {
-    ESP_LOGD(TAG, "Frame received (%u * %u)",(int)frame->width,(int)frame->height);
-
-    // Create working image (allocate new buffer)
-    CImg<unsigned char> img(frame->width,frame->height,1,3);
+    ESP_LOGD(TAG, "detect_target(%u * %u)",(int)frame->width,(int)frame->height);
+    assert(frame->width==CAMERA_WIDTH);
+    assert(frame->height==CAMERA_HEIGHT);
 
     ESP_LOGD(TAG, "Convert from frame_rgb565(c,x,y) to CImg_gray8(x,y,z,c)");
     rgb565ToRgb888(frame, img);

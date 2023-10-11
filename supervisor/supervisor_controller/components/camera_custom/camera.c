@@ -3,8 +3,31 @@
 #include "esp_log.h"
 #include "esp_system.h"
 
-static const char *TAG = "who_camera";
+static const char *TAG = "camera_custom";
 static QueueHandle_t xQueueFrameO = NULL;
+
+#if CONFIG_CAMERA_MODULE_AI_THINKER
+#define CAMERA_PIN_PWDN 32
+#define CAMERA_PIN_RESET -1
+#define CAMERA_PIN_XCLK 0
+#define CAMERA_PIN_SIOD 26
+#define CAMERA_PIN_SIOC 27
+
+#define CAMERA_PIN_D7 35
+#define CAMERA_PIN_D6 34
+#define CAMERA_PIN_D5 39
+#define CAMERA_PIN_D4 36
+#define CAMERA_PIN_D3 21
+#define CAMERA_PIN_D2 19
+#define CAMERA_PIN_D1 18
+#define CAMERA_PIN_D0 5
+#define CAMERA_PIN_VSYNC 25
+#define CAMERA_PIN_HREF 23
+#define CAMERA_PIN_PCLK 22
+#endif
+
+#define XCLK_FREQ_HZ 15000000
+
 
 static void task_process_handler(void *arg)
 {
@@ -16,27 +39,8 @@ static void task_process_handler(void *arg)
     }
 }
 
-void register_camera(const pixformat_t pixel_fromat,
-                     const framesize_t frame_size,
-                     const QueueHandle_t frame_o)
+void register_camera(const QueueHandle_t frame_o)
 {
-    ESP_LOGI(TAG, "Camera module is %s", CAMERA_MODULE_NAME);
-
-#if CONFIG_CAMERA_MODULE_ESP_EYE || CONFIG_CAMERA_MODULE_ESP32_CAM_BOARD
-    /* IO13, IO14 is designed for JTAG by default,
-     * to use it as generalized input,
-     * firstly declair it as pullup input */
-    gpio_config_t conf;
-    conf.mode = GPIO_MODE_INPUT;
-    conf.pull_up_en = GPIO_PULLUP_ENABLE;
-    conf.pull_down_en = GPIO_PULLDOWN_DISABLE;
-    conf.intr_type = GPIO_INTR_DISABLE;
-    conf.pin_bit_mask = 1LL << 13;
-    gpio_config(&conf);
-    conf.pin_bit_mask = 1LL << 14;
-    gpio_config(&conf);
-#endif
-
     camera_config_t config;
     config.ledc_channel = LEDC_CHANNEL_0;
     config.ledc_timer = LEDC_TIMER_0;
@@ -57,8 +61,8 @@ void register_camera(const pixformat_t pixel_fromat,
     config.pin_pwdn = CAMERA_PIN_PWDN;
     config.pin_reset = CAMERA_PIN_RESET;
     config.xclk_freq_hz = XCLK_FREQ_HZ;
-    config.pixel_format = pixel_fromat;
-    config.frame_size = frame_size;
+    config.pixel_format = CAMERA_PIXEL_FORMAT;
+    config.frame_size = FRAMESIZE_SVGA;
     config.jpeg_quality = 12;
     config.fb_count = 1;
     config.fb_location = CAMERA_FB_IN_PSRAM;
@@ -74,12 +78,6 @@ void register_camera(const pixformat_t pixel_fromat,
 
     sensor_t *s = esp_camera_sensor_get();
     s->set_vflip(s, 1); //flip it back
-    //initial sensors are flipped vertically and colors are a bit saturated
-    if (s->id.PID == OV3660_PID)
-    {
-        s->set_brightness(s, 1);  //up the blightness just a bit
-        s->set_saturation(s, -2); //lower the saturation
-    }
 
     // Set initial camera config
     // UI will automatically be initialized with these value (see httpd status_handler)
