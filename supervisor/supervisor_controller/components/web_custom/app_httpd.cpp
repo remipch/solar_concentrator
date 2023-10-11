@@ -470,6 +470,7 @@ void register_httpd(const QueueHandle_t frame_i, const QueueHandle_t frame_o, co
 
     httpd_config_t config = HTTPD_DEFAULT_CONFIG();
     config.max_uri_handlers = 12;
+    config.lru_purge_enable   = true;
 
     httpd_uri_t index_uri = {
         .uri = "/",
