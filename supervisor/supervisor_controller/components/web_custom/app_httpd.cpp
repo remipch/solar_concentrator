@@ -99,6 +99,11 @@ static esp_err_t capture_handler(httpd_req_t *req)
     ESP_LOGV(TAG, "esp_camera_fb_get 1");
     frame = esp_camera_fb_get();
     ESP_LOGV(TAG, "esp_camera_fb_get 2");
+    if(!frame) {
+        ESP_LOGE(TAG, "Camera capture failed");
+        httpd_resp_send_500(req);
+        return ESP_FAIL;
+    }
 
 //     detect_target(frame);
 
