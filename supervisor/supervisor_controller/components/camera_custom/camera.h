@@ -200,7 +200,7 @@ extern "C"
 #endif
     /**
      * @brief Initialize camera
-     * 
+     *
      * @param pixformat    One of
      *                     - PIXFORMAT_RGB565
      *                     - PIXFORMAT_YUV422
@@ -233,11 +233,9 @@ extern "C"
      *                     - FRAMESIZE_WQXGA,    // 2560x1600
      *                     - FRAMESIZE_P_FHD,    // 1080x1920
      *                     - FRAMESIZE_QSXGA,    // 2560x1920
-     * @param fb_count     Number of frame buffers to be allocated. If more than one, then each frame will be acquired (double speed)
      */
     void register_camera(const pixformat_t pixel_fromat,
                          const framesize_t frame_size,
-                         const uint8_t fb_count,
                          const QueueHandle_t frame_o);
 
 #ifdef __cplusplus

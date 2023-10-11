@@ -18,7 +18,6 @@ static void task_process_handler(void *arg)
 
 void register_camera(const pixformat_t pixel_fromat,
                      const framesize_t frame_size,
-                     const uint8_t fb_count,
                      const QueueHandle_t frame_o)
 {
     ESP_LOGI(TAG, "Camera module is %s", CAMERA_MODULE_NAME);
@@ -61,9 +60,9 @@ void register_camera(const pixformat_t pixel_fromat,
     config.pixel_format = pixel_fromat;
     config.frame_size = frame_size;
     config.jpeg_quality = 12;
-    config.fb_count = fb_count;
+    config.fb_count = 1;
     config.fb_location = CAMERA_FB_IN_PSRAM;
-    config.grab_mode = CAMERA_GRAB_LATEST;
+    config.grab_mode = CAMERA_GRAB_LATEST; // (no effect when fb_count==1)
 
     // camera init
     esp_err_t err = esp_camera_init(&config);

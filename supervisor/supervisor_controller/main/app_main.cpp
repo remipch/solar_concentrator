@@ -19,7 +19,7 @@ extern "C" void app_main()
     xQueueHttpFrame = xQueueCreate(1, sizeof(camera_fb_t *));
 
     // PIXFORMAT_RGB565 is required to serve capture_borders_uri (see app_httpd.cpp)
-    register_camera(PIXFORMAT_RGB565, FRAMESIZE_SVGA, 1, xQueueAIFrame);
+    register_camera(PIXFORMAT_RGB565, FRAMESIZE_SVGA, xQueueAIFrame);
     register_image_processing(xQueueAIFrame, NULL, NULL, xQueueHttpFrame);
     register_httpd(xQueueHttpFrame, NULL, true);
 }
