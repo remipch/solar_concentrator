@@ -44,6 +44,7 @@ motors_full_status_t motors_logic_get_status()
 
 void motors_logic_init()
 {
+    esp_log_level_set(TAG, ESP_LOG_DEBUG);
     ESP_LOGI(TAG, "motors_logic_init()");
     CHECK(current_status.state == motors_state_t::UNINITIALIZED);
     CHECK(motors_hw_init()== motor_hw_error_t::NO_ERROR);
@@ -56,7 +57,7 @@ void motors_logic_init()
 
 void motors_logic_start_move(motors_direction_t direction, int time_since_boot_ms)
 {
-    ESP_LOGI(TAG, "motors_logic_start_move(direction = %s, time_since_boot_ms = %i)",
+    ESP_LOGD(TAG, "motors_logic_start_move(direction = %s, time_since_boot_ms = %i)",
              str(direction), time_since_boot_ms);
     CHECK(current_status.state > motors_state_t::UNINITIALIZED);
     current_status = {
@@ -69,7 +70,7 @@ void motors_logic_start_move(motors_direction_t direction, int time_since_boot_m
 
 void motors_logic_start_move_one_step(motors_direction_t direction, int time_since_boot_ms)
 {
-    ESP_LOGI(TAG, "motors_logic_start_move_one_step(direction = %s, time_since_boot_ms = %i)",
+    ESP_LOGD(TAG, "motors_logic_start_move_one_step(direction = %s, time_since_boot_ms = %i)",
              str(direction), time_since_boot_ms);
     CHECK(current_status.state > motors_state_t::UNINITIALIZED);
     current_status = {
@@ -82,7 +83,7 @@ void motors_logic_start_move_one_step(motors_direction_t direction, int time_sin
 
 void motors_logic_stop()
 {
-    ESP_LOGI(TAG, "motors_logic_stop");
+    ESP_LOGD(TAG, "motors_logic_stop");
     CHECK(current_status.state > motors_state_t::UNINITIALIZED);
     motors_hw_stop();
     current_status = {
@@ -101,7 +102,6 @@ void motors_logic_periodic_update(int time_since_boot_ms)
     ESP_LOGV(TAG, "motors_logic_periodic_update(time_since_boot_ms = %i)", time_since_boot_ms);
     motor_hw_state_t state = motor_hw_get_state();
     //CHECK(state != motor_hw_state_t::UNKNOWN);
-    ESP_LOGV(TAG, "state = %s", str(state));
     bool moving = (state != motor_hw_state_t::STOPPED);
 
     if (current_status.state == motors_state_t::MOVING && !moving) {

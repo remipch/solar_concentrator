@@ -16,8 +16,8 @@ const char END_CHAR = '\n';
 
 motor_hw_error_t motors_hw_init()
 {
-    ESP_LOGD(TAG, "motors_hw_init");
-
+    esp_log_level_set(TAG, ESP_LOG_DEBUG);
+    ESP_LOGI(TAG, "motors_hw_init");
 
     uart_config_t uart_config = {
         .baud_rate = MOTOR_CONTROLLER_BAUD_RATE,
@@ -40,7 +40,7 @@ motor_hw_error_t motors_hw_init()
 }
 
 bool motors_hw_write_commands(const char* commands) {
-    ESP_LOGI(TAG, "Send '%s' to motors",commands);
+    ESP_LOGV(TAG, "Send '%s' to motors",commands);
     int res = uart_write_bytes(MOTOR_CONTROLLER_UART_PORT_NUM, commands, strlen(commands));
     res += uart_write_bytes(MOTOR_CONTROLLER_UART_PORT_NUM, &END_CHAR, 1);
     return (res == strlen(commands)+1);
@@ -53,7 +53,7 @@ char motors_hw_read_reply() {
     if (len>0) {
         reply[len] = '\0';
         char result = reply[len-1];
-        ESP_LOGI(TAG, "Reply: '%s' (len: %i, result:'%c')", reply, len, result);
+        ESP_LOGV(TAG, "Reply: '%s' (len: %i, result:'%c')", reply, len, result);
         return result;
     }
     else {
@@ -64,12 +64,13 @@ char motors_hw_read_reply() {
 
 void motors_hw_stop()
 {
+    ESP_LOGV(TAG, "motors_hw_stop");
     motors_hw_write_commands("c");
 }
 
 void motors_hw_move_one_step(motors_direction_t direction)
 {
-    ESP_LOGI(TAG, "motors_hw_move_one_step(direction = %s)", str(direction));
+    ESP_LOGV(TAG, "motors_hw_move_one_step(direction = %s)", str(direction));
     if (direction == motors_direction_t::UP) {
         motors_hw_write_commands("o:20,100,30;o:2,2000,30");
     } else if (direction == motors_direction_t::UP_RIGHT) {
@@ -94,11 +95,16 @@ void motors_hw_move_one_step(motors_direction_t direction)
 motor_hw_state_t motor_hw_get_state()
 {
     motors_hw_write_commands("s");
+
     char reply = motors_hw_read_reply();
+    motor_hw_state_t state;
     if(reply=='1')
-        return motor_hw_state_t::MOVING;
+        state = motor_hw_state_t::MOVING;
     if(reply=='0')
-        return motor_hw_state_t::STOPPED;
-    return motor_hw_state_t::UNKNOWN;
+        state = motor_hw_state_t::STOPPED;
+    else
+        state = motor_hw_state_t::UNKNOWN;
+    ESP_LOGV(TAG, "motor_hw_get_state(): %s", str(state));
+    return state;
 }
 
