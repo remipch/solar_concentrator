@@ -53,8 +53,8 @@ void register_camera(const pixformat_t pixel_fromat,
     config.pin_pclk = CAMERA_PIN_PCLK;
     config.pin_vsync = CAMERA_PIN_VSYNC;
     config.pin_href = CAMERA_PIN_HREF;
-    config.pin_sscb_sda = CAMERA_PIN_SIOD;
-    config.pin_sscb_scl = CAMERA_PIN_SIOC;
+    config.pin_sccb_sda = CAMERA_PIN_SIOD;
+    config.pin_sccb_scl = CAMERA_PIN_SIOC;
     config.pin_pwdn = CAMERA_PIN_PWDN;
     config.pin_reset = CAMERA_PIN_RESET;
     config.xclk_freq_hz = XCLK_FREQ_HZ;
