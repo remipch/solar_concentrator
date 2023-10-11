@@ -29,7 +29,7 @@
 #define TAG ""
 #else
 #include "esp_log.h"
-static const char *TAG = "camera_httpd";
+static const char *TAG = "app_httpd";
 #endif
 
 static QueueHandle_t xQueueFrameI = NULL;
