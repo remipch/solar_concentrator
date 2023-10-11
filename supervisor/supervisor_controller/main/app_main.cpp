@@ -3,12 +3,15 @@
 #include "app_wifi.h"
 #include "app_httpd.hpp"
 #include "motors.hpp"
+#include "esp_log.h"
 
 static QueueHandle_t xQueueAIFrame = NULL;
 static QueueHandle_t xQueueHttpFrame = NULL;
 
 extern "C" void app_main()
 {
+    esp_log_level_set("event", ESP_LOG_INFO);
+
     app_wifi_main();
     motors_init();
 
