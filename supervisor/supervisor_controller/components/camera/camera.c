@@ -6,7 +6,7 @@
 static const char *TAG = "camera";
 static QueueHandle_t xQueueFrameO = NULL;
 
-#if CONFIG_CAMERA_MODULE_AI_THINKER
+// Hardcoded pinout for CAMERA_MODULE_AI_THINKER
 #define CAMERA_PIN_PWDN 32
 #define CAMERA_PIN_RESET -1
 #define CAMERA_PIN_XCLK 0
@@ -24,7 +24,6 @@ static QueueHandle_t xQueueFrameO = NULL;
 #define CAMERA_PIN_VSYNC 25
 #define CAMERA_PIN_HREF 23
 #define CAMERA_PIN_PCLK 22
-#endif
 
 #define XCLK_FREQ_HZ 15000000
 
