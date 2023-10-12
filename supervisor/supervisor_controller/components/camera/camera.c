@@ -3,7 +3,7 @@
 #include "esp_log.h"
 #include "esp_system.h"
 
-static const char *TAG = "camera_custom";
+static const char *TAG = "camera";
 static QueueHandle_t xQueueFrameO = NULL;
 
 #if CONFIG_CAMERA_MODULE_AI_THINKER

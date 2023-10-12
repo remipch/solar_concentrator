@@ -1,5 +1,5 @@
 set(requires
-                camera_custom
+                camera
                 image_processing
                 motors
                 web_custom)

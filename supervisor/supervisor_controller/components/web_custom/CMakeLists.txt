@@ -5,7 +5,7 @@ set(requires
         esp_http_server
         nvs_flash
         esp_wifi
-        camera_custom
+        camera
         image_processing
         motors)
 

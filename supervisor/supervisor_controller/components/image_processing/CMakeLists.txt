@@ -1,5 +1,5 @@
 set(requires
-        camera_custom
+        camera
         esp32-camera
         capstone_detector)
 
