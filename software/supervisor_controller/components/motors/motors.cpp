@@ -64,12 +64,12 @@ static void motors_event_handler(void* handler_args, esp_event_base_t base, int3
         break;
     case MOTORS_START_MOVE_EVENT: {
         motors_direction_t direction = *((motors_direction_t*)event_data);
-        motors_logic_start_move(direction, time_since_boot_ms);
+        motors_logic_start_move(direction);
         break;
     }
     case MOTORS_START_MOVE_ONE_STEP_EVENT: {
         motors_direction_t direction = *((motors_direction_t*)event_data);
-        motors_logic_start_move_one_step(direction, time_since_boot_ms);
+        motors_logic_start_move_one_step(direction);
         break;
     }
     case MOTORS_STOP_EVENT:

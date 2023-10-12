@@ -55,10 +55,9 @@ void motors_logic_init()
     };
 }
 
-void motors_logic_start_move(motors_direction_t direction, int time_since_boot_ms)
+void motors_logic_start_move(motors_direction_t direction)
 {
-    ESP_LOGD(TAG, "motors_logic_start_move(direction = %s, time_since_boot_ms = %i)",
-             str(direction), time_since_boot_ms);
+    ESP_LOGD(TAG, "motors_logic_start_move(%s", str(direction));
     CHECK(current_status.state > motors_state_t::UNINITIALIZED);
     current_status = {
         .state = motors_state_t::MOVING,
@@ -68,10 +67,9 @@ void motors_logic_start_move(motors_direction_t direction, int time_since_boot_m
     motors_hw_move_one_step(direction);
 }
 
-void motors_logic_start_move_one_step(motors_direction_t direction, int time_since_boot_ms)
+void motors_logic_start_move_one_step(motors_direction_t direction)
 {
-    ESP_LOGD(TAG, "motors_logic_start_move_one_step(direction = %s, time_since_boot_ms = %i)",
-             str(direction), time_since_boot_ms);
+    ESP_LOGD(TAG, "motors_logic_start_move_one_step(%s", str(direction));
     CHECK(current_status.state > motors_state_t::UNINITIALIZED);
     current_status = {
         .state = motors_state_t::MOVING_ONE_STEP,
