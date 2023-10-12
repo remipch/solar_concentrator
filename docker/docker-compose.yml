@@ -14,6 +14,11 @@ services:
       - ..:/solar_concentrator
       - ./config:/root/.config          # map configs to be saved in host WARNING : individual permissions must be enabled in Dockerfile (see kdeveloprc)
       - ./local:/root/.local            # map configs to be saved in host
-    network_mode: host
+    networks:
+      - no-internet          # no internet connection by default, use 'docker_connect' script to connect
     command: sleep infinity  # keep container opened, commands will be executed in this existing same container
 
+networks:
+  no-internet:
+    driver: bridge
+    internal: true

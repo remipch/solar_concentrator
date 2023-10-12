@@ -1,0 +1,7 @@
+#!/bin/bash
+
+echo "Disconnect docker container from internet"
+
+./print_and_run sudo docker network disconnect bridge solar_concentrator-dev-1
+./print_and_run sudo docker network connect solar_concentrator_no-internet solar_concentrator-dev-1
+

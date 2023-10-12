@@ -1,0 +1,9 @@
+#!/bin/bash
+
+# Docker is not connected by default (docker-compose use no-internet network)
+
+echo "Connect docker container to internet via bridge network"
+
+./print_and_run sudo docker network disconnect solar_concentrator_no-internet solar_concentrator-dev-1
+./print_and_run sudo docker network connect bridge solar_concentrator-dev-1
+
