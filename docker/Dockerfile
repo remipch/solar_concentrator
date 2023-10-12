@@ -47,9 +47,9 @@ RUN echo ". $IDF_PATH/export.sh" >> ~/.bashrc
 
 # Add usefull aliases
 RUN echo "alias h='cat /solar_concentrator/docker/docker_help.txt && alias'" >> ~/.bashrc
-RUN echo "alias cdtra='cd /solar_concentrator/supervisor/remote_tracking'" >> ~/.bashrc
-RUN echo "alias cdsup='cd /solar_concentrator/supervisor/supervisor_controller/build_esp32/'" >> ~/.bashrc
-RUN echo "alias cdmot='cd /solar_concentrator/supervisor/motors_controller/'" >> ~/.bashrc
+RUN echo "alias cdtra='cd /solar_concentrator/software/remote_tracking'" >> ~/.bashrc
+RUN echo "alias cdsup='cd /solar_concentrator/software/supervisor_controller/build_esp32/'" >> ~/.bashrc
+RUN echo "alias cdmot='cd /solar_concentrator/software/motors_controller/'" >> ~/.bashrc
 
 # Finally print help
 RUN echo "h" >> ~/.bashrc
