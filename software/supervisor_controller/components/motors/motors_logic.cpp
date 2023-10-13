@@ -57,7 +57,7 @@ void motors_logic_init()
 
 void motors_logic_start_move(motors_direction_t direction)
 {
-    ESP_LOGD(TAG, "motors_logic_start_move(%s", str(direction));
+    ESP_LOGD(TAG, "motors_logic_start_move(%s)", str(direction));
     CHECK(current_status.state > motors_state_t::UNINITIALIZED);
     current_status = {
         .state = motors_state_t::MOVING,
@@ -69,7 +69,7 @@ void motors_logic_start_move(motors_direction_t direction)
 
 void motors_logic_start_move_one_step(motors_direction_t direction)
 {
-    ESP_LOGD(TAG, "motors_logic_start_move_one_step(%s", str(direction));
+    ESP_LOGD(TAG, "motors_logic_start_move_one_step(%s)", str(direction));
     CHECK(current_status.state > motors_state_t::UNINITIALIZED);
     current_status = {
         .state = motors_state_t::MOVING_ONE_STEP,
@@ -99,7 +99,9 @@ void motors_logic_periodic_update(int time_since_boot_ms)
     }
     ESP_LOGV(TAG, "motors_logic_periodic_update(time_since_boot_ms = %i)", time_since_boot_ms);
     motor_hw_state_t state = motor_hw_get_state();
-    //CHECK(state != motor_hw_state_t::UNKNOWN);
+    if(state == motor_hw_state_t::UNKNOWN) {
+        ESP_LOGW(TAG, "  UNKNOWN motors state: considered MOVING");
+    }
     bool moving = (state != motor_hw_state_t::STOPPED);
 
     if (current_status.state == motors_state_t::MOVING && !moving) {

@@ -8,6 +8,7 @@
 
 motors_full_status_t motors_logic_get_status();
 
+// Must be called once before any other functions
 void motors_logic_init();
 
 void motors_logic_start_move(motors_direction_t direction);
@@ -16,7 +17,7 @@ void motors_logic_start_move_one_step(motors_direction_t direction);
 
 void motors_logic_stop();
 
-// Must be called periodically to do meaningfull actions depending on current stats
+// Must be called periodically to do meaningfull actions depending on current state
 // and update internal state
 void motors_logic_periodic_update(int time_since_boot_ms);
 

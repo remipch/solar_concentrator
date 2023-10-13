@@ -102,7 +102,7 @@ motor_hw_state_t motor_hw_get_state()
     motor_hw_state_t state;
     if(reply=='1')
         state = motor_hw_state_t::MOVING;
-    if(reply=='0')
+    else if(reply=='0')
         state = motor_hw_state_t::STOPPED;
     else
         state = motor_hw_state_t::UNKNOWN;

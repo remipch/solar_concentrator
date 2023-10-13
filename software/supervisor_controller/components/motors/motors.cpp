@@ -20,7 +20,7 @@ static bool is_initialized = false;
 static esp_event_loop_handle_t event_loop;
 static ESP_EVENT_DEFINE_BASE(MOTORS_EVENTS);
 static const int EVENT_LOOP_TIMEOUT_MS = 5000;
-static const long unsigned int TIMER_PERIOD_MS = 200;
+static const int TIMER_PERIOD_MS = 200;
 static esp_timer_handle_t periodic_timer;
 static const int STATUS_MUTEX_TIMEOUT_MS = 100;
 static SemaphoreHandle_t status_mutex;
