@@ -12,6 +12,8 @@ static const char* TAG = "motors_hw";
 
 #define BUFFER_SIZE (128) // (keep small to stay below task stack size)
 
+static const int REPLY_READ_TIME_MS = 80;
+
 const char END_CHAR = '\n';
 
 motor_hw_error_t motors_hw_init()
@@ -49,7 +51,7 @@ bool motors_hw_write_commands(const char* commands) {
 // Return true if the last character received is '1'
 char motors_hw_read_reply() {
     char reply[BUFFER_SIZE];
-    int len = uart_read_bytes(MOTOR_CONTROLLER_UART_PORT_NUM, reply, (BUFFER_SIZE - 1), 20 / portTICK_PERIOD_MS);
+    int len = uart_read_bytes(MOTOR_CONTROLLER_UART_PORT_NUM, reply, (BUFFER_SIZE - 1), pdMS_TO_TICKS(REPLY_READ_TIME_MS));
     if (len>0) {
         reply[len] = '\0';
         char result = reply[len-1];
