@@ -99,7 +99,11 @@
             section#buttons {
                 display: flex;
                 flex-wrap: nowrap;
-                justify-content: space-between
+                justify-content: space-between;
+            }
+
+            section#buttons button {
+                margin: -1px 5px;
             }
 
             #nav-toggle {
@@ -133,7 +137,8 @@
             }
 
             .input-group input,.input-group button {
-                flex-grow: 1
+                flex-grow: 1;
+                margin: -1px 5px;
             }
 
             .range-max,.range-min {
@@ -143,7 +148,7 @@
 
             button, .button {
                 display: block;
-                margin: 5px;
+                margin: 4px 5px;
                 padding: 0 12px;
                 border: 0;
                 line-height: 28px;
@@ -280,6 +285,8 @@
                 border-radius: 22px;
                 cursor: pointer;
                 background-color: var(--disabled-button-color);
+                float: left; /* otherwise a whitespace is inserted coming from nowhere before the slider */
+                margin: -1px 5px;
             }
 
             .slider,.slider:before {
