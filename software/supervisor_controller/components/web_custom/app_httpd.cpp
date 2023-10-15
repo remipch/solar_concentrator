@@ -425,18 +425,11 @@ static esp_err_t motors_command_handler(httpd_req_t *req)
 
 static esp_err_t motors_status_handler(httpd_req_t *req)
 {
-    static char json_response[1024];
-
     auto motors_state = motors_get_state();
     ESP_LOGI(TAG, "motors state = %s", motors_state);
 
-    char *p = json_response;
-    *p++ = '{';
-    p += sprintf(p, "\"motors-state\":\"%s\",", motors_state);
-    p += sprintf(p, "\"motors-direction\":\"%s\",", "?"); // TODO remove
-    p += sprintf(p, "\"motors-current\":\"%s\"", "?"); // TODO remove
-    *p++ = '}';
-    *p++ = 0;
+    static char json_response[1024];
+    sprintf(json_response, "{\"motors-state\":\"%s\"}", motors_state);
     httpd_resp_set_type(req, "application/json");
     httpd_resp_set_hdr(req, "Access-Control-Allow-Origin", "*");
     return httpd_resp_send(req, json_response, strlen(json_response));

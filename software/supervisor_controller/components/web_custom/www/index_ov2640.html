@@ -484,18 +484,6 @@
                                 <span id="motors-state">?</span>
                             </div>
                         </div>
-                        <div class="input-group">
-                            <label for="motors-direction">Motors direction</label>
-                            <div class="text">
-                                <span id="motors-direction">?</span>
-                            </div>
-                        </div>
-                        <div class="input-group">
-                            <label for="motors-current">Motors total current</label>
-                            <div class="text">
-                                <span id="motors-current">?</span>
-                            </div>
-                        </div>
                     </nav>
                 </div>
                 <figure>
@@ -698,8 +686,6 @@ document.addEventListener('DOMContentLoaded', function (event) {
     })
 
   const motorsStateValue = document.getElementById('motors-state')
-  const motorsDirectionValue = document.getElementById('motors-direction')
-  const motorsCurrentValue = document.getElementById('motors-current')
   function updateMotorsStatus(){
     fetch(`${baseHost}/motors_status`)
     .then(function (response) {
@@ -707,8 +693,6 @@ document.addEventListener('DOMContentLoaded', function (event) {
     })
     .then(function (motors_status) {
         motorsStateValue.innerHTML = motors_status['motors-state'];
-        motorsDirectionValue.innerHTML = motors_status['motors-direction'];
-        motorsCurrentValue.innerHTML = motors_status['motors-current'];
     })
   }
 
