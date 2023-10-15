@@ -1,6 +1,6 @@
 #pragma once
 
-#include "motors_types.hpp"
+#include "motors_direction.hpp"
 
 enum class motors_state_t : signed char {
     ERROR = -1,

@@ -2,8 +2,6 @@
 
 #include <cstdlib>
 
-// TODO: rename file motors_direction
-
 // 6 possible directions in clockwise order
 enum class motors_direction_t : char {
     NONE = 0,

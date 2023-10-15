@@ -1,6 +1,6 @@
 #pragma once
 
-#include "motors_types.hpp"
+#include "motors_direction.hpp"
 
 enum class motor_hw_error_t : char {
     NO_ERROR = 0,

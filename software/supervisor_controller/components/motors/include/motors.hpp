@@ -1,6 +1,6 @@
 #pragma once
 
-#include "motors_types.hpp"
+#include "motors_direction.hpp"
 
 // callback called when motors pass from moving to stopped
 // (not called repetitively while motors stay stopped)
