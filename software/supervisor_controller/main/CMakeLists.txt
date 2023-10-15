@@ -1,4 +1,5 @@
 set(requires
+                supervisor
                 camera
                 image_processing
                 motors

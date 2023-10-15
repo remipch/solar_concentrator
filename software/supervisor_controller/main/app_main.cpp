@@ -3,6 +3,7 @@
 #include "app_wifi.h"
 #include "app_httpd.hpp"
 #include "motors.hpp"
+#include "supervisor.hpp"
 #include "esp_log.h"
 
 static QueueHandle_t xQueueAIFrame = NULL;
@@ -14,6 +15,7 @@ extern "C" void app_main()
 
     app_wifi_main();
     motors_init();
+    supervisor_init();
 
     xQueueAIFrame = xQueueCreate(1, sizeof(camera_fb_t *));
     xQueueHttpFrame = xQueueCreate(1, sizeof(camera_fb_t *));
