@@ -6,8 +6,8 @@ set(requires
         nvs_flash
         esp_wifi
         camera
-        image_processing
-        motors)
+        motors
+        supervisor)
 
 idf_component_register(SRC_DIRS . INCLUDE_DIRS . REQUIRES ${requires} EMBED_FILES ${embed_files})
 

@@ -16,13 +16,12 @@
 
 #include <list>
 #include "esp_http_server.h"
-#include "esp_timer.h"
 #include "img_converters.h"
 #include "sdkconfig.h"
 
 #include "camera.h"
-#include "image_processing.hpp"
-#include "motors.hpp"
+#include "supervisor.hpp"
+#include "motors.hpp" // to display motor state
 
 #if defined(ARDUINO_ARCH_ESP32) && defined(CONFIG_ARDUHAL_ESP_LOG)
 #include "esp32-hal-log.h"
@@ -369,7 +368,7 @@ static esp_err_t status_handler(httpd_req_t *req)
     return httpd_resp_send(req, json_response, strlen(json_response));
 }
 
-static esp_err_t motors_command_handler(httpd_req_t *req)
+static esp_err_t supervisor_command_handler(httpd_req_t *req)
 {
     char *buf = NULL;
     char command[32];
@@ -384,9 +383,12 @@ static esp_err_t motors_command_handler(httpd_req_t *req)
     }
     free(buf);
 
-    ESP_LOGI(TAG, "motors_command_handler : %s (continous:%s)", command, motors_continuous);
-    if (!strcmp(command, "stop")) {
-        motors_stop();
+    ESP_LOGI(TAG, "supervisor_command_handler : %s (continous:%s)", command, motors_continuous);
+    if (!strcmp(command, "start-tracking")) {
+        // TODO
+    }
+    else if (!strcmp(command, "stop")) {
+        supervisor_stop();
     }
     else {
         motors_direction_t direction=motors_direction_t::NONE;
@@ -412,10 +414,10 @@ static esp_err_t motors_command_handler(httpd_req_t *req)
             return ESP_FAIL;
         }
         if(!strcmp(motors_continuous, "1")) {
-            motors_start_move_continuous(direction);
+            supervisor_start_manual_move_continuous(direction);
         }
         else {
-            motors_start_move_one_step(direction);
+            supervisor_start_manual_move_one_step(direction);
         }
     }
 
@@ -423,13 +425,16 @@ static esp_err_t motors_command_handler(httpd_req_t *req)
     return httpd_resp_send(req, NULL, 0);
 }
 
-static esp_err_t motors_status_handler(httpd_req_t *req)
+static esp_err_t supervisor_status_handler(httpd_req_t *req)
 {
+    auto supervisor_state = supervisor_get_state();
+    ESP_LOGI(TAG, "motors supervisor_state = %s", supervisor_state);
     auto motors_state = motors_get_state();
     ESP_LOGI(TAG, "motors state = %s", motors_state);
 
     static char json_response[1024];
-    sprintf(json_response, "{\"motors-state\":\"%s\"}", motors_state);
+    sprintf(json_response, "{\"supervisor-state\":\"%s\", \"motors-state\":\"%s\"}",
+            supervisor_state, motors_state);
     httpd_resp_set_type(req, "application/json");
     httpd_resp_set_hdr(req, "Access-Control-Allow-Origin", "*");
     return httpd_resp_send(req, json_response, strlen(json_response));
@@ -507,17 +512,17 @@ void register_httpd(const QueueHandle_t frame_i, const QueueHandle_t frame_o, co
         .user_ctx = NULL
     };
 
-    httpd_uri_t motors_command_uri = {
-        .uri = "/motors_command",
+    httpd_uri_t supervisor_command_uri = {
+        .uri = "/supervisor_command",
         .method = HTTP_GET,
-        .handler = motors_command_handler,
+        .handler = supervisor_command_handler,
         .user_ctx = NULL
     };
 
-    httpd_uri_t motors_status_uri = {
-        .uri = "/motors_status",
+    httpd_uri_t supervisor_status_uri = {
+        .uri = "/supervisor_status",
         .method = HTTP_GET,
-        .handler = motors_status_handler,
+        .handler = supervisor_status_handler,
         .user_ctx = NULL
     };
 
@@ -528,8 +533,8 @@ void register_httpd(const QueueHandle_t frame_i, const QueueHandle_t frame_o, co
         httpd_register_uri_handler(camera_httpd, &status_uri);
         httpd_register_uri_handler(camera_httpd, &capture_uri);
         httpd_register_uri_handler(camera_httpd, &capture_area_uri);
-        httpd_register_uri_handler(camera_httpd, &motors_command_uri);
-        httpd_register_uri_handler(camera_httpd, &motors_status_uri);
+        httpd_register_uri_handler(camera_httpd, &supervisor_command_uri);
+        httpd_register_uri_handler(camera_httpd, &supervisor_status_uri);
     }
 
     config.server_port += 1;

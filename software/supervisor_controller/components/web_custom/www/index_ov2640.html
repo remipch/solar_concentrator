@@ -27,7 +27,7 @@
             #menu {
                 display: none;
                 flex-wrap: nowrap;
-                min-width: 340px;
+                min-width: 360px;
                 background: #363636;
                 padding: 8px;
                 border-radius: 4px;
@@ -443,40 +443,49 @@
                                 <label class="slider" for="vflip"></label>
                             </div>
                         </div>
-                        <div class="input-group" id="motors-group">
-                            <label for="motors_continuous">Motors continuous</label>
+                        <div class="input-group">
+                            <label for="motors">Manual move</label>
+                            <section id="buttons">
+                                <button id="up-left" class="supervisor_command">&#x2196</button>
+                                <button id="up" class="supervisor_command">&#x2191</button>
+                                <button id="up-right" class="supervisor_command">&#x2197</button>
+                            </section>
+                        </div>
+                        <div class="input-group">
+                            <label for="motors"></label>
+                            <section id="buttons">
+                                <button id="left" class="supervisor_command">&#x2190</button>
+                                <button id="ugly_hack_for_alignment" style="visibility: hidden;">&#x2191</button>
+                                <button id="right" class="supervisor_command">&#x2192</button>
+                            </section>
+                        </div>
+                        <div class="input-group">
+                            <label for="motors"></label>
+                            <section id="buttons">
+                                <button id="down-left" class="supervisor_command">&#x2199</button>
+                                <button id="down" class="supervisor_command">&#x2193</button>
+                                <button id="down-right" class="supervisor_command">&#x2198</button>
+                            </section>
+                        </div>
+                        <div class="input-group">
+                            <label for="motors_continuous">Move continuous</label>
                             <div class="switch">
                                 <input id="motors_continuous" type="checkbox" class="default-action" checked="unchecked">
                                 <label class="slider" for="motors_continuous"></label>
                             </div>
                         </div>
                         <div class="input-group">
-                            <label for="motors">Motors commands</label>
+                            <label for="supervisor">Supervisor</label>
                             <section id="buttons">
-                                <button id="up-left" class="motors_command">&#x2196</button>
-                                <button id="up" class="motors_command">&#x2191</button>
-                                <button id="up-right" class="motors_command">&#x2197</button>
+                                <button id="start-tracking" class="supervisor_command">Start tracking</button>
+                                <button id="stop" class="supervisor_command">Stop</button>
                             </section>
                         </div>
                         <div class="input-group">
-                            <label for="motors"></label>
-                            <section id="buttons">
-                                <button id="left" class="motors_command">&#x2190</button>
-                                <button id="ugly_hack_for_alignment" class="motors_command" style="visibility: hidden;">&#x2190</button>
-                                <button id="right" class="motors_command">&#x2192</button>
-                            </section>
-                        </div>
-                        <div class="input-group">
-                            <label for="motors"></label>
-                            <section id="buttons">
-                                <button id="down-left" class="motors_command">&#x2199</button>
-                                <button id="down" class="motors_command">&#x2193</button>
-                                <button id="down-right" class="motors_command">&#x2198</button>
-                            </section>
-                        </div>
-                        <div class="input-group">
-                            <label for="motors"></label>
-                            <button id="stop" class="motors_command">Stop motors</button>
+                            <label for="supervisor-state">Supervisor state</label>
+                            <div class="text">
+                                <span id="supervisor-state">?</span>
+                            </div>
                         </div>
                         <div class="input-group">
                             <label for="motors-state">Motors state</label>
@@ -669,9 +678,9 @@ document.addEventListener('DOMContentLoaded', function (event) {
 
   const motorsContinuous = document.getElementById('motors_continuous')
 
-  function sendMotorsCommand (el) {
+  function sendSupervisorCommand (el) {
     motors_continuous = motorsContinuous.checked ? 1 : 0
-    const query = `${baseHost}/motors_command?cmd=${el.id}&continuous=${motors_continuous}`
+    const query = `${baseHost}/supervisor_command?cmd=${el.id}&continuous=${motors_continuous}`
 
     fetch(query)
       .then(response => {
@@ -680,24 +689,26 @@ document.addEventListener('DOMContentLoaded', function (event) {
   }
 
   document
-    .querySelectorAll('.motors_command')
+    .querySelectorAll('.supervisor_command')
     .forEach(el => {
-      el.onclick = () => sendMotorsCommand(el)
+      el.onclick = () => sendSupervisorCommand(el)
     })
 
+  const supervisorStateValue = document.getElementById('supervisor-state')
   const motorsStateValue = document.getElementById('motors-state')
-  function updateMotorsStatus(){
-    fetch(`${baseHost}/motors_status`)
+  function updateSupervisorStatus(){
+    fetch(`${baseHost}/supervisor_status`)
     .then(function (response) {
       return response.json()
     })
-    .then(function (motors_status) {
-        motorsStateValue.innerHTML = motors_status['motors-state'];
+    .then(function (supervisor_status) {
+        supervisorStateValue.innerHTML = supervisor_status['supervisor-state'];
+        motorsStateValue.innerHTML = supervisor_status['motors-state'];
     })
   }
 
-  // Update motors status periodically
-  var intervalId = setInterval(updateMotorsStatus, 1000);
+  // Update status periodically
+  var intervalId = setInterval(updateSupervisorStatus, 1000);
 
   // Exposure
   const aec = document.getElementById('aec')
