@@ -5,10 +5,19 @@
         <meta name="viewport" content="width=device-width,initial-scale=1">
         <title>ESP32 OV2460</title>
         <style>
+            :root {
+                --page-background: #181818;
+                --menu-background: #363636;
+                --button-color: #ff494d;
+                --active-button-color: #f21c21;
+                --disabled-button-color: #a0a0a0;
+                --text-color: #efefef;
+            }
+
             body {
                 font-family: Arial,Helvetica,sans-serif;
-                background: #181818;
-                color: #EFEFEF;
+                background: var(--page-background);
+                color: var(--text-color);
                 font-size: 16px
             }
 
@@ -28,7 +37,7 @@
                 display: none;
                 flex-wrap: nowrap;
                 min-width: 360px;
-                background: #363636;
+                background: var(--menu-background);
                 padding: 8px;
                 border-radius: 4px;
                 margin-top: -10px;
@@ -143,8 +152,8 @@
                 border: 0;
                 line-height: 28px;
                 cursor: pointer;
-                color: #fff;
-                background: #ff3034;
+                color: var(--text-color);
+                background: var(--button-color);
                 border-radius: 5px;
                 font-size: 20px;
                 outline: 0;
@@ -167,19 +176,19 @@
             }
 
             button:active {
-                background: #f21c21
+                background: var(--active-button-color);
             }
 
             button.disabled {
                 cursor: default;
-                background: #a0a0a0
+                background: var(--disabled-button-color);
             }
 
             input[type=range] {
                 -webkit-appearance: none;
                 width: 100%;
                 height: 22px;
-                background: #363636;
+                background: var(--menu-background);
                 cursor: pointer;
                 margin: 0
             }
@@ -192,41 +201,41 @@
                 width: 100%;
                 height: 2px;
                 cursor: pointer;
-                background: #EFEFEF;
+                background: var(--text-color);
                 border-radius: 0;
-                border: 0 solid #EFEFEF
+                border: 0 solid var(--text-color);
             }
 
             input[type=range]::-webkit-slider-thumb {
-                border: 1px solid rgba(0,0,30,0);
+                border: 1px solid var(--button-color);
                 height: 22px;
                 width: 22px;
                 border-radius: 50px;
-                background: #ff3034;
+                background: var(--button-color);
                 cursor: pointer;
                 -webkit-appearance: none;
                 margin-top: -11.5px
             }
 
             input[type=range]:focus::-webkit-slider-runnable-track {
-                background: #EFEFEF
+                background: var(--text-color);
             }
 
             input[type=range]::-moz-range-track {
                 width: 100%;
                 height: 2px;
                 cursor: pointer;
-                background: #EFEFEF;
+                background: var(--text-color);
                 border-radius: 0;
-                border: 0 solid #EFEFEF
+                border: 0 solid var(--text-color);
             }
 
             input[type=range]::-moz-range-thumb {
-                border: 1px solid rgba(0,0,30,0);
+                border: 1px solid var(--button-color);
                 height: 22px;
                 width: 22px;
                 border-radius: 50px;
-                background: #ff3034;
+                background: var(--button-color);
                 cursor: pointer
             }
 
@@ -240,33 +249,33 @@
             }
 
             input[type=range]::-ms-fill-lower {
-                background: #EFEFEF;
-                border: 0 solid #EFEFEF;
+                background: var(--text-color);
+                border: 0 solid var(--text-color);
                 border-radius: 0
             }
 
             input[type=range]::-ms-fill-upper {
-                background: #EFEFEF;
-                border: 0 solid #EFEFEF;
+                background: var(--text-color);
+                border: 0 solid var(--text-color);
                 border-radius: 0
             }
 
             input[type=range]::-ms-thumb {
-                border: 1px solid rgba(0,0,30,0);
+                border: 1px solid var(--button-color);
                 height: 22px;
                 width: 22px;
                 border-radius: 50px;
-                background: #ff3034;
+                background: var(--button-color);
                 cursor: pointer;
                 height: 2px
             }
 
             input[type=range]:focus::-ms-fill-lower {
-                background: #EFEFEF
+                background: var(--text-color);
             }
 
             input[type=range]:focus::-ms-fill-upper {
-                background: #363636
+                background: var(--menu-background);
             }
 
             .switch {
@@ -289,7 +298,7 @@
                 height: 22px;
                 border-radius: 22px;
                 cursor: pointer;
-                background-color: grey
+                background-color: var(--disabled-button-color);
             }
 
             .slider,.slider:before {
@@ -305,11 +314,11 @@
                 width: 16px;
                 left: 4px;
                 top: 3px;
-                background-color: #fff
+                background-color: var(--text-color);
             }
 
             input:checked+.slider {
-                background-color: #ff3034
+                background-color: var(--button-color);
             }
 
             input:checked+.slider:before {
@@ -334,11 +343,11 @@
                 position: absolute;
                 right: 5px;
                 top: 5px;
-                background: #ff3034;
+                background: var(--button-color);
                 width: 16px;
                 height: 16px;
                 border-radius: 100px;
-                color: #fff;
+                color: var(--text-color);
                 text-align: center;
                 line-height: 18px;
                 cursor: pointer
