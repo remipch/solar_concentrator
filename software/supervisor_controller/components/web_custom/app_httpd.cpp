@@ -428,11 +428,11 @@ static esp_err_t motors_status_handler(httpd_req_t *req)
     static char json_response[1024];
 
     auto motors_state = motors_get_state();
-    ESP_LOGI(TAG, "motors state = %s", str(motors_state));
+    ESP_LOGI(TAG, "motors state = %s", motors_state);
 
     char *p = json_response;
     *p++ = '{';
-    p += sprintf(p, "\"motors-state\":\"%s\",", str(motors_state));
+    p += sprintf(p, "\"motors-state\":\"%s\",", motors_state);
     p += sprintf(p, "\"motors-direction\":\"%s\",", "?"); // TODO remove
     p += sprintf(p, "\"motors-current\":\"%s\"", "?"); // TODO remove
     *p++ = '}';

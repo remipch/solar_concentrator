@@ -2,11 +2,13 @@
 
 #include "motors_types.hpp"
 
-typedef void (*motors_state_changed_callback)(motors_state_t state);
+// callback called when motors pass from moving to stopped
+// (not called repetitively while motors stay stopped)
+typedef void (*motors_stopped_callback)();
 
-motors_state_t motors_get_state(); // for display and debug only
+const char* motors_get_state(); // for display and debug only
 
-void motors_register_state_changed_callback(motors_state_changed_callback state_changed_callback);
+void motors_register_stopped_callback(motors_stopped_callback callback);
 
 void motors_init();
 

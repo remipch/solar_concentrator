@@ -21,24 +21,24 @@ static const int INTER_UPDATE_DELAY_MS = 100;
 static motors_state_t current_state = motors_state_t::UNINITIALIZED;
 static motors_transition_t asked_transition = motors_transition_t::NONE;
 static motors_direction_t asked_direction = motors_direction_t::NONE;
-static motors_state_changed_callback motors_state_changed = NULL;
+static motors_stopped_callback stopped_callback = NULL;
 
-void motors_register_state_changed_callback(motors_state_changed_callback state_changed) {
+void motors_register_stopped_callback(motors_stopped_callback callback) {
     // Don't need multiple callbacks for now, a single pointer is enough
-    assert(motors_state_changed==NULL);
-    motors_state_changed = state_changed;
+    assert(stopped_callback==NULL);
+    stopped_callback = callback;
 }
 
 // This function must not be called from an ISR (interrupt service routine)
 // because mutex does not support it. Neither ESP32 doc nor FreeRTOS doc is clear
 // about what happens in this case, various forums seem to indicate that an 'abort()'
 // is triggered with an explanation message.
-motors_state_t motors_get_state()
+const char* motors_get_state()
 {
     assert(xSemaphoreTake(state_mutex, pdMS_TO_TICKS(STATE_MUTEX_TIMEOUT_MS)));
     auto state = current_state;
     xSemaphoreGive(state_mutex);
-    return state;
+    return str(state);
 }
 
 void set_state(motors_state_t new_state)
@@ -97,10 +97,10 @@ static void motors_task(void *arg)
         }
 
         assert(xSemaphoreTake(state_mutex, pdMS_TO_TICKS(STATE_MUTEX_TIMEOUT_MS)));
-        current_state = new_state;
-        if(motors_state_changed!=NULL) {
-            motors_state_changed(new_state);
+        if(stopped_callback!=NULL && current_state!=motors_state_t::STOPPED && new_state==motors_state_t::STOPPED) {
+            stopped_callback();
         }
+        current_state = new_state;
         xSemaphoreGive(state_mutex);
 
         // Simple wait between state updates because :

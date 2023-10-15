@@ -2,6 +2,35 @@
 
 #include "motors_types.hpp"
 
+enum class motors_state_t : signed char {
+    ERROR = -1,
+    UNINITIALIZED = 0,
+    STOPPED,
+    MOVING_CONTINUOUS,
+    MOVING_ONE_STEP,
+    STOPPING,
+};
+
+inline const char* str(motors_state_t state)
+{
+    switch (state) {
+    case motors_state_t::ERROR:
+        return "ERROR";
+    case motors_state_t::UNINITIALIZED:
+        return "UNINITIALIZED";
+    case motors_state_t::STOPPED:
+        return "STOPPED";
+    case motors_state_t::MOVING_CONTINUOUS:
+        return "MOVING_CONTINUOUS";
+    case motors_state_t::MOVING_ONE_STEP:
+        return "MOVING_ONE_STEP";
+    case motors_state_t::STOPPING:
+        return "STOPPING";
+    default:
+        assert(false);
+    }
+}
+
 enum class motors_transition_t : signed char {
     NONE = 0,
     STOP,
@@ -24,8 +53,6 @@ inline const char* str(motors_transition_t transition)
         assert(false);
     }
 }
-
-void motors_state_machine_init();
 
 motors_state_t motors_state_machine_update(
     motors_state_t current_state,
