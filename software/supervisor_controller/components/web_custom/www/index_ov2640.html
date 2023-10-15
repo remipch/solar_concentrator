@@ -3,15 +3,15 @@
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width,initial-scale=1">
-        <title>ESP32 OV2460</title>
+        <title>Solar Concentrator</title>
         <style>
             :root {
-                --page-background: #181818;
-                --menu-background: #363636;
-                --button-color: #ff494d;
-                --active-button-color: #f21c21;
-                --disabled-button-color: #a0a0a0;
-                --text-color: #efefef;
+                --page-background: #0A0908;
+                --menu-background: #172228;
+                --button-color: #366378;
+                --active-button-color: #3E8EB3;
+                --disabled-button-color: #5E503F;
+                --text-color: #A39E98;
             }
 
             body {
@@ -32,7 +32,7 @@
             #menu {
                 display: none;
                 flex-wrap: nowrap;
-                min-width: 360px;
+                min-width: 375px;
                 background: var(--menu-background);
                 padding: 8px;
                 border-radius: 4px;
@@ -301,7 +301,7 @@
                 height: 16px;
                 width: 16px;
                 left: 4px;
-                top: 3px;
+                top: 4px;
                 background-color: var(--text-color);
             }
 
@@ -327,7 +327,7 @@
     <body>
         <section class="main">
             <div id="logo">
-                <label for="nav-toggle-cb" id="nav-toggle">&#9776;&nbsp;&nbsp;Toggle OV2640 settings</label>
+                <label for="nav-toggle-cb" id="nav-toggle">&#9776;&nbsp;&nbsp;Toggle settings</label>
             </div>
             <div id="content">
                 <div id="sidebar">
