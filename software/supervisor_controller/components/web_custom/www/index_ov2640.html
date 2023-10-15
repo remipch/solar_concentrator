@@ -21,10 +21,6 @@
                 font-size: 16px
             }
 
-            h2 {
-                font-size: 18px
-            }
-
             section.main {
                 display: flex
             }
@@ -136,7 +132,7 @@
                 min-width: 47%
             }
 
-            .input-group input,.input-group select,.input-group button {
+            .input-group input,.input-group button {
                 flex-grow: 1
             }
 
@@ -158,21 +154,6 @@
                 font-size: 20px;
                 outline: 0;
                 min-width: 50px
-            }
-
-            .save {
-                position: absolute;
-                right: 25px;
-                top: 0px;
-                height: 16px;
-                line-height: 16px;
-                padding: 0 4px;
-                text-decoration: none;
-                cursor: pointer
-            }
-
-            button:hover {
-                background: #ff494d
             }
 
             button:active {
@@ -283,19 +264,19 @@
                 position: relative;
                 line-height: 22px;
                 font-size: 16px;
-                height: 22px
+                height: 22px;
             }
 
             .switch input {
                 outline: 0;
                 opacity: 0;
                 width: 0;
-                height: 0
+                height: 0;
             }
 
             .slider {
                 width: 50px;
-                height: 22px;
+                height: 25px;
                 border-radius: 22px;
                 cursor: pointer;
                 background-color: var(--disabled-button-color);
@@ -303,7 +284,7 @@
 
             .slider,.slider:before {
                 display: inline-block;
-                transition: .4s
+                transition: .4s;
             }
 
             .slider:before {
@@ -326,68 +307,14 @@
                 transform: translateX(26px)
             }
 
-            select {
-                border: 1px solid #363636;
-                font-size: 14px;
-                height: 22px;
-                outline: 0;
-                border-radius: 5px
-            }
-
             .image-container {
                 position: relative;
                 min-width: 160px
             }
 
-            .close {
-                position: absolute;
-                right: 5px;
-                top: 5px;
-                background: var(--button-color);
-                width: 16px;
-                height: 16px;
-                border-radius: 100px;
-                color: var(--text-color);
-                text-align: center;
-                line-height: 18px;
-                cursor: pointer
-            }
-
             .hidden {
                 display: none
             }
-
-            input[type=text] {
-                border: 1px solid #363636;
-                font-size: 14px;
-                height: 20px;
-                margin: 1px;
-                outline: 0;
-                border-radius: 5px
-            }
-
-            .inline-button {
-                line-height: 20px;
-                margin: 2px;
-                padding: 1px 4px 2px 4px;
-            }
-
-            label.toggle-section-label {
-                cursor: pointer;
-                display: block
-            }
-
-            input.toggle-section-button {
-                outline: 0;
-                opacity: 0;
-                width: 0;
-                height: 0
-            }
-
-            input.toggle-section-button:checked+section.toggle-section {
-                display: none
-            }
-
         </style>
     </head>
     <body>
@@ -509,8 +436,6 @@
                 </div>
                 <figure>
                     <div id="stream-container" class="image-container hidden">
-                        <a id="save-still" href="#" class="button save" download="capture.jpg">Save</a>
-                        <div class="close" id="close-stream">×</div>
                         <img id="stream" src="" crossorigin>
                     </div>
                 </figure>
@@ -573,7 +498,6 @@ document.addEventListener('DOMContentLoaded', function (event) {
         value = el.checked ? 1 : 0
         break
       case 'range':
-      case 'select-one':
         value = el.value
         break
       case 'button':
@@ -627,8 +551,6 @@ document.addEventListener('DOMContentLoaded', function (event) {
   const stillButton = document.getElementById('get-still')
   const streamButton = document.getElementById('toggle-stream')
 //   streamButton.style.visibility = "hidden";
-  const closeButton = document.getElementById('close-stream')
-  const saveButton = document.getElementById('save-still')
 
   const stopStream = () => {
     window.stop();
@@ -649,11 +571,6 @@ document.addEventListener('DOMContentLoaded', function (event) {
     show(viewContainer)
   }
 
-  closeButton.onclick = () => {
-    stopStream()
-    hide(viewContainer)
-  }
-
   streamButton.onclick = () => {
     const streamEnabled = streamButton.innerHTML === 'Stop Stream'
     if (streamEnabled) {
@@ -661,24 +578,6 @@ document.addEventListener('DOMContentLoaded', function (event) {
     } else {
       startStream()
     }
-  }
-
-  saveButton.onclick = () => {
-    var canvas = document.createElement("canvas");
-    canvas.width = view.width;
-    canvas.height = view.height;
-    document.body.appendChild(canvas);
-    var context = canvas.getContext('2d');
-    context.drawImage(view,0,0);
-    try {
-      var dataURL = canvas.toDataURL('image/jpeg');
-      saveButton.href = dataURL;
-      var d = new Date();
-      saveButton.download = d.getFullYear() + ("0"+(d.getMonth()+1)).slice(-2) + ("0" + d.getDate()).slice(-2) + ("0" + d.getHours()).slice(-2) + ("0" + d.getMinutes()).slice(-2) + ("0" + d.getSeconds()).slice(-2) + ".jpg";
-    } catch (e) {
-      console.error(e);
-    }
-    canvas.parentNode.removeChild(canvas);
   }
 
   // Attach default on change action
