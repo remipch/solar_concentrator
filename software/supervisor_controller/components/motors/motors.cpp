@@ -41,20 +41,6 @@ const char* motors_get_state()
     return str(state);
 }
 
-void set_state(motors_state_t new_state)
-{
-    assert(xSemaphoreTake(state_mutex, pdMS_TO_TICKS(STATE_MUTEX_TIMEOUT_MS)));
-    if(asked_transition!=motors_transition_t::NONE) {
-        ESP_LOGW(TAG,
-                 "Transition '%s' ignored because state has been changed from '%s' to '%s' before the transition processing",
-                 str(asked_transition), str(current_state), str(new_state));
-    }
-    current_state = new_state;
-    asked_transition = motors_transition_t::NONE;
-    asked_direction = motors_direction_t::NONE;
-    xSemaphoreGive(state_mutex);
-}
-
 // Note : transition will be reset if state changes after this call
 void set_transition(
     motors_transition_t transition,

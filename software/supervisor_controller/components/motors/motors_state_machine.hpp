@@ -54,6 +54,16 @@ inline const char* str(motors_transition_t transition)
     }
 }
 
+// This function is not thread safe, the caller has the responsibility to :
+// - never call it concurrently
+// - cache supervisor state to give it (optionaly asynchronously) to external components
+// - calling it each time a transition is triggered
+// This function updates the state depending on current_state and transition :
+// - start meaningful actions (non blocking calls to start actions)
+// - return the new state
+// This function can start long-time processing functions but must returns quickly
+// so important future transitions can be treated quickly (motors manual move can
+// start quickly, even if a full image is being captured asynchronously)
 motors_state_t motors_state_machine_update(
     motors_state_t current_state,
     motors_transition_t transition,
