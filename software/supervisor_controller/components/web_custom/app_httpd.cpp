@@ -412,7 +412,7 @@ static esp_err_t motors_command_handler(httpd_req_t *req)
             return ESP_FAIL;
         }
         if(!strcmp(motors_continuous, "1")) {
-            motors_start_move(direction);
+            motors_start_move_continuous(direction);
         }
         else {
             motors_start_move_one_step(direction);
@@ -427,14 +427,14 @@ static esp_err_t motors_status_handler(httpd_req_t *req)
 {
     static char json_response[1024];
 
-    auto status = motors_get_status();
-    ESP_LOGI(TAG, "motors state = %s", str(status.state));
+    auto motors_state = motors_get_state();
+    ESP_LOGI(TAG, "motors state = %s", str(motors_state));
 
     char *p = json_response;
     *p++ = '{';
-    p += sprintf(p, "\"motors-state\":\"%s\",", str(status.state));
-    p += sprintf(p, "\"motors-direction\":\"%s\",", str(status.direction));
-    p += sprintf(p, "\"motors-current\":\"%s\"", str(status.current));
+    p += sprintf(p, "\"motors-state\":\"%s\",", str(motors_state));
+    p += sprintf(p, "\"motors-direction\":\"%s\",", "?"); // TODO remove
+    p += sprintf(p, "\"motors-current\":\"%s\"", "?"); // TODO remove
     *p++ = '}';
     *p++ = 0;
     httpd_resp_set_type(req, "application/json");

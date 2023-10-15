@@ -24,7 +24,7 @@ inline const char* str(motor_hw_state_t state)
     case motor_hw_state_t::MOVING:
         return "MOVING";
     default:
-        abort();
+        assert(false);
     }
 }
 

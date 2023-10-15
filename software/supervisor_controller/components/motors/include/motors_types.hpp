@@ -38,7 +38,7 @@ inline const char* str(motors_direction_t direction)
     case motors_direction_t::UP_LEFT:
         return "UP_LEFT";
     default:
-        abort();
+        assert(false);
     }
 }
 
@@ -46,8 +46,9 @@ enum class motors_state_t : signed char {
     ERROR = -1,
     UNINITIALIZED = 0,
     STOPPED,
-    MOVING,
+    MOVING_CONTINUOUS,
     MOVING_ONE_STEP,
+    STOPPING,
 };
 
 inline const char* str(motors_state_t state)
@@ -59,38 +60,13 @@ inline const char* str(motors_state_t state)
         return "UNINITIALIZED";
     case motors_state_t::STOPPED:
         return "STOPPED";
-    case motors_state_t::MOVING:
-        return "MOVING";
+    case motors_state_t::MOVING_CONTINUOUS:
+        return "MOVING_CONTINUOUS";
     case motors_state_t::MOVING_ONE_STEP:
         return "MOVING_ONE_STEP";
+    case motors_state_t::STOPPING:
+        return "STOPPING";
     default:
-        abort();
+        assert(false);
     }
 }
-
-enum class motors_current_t : char {
-    UNKNWON = 0,
-    LOW,
-    HIGH,
-};
-
-inline const char* str(motors_current_t current)
-{
-    switch (current) {
-    case motors_current_t::UNKNWON:
-        return "UNKNWON";
-    case motors_current_t::LOW:
-        return "LOW";
-    case motors_current_t::HIGH:
-        return "HIGH";
-    default:
-        abort();
-    }
-}
-
-struct motors_full_status_t {
-    motors_state_t state;
-    motors_direction_t direction;
-    motors_current_t current;
-};
-

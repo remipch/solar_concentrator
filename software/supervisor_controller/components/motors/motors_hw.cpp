@@ -90,7 +90,7 @@ void motors_hw_move_one_step(motors_direction_t direction)
     } else if (direction == motors_direction_t::UP_LEFT) {
         motors_hw_write_commands("o:4,100,30;o:2,2000,30");
     } else {
-        abort();
+        assert(false);
     }
 }
 

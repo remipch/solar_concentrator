@@ -1,192 +1,138 @@
 #include "motors.hpp"
-#include "motors_logic.hpp"
+#include "motors_state_machine.hpp"
 
-#include "esp_event.h"
-#include "esp_timer.h"
 #include "esp_log.h"
-#include "esp_timer.h"
 
+#include "freertos/FreeRTOS.h"
 #include "freertos/semphr.h"
 
 static const char* TAG = "motors";
 
-// This file has the only responsibility to provide thread safety to motors_logic layer
+// This file is the public interface of motors component
+// It does not implement motors logic by itself but
+// provide thread safety to motors_state_machine layer
 // It's accomplished by :
-// - preventing multiple simultaneous calls to motors_logic functions by calling them
-//   from a single-threaded event_loop (native esp_event with its associated task to dispatch events)
-// - caching public state values (state, current and direction) and protecting them with a mutex
-// These technical choices are not exposed publicly but only kept here internally
-static bool is_initialized = false;
-static esp_event_loop_handle_t event_loop;
-static ESP_EVENT_DEFINE_BASE(MOTORS_EVENTS);
-static const int EVENT_LOOP_TIMEOUT_MS = 5000;
-static const int TIMER_PERIOD_MS = 200;
-static esp_timer_handle_t periodic_timer;
-static const int STATUS_MUTEX_TIMEOUT_MS = 100;
-static SemaphoreHandle_t status_mutex;
-static const int BLOCKING_MOVE_SEMAPHORE_TIMEOUT_MS = 5000;
-static SemaphoreHandle_t blocking_move_semaphore; // used as synchronization when a blocking move is finished
+// - preventing multiple simultaneous calls to motors_state_machine functions functions
+// by calling them from a single-threaded permanent task
+// - caching public state values and protecting them with a mutex
+static const int STATE_MUTEX_TIMEOUT_MS = 100;
+static SemaphoreHandle_t state_mutex;
+static const int INTER_UPDATE_DELAY_MS = 100;
+static motors_state_t current_state = motors_state_t::UNINITIALIZED;
+static motors_transition_t asked_transition = motors_transition_t::NONE;
+static motors_direction_t asked_direction = motors_direction_t::NONE;
+static motors_state_changed_callback motors_state_changed = NULL;
 
-enum {
-    MOTORS_INIT_EVENT,
-    MOTORS_START_MOVE_EVENT,
-    MOTORS_START_MOVE_ONE_STEP_EVENT,
-    MOTORS_BLOCKING_MOVE_ONE_STEP_EVENT,
-    MOTORS_STOP_EVENT,
-    MOTORS_PERIODIC_UPDATE_EVENT,
-};
-
-// Cache last values reported by motors_logic
-static motors_full_status_t current_status = {
-    .state = motors_state_t::UNINITIALIZED,
-    .direction = motors_direction_t::NONE,
-    .current = motors_current_t::UNKNWON,
-};
+void motors_register_state_changed_callback(motors_state_changed_callback state_changed) {
+    // Don't need multiple callbacks for now, a single pointer is enough
+    assert(motors_state_changed==NULL);
+    motors_state_changed = state_changed;
+}
 
 // This function must not be called from an ISR (interrupt service routine)
 // because mutex does not support it. Neither ESP32 doc nor FreeRTOS doc is clear
 // about what happens in this case, various forums seem to indicate that an 'abort()'
 // is triggered with an explanation message.
-motors_full_status_t motors_get_status()
+motors_state_t motors_get_state()
 {
-    // 'status' is only writen by the event_loop task, it can be read by any other task.
-    // 'status_mutex' ensures 'status' variable consistency
-    assert(xSemaphoreTake(status_mutex, pdMS_TO_TICKS(STATUS_MUTEX_TIMEOUT_MS)));
-    auto status = current_status;
-    xSemaphoreGive(status_mutex);
-    return status;
+    assert(xSemaphoreTake(state_mutex, pdMS_TO_TICKS(STATE_MUTEX_TIMEOUT_MS)));
+    auto state = current_state;
+    xSemaphoreGive(state_mutex);
+    return state;
 }
 
-bool must_signal_end_of_move = false;
-
-static void motors_event_handler(void* handler_args, esp_event_base_t base, int32_t id, void* event_data)
+void set_state(motors_state_t new_state)
 {
-    switch (id) {
-    case MOTORS_INIT_EVENT:
-        motors_logic_init();
-        break;
-    case MOTORS_START_MOVE_EVENT: {
-        motors_direction_t direction = *((motors_direction_t*)event_data);
-        motors_logic_start_move(direction);
-        break;
+    assert(xSemaphoreTake(state_mutex, pdMS_TO_TICKS(STATE_MUTEX_TIMEOUT_MS)));
+    if(asked_transition!=motors_transition_t::NONE) {
+        ESP_LOGW(TAG,
+                 "Transition '%s' ignored because state has been changed from '%s' to '%s' before the transition processing",
+                 str(asked_transition), str(current_state), str(new_state));
     }
-    case MOTORS_START_MOVE_ONE_STEP_EVENT: {
-        motors_direction_t direction = *((motors_direction_t*)event_data);
-        motors_logic_start_move_one_step(direction);
-        break;
-    }
-    case MOTORS_BLOCKING_MOVE_ONE_STEP_EVENT: {
-        motors_direction_t direction = *((motors_direction_t*)event_data);
-        motors_logic_start_move_one_step(direction);
-        must_signal_end_of_move = true;
-        break;
-    }
-    case MOTORS_STOP_EVENT:
-        motors_logic_stop();
-        break;
-    case MOTORS_PERIODIC_UPDATE_EVENT: {
-        // Restart timer before running periodic update function
-        ESP_ERROR_CHECK(esp_timer_start_once(periodic_timer, TIMER_PERIOD_MS * 1000));
-        motors_logic_periodic_update(esp_timer_get_time() / 1000);
-        break;
-    }
-    default:
-        // Unkown event
-        assert(false);
-    }
-
-    assert(xSemaphoreTake(status_mutex, pdMS_TO_TICKS(STATUS_MUTEX_TIMEOUT_MS)));
-    current_status = motors_logic_get_status();
-    xSemaphoreGive(status_mutex);
-
-    if(must_signal_end_of_move && current_status.state==motors_state_t::STOPPED) {
-        must_signal_end_of_move = false;
-        xSemaphoreGive(blocking_move_semaphore);
-    }
+    current_state = new_state;
+    asked_transition = motors_transition_t::NONE;
+    asked_direction = motors_direction_t::NONE;
+    xSemaphoreGive(state_mutex);
 }
 
-void post_event(int32_t event_id, void* data = NULL, size_t data_size = 0)
+// Note : transition will be reset if state changes after this call
+void set_transition(
+    motors_transition_t transition,
+    motors_direction_t direction = motors_direction_t::NONE)
 {
-    ESP_ERROR_CHECK(esp_event_post_to(
-                        event_loop,
-                        MOTORS_EVENTS,
-                        event_id,
-                        data,
-                        data_size,
-                        pdMS_TO_TICKS(EVENT_LOOP_TIMEOUT_MS))
-                   );
+    assert(xSemaphoreTake(state_mutex, pdMS_TO_TICKS(STATE_MUTEX_TIMEOUT_MS)));
+    if(asked_transition!=motors_transition_t::NONE) {
+        ESP_LOGW(TAG,
+                 "Old transition '%s' ignored because new transition '%s' is asked before the old transition processing",
+                 str(asked_transition),
+                 str(transition));
+    }
+    asked_transition = transition;
+    asked_direction = direction;
+    xSemaphoreGive(state_mutex);
 }
 
-static void periodic_timer_callback(void* arg)
+static void motors_task(void *arg)
 {
-    post_event(MOTORS_PERIODIC_UPDATE_EVENT);
+    while(true) {
+        assert(xSemaphoreTake(state_mutex, pdMS_TO_TICKS(STATE_MUTEX_TIMEOUT_MS)));
+        motors_state_t state = current_state;
+        motors_transition_t transition = asked_transition;
+        motors_direction_t direction = asked_direction;
+
+        // Reset asked transition :
+        // - it will be "consumed" by 'state_machine_update' outside of the mutex guard
+        // - one transition must not be treated multiple times by 'state_machine_update'
+        // - we allow another transition to be set while 'state_machine_update' is running
+        asked_transition = motors_transition_t::NONE;
+        asked_direction = motors_direction_t::NONE;
+        xSemaphoreGive(state_mutex);
+
+        motors_state_t new_state = motors_state_machine_update(
+            state, transition, direction);
+
+        if(new_state!=state) {
+            ESP_LOGI(TAG, "update(state: %s, transition: %s, direction: %s) -> new_state: %s",
+                str(state), str(transition), str(direction), str(new_state));
+        }
+
+        assert(xSemaphoreTake(state_mutex, pdMS_TO_TICKS(STATE_MUTEX_TIMEOUT_MS)));
+        current_state = new_state;
+        if(motors_state_changed!=NULL) {
+            motors_state_changed(new_state);
+        }
+        xSemaphoreGive(state_mutex);
+
+        // Simple wait between state updates because :
+        // - don't need a strict period between state updates (don't use periodic timer)
+        // - don't need to treat event as fast as possible
+        vTaskDelay(pdMS_TO_TICKS(INTER_UPDATE_DELAY_MS));
+    }
 }
 
 void motors_init()
 {
     ESP_LOGD(TAG, "motors_init");
 
-    if (!is_initialized) {
-        esp_event_loop_args_t event_loop_args = {
-            .queue_size = 5,
-            .task_name = "loop_task",
-            .task_priority = uxTaskPriorityGet(NULL),
-            .task_stack_size = 3072,
-            .task_core_id = tskNO_AFFINITY
-        };
-        ESP_ERROR_CHECK(esp_event_loop_create(&event_loop_args, &event_loop));
-        ESP_ERROR_CHECK(esp_event_handler_instance_register_with(
-                            event_loop,
-                            MOTORS_EVENTS,
-                            ESP_EVENT_ANY_ID,
-                            motors_event_handler,
-                            NULL,
-                            NULL));
+    assert(current_state == motors_state_t::UNINITIALIZED);
 
-        const esp_timer_create_args_t periodic_timer_args = {
-            .callback = &periodic_timer_callback,
-            .arg = NULL,
-            .dispatch_method = ESP_TIMER_TASK,
-            .name = "motors_periodic_timer",
-            .skip_unhandled_events = true,
-        };
-        ESP_ERROR_CHECK(esp_timer_create(&periodic_timer_args, &periodic_timer));
+    state_mutex = xSemaphoreCreateMutex();
 
-        // Don't start a periodic timer here but a one shot timer which will be
-        // restarted at every periodic update.
-        // Using a periodic timer would saturate the event loop with MOTORS_PERIODIC_UPDATE_EVENT
-        // in case of some events taking a long time to execute, making all future events delayed after them.
-        ESP_ERROR_CHECK(esp_timer_start_once(periodic_timer, TIMER_PERIOD_MS * 1000));
-
-        status_mutex = xSemaphoreCreateMutex();
-
-        blocking_move_semaphore = xSemaphoreCreateBinary();
-
-        is_initialized = true;
-    }
-
-    post_event(MOTORS_INIT_EVENT);
+    xTaskCreate(motors_task, TAG, 4 * 1024, NULL, 5, NULL);
 }
 
-void motors_start_move(motors_direction_t direction)
+void motors_start_move_continuous(motors_direction_t direction)
 {
-    post_event(MOTORS_START_MOVE_EVENT, &direction, sizeof(motors_direction_t));
+    set_transition(motors_transition_t::START_MOVE_CONTINUOUS, direction);
 }
 
 void motors_start_move_one_step(motors_direction_t direction)
 {
-    post_event(MOTORS_START_MOVE_ONE_STEP_EVENT, &direction, sizeof(motors_direction_t));
-}
-
-void motors_blocking_move_one_step(motors_direction_t direction)
-{
-    assert(!xSemaphoreTake(blocking_move_semaphore, 0));
-    post_event(MOTORS_BLOCKING_MOVE_ONE_STEP_EVENT, &direction, sizeof(motors_direction_t));
-    assert(xSemaphoreTake(blocking_move_semaphore, pdMS_TO_TICKS(BLOCKING_MOVE_SEMAPHORE_TIMEOUT_MS)));
+    set_transition(motors_transition_t::START_MOVE_ONE_STEP, direction);
 }
 
 void motors_stop()
 {
-    post_event(MOTORS_STOP_EVENT);
+    set_transition(motors_transition_t::STOP);
 }
 
