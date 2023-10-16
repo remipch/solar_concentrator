@@ -14,7 +14,7 @@ static const char* TAG = "motors";
 // It's accomplished by :
 // - preventing multiple simultaneous calls to motors_state_machine functions functions
 // by calling them from a single-threaded permanent task
-// - caching public state values and protecting them with a mutex
+// - protecting state and transition values with a mutex
 static const int STATE_MUTEX_TIMEOUT_MS = 100;
 static SemaphoreHandle_t state_mutex;
 static const int INTER_UPDATE_DELAY_MS = 100;
