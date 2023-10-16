@@ -1,7 +1,8 @@
 set(requires
                 supervisor
                 camera
-                image_processing
+                image
+                target_detector
                 motors
                 web_custom)
 

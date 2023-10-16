@@ -19,7 +19,7 @@
 #include "img_converters.h"
 #include "sdkconfig.h"
 
-#include "camera.h"
+#include "camera.hpp"
 #include "supervisor.hpp"
 #include "motors.hpp" // to display motor state
 
@@ -83,63 +83,52 @@ static esp_err_t parse_get(httpd_req_t *req, char **obuf)
     return ESP_FAIL;
 }
 
+static uint8_t* buf = (uint8_t*)malloc(CAMERA_WIDTH*CAMERA_HEIGHT);
+
+static CImg<unsigned char> img(CAMERA_WIDTH, CAMERA_HEIGHT, 1, 1);
+
 static esp_err_t capture_handler(httpd_req_t *req)
 {
-    camera_fb_t *frame = NULL;
     esp_err_t res = ESP_OK;
 
     ESP_LOGI(TAG, "capture_handler");
 
-    // Ugly workarround to force the camera to take a new image now
-    // otherwise it returns the frame in the queue, which is one frame late
-    ESP_LOGV(TAG, "esp_camera_fb_get 0");
-    frame = esp_camera_fb_get();
-    esp_camera_fb_return(frame);
-    ESP_LOGV(TAG, "esp_camera_fb_get 1");
-    frame = esp_camera_fb_get();
-    ESP_LOGV(TAG, "esp_camera_fb_get 2");
-    if(!frame) {
+    // Temp test
+
+    ESP_LOGI(TAG, "frame created");
+
+    if(!camera_capture(img)) {
         ESP_LOGE(TAG, "Camera capture failed");
         httpd_resp_send_500(req);
         return ESP_FAIL;
     }
 
+    ESP_LOGI(TAG, "img captured");
+
+    camera_fb_t frame = grayscale_cimg_to_grayscale_frame(img, buf);
+
+    ESP_LOGI(TAG, "img converted");
+
 //     detect_target(frame);
 
-//     if (xQueueReceive(xQueueFrameI, &frame, portMAX_DELAY)) {
         httpd_resp_set_type(req, "image/jpeg");
         httpd_resp_set_hdr(req, "Content-Disposition", "inline; filename=capture.jpg");
         httpd_resp_set_hdr(req, "Access-Control-Allow-Origin", "*");
 
-        char ts[32];
-        snprintf(ts, 32, "%lld.%06ld", frame->timestamp.tv_sec, frame->timestamp.tv_usec);
-        httpd_resp_set_hdr(req, "X-Timestamp", (const char *)ts);
+//         char ts[32];
+//         snprintf(ts, 32, "%lld.%06ld", frame.timestamp.tv_sec, frame.timestamp.tv_usec);
+//         httpd_resp_set_hdr(req, "X-Timestamp", (const char *)ts);
 
         // size_t fb_len = 0;
-        if (frame->format == PIXFORMAT_JPEG) {
-            // fb_len = frame->len;
-            res = httpd_resp_send(req, (const char *)frame->buf, frame->len);
+        if (frame.format == PIXFORMAT_JPEG) {
+            // fb_len = frame.len;
+            res = httpd_resp_send(req, (const char *)frame.buf, frame.len);
         } else {
             jpg_chunking_t jchunk = {req, 0};
-            res = frame2jpg_cb(frame, 80, jpg_encode_stream, &jchunk) ? ESP_OK : ESP_FAIL;
+            res = frame2jpg_cb(&frame, 80, jpg_encode_stream, &jchunk) ? ESP_OK : ESP_FAIL;
             httpd_resp_send_chunk(req, NULL, 0);
             // fb_len = jchunk.len;
         }
-
-        esp_camera_fb_return(frame);
-
-//         if (xQueueFrameO) {
-//             xQueueSend(xQueueFrameO, &frame, portMAX_DELAY);
-//         } else if (gReturnFB) {
-//             esp_camera_fb_return(frame);
-//         } else {
-//             free(frame);
-//         }
-//     } else {
-//         ESP_LOGE(TAG, "Camera capture failed");
-//         httpd_resp_send_500(req);
-//         return ESP_FAIL;
-//     }
 
     return res;
 }

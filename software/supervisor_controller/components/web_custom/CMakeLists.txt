@@ -1,11 +1,11 @@
 set(embed_files "./www/index_ov2640.html.gz")
 
 set(requires
-        esp32-camera
+        esp32-camera    # (direct access to camera sensor parameters)
         esp_http_server
         nvs_flash
         esp_wifi
-        camera
+        camera  #TODO: remove ?
         motors
         supervisor)
 
