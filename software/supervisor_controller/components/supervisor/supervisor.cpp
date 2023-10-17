@@ -9,12 +9,11 @@
 
 static const char* TAG = "supervisor";
 
-// This file is the public interface of supervisor component
-// It does not implement supervisor logic by itself but
-// provide thread safety to supervisor_state_machine layer
+// This file is the public interface of the supervisor component
+// It does not implement logic by itself but provides thread safety to state_machine layer
 // It's accomplished by :
-// - preventing multiple simultaneous calls to supervisor_state_machine functions
-// by calling them from a single-threaded permanent task
+// - preventing multiple simultaneous calls to state_machine functions
+//   by calling them from a dedicated task
 // - protecting state and transition values with a mutex
 static const int STATE_MUTEX_TIMEOUT_MS = 100;
 static SemaphoreHandle_t state_mutex;
@@ -68,8 +67,7 @@ static void supervisor_task(void *arg)
         asked_direction = motors_direction_t::NONE;
         xSemaphoreGive(state_mutex);
 
-        supervisor_state_t new_state = supervisor_state_machine_update(
-            state, transition, direction);
+        supervisor_state_t new_state = supervisor_state_machine_update(state, transition, direction);
 
         if(new_state!=state) {
             ESP_LOGI(TAG, "update(state: %s, transition: %s, direction: %s) -> new_state: %s",
