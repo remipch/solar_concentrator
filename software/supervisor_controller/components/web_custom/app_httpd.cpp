@@ -222,20 +222,24 @@ static esp_err_t capture_area_handler(httpd_req_t *req)
     return res;
 }
 
+static uint8_t* full_image_buffer = (uint8_t*)malloc(CAMERA_WIDTH*CAMERA_HEIGHT);
+static camera_fb_t full_image_frame {};
+static SemaphoreHandle_t full_image_mutex; // mutual exclusion of read/write to full_image_frame and its buffer
+static SemaphoreHandle_t full_image_ready; // signal by full_image_updated callback when a new image has been updated
+static const int full_image_mutex_TIMEOUT_MS = 5000;
+
+// Note : the caller guarantee that full_image object is not changed until this function returns
 void full_image_updated(CImg<unsigned char>& full_image) {
     ESP_LOGI(TAG, "full_image_updated: %i x %i",full_image.width(), full_image.height());
+    assert(xSemaphoreTake(full_image_mutex, pdMS_TO_TICKS(full_image_mutex_TIMEOUT_MS)));
+    full_image_frame = grayscale_cimg_to_grayscale_frame(full_image, full_image_buffer);
+    xSemaphoreGive(full_image_mutex);
+    xSemaphoreGive(full_image_ready);
 }
 
 static esp_err_t stream_handler(httpd_req_t *req)
 {
-    camera_fb_t *frame = NULL;
-    struct timeval _timestamp;
-    esp_err_t res = ESP_OK;
-    size_t _jpg_buf_len = 0;
-    uint8_t *_jpg_buf = NULL;
-    char *part_buf[128];
-
-    res = httpd_resp_set_type(req, _STREAM_CONTENT_TYPE);
+    esp_err_t res = httpd_resp_set_type(req, _STREAM_CONTENT_TYPE);
     if (res != ESP_OK) {
         return res;
     }
@@ -244,53 +248,52 @@ static esp_err_t stream_handler(httpd_req_t *req)
     httpd_resp_set_hdr(req, "X-Framerate", "60");
 
     while (true) {
-        if (xQueueReceive(xQueueFrameI, &frame, portMAX_DELAY)) {
-            _timestamp.tv_sec = frame->timestamp.tv_sec;
-            _timestamp.tv_usec = frame->timestamp.tv_usec;
-
-            if (frame->format == PIXFORMAT_JPEG) {
-                _jpg_buf = frame->buf;
-                _jpg_buf_len = frame->len;
-            } else if (!frame2jpg(frame, 80, &_jpg_buf, &_jpg_buf_len)) {
-                ESP_LOGE(TAG, "JPEG compression failed");
-                res = ESP_FAIL;
-            }
-        } else {
-            res = ESP_FAIL;
+        if(!xSemaphoreTake(full_image_ready, pdMS_TO_TICKS(full_image_mutex_TIMEOUT_MS))) {
+            ESP_LOGE(TAG, "Full image not updated on time");
+            return ESP_FAIL;
         }
 
-        if (res == ESP_OK) {
-            res = httpd_resp_send_chunk(req, _STREAM_BOUNDARY, strlen(_STREAM_BOUNDARY));
+        size_t _jpg_buf_len = 0;
+        uint8_t *_jpg_buf = NULL;
+        char *part_buf[128];
+
+        assert(xSemaphoreTake(full_image_mutex, pdMS_TO_TICKS(full_image_mutex_TIMEOUT_MS)));
+        // Use or cache full_image_frame data inside mutex-protected bloc, it can be sent outside of this bloc
+        pixformat_t format = full_image_frame.format;
+
+        if (format == PIXFORMAT_JPEG) {
+            _jpg_buf = full_image_frame.buf;
+            _jpg_buf_len = full_image_frame.len;
+        } else if (!frame2jpg(&full_image_frame, 80, &_jpg_buf, &_jpg_buf_len)) {
+            ESP_LOGE(TAG, "JPEG compression failed");
+            xSemaphoreGive(full_image_mutex);
+            return ESP_FAIL;
+        }
+        size_t hlen = snprintf((char *)part_buf, 128, _STREAM_PART, _jpg_buf_len, full_image_frame.timestamp.tv_sec, full_image_frame.timestamp.tv_usec);
+        xSemaphoreGive(full_image_mutex);
+
+        res = httpd_resp_send_chunk(req, _STREAM_BOUNDARY, strlen(_STREAM_BOUNDARY));
+        if (res != ESP_OK) {
+            return res;
         }
 
-        if (res == ESP_OK) {
-            size_t hlen = snprintf((char *)part_buf, 128, _STREAM_PART, _jpg_buf_len, _timestamp.tv_sec, _timestamp.tv_usec);
-            res = httpd_resp_send_chunk(req, (const char *)part_buf, hlen);
+        res = httpd_resp_send_chunk(req, (const char *)part_buf, hlen);
+        if (res != ESP_OK) {
+            return res;
         }
 
-        if (res == ESP_OK) {
-            res = httpd_resp_send_chunk(req, (const char *)_jpg_buf, _jpg_buf_len);
+        res = httpd_resp_send_chunk(req, (const char *)_jpg_buf, _jpg_buf_len);
+        if (res != ESP_OK) {
+            return res;
         }
 
-        if (frame->format != PIXFORMAT_JPEG) {
+        if (format != PIXFORMAT_JPEG) {
             free(_jpg_buf);
             _jpg_buf = NULL;
         }
-
-        if (xQueueFrameO) {
-            xQueueSend(xQueueFrameO, &frame, portMAX_DELAY);
-        } else if (gReturnFB) {
-            esp_camera_fb_return(frame);
-        } else {
-            free(frame);
-        }
-
-        if (res != ESP_OK) {
-            break;
-        }
     }
 
-    return res;
+    return ESP_OK;
 }
 
 static esp_err_t cmd_handler(httpd_req_t *req)
@@ -520,6 +523,8 @@ void register_httpd(const QueueHandle_t frame_i, const QueueHandle_t frame_o, co
         .user_ctx = NULL
     };
 
+    full_image_mutex = xSemaphoreCreateMutex();
+    full_image_ready = xSemaphoreCreateBinary();
     sun_tracker_register_full_image_callback(full_image_updated);
 
     ESP_LOGI(TAG, "Starting web server on port: '%d'", config.server_port);
