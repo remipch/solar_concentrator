@@ -20,6 +20,7 @@
 #include "sdkconfig.h"
 
 #include "camera.hpp"
+#include "sun_tracker.hpp"
 #include "supervisor.hpp"
 #include "motors.hpp" // to display motor state
 
@@ -219,6 +220,10 @@ static esp_err_t capture_area_handler(httpd_req_t *req)
     esp_camera_fb_return(frame);
 
     return res;
+}
+
+void full_image_updated(CImg<unsigned char>& full_image) {
+    ESP_LOGI(TAG, "full_image_updated: %i x %i",full_image.width(), full_image.height());
 }
 
 static esp_err_t stream_handler(httpd_req_t *req)
@@ -514,6 +519,8 @@ void register_httpd(const QueueHandle_t frame_i, const QueueHandle_t frame_o, co
         .handler = supervisor_status_handler,
         .user_ctx = NULL
     };
+
+    sun_tracker_register_full_image_callback(full_image_updated);
 
     ESP_LOGI(TAG, "Starting web server on port: '%d'", config.server_port);
     if (httpd_start(&camera_httpd, &config) == ESP_OK) {

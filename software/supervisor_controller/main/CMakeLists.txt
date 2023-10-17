@@ -3,6 +3,7 @@ set(requires
                 camera
                 image
                 target_detector
+                sun_tracker
                 motors
                 web_custom)
 

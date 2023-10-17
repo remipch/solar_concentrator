@@ -5,6 +5,7 @@
 #include "motors.hpp"
 #include "supervisor.hpp"
 #include "target_detector.hpp"
+#include "sun_tracker.hpp"
 #include "esp_log.h"
 
 extern "C" void app_main()
@@ -16,6 +17,7 @@ extern "C" void app_main()
     camera_init();
     target_detector_init();
     motors_init();
+    sun_tracker_init();
     supervisor_init();
 
     register_httpd(NULL, NULL, true);

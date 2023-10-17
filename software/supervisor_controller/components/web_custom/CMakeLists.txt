@@ -6,6 +6,7 @@ set(requires
         nvs_flash
         esp_wifi
         camera  #TODO: remove ?
+        sun_tracker
         motors
         supervisor)
 
