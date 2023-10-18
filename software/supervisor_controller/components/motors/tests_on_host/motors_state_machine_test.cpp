@@ -7,29 +7,6 @@ MINI_MOCK_FUNCTION(motors_hw_stop, void, (), ());
 MINI_MOCK_FUNCTION(motors_hw_move_one_step, void, (motors_direction_t direction), (direction));
 MINI_MOCK_FUNCTION(motor_hw_get_state, motor_hw_state_t, (), ());
 
-
-
-// Use some useful macros because :
-// - it prints meaningful expected values instead of meaningless variable (print "ROLL" instead of "exected_top_motor_command")
-// - it allows to avoid a lot of repetitions and make test code more readable
-
-#define MOCK_HW_MEASURE(mocked_current_measure) MINI_MOCK_ON_CALL(motor_hw_measure_current, []() {return motors_current_t::mocked_current_measure;})
-
-#define MOCK_HW_MOVE_ONE_STEP(exected_motor_id,  exected_command) \
-    MINI_MOCK_ON_CALL( \
-    motors_hw_start, [](motor_hw_motor_id_t motor_id,motor_hw_command_t command) { \
-        EXPECT(motor_id == motor_hw_motor_id_t::exected_motor_id); \
-        EXPECT(command == motor_hw_command_t::exected_command); \
-        return motor_hw_error_t::NO_ERROR; \
-    }) \
-
-#define EXPECT_STATUS(expected_state,expected_direction,expected_current) { \
-        auto status = motors_logic_get_status(); \
-        EXPECT(status.state == motors_state_t::expected_state); \
-        EXPECT(status.direction == motors_direction_t::expected_direction); \
-        EXPECT(status.current == motors_current_t::expected_current); \
-    }
-
 TEST(initialize, []()
 {
     // Nominal case : no hw error

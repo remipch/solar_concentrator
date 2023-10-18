@@ -7,7 +7,7 @@ project(motors_state_machine_test)
 add_executable( motors_state_machine_test
     motors_state_machine_test.cpp
     ../motors_state_machine.cpp
-    )
+)
 
 include_directories(.. ../include)
 
