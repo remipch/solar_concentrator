@@ -7,14 +7,16 @@
 
 static const char* TAG = "motors_state_machine";
 
+static motors_direction_t continuous_motors_direction = motors_direction_t::NONE;
+
 motors_state_t motors_state_machine_update(
     motors_state_t current_state,
     motors_transition_t transition,
     motors_direction_t motors_direction) {
 
-    static motors_direction_t continuous_motors_direction = motors_direction_t::NONE;
 
     if(current_state==motors_state_t::UNINITIALIZED) {
+        // TODO : add ERROR state, when hw does not init or does not reply
         assert(motors_hw_init()== motor_hw_error_t::NO_ERROR);
         return motors_state_t::STOPPED;
     }

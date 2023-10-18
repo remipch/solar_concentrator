@@ -2,9 +2,12 @@
 # Enable CTest features (provides 'add_test' command below)
 # enable_testing()
 
-project(test_motors_logic)
+project(motors_state_machine_test)
 
-add_executable(test_motors_logic test_motors_logic.cpp ../motors_logic.cpp)
+add_executable( motors_state_machine_test
+    motors_state_machine_test.cpp
+    ../motors_state_machine.cpp
+    )
 
 include_directories(.. ../include)
 
@@ -12,9 +15,9 @@ include_directories(.. ../include)
 # Note : CMake must be reconfigured if tests are added/renamed/removed from test source file
 # TODO : move this in a common cmake function for reuse
 set(TEST_REGEX "^TEST\\(([A-Za-z0-9_]+).*")
-file(STRINGS test_motors_logic.cpp detected_tests REGEX ${TEST_REGEX})
+file(STRINGS motors_state_machine_test.cpp detected_tests REGEX ${TEST_REGEX})
 foreach(test ${detected_tests})
     STRING(REGEX REPLACE ${TEST_REGEX} "\\1" test ${test})
     message(STATUS "detected test ${test}")
-    add_test(NAME test_motors_logic_${test} COMMAND test_motors_logic ${test})
+    add_test(NAME motors_state_machine_test_${test} COMMAND motors_state_machine_test ${test})
 endforeach()
