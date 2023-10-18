@@ -3,11 +3,14 @@
 
 #include "image.hpp"
 
-#include "camera.hpp"   // use camera size at compile time to save memory allocations
+#include <assert.h>
 
 #include "quirc.h"
 
 static const char *TAG = "target_detector";
+
+static const int EXPECTED_CAPSTONE_COUNT = 4;
+static const unsigned char WHITE = 255;
 
 static struct quirc *capstone_detector;
 
@@ -15,11 +18,41 @@ static struct quirc *capstone_detector;
 // static CImg<unsigned char> img(CAMERA_WIDTH, CAMERA_HEIGHT, 1, 3);
 
 void target_detector_init() {
-
     capstone_detector = quirc_new();
+}
 
-    if (quirc_resize(capstone_detector, 800, 600) < 0)
-		ESP_LOGE(TAG, "quirc_resize fails");
+bool target_detector_detect(CImg<unsigned char>& image, rectangle_t& target) {
+    // assert grayscale image
+    assert(image.depth()==1);
+    assert(image.spectrum()==1);
+
+    // TODO : resize only if dimensions have changed
+    // TODO : make quirc working on a given buffer without copy, without preallocation, without dimension passing
+    assert(quirc_resize(capstone_detector, image.width(), image.height()) == 0);
+
+    uint8_t * quirc_image = quirc_begin(capstone_detector, NULL, NULL);
+    memcpy(quirc_image, image.data(), image.width() * image.height());
+    quirc_end(capstone_detector);
+
+    int capstone_count = quirc_capstone_count(capstone_detector);
+
+    // Draw all detected capstone (for display purpose only)
+    for(int i=0;i<capstone_count;i++) {
+        printf("  capstone[%i]:\n",i);
+        const struct quirc_capstone *capstone = quirc_get_capstone(capstone_detector,i);
+        ESP_LOGV(TAG, "    capstone.center:  %i, %i", capstone->center.x, capstone->center.y);
+        for(int i=0;i<4;i++) {
+            ESP_LOGV(TAG, "    capstone.corners[%i]: %i , %i\n", i, capstone->corners[i].x, capstone->corners[i].y);
+        }
+        image.draw_line(capstone->center.x-20, capstone->center.y, capstone->center.x+20, capstone->center.y, &WHITE);
+        image.draw_line(capstone->center.x, capstone->center.y-20, capstone->center.x, capstone->center.y+20, &WHITE);
+    }
+
+    if(capstone_count!=EXPECTED_CAPSTONE_COUNT) {
+        ESP_LOGW(TAG, "Detection failed : %i capstone(s) detected instead of %i ", capstone_count, EXPECTED_CAPSTONE_COUNT);
+        return false;
+    }
+    return true;
 }
 
 #if 0
