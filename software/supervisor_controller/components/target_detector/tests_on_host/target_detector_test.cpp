@@ -1,7 +1,5 @@
 #include "mini_mock.hpp"
 
-#undef NDEBUG
-
 #include "target_detector.hpp"
 
 CImg<unsigned char> load_image_as_grayscale(const char* image_path) {
@@ -12,12 +10,12 @@ CImg<unsigned char> load_image_as_grayscale(const char* image_path) {
     return image;
 }
 
-bool detect_from_file(const char* image_path, rectangle_t& target) {
+bool detect_from_file(const char* image_path, rectangle_t& target_area) {
     target_detector_init();
 
     CImg<unsigned char> image = load_image_as_grayscale(image_path);
 
-    bool result = target_detector_detect(image, target);
+    bool result = target_detector_detect(image, target_area);
 
     // Save output for manual debug only
     // (in final application, the output image is used for display purpose only)

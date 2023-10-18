@@ -4,6 +4,11 @@
 
 project(target_detector_test)
 
+# WTF: even if CMAKE_BUILD_TYPE=DEBUG
+# NDEBUG must be undefined
+# otherwise source line and file are not printed is 'assert' fails :
+add_definitions(-U NDEBUG)
+
 # libjpeg is used to load test images (internally in CImg)
 find_package(JPEG REQUIRED)
 include_directories(${JPEG_INCLUDE_DIR})
