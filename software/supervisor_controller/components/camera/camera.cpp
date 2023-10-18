@@ -150,6 +150,7 @@ void grayscale_frame_to_grayscale_cimg(camera_fb_t *input, CImg<unsigned char>& 
 // output_buffer must be allocated by the caller
 camera_fb_t grayscale_cimg_to_grayscale_frame(CImg<unsigned char>& input, uint8_t *output_buffer) {
     assert(input.depth()==1);
+    assert(input.spectrum()==1);
     assert(output_buffer!=NULL);
     camera_fb_t output{
         .buf = output_buffer,
