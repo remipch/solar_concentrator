@@ -3,6 +3,8 @@
 #include "image.hpp"
 #include "sun_tracker_callbacks.hpp"
 
+#include <assert.h>
+
 enum class sun_tracker_state_t : signed char {
     ERROR = -1,
     UNINITIALIZED = 0,

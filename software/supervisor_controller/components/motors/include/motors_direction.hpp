@@ -1,6 +1,6 @@
 #pragma once
 
-#include <cstdlib>
+#include <assert.h>
 
 // 6 possible directions in clockwise order
 enum class motors_direction_t : char {

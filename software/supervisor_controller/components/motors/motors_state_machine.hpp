@@ -2,6 +2,8 @@
 
 #include "motors_direction.hpp"
 
+#include <assert.h>
+
 enum class motors_state_t : signed char {
     ERROR = -1,
     UNINITIALIZED = 0,

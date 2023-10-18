@@ -2,6 +2,8 @@
 
 #include "motors_direction.hpp"
 
+#include <assert.h>
+
 enum class motor_hw_error_t : char {
     NO_ERROR = 0,
     CANNOT_USE_UART

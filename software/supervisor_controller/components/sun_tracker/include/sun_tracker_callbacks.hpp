@@ -2,7 +2,7 @@
 
 #include "image.hpp"
 
-#include <cstdlib>
+#include <assert.h>
 
 enum class sun_tracker_result_t : signed char {
     ERROR = -1,
