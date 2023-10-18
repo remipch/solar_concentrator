@@ -23,7 +23,7 @@ sun_tracker_state_t sun_tracker_state_machine_update(
     }
 
     if(current_state==sun_tracker_state_t::IDLE) {
-        if(!camera_capture(grayscale_cimg_full)) {
+        if(!camera_capture(false, grayscale_cimg_full)) {
             ESP_LOGE(TAG, "Camera capture failed");
             return sun_tracker_state_t::ERROR;
         }

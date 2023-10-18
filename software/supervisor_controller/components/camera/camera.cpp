@@ -222,23 +222,25 @@ void rgb888_cimg_to_rgb565_frame(CImg<unsigned char>& input, camera_fb_t *output
     }
 }
 
-bool camera_capture(CImg<unsigned char>& grayscale_cimg) {
+bool camera_capture(bool drop_current_image, CImg<unsigned char>& grayscale_cimg) {
     assert(grayscale_cimg.width()==CAMERA_WIDTH);
     assert(grayscale_cimg.height()==CAMERA_HEIGHT);
     assert(grayscale_cimg.depth()==1);
     assert(grayscale_cimg.spectrum()==1);
 
-    // 'esp_camera_fb_get' returns the image which is currently captured
-    // Drop the currently grabed image to guarantee that a new image is
-    // taken after the call to this function
-    camera_fb_t *frame = esp_camera_fb_get();
-    if(frame==NULL) {
-        ESP_LOGE(TAG, "esp_camera_fb_get failed");
-        return false;
+    if(drop_current_image) {
+        // 'esp_camera_fb_get' returns the image which is currently captured
+        // Drop the currently grabed image to guarantee that a new image is
+        // taken after the call to this function
+        camera_fb_t *frame = esp_camera_fb_get();
+        if(frame==NULL) {
+            ESP_LOGE(TAG, "esp_camera_fb_get failed");
+            return false;
+        }
+        esp_camera_fb_return(frame);
     }
-    esp_camera_fb_return(frame);
 
-    frame = esp_camera_fb_get();
+    camera_fb_t *frame = esp_camera_fb_get();
     if(frame==NULL) {
         ESP_LOGE(TAG, "esp_camera_fb_get failed");
         return false;

@@ -20,9 +20,10 @@ void camera_init();
 
 // Take an image, fill the given image,
 // which must have been allocated by the caller to size CAMERA_WIDTH,CAMERA_HEIGHT
-// The currently grabed image will be dropped and a new image will be captured
+// if drop_current_image : the currently grabed image will be dropped
+// before captuing a new image
 // return true if capture is successful
-bool camera_capture(CImg<unsigned char>& grayscale_cimg);
+bool camera_capture(bool drop_current_image, CImg<unsigned char>& grayscale_cimg);
 
 // output_buffer must be allocated by the caller
 camera_fb_t grayscale_cimg_to_grayscale_frame(CImg<unsigned char>& input, uint8_t *output_buffer);

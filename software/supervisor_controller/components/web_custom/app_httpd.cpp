@@ -98,7 +98,7 @@ static esp_err_t capture_handler(httpd_req_t *req)
 
     ESP_LOGI(TAG, "frame created");
 
-    if(!camera_capture(img)) {
+    if(!camera_capture(false, img)) {
         ESP_LOGE(TAG, "Camera capture failed");
         httpd_resp_send_500(req);
         return ESP_FAIL;
