@@ -4,6 +4,7 @@
 
 #include "camera.hpp"
 #include "motors.hpp"
+#include "target_detector.hpp"
 
 static const char* TAG = "sun_tracker_state_machine";
 
@@ -26,6 +27,11 @@ sun_tracker_state_t sun_tracker_state_machine_update(
         if(!camera_capture(false, grayscale_cimg_full)) {
             ESP_LOGE(TAG, "Camera capture failed");
             return sun_tracker_state_t::ERROR;
+        }
+
+        rectangle_t target_area;
+        if(!target_detector_detect(grayscale_cimg_full, target_area)) {
+            ESP_LOGW(TAG, "target_detector failed");
         }
 
         publish_full_image(grayscale_cimg_full);
