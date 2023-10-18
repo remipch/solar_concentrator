@@ -32,6 +32,7 @@ MINI_MOCK_FUNCTION(motor_hw_get_state, motor_hw_state_t, (), ());
 
 TEST(initialize, []()
 {
+    // Nominal case : no hw error
     MINI_MOCK_ON_CALL(motors_hw_init, []() {
         return motor_hw_error_t::NO_ERROR;
     });
@@ -41,6 +42,17 @@ TEST(initialize, []()
         motors_direction_t::NONE
     );
     EXPECT(state == motors_state_t::STOPPED);
+
+    // With hardware error : report error
+    MINI_MOCK_ON_CALL(motors_hw_init, []() {
+        return motor_hw_error_t::CANNOT_USE_UART;
+    });
+    state = motors_state_machine_update(
+        motors_state_t::UNINITIALIZED,
+        motors_transition_t::NONE,
+        motors_direction_t::NONE
+    );
+    EXPECT(state == motors_state_t::ERROR);
 });
 
 // Test typical "move_continuous" scenario as a single whole story, with nominal case and basic corner cases
@@ -108,6 +120,17 @@ TEST(move_continuous, []()
     );
     EXPECT(state == motors_state_t::MOVING_CONTINUOUS);
 
+    // Update move continuous : motors do not reply -> go to error
+    MINI_MOCK_ON_CALL(motor_hw_get_state, []() {
+        return motor_hw_state_t::UNKNOWN;
+    });
+    state = motors_state_machine_update(
+        motors_state_t::MOVING_CONTINUOUS,
+        motors_transition_t::NONE,
+        motors_direction_t::NONE
+    );
+    EXPECT(state == motors_state_t::ERROR);
+
     // Stop move continuous
     MINI_MOCK_ON_CALL(motors_hw_stop, []() {});
     state = motors_state_machine_update(
@@ -116,31 +139,6 @@ TEST(move_continuous, []()
         motors_direction_t::NONE
     );
     EXPECT(state == motors_state_t::STOPPING);
-});
-
-TEST(stopping, []()
-{
-    // Stopping : motors are still moving
-    MINI_MOCK_ON_CALL(motor_hw_get_state, []() {
-        return motor_hw_state_t::MOVING;
-    });
-    motors_state_t state = motors_state_machine_update(
-        motors_state_t::STOPPING,
-        motors_transition_t::NONE,
-        motors_direction_t::NONE
-    );
-    EXPECT(state == motors_state_t::STOPPING);
-
-    // Stopping : motors are stopped
-    MINI_MOCK_ON_CALL(motor_hw_get_state, []() {
-        return motor_hw_state_t::STOPPED;
-    });
-    state = motors_state_machine_update(
-        motors_state_t::STOPPING,
-        motors_transition_t::NONE,
-        motors_direction_t::NONE
-    );
-    EXPECT(state == motors_state_t::STOPPED);
 });
 
 // Test typical "move_one_step" scenario as a single whole story, with nominal case and basic corner cases
@@ -205,6 +203,17 @@ TEST(move_one_step, []()
     );
     EXPECT(state == motors_state_t::STOPPED);
 
+    // Update move one_step : motors do not reply -> go to error
+    MINI_MOCK_ON_CALL(motor_hw_get_state, []() {
+        return motor_hw_state_t::UNKNOWN;
+    });
+    state = motors_state_machine_update(
+        motors_state_t::MOVING_ONE_STEP,
+        motors_transition_t::NONE,
+        motors_direction_t::NONE
+    );
+    EXPECT(state == motors_state_t::ERROR);
+
     // Stop move one_step
     MINI_MOCK_ON_CALL(motors_hw_stop, []() {});
     state = motors_state_machine_update(
@@ -213,6 +222,42 @@ TEST(move_one_step, []()
         motors_direction_t::NONE
     );
     EXPECT(state == motors_state_t::STOPPING);
+});
+
+TEST(stopping, []()
+{
+    // Stopping : motors are still moving
+    MINI_MOCK_ON_CALL(motor_hw_get_state, []() {
+        return motor_hw_state_t::MOVING;
+    });
+    motors_state_t state = motors_state_machine_update(
+        motors_state_t::STOPPING,
+        motors_transition_t::NONE,
+        motors_direction_t::NONE
+    );
+    EXPECT(state == motors_state_t::STOPPING);
+
+    // Stopping : motors are stopped
+    MINI_MOCK_ON_CALL(motor_hw_get_state, []() {
+        return motor_hw_state_t::STOPPED;
+    });
+    state = motors_state_machine_update(
+        motors_state_t::STOPPING,
+        motors_transition_t::NONE,
+        motors_direction_t::NONE
+    );
+    EXPECT(state == motors_state_t::STOPPED);
+
+    // Stopping : motors do not reply -> go to error
+    MINI_MOCK_ON_CALL(motor_hw_get_state, []() {
+        return motor_hw_state_t::UNKNOWN;
+    });
+    state = motors_state_machine_update(
+        motors_state_t::STOPPING,
+        motors_transition_t::NONE,
+        motors_direction_t::NONE
+    );
+    EXPECT(state == motors_state_t::ERROR);
 });
 
 CREATE_MAIN_ENTRY_POINT();

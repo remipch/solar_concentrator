@@ -14,10 +14,11 @@ motors_state_t motors_state_machine_update(
     motors_transition_t transition,
     motors_direction_t motors_direction) {
 
-
     if(current_state==motors_state_t::UNINITIALIZED) {
-        // TODO : add ERROR state, when hw does not init or does not reply
-        assert(motors_hw_init()== motor_hw_error_t::NO_ERROR);
+        if(motors_hw_init()!= motor_hw_error_t::NO_ERROR) {
+            return motors_state_t::ERROR;
+        }
+
         return motors_state_t::STOPPED;
     }
 
@@ -38,24 +39,32 @@ motors_state_t motors_state_machine_update(
     }
 
     if(current_state==motors_state_t::MOVING_CONTINUOUS) {
-        if(motor_hw_get_state()==motor_hw_state_t::STOPPED) {
+        auto hw_state = motor_hw_get_state();
+        if(hw_state==motor_hw_state_t::UNKNOWN) {
+            return motors_state_t::ERROR;
+        }
+
+        if(hw_state==motor_hw_state_t::STOPPED) {
             // Restart move continuously
             motors_hw_move_one_step(continuous_motors_direction);
             return motors_state_t::MOVING_CONTINUOUS;
         }
-        else {
-            // Stay in same state while motors are moving
-            return current_state;
-        }
+
+        // Stay in same state while motors are moving
+        return current_state;
     }
     else { // STOPPING and MOVING_ONE_STEP states are treated the same way
-        if(motor_hw_get_state()==motor_hw_state_t::STOPPED) {
+        auto hw_state = motor_hw_get_state();
+        if(hw_state==motor_hw_state_t::UNKNOWN) {
+            return motors_state_t::ERROR;
+        }
+
+        if(hw_state==motor_hw_state_t::STOPPED) {
             return motors_state_t::STOPPED;
         }
-        else {
-            // Stay in same state while motors are moving
-            return current_state;
-        }
+
+        // Stay in same state while motors are moving
+        return current_state;
     }
 
     if(transition!=motors_transition_t::NONE) {
