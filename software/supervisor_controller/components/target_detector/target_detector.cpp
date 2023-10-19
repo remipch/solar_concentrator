@@ -14,6 +14,7 @@ static const int EXPECTED_CAPSTONE_COUNT = 4;
 // static const int MAX_VERTICAL_MISALIGNMENT_PX = 10;
 // static const int MAX_HORIZONTAL_MISALIGNMENT_PX = 10;
 // static const int MIN_AREA_SIZE_PX = 10;
+static const unsigned char BLACK = 0;
 static const unsigned char WHITE = 255;
 
 static struct quirc *capstone_detector;
@@ -29,6 +30,38 @@ struct quad {
     T bottom_left;
     T bottom_right;
 };
+
+// Convenient type for direct capstone geometric manipulation
+struct capstone_geometry {
+    int width;
+    int height;
+    quirc_point center;
+    quad<quirc_point> corners;
+};
+
+void log_capstone(const capstone_geometry& geometry) {
+    ESP_LOGV(TAG, "capstone.center:  %i, %i", geometry.center.x, geometry.center.y);
+    ESP_LOGV(TAG, "  capstone.size:  %i, %i", geometry.width, geometry.height);
+    ESP_LOGV(TAG, "  capstone.top_left:  %i, %i", geometry.corners.top_left.x, geometry.corners.top_left.y);
+    ESP_LOGV(TAG, "  capstone.top_right:  %i, %i", geometry.corners.top_right.x, geometry.corners.top_right.y);
+    ESP_LOGV(TAG, "  capstone.bottom_left:  %i, %i", geometry.corners.bottom_left.x, geometry.corners.bottom_left.y);
+    ESP_LOGV(TAG, "  capstone.bottom_right:  %i, %i", geometry.corners.bottom_right.x, geometry.corners.bottom_right.y);
+}
+
+void draw_capstone(CImg<unsigned char>& image, const capstone_geometry& capstone) {
+    image.draw_line(
+        capstone.center.x-capstone.width/2,
+        capstone.center.y,
+        capstone.center.x+capstone.width/2,
+        capstone.center.y,
+        &WHITE);
+    image.draw_line(
+        capstone.center.x,
+        capstone.center.y-capstone.height/2,
+        capstone.center.x,
+        capstone.center.y+capstone.height/2,
+        &WHITE);
+}
 
 // Extract ordered corners from capstone
 quad<quirc_point> extract_corners(const quirc_capstone *capstone) {
@@ -51,24 +84,56 @@ quad<quirc_point> extract_corners(const quirc_capstone *capstone) {
     };
 }
 
+capstone_geometry extract_capstone_geometry(const quirc_capstone *capstone) {
+    int min_x = INT_MAX;
+    int min_y = INT_MAX;
+    int max_x = 0;
+    int max_y = 0;
+    for(int i=0;i<4;i++) {
+        quirc_point corner = capstone->corners[i];
+        min_x = std::min(min_x, corner.x);
+        min_y = std::min(min_y, corner.y);
+        max_x = std::max(max_x, corner.x);
+        max_y = std::max(max_y, corner.y);
+    }
+    quad<quirc_point> corners = {
+        .top_left = {min_x, min_y},
+        .top_right = {max_x, min_y},
+        .bottom_left = {min_x, max_y},
+        .bottom_right = {max_x, max_y},
+    };
+    return capstone_geometry {
+        .width = (
+            corners.top_right.x -
+            corners.top_left.x +
+            corners.bottom_right.x -
+            corners.bottom_left.x) / 2,
+        .height = (
+            corners.bottom_left.y -
+            corners.top_left.y +
+            corners.bottom_right.y -
+            corners.top_right.y) / 2,
+        .center = capstone->center,
+        .corners = corners,
+    };
+}
+
 // Each capstones is supposed to be on one of the four corners,
 // split them according to their place from average point
-quad<const quirc_capstone *>  extract_capstones_quad(
-    int capstone_count,
+quad<const capstone_geometry *>  extract_capstones_quad(
+    capstone_geometry capstones[EXPECTED_CAPSTONE_COUNT],
     int average_x,
     int average_y) {
 
-    assert(capstone_count==EXPECTED_CAPSTONE_COUNT);
-
-    quad<const quirc_capstone *> result {
+    quad<const capstone_geometry *> result {
         .top_left = NULL,
         .top_right = NULL,
         .bottom_left = NULL,
         .bottom_right = NULL,
     };
 
-    for(int i=0;i<capstone_count;i++) {
-        const quirc_capstone *capstone = quirc_get_capstone(capstone_detector,i);
+    for(int i=0;i<EXPECTED_CAPSTONE_COUNT;i++) {
+        capstone_geometry *capstone = &capstones[i];
         if(capstone->center.y < average_y) {
             if(capstone->center.x < average_x) {
                 result.top_left = capstone;
@@ -89,15 +154,6 @@ quad<const quirc_capstone *>  extract_capstones_quad(
     return result;
 }
 
-void extract_size(
-    const quirc_capstone *capstone,
-    int& width, int& height) {
-
-    quad<quirc_point> corners = extract_corners(capstone);
-    width = (corners.top_right.x - corners.top_left.x + corners.bottom_right.x - corners.bottom_left.x) / 2;
-    height = (corners.bottom_left.y - corners.top_left.y + corners.bottom_right.y - corners.top_right.y) / 2;
-}
-
 bool target_detector_detect(CImg<unsigned char>& image, rectangle_t& target) {
     // assert grayscale image
     assert(image.depth()==1);
@@ -106,7 +162,6 @@ bool target_detector_detect(CImg<unsigned char>& image, rectangle_t& target) {
     // TODO : resize only if dimensions have changed
     // TODO : make quirc working on a given buffer without copy, without preallocation, without dimension passing
     assert(quirc_resize(capstone_detector, image.width(), image.height()) == 0);
-
 
     uint8_t * quirc_image = quirc_begin(capstone_detector, NULL, NULL);
     memcpy(quirc_image, image.data(), image.width() * image.height());
@@ -119,32 +174,28 @@ bool target_detector_detect(CImg<unsigned char>& image, rectangle_t& target) {
     int average_width = 0;
     int average_height = 0;
 
-    // Draw all detected capstones (for display purpose only)
+    // Store first capstone geometry for later use
+    capstone_geometry capstones_geom[EXPECTED_CAPSTONE_COUNT];
+
+    // Parse detected capstones to :
+    // - convert quirc_capstone to geomeetry
+    // - compute usefull averages
+    // - draw all detected capstones (for display purpose only)
+    //   (capstones are drawn before checks to see what happen)
     for(int i=0;i<capstone_count;i++) {
         const quirc_capstone *capstone = quirc_get_capstone(capstone_detector,i);
-        average_x += capstone->center.x;
-        average_y += capstone->center.y;
+        capstone_geometry geometry = extract_capstone_geometry(capstone);
+        log_capstone(geometry);
+        draw_capstone(image, geometry);
 
-        int capstone_width = 0;
-        int capstone_height = 0;
-//         quad<quirc_point> corners = extract_corners(capstone);
+        average_x += geometry.center.x;
+        average_y += geometry.center.y;
+        average_width += geometry.width;
+        average_height += geometry.height;
 
-        extract_size(capstone, capstone_width, capstone_height);
-        average_width += capstone_width;
-        average_height += capstone_height;
-
-        ESP_LOGV(TAG, "  capstone.center:  %i, %i", capstone->center.x, capstone->center.y);
-        ESP_LOGV(TAG, "  capstone.size:  %i, %i", capstone_width, capstone_height);
-        for(int i=0;i<4;i++) {
-            ESP_LOGV(TAG, "    capstone.corners[%i]: %i , %i\n", i, capstone->corners[i].x, capstone->corners[i].y);
+        if(i < EXPECTED_CAPSTONE_COUNT) {
+            capstones_geom[i] = geometry;
         }
-        image.draw_line(capstone->center.x-capstone_width/2, capstone->center.y, capstone->center.x+capstone_width/2, capstone->center.y, &WHITE);
-        image.draw_line(capstone->center.x, capstone->center.y-capstone_height/2, capstone->center.x, capstone->center.y+capstone_height/2, &WHITE);
-    }
-
-    if(capstone_count!=EXPECTED_CAPSTONE_COUNT) {
-        ESP_LOGW(TAG, "Detection failed : %i capstone(s) detected instead of %i ", capstone_count, EXPECTED_CAPSTONE_COUNT);
-        return false;
     }
 
     average_x /= capstone_count;
@@ -152,7 +203,13 @@ bool target_detector_detect(CImg<unsigned char>& image, rectangle_t& target) {
     average_width /= capstone_count;
     average_height /= capstone_count;
 
-    quad<const quirc_capstone *> capstones = extract_capstones_quad(capstone_count, average_x, average_y);
+    // Check capstone count
+    if(capstone_count!=EXPECTED_CAPSTONE_COUNT) {
+        ESP_LOGW(TAG, "Detection failed : %i capstone(s) detected instead of %i ", capstone_count, EXPECTED_CAPSTONE_COUNT);
+        return false;
+    }
+
+    quad<const capstone_geometry *> capstones = extract_capstones_quad(capstones_geom, average_x, average_y);
 
     // Here we should have exactly one capstone per corner
     if( capstones.top_left==NULL ||
