@@ -159,15 +159,7 @@ bool target_detector_detect(CImg<unsigned char>& image, rectangle_t& target) {
     assert(image.depth()==1);
     assert(image.spectrum()==1);
 
-    // TODO : resize only if dimensions have changed
-    // TODO : make quirc working on a given buffer without copy, without preallocation, without dimension passing
-    assert(quirc_resize(capstone_detector, image.width(), image.height()) == 0);
-
-    uint8_t * quirc_image = quirc_begin(capstone_detector, NULL, NULL);
-    memcpy(quirc_image, image.data(), image.width() * image.height());
-    quirc_end(capstone_detector);
-
-    int capstone_count = quirc_capstone_count(capstone_detector);
+    int capstone_count = quirc_detect_capstones(capstone_detector, image.data(), image.width(), image.height());
 
     int average_x = 0;
     int average_y = 0;
