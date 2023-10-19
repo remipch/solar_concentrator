@@ -11,9 +11,6 @@
 static const char *TAG = "target_detector";
 
 static const int EXPECTED_CAPSTONE_COUNT = 4;
-// static const int MAX_VERTICAL_MISALIGNMENT_PX = 10;
-// static const int MAX_HORIZONTAL_MISALIGNMENT_PX = 10;
-// static const int MIN_AREA_SIZE_PX = 10;
 static const unsigned char BLACK = 0;
 static const unsigned char WHITE = 255;
 
@@ -61,6 +58,33 @@ void draw_capstone(CImg<unsigned char>& image, const capstone_geometry& capstone
         capstone.center.x,
         capstone.center.y+capstone.height/2,
         &WHITE);
+}
+
+void log_target(const rectangle_t& target) {
+    ESP_LOGV(TAG, "target:  %i, %i, %i, %i",
+        target.left_px,
+        target.top_px,
+        target.right_px,
+        target.bottom_px);
+}
+
+void draw_target(CImg<unsigned char>& image, const rectangle_t& target) {
+    image.draw_rectangle(
+        target.left_px,
+        target.top_px,
+        target.right_px,
+        target.bottom_px,
+        &WHITE,
+        1,
+        0xF0F0F0F0);
+    image.draw_rectangle(
+        target.left_px,
+        target.top_px,
+        target.right_px,
+        target.bottom_px,
+        &BLACK,
+        1,
+        0x0F0F0F0F);
 }
 
 // Extract ordered corners from capstone
@@ -223,31 +247,24 @@ bool target_detector_detect(CImg<unsigned char>& image, rectangle_t& target) {
         return false;
     }
 
+    // Compute target area rectangle from capstones geometry (see schema in README)
+    target = {
+        .left_px = std::max(capstones.top_left->center.x, capstones.bottom_left->center.x) - average_width/2,
+        .top_px = std::max(capstones.top_left->center.y, capstones.top_right->center.y) + average_height,
+        .right_px = std::min(capstones.top_right->center.x, capstones.bottom_right->center.x) + average_width/2,
+        .bottom_px = std::min(capstones.bottom_left->center.y, capstones.bottom_right->center.y) - average_height,
+    };
+
+    // Check area_size > average capstone size
+    if( (target.bottom_px - target.top_px) < average_height ||
+        (target.right_px - target.left_px) < average_width) {
+
+        ESP_LOGW(TAG, "Detection failed : target area too small");
+        return false;
+    }
+
+    log_target(target);
+    draw_target(image, target);
+
     return true;
 }
-
-#if 0
-void draw_something(camera_fb_t *frame) {
-    ESP_LOGD(TAG, "draw_something(%u * %u)",(int)frame->width,(int)frame->height);
-    assert(frame->width==CAMERA_WIDTH);
-    assert(frame->height==CAMERA_HEIGHT);
-
-    // Create working image (allocate new buffer)
-
-    rgb565ToRgb888(frame, img);
-
-    // Draw something using CImg lib
-    ESP_LOGD(TAG, "Draw");
-    const unsigned char blue[] = { 0,0,128 };
-    img.draw_line(5,0,5,70,blue).draw_ellipse(120,170,20,30,0,blue);
-    const unsigned char green[] = { 0,255,0 };
-    img.draw_line(4,0,4,70,green).draw_ellipse(110,160,20,30,0,green);
-    const unsigned char red[] = { 255,0,0 };
-    img.draw_line(3,0,3,70,red).draw_ellipse(100,150,20,30,0,red);
-    const unsigned char white[] = { 255,255,255 };
-    img.draw_text(10,10,"Hello",white,0,1,16);
-
-    ESP_LOGD(TAG, "Convert back to rgb565");
-    rgb888ToRgb565(img, frame);
-}
-#endif
