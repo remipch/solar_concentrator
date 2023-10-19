@@ -31,6 +31,13 @@ TEST(when_capstones_are_missing_then_detection_fails, []()
     EXPECT(!target_detected);
 });
 
+TEST(when_capstones_are_misplaced_then_detection_fails, []()
+{
+    rectangle_t target_area;
+    bool target_detected = detect_from_file("misplaced_capstones.jpg", target_area);
+    EXPECT(!target_detected);
+});
+
 TEST(when_capstones_are_misaligned_then_detection_fails, []()
 {
     rectangle_t target_area;

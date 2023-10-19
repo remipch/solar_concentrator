@@ -20,6 +20,9 @@ add_compile_definitions(cimg_use_jpeg=1)
 configure_file(${CMAKE_CURRENT_SOURCE_DIR}/missing_capstones.jpg
                ${CMAKE_CURRENT_BINARY_DIR}/missing_capstones.jpg COPYONLY)
 
+configure_file(${CMAKE_CURRENT_SOURCE_DIR}/misplaced_capstones.jpg
+               ${CMAKE_CURRENT_BINARY_DIR}/misplaced_capstones.jpg COPYONLY)
+
 configure_file(${CMAKE_CURRENT_SOURCE_DIR}/misaligned_capstones.jpg
                ${CMAKE_CURRENT_BINARY_DIR}/misaligned_capstones.jpg COPYONLY)
 
