@@ -198,16 +198,16 @@ bool target_detector_detect(CImg<unsigned char>& image, rectangle_t& target) {
         }
     }
 
-    average_x /= capstone_count;
-    average_y /= capstone_count;
-    average_width /= capstone_count;
-    average_height /= capstone_count;
-
     // Check capstone count
     if(capstone_count!=EXPECTED_CAPSTONE_COUNT) {
         ESP_LOGW(TAG, "Detection failed : %i capstone(s) detected instead of %i ", capstone_count, EXPECTED_CAPSTONE_COUNT);
         return false;
     }
+
+    average_x /= capstone_count;
+    average_y /= capstone_count;
+    average_width /= capstone_count;
+    average_height /= capstone_count;
 
     quad<const capstone_geometry *> capstones = extract_capstones_quad(capstones_geom, average_x, average_y);
 
