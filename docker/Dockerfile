@@ -1,25 +1,66 @@
-FROM espressif/idf:release-v5.0
-ARG DEBIAN_FRONTEND=noninteractive # to prevent installer from asking questions
-RUN apt-get update && apt-get install -y kdevelop
-RUN apt-get update && apt-get install -y breeze-icon-theme  # used by kdevelop but not managed as an apt dependency
-RUN apt-get update && apt-get install -y konsole            # used by kdevelop integrated konsole tool
-RUN apt-get update && apt-get install -y cu                 # serial communication
-RUN apt-get update && apt-get install -y iputils-ping       # ping
-RUN apt-get update && apt-get install -y kdevelop-python    # python plugin
-RUN apt-get update && apt-get install -y python3-tk         # python tk (matplotlib backend)
-RUN apt-get update && apt-get install -y arduino            # for motors_controller arduino script
-RUN apt-get update && apt-get install -y nano               # minimal text editor
+FROM ubuntu:22.04
 
-RUN apt-get update && apt-get install -y python3-pip        # pip (used just below)
+# Install esp-idf dependencies
+RUN apt-get update && apt-get install -y git
+RUN apt-get update && apt-get install -y wget
+RUN apt-get update && apt-get install -y flex
+RUN apt-get update && apt-get install -y bison
+RUN apt-get update && apt-get install -y gperf
+RUN apt-get update && apt-get install -y python3
+RUN apt-get update && apt-get install -y python3-pip
+RUN apt-get update && apt-get install -y python3-venv
+RUN apt-get update && apt-get install -y cmake
+RUN apt-get update && apt-get install -y ninja-build
+RUN apt-get update && apt-get install -y ccache
+RUN apt-get update && apt-get install -y libffi-dev
+RUN apt-get update && apt-get install -y libssl-dev
+RUN apt-get update && apt-get install -y dfu-util
+RUN apt-get update && apt-get install -y libusb-1.0-0
 
-# Note : full pip path must be sepcified here otherwise pip package seems to be installed for anotehr python version
-RUN /opt/esp/python_env/idf5.0_py3.8_env/bin/pip install --upgrade pip
-RUN /opt/esp/python_env/idf5.0_py3.8_env/bin/pip install opencv-python
-RUN /opt/esp/python_env/idf5.0_py3.8_env/bin/pip install matplotlib
-RUN /opt/esp/python_env/idf5.0_py3.8_env/bin/pip install getch # for manual python script using keyboard
+# Clone esp-idf
+RUN mkdir "/esp"
+WORKDIR "/esp"
+RUN git clone --recursive --branch release/v5.0  https://github.com/espressif/esp-idf.git
 
-RUN apt-get update && apt-get install -y libjpeg-dev    # to build quirc in container (not necessary for ESP32)
-RUN apt-get update && apt-get install -y libpng-dev     # to build quirc in container (not necessary for ESP32)
+# Install esp-idf
+WORKDIR "/esp/esp-idf"
+ENV IDF_TOOLS_PATH=/esp/tools
+# ENV IDF_TOOLS_PATH=/esp/tools
+RUN ./install.sh esp32
+
+## Initialize idf framework for each bash session
+## so we can enter in an existing container with command : sudo docker exec -i -t solar_concentrator-dev-1 /bin/bash
+## and use idf stuff directly (which is the main goal of this docker image)
+RUN echo ". /esp/esp-idf/export.sh" >> ~/.bashrc
+
+# Install useful tools
+RUN apt-get update && apt-get install -y nano                 # minimal text editor
+RUN apt-get update && apt-get install -y cu                   # serial communication
+RUN apt-get update && apt-get install -y iputils-ping         # ping
+RUN apt-get update && apt-get install -y arduino              # for motors_controller arduino script
+RUN apt-get update && apt-get install -y libjpeg-dev          # to build quirc in container (not necessary for ESP32)
+RUN apt-get update && apt-get install -y libpng-dev           # to build quirc in container (not necessary for ESP32)
+
+# Add kubuntu-ppa/backports to get not-so-old versions of kde applications
+RUN apt-get update && apt-get install -y software-properties-common
+RUN add-apt-repository -y ppa:kubuntu-ppa/backports
+
+# Install useful kde applications from kubuntu backports
+RUN apt-get update && apt-get install -y kate
+# RUN apt-get update && apt-get install -y kdevelop
+# RUN apt-get update && apt-get install -y breeze-icon-theme    # used by kdevelop but not managed as an apt dependency
+RUN apt-get update && apt-get install -y konsole              # used by kdevelop integrated konsole tool
+# RUN apt-get update && apt-get install -y kdevelop-python      # python plugin
+
+# Install useful python tools
+ARG DEBIAN_FRONTEND=noninteractive
+RUN apt-get update && apt-get install -y python3-tk # python tk (matplotlib backend)
+RUN apt-get update && apt-get install -y python3-pip          # pip (used just below)
+RUN pip install --upgrade pip
+RUN pip install opencv-python
+RUN pip install matplotlib
+RUN pip install getch # for manual python script using keyboard
+
 
 # avahi needs dbus daemon, both service are correctly listed by 'ls /etc/rc*' command
 # but they don't start correctly at startup
@@ -34,11 +75,6 @@ RUN apt-get update && apt-get install -y libpng-dev     # to build quirc in cont
 # I didn't manage to solve the problem
 # For now, Qt5 is not required for this project
 # RUN apt-get update && pip install PyQt5     # ATTENTION : license GPL (contaminante)
-
-# systematically initialize idf framework for each bash session
-# so we can enter in an existing container with command : sudo docker exec -i -t solar_concentrator-dev-1 /bin/bash
-# and use idf stuff directly (which is the main goal of this docker image)
-RUN echo ". $IDF_PATH/export.sh" >> ~/.bashrc
 
 # force read/write permissions to individual configs (so it can be read/write from any user in host)
 # RUN mkdir /root/.config
