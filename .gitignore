@@ -8,4 +8,4 @@ docker/local
 **/capture*/**/*.*
 **/solar_concentrator_manip*/**/camera_capture*
 **/solar_concentrator_manip*/**/target*
-
+/software/supervisor_controller/compile_commands.json
