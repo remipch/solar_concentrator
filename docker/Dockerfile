@@ -67,6 +67,10 @@ RUN apt-get update && apt-get install -y breeze-icon-theme    # used by kde apps
 RUN apt-get update && apt-get install -y konsole              # used by kdevelop integrated konsole tool
 # RUN apt-get update && apt-get install -y kdevelop-python      # python plugin
 
+# Install useful coding tools usable from kate
+RUN apt-get update && apt-get install -y jq                   # json processor
+RUN apt-get update && apt-get install -y clang-format
+RUN pip install cmake-format
 
 # avahi needs dbus daemon, both service are correctly listed by 'ls /etc/rc*' command
 # but they don't start correctly at startup
