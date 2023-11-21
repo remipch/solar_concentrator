@@ -2,13 +2,16 @@
 # CMakeLists in this exact order for cmake to work correctly
 cmake_minimum_required(VERSION 3.5)
 
+set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
+
 # # To build tests to be run on host :
 # cd project_dir
 # mkdir build_tests_on_host
 # cd build_tests_on_host
 # cmake -DTESTS_ON_HOST=1 -DCMAKE_BUILD_TYPE:STRING=DEBUG ..
 # make
-# # Then run them :
+# cp ./compile_commands.json .. # Because clangd find it in root project folder
+# Then run them :
 # ctest
 # ctest -V
 # ctest -V -R "token"
@@ -23,6 +26,7 @@ cmake_minimum_required(VERSION 3.5)
 # cmake -DIDF_TARGET=esp32 -DCMAKE_BUILD_TYPE:STRING=DEBUG ..
 # make menuconfig
 # make
+# cp ./compile_commands.json .. # Because clangd find it in root project folder
 # ESPPORT=/dev/ttyUSB0 make flash
 # minicom -D /dev/ttyUSB0 -b 115200 -c on
 
