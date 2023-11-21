@@ -1,0 +1,9 @@
+#!/bin/bash
+
+# Flash esp32 using ttyUSB0
+
+script_dir=$(dirname "$0")
+
+cd $script_dir/build_esp32
+
+ESPPORT=/dev/ttyUSB0 ninja flash

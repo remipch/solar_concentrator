@@ -21,13 +21,10 @@ set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 # # To build production code to be run on target :
 # . $HOME/esp/esp-idf/export.sh
 # cd project_dir
-# mkdir build_esp32
-# cd build_esp32
-# cmake -DIDF_TARGET=esp32 -DCMAKE_BUILD_TYPE:STRING=DEBUG ..
-# make menuconfig
-# make
-# cp ./compile_commands.json .. # Because clangd find it in root project folder
-# ESPPORT=/dev/ttyUSB0 make flash
+# ./esp32_configure_cmake
+# ./esp32_menuconfig
+# ./esp32_build_all
+# ./esp32_flash_usb
 # minicom -D /dev/ttyUSB0 -b 115200 -c on
 
 message(STATUS "TESTS_ON_HOST = ${TESTS_ON_HOST}")

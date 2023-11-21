@@ -87,6 +87,10 @@ RUN apt-get update && apt-get install -y konsole              # used by kdevelop
 # RUN echo "touch /root/.config/kdeveloprc" >> ~/.bashrc
 # RUN echo "chmod 777 /root/.config/kdeveloprc" >> ~/.bashrc
 
+# Install clang tools specific to esp32
+# TODO move with esp idf commands (but it will rebuild everything after)
+RUN /esp/esp-idf/tools/idf_tools.py install xtensa-clang
+
 # Add usefull aliases
 RUN echo "alias h='cat /solar_concentrator/docker/docker_help.txt && alias'" >> ~/.bashrc
 RUN echo "alias cdtra='cd /solar_concentrator/software/remote_tracking'" >> ~/.bashrc

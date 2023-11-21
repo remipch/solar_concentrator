@@ -1,0 +1,17 @@
+#!/bin/bash
+
+# Build for esp32
+
+script_dir=$(dirname "$0")
+
+cd $script_dir/build_esp32
+
+ninja
+
+# Hack to remove gcc flags that clangd cannot understand and generate warnings for nothing
+# (see https://stackoverflow.com/a/75320793)
+sed -i 's/ -fstrict-volatile-bitfields / /g' compile_commands.json
+sed -i 's/ -fno-tree-switch-conversion / /g' compile_commands.json
+
+# Copy to rrot because clangd search it there
+cp ./compile_commands.json ..

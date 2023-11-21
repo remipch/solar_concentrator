@@ -1,0 +1,11 @@
+#!/bin/bash
+
+# Configure cmake to build for esp32
+
+script_dir=$(dirname "$0")
+
+mkdir -p $script_dir/build_esp32
+
+cd $script_dir/build_esp32
+
+cmake -DIDF_TARGET=esp32 -DTESTS_ON_HOST=0 -DCMAKE_BUILD_TYPE:STRING=DEBUG -DCMAKE_TOOLCHAIN_FILE=$IDF_PATH/tools/cmake/toolchain-clang-esp32.cmake -GNinja  ..

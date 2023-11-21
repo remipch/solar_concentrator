@@ -1,0 +1,9 @@
+#!/bin/bash
+
+# Configure esp32 application
+
+script_dir=$(dirname "$0")
+
+cd $script_dir/build_esp32
+
+ninja menuconfig

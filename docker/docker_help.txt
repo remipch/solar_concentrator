@@ -43,30 +43,21 @@ ctest -V -R "^prefix"
 ctest -V -R "suffix$"
 
 ============================================================
-Usefull commands from container to build and run production
+Usefull commands from container to build and run production on esp32
 
 # Configure cmake (done once)
-cd /solar_concentrator/software/supervisor_controller
-mkdir build_esp32
-cd build_esp32
-cmake -DTESTS_ON_HOST=0 -DCMAKE_BUILD_TYPE:STRING=DEBUG ..
-# depending on build system :
-ninja menuconfig
-make menuconfig
+/solar_concentrator/software/supervisor_controller/esp32_configure_cmake
+
+# Eventually configure application
+/solar_concentrator/software/supervisor_controller/esp32_menuconfig
 
 # Build production
-cd /solar_concentrator/software/supervisor_controller/build_esp32
-# depending on build system :
-ninja
-make
+/solar_concentrator/software/supervisor_controller/esp32_build_all
 
 # Upload production
 # - connect IO0 to GND
 # - reboot device
-cd /solar_concentrator/software/supervisor_controller/build_esp32
-# depending on build system :
-ESPPORT=/dev/ttyUSB0 ninja flash
-ESPPORT=/dev/ttyUSB0 make flash
+/solar_concentrator/software/supervisor_controller/esp32_flash_usb
 
 # Monitor the communication with esp32 (container must have been started with usb mapping)
 minicom -D /dev/ttyUSB0 -b 115200 -c on
