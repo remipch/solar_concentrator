@@ -1,5 +1,8 @@
 FROM ubuntu:22.04
 
+# Prevent following package to ask questions during installation
+ARG DEBIAN_FRONTEND=noninteractive
+
 # Install esp-idf dependencies
 RUN apt-get update && apt-get install -y git
 RUN apt-get update && apt-get install -y wget
@@ -40,26 +43,29 @@ RUN apt-get update && apt-get install -y iputils-ping         # ping
 RUN apt-get update && apt-get install -y arduino              # for motors_controller arduino script
 RUN apt-get update && apt-get install -y libjpeg-dev          # to build quirc in container (not necessary for ESP32)
 RUN apt-get update && apt-get install -y libpng-dev           # to build quirc in container (not necessary for ESP32)
-
-# Add kubuntu-ppa/backports to get not-so-old versions of kde applications
-RUN apt-get update && apt-get install -y software-properties-common
-RUN add-apt-repository -y ppa:kubuntu-ppa/backports
-
-# Install useful kde applications from kubuntu backports
-RUN apt-get update && apt-get install -y kate
-# RUN apt-get update && apt-get install -y kdevelop
-# RUN apt-get update && apt-get install -y breeze-icon-theme    # used by kdevelop but not managed as an apt dependency
-RUN apt-get update && apt-get install -y konsole              # used by kdevelop integrated konsole tool
-# RUN apt-get update && apt-get install -y kdevelop-python      # python plugin
+RUN apt-get update && apt-get install -y gdb
+RUN apt-get update && apt-get install -y clangd
+RUN apt-get update && apt-get install -y clang
 
 # Install useful python tools
-ARG DEBIAN_FRONTEND=noninteractive
 RUN apt-get update && apt-get install -y python3-tk # python tk (matplotlib backend)
 RUN apt-get update && apt-get install -y python3-pip          # pip (used just below)
 RUN pip install --upgrade pip
 RUN pip install opencv-python
 RUN pip install matplotlib
 RUN pip install getch # for manual python script using keyboard
+
+# Add kubuntu-ppa/backports to get not-so-old versions of kde applications
+RUN apt-get update && apt-get install -y software-properties-common
+RUN add-apt-repository -y ppa:kubuntu-ppa/backports
+
+# Install useful kde applications from kubuntu backports
+# RUN apt-get update && apt-get install -y libpulse-dev           # required by last version of kate
+RUN apt-get update && apt-get install -y kate
+# RUN apt-get update && apt-get install -y kdevelop
+RUN apt-get update && apt-get install -y breeze-icon-theme    # used by kde apps but not managed as an apt dependency
+RUN apt-get update && apt-get install -y konsole              # used by kdevelop integrated konsole tool
+# RUN apt-get update && apt-get install -y kdevelop-python      # python plugin
 
 
 # avahi needs dbus daemon, both service are correctly listed by 'ls /etc/rc*' command
@@ -89,4 +95,3 @@ RUN echo "alias cdmot='cd /solar_concentrator/software/motors_controller/'" >> ~
 
 # Finally print help
 RUN echo "h" >> ~/.bashrc
-
