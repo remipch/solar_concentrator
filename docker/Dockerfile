@@ -96,12 +96,19 @@ RUN pip install cmake-format
 # https://github.com/espressif/esp-idf/issues/6868#issuecomment-1075743763
 RUN . /esp/esp-idf/export.sh && /esp/esp-idf/tools/idf_tools.py install xtensa-clang
 
+# Setup git autocompletion
+RUN apt-get update && apt-get install -y bash-completion
+RUN wget https://raw.githubusercontent.com/git/git/master/contrib/completion/git-completion.bash -O ~/.git-completion.bash
+RUN echo "source ~/.git-completion.bash" >> ~/.bashrc
+
 
 # Add usefull aliases
 RUN echo "alias h='cat /solar_concentrator/docker/docker_help.txt && alias'" >> ~/.bashrc
 RUN echo "alias cdtra='cd /solar_concentrator/software/remote_tracking'" >> ~/.bashrc
 RUN echo "alias cdsup='cd /solar_concentrator/software/supervisor_controller/build_esp32/'" >> ~/.bashrc
 RUN echo "alias cdmot='cd /solar_concentrator/software/motors_controller/'" >> ~/.bashrc
+
+RUN echo "git config --global --add safe.directory /solar_concentrator" >> ~/.bashrc
 
 # Finally print help
 RUN echo "h" >> ~/.bashrc
