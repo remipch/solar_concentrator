@@ -1,0 +1,31 @@
+---
+Language:       Cpp
+BasedOnStyle:   LLVM
+BreakBeforeBraces: Custom
+BraceWrapping:
+  AfterCaseLabel:  false
+  AfterClass:      false
+  AfterControlStatement: Never
+  AfterEnum:       false
+  AfterFunction:   true
+  AfterNamespace:  false
+  AfterObjCDeclaration: false
+  AfterStruct:     false
+  AfterUnion:      false
+  AfterExternBlock: false
+  BeforeCatch:     false
+  BeforeElse:      false
+  BeforeLambdaBody: false
+  BeforeWhile:     false
+  IndentBraces:    false
+  SplitEmptyFunction: true
+  SplitEmptyRecord: true
+  SplitEmptyNamespace: true
+ColumnLimit:   120
+IndentWidth:      4  
+TabWidth:      4  
+AlignOperands:   AlignAfterOperator
+BreakBeforeBinaryOperators: NonAssignment
+BinPackArguments: false
+BinPackParameters: false
+...

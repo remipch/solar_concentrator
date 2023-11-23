@@ -1,0 +1,50 @@
+#!/bin/bash
+
+# Format all .cpp and .h files recursively
+
+git_root_path=$(git rev-parse --show-toplevel)
+
+script_dir=$(dirname "$0")
+
+# to use the correct git repo even if the command is executed from another repo
+# cd $script_dir
+# 
+# git ls-files --exclude-standard '*.h' '*.cpp'  | xargs -I{} clang-format --verbose -i {}
+
+
+# from https://stackoverflow.com/a/51793637
+
+# not included as a submodule, it will be listed by 'git ls-files' but we dont want to format it
+exclude_files="software/supervisor_controller/components/image/include/CImg.h"
+
+include_folder=$(git ls-files --exclude-standard --full-name '*.h' '*.cpp')
+# include_folder=$(git ls-files --exclude-standard '*.h' '*.cpp')
+
+include_folder=$(echo "$include_folder" | sed "s|$exclude_files||g") # (dont use / as sed separator)
+
+
+for file in $include_folder
+do
+  clang-format --verbose -i $git_root_path/$file
+#   echo $git_root_path/$file
+done
+
+
+
+exit 0
+echo $include_folder | xargs -I{} clang-format --verbose -i {}
+
+format_files=$(find "$script_dir" -type f -path "${exclude_folder}" -prune)
+
+echo $script_dir
+
+echo $(find "$script_dir" -type f -path "${exclude_folder}" -prune)
+
+echo $format_files
+
+
+for file in $format_files
+do
+#   clang-format -i "$file"
+  echo $file
+done
