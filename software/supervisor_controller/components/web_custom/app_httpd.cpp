@@ -14,15 +14,15 @@
 
 #include "app_httpd.hpp"
 
-#include <list>
 #include "esp_http_server.h"
 #include "img_converters.h"
 #include "sdkconfig.h"
+#include <list>
 
 #include "camera.hpp"
+#include "motors.hpp" // to display motor state
 #include "sun_tracker.hpp"
 #include "supervisor.hpp"
-#include "motors.hpp" // to display motor state
 
 #if defined(ARDUINO_ARCH_ESP32) && defined(CONFIG_ARDUHAL_ESP_LOG)
 #include "esp32-hal-log.h"
@@ -84,7 +84,7 @@ static esp_err_t parse_get(httpd_req_t *req, char **obuf)
     return ESP_FAIL;
 }
 
-static uint8_t* buf = (uint8_t*)malloc(CAMERA_WIDTH*CAMERA_HEIGHT);
+static uint8_t *buf = (uint8_t *)malloc(CAMERA_WIDTH * CAMERA_HEIGHT);
 
 static CImg<unsigned char> img(CAMERA_WIDTH, CAMERA_HEIGHT, 1, 1);
 
@@ -98,7 +98,7 @@ static esp_err_t capture_handler(httpd_req_t *req)
 
     ESP_LOGI(TAG, "frame created");
 
-    if(!camera_capture(false, img)) {
+    if (!camera_capture(false, img)) {
         ESP_LOGE(TAG, "Camera capture failed");
         httpd_resp_send_500(req);
         return ESP_FAIL;
@@ -110,26 +110,26 @@ static esp_err_t capture_handler(httpd_req_t *req)
 
     ESP_LOGI(TAG, "img converted");
 
-//     detect_target(frame);
+    //     detect_target(frame);
 
-        httpd_resp_set_type(req, "image/jpeg");
-        httpd_resp_set_hdr(req, "Content-Disposition", "inline; filename=capture.jpg");
-        httpd_resp_set_hdr(req, "Access-Control-Allow-Origin", "*");
+    httpd_resp_set_type(req, "image/jpeg");
+    httpd_resp_set_hdr(req, "Content-Disposition", "inline; filename=capture.jpg");
+    httpd_resp_set_hdr(req, "Access-Control-Allow-Origin", "*");
 
-//         char ts[32];
-//         snprintf(ts, 32, "%lld.%06ld", frame.timestamp.tv_sec, frame.timestamp.tv_usec);
-//         httpd_resp_set_hdr(req, "X-Timestamp", (const char *)ts);
+    //         char ts[32];
+    //         snprintf(ts, 32, "%lld.%06ld", frame.timestamp.tv_sec, frame.timestamp.tv_usec);
+    //         httpd_resp_set_hdr(req, "X-Timestamp", (const char *)ts);
 
-        // size_t fb_len = 0;
-        if (frame.format == PIXFORMAT_JPEG) {
-            // fb_len = frame.len;
-            res = httpd_resp_send(req, (const char *)frame.buf, frame.len);
-        } else {
-            jpg_chunking_t jchunk = {req, 0};
-            res = frame2jpg_cb(&frame, 80, jpg_encode_stream, &jchunk) ? ESP_OK : ESP_FAIL;
-            httpd_resp_send_chunk(req, NULL, 0);
-            // fb_len = jchunk.len;
-        }
+    // size_t fb_len = 0;
+    if (frame.format == PIXFORMAT_JPEG) {
+        // fb_len = frame.len;
+        res = httpd_resp_send(req, (const char *)frame.buf, frame.len);
+    } else {
+        jpg_chunking_t jchunk = {req, 0};
+        res = frame2jpg_cb(&frame, 80, jpg_encode_stream, &jchunk) ? ESP_OK : ESP_FAIL;
+        httpd_resp_send_chunk(req, NULL, 0);
+        // fb_len = jchunk.len;
+    }
 
     return res;
 }
@@ -157,11 +157,11 @@ static esp_err_t capture_area_handler(httpd_req_t *req)
     char right_px_str[32];
     char bottom_px_str[32];
 
-    if (parse_get(req, &buf) != ESP_OK ||
-        httpd_query_key_value(buf, "left_px", left_px_str, sizeof(left_px_str)) != ESP_OK ||
-        httpd_query_key_value(buf, "top_px", top_px_str, sizeof(top_px_str)) != ESP_OK ||
-        httpd_query_key_value(buf, "right_px", right_px_str, sizeof(right_px_str)) != ESP_OK ||
-        httpd_query_key_value(buf, "bottom_px", bottom_px_str, sizeof(bottom_px_str)) != ESP_OK) {
+    if (parse_get(req, &buf) != ESP_OK
+        || httpd_query_key_value(buf, "left_px", left_px_str, sizeof(left_px_str)) != ESP_OK
+        || httpd_query_key_value(buf, "top_px", top_px_str, sizeof(top_px_str)) != ESP_OK
+        || httpd_query_key_value(buf, "right_px", right_px_str, sizeof(right_px_str)) != ESP_OK
+        || httpd_query_key_value(buf, "bottom_px", bottom_px_str, sizeof(bottom_px_str)) != ESP_OK) {
         free(buf);
         httpd_resp_send_404(req);
         return ESP_FAIL;
@@ -174,8 +174,9 @@ static esp_err_t capture_area_handler(httpd_req_t *req)
     int bottom_px = atoi(bottom_px_str);
 
     // Check consistency
-    if(left_px >= right_px || left_px < 0 || left_px>=frame->width || right_px < 0 || right_px>=frame->width ||
-       top_px >= bottom_px || top_px < 0 || top_px>=frame->height || bottom_px < 0 || bottom_px>=frame->height) {
+    if (left_px >= right_px || left_px < 0 || left_px >= frame->width || right_px < 0 || right_px >= frame->width
+        || top_px >= bottom_px || top_px < 0 || top_px >= frame->height || bottom_px < 0
+        || bottom_px >= frame->height) {
         ESP_LOGE(TAG, "Inconsistent area");
         httpd_resp_send_404(req);
         return ESP_FAIL;
@@ -183,14 +184,14 @@ static esp_err_t capture_area_handler(httpd_req_t *req)
 
     int area_width = right_px - left_px + 1;
     int area_height = bottom_px - top_px + 1;
-    uint8_t* area_gray = (uint8_t*)malloc(area_width * area_height);
+    uint8_t *area_gray = (uint8_t *)malloc(area_width * area_height);
 
     ESP_LOGD(TAG, "Convert from RGB565 to gray");
-    for(int y=top_px; y<=bottom_px; y++) {
-        for(int x=left_px; x<=right_px; x++) {
+    for (int y = top_px; y <= bottom_px; y++) {
+        for (int x = left_px; x <= right_px; x++) {
             // format is deduced from esp-who/components/esp-dl/include/image/dl_image.hpp
             int source_index = x + y * frame->width;
-            uint16_t rgb565 = ((uint16_t*)frame->buf)[source_index];
+            uint16_t rgb565 = ((uint16_t *)frame->buf)[source_index];
             uint8_t b = (uint8_t)((rgb565 & 0x1F00) >> 5);
             uint8_t g = (uint8_t)(((rgb565 & 0x7) << 5) | ((rgb565 & 0xE000) >> 11));
             uint8_t r = (uint8_t)(rgb565 & 0xF8);
@@ -210,8 +211,7 @@ static esp_err_t capture_area_handler(httpd_req_t *req)
         httpd_resp_set_type(req, "application/octet-stream");
         httpd_resp_set_hdr(req, "Access-Control-Allow-Origin", "*");
         res = httpd_resp_send(req, (const char *)area_gray, area_width * area_height);
-    }
-    else {
+    } else {
         ESP_LOGE(TAG, "Unexpected pixel format : cannot serve capture_area_handler");
     }
 
@@ -222,15 +222,16 @@ static esp_err_t capture_area_handler(httpd_req_t *req)
     return res;
 }
 
-static uint8_t* full_image_buffer = (uint8_t*)malloc(CAMERA_WIDTH*CAMERA_HEIGHT);
-static camera_fb_t full_image_frame {};
+static uint8_t *full_image_buffer = (uint8_t *)malloc(CAMERA_WIDTH * CAMERA_HEIGHT);
+static camera_fb_t full_image_frame{};
 static SemaphoreHandle_t full_image_mutex; // mutual exclusion of read/write to full_image_frame and its buffer
 static SemaphoreHandle_t full_image_ready; // signal by full_image_updated callback when a new image has been updated
 static const int full_image_mutex_TIMEOUT_MS = 5000;
 
 // Note : the caller guarantee that full_image object is not changed until this function returns
-void full_image_updated(CImg<unsigned char>& full_image) {
-    ESP_LOGI(TAG, "full_image_updated: %i x %i",full_image.width(), full_image.height());
+void full_image_updated(CImg<unsigned char> &full_image)
+{
+    ESP_LOGI(TAG, "full_image_updated: %i x %i", full_image.width(), full_image.height());
     assert(xSemaphoreTake(full_image_mutex, pdMS_TO_TICKS(full_image_mutex_TIMEOUT_MS)));
     full_image_frame = grayscale_cimg_to_grayscale_frame(full_image, full_image_buffer);
     xSemaphoreGive(full_image_mutex);
@@ -248,7 +249,7 @@ static esp_err_t stream_handler(httpd_req_t *req)
     httpd_resp_set_hdr(req, "X-Framerate", "60");
 
     while (true) {
-        if(!xSemaphoreTake(full_image_ready, pdMS_TO_TICKS(full_image_mutex_TIMEOUT_MS))) {
+        if (!xSemaphoreTake(full_image_ready, pdMS_TO_TICKS(full_image_mutex_TIMEOUT_MS))) {
             ESP_LOGE(TAG, "Full image not updated on time");
             return ESP_FAIL;
         }
@@ -269,7 +270,12 @@ static esp_err_t stream_handler(httpd_req_t *req)
             xSemaphoreGive(full_image_mutex);
             return ESP_FAIL;
         }
-        size_t hlen = snprintf((char *)part_buf, 128, _STREAM_PART, _jpg_buf_len, full_image_frame.timestamp.tv_sec, full_image_frame.timestamp.tv_usec);
+        size_t hlen = snprintf((char *)part_buf,
+                               128,
+                               _STREAM_PART,
+                               _jpg_buf_len,
+                               full_image_frame.timestamp.tv_sec,
+                               full_image_frame.timestamp.tv_usec);
         xSemaphoreGive(full_image_mutex);
 
         res = httpd_resp_send_chunk(req, _STREAM_BOUNDARY, strlen(_STREAM_BOUNDARY));
@@ -302,9 +308,8 @@ static esp_err_t cmd_handler(httpd_req_t *req)
     char variable[32];
     char value[32];
 
-    if (parse_get(req, &buf) != ESP_OK ||
-            httpd_query_key_value(buf, "var", variable, sizeof(variable)) != ESP_OK ||
-            httpd_query_key_value(buf, "val", value, sizeof(value)) != ESP_OK) {
+    if (parse_get(req, &buf) != ESP_OK || httpd_query_key_value(buf, "var", variable, sizeof(variable)) != ESP_OK
+        || httpd_query_key_value(buf, "val", value, sizeof(value)) != ESP_OK) {
         free(buf);
         httpd_resp_send_404(req);
         return ESP_FAIL;
@@ -371,9 +376,8 @@ static esp_err_t supervisor_command_handler(httpd_req_t *req)
     char command[32];
     char motors_continuous[32];
 
-    if (parse_get(req, &buf) != ESP_OK ||
-            httpd_query_key_value(buf, "cmd", command, sizeof(command)) != ESP_OK ||
-            httpd_query_key_value(buf, "continuous", motors_continuous, sizeof(motors_continuous)) != ESP_OK) {
+    if (parse_get(req, &buf) != ESP_OK || httpd_query_key_value(buf, "cmd", command, sizeof(command)) != ESP_OK
+        || httpd_query_key_value(buf, "continuous", motors_continuous, sizeof(motors_continuous)) != ESP_OK) {
         free(buf);
         httpd_resp_send_404(req);
         return ESP_FAIL;
@@ -383,12 +387,10 @@ static esp_err_t supervisor_command_handler(httpd_req_t *req)
     ESP_LOGI(TAG, "supervisor_command_handler : %s (continous:%s)", command, motors_continuous);
     if (!strcmp(command, "start-tracking")) {
         // TODO
-    }
-    else if (!strcmp(command, "stop")) {
+    } else if (!strcmp(command, "stop")) {
         supervisor_stop();
-    }
-    else {
-        motors_direction_t direction=motors_direction_t::NONE;
+    } else {
+        motors_direction_t direction = motors_direction_t::NONE;
         if (!strcmp(command, "up"))
             direction = motors_direction_t::UP;
         else if (!strcmp(command, "up-right"))
@@ -410,10 +412,9 @@ static esp_err_t supervisor_command_handler(httpd_req_t *req)
             httpd_resp_send_404(req);
             return ESP_FAIL;
         }
-        if(!strcmp(motors_continuous, "1")) {
+        if (!strcmp(motors_continuous, "1")) {
             supervisor_start_manual_move_continuous(direction);
-        }
-        else {
+        } else {
             supervisor_start_manual_move_one_step(direction);
         }
     }
@@ -430,8 +431,7 @@ static esp_err_t supervisor_status_handler(httpd_req_t *req)
     ESP_LOGI(TAG, "motors state = %s", motors_state);
 
     static char json_response[1024];
-    sprintf(json_response, "{\"supervisor-state\":\"%s\", \"motors-state\":\"%s\"}",
-            supervisor_state, motors_state);
+    sprintf(json_response, "{\"supervisor-state\":\"%s\", \"motors-state\":\"%s\"}", supervisor_state, motors_state);
     httpd_resp_set_type(req, "application/json");
     httpd_resp_set_hdr(req, "Access-Control-Allow-Origin", "*");
     return httpd_resp_send(req, json_response, strlen(json_response));
@@ -465,63 +465,26 @@ void register_httpd(const QueueHandle_t frame_i, const QueueHandle_t frame_o, co
 
     httpd_config_t config = HTTPD_DEFAULT_CONFIG();
     config.max_uri_handlers = 12;
-    config.lru_purge_enable   = true;
+    config.lru_purge_enable = true;
 
-    httpd_uri_t index_uri = {
-        .uri = "/",
-        .method = HTTP_GET,
-        .handler = index_handler,
-        .user_ctx = NULL
-    };
+    httpd_uri_t index_uri = {.uri = "/", .method = HTTP_GET, .handler = index_handler, .user_ctx = NULL};
 
-    httpd_uri_t status_uri = {
-        .uri = "/status",
-        .method = HTTP_GET,
-        .handler = status_handler,
-        .user_ctx = NULL
-    };
+    httpd_uri_t status_uri = {.uri = "/status", .method = HTTP_GET, .handler = status_handler, .user_ctx = NULL};
 
-    httpd_uri_t cmd_uri = {
-        .uri = "/control",
-        .method = HTTP_GET,
-        .handler = cmd_handler,
-        .user_ctx = NULL
-    };
+    httpd_uri_t cmd_uri = {.uri = "/control", .method = HTTP_GET, .handler = cmd_handler, .user_ctx = NULL};
 
-    httpd_uri_t capture_uri = {
-        .uri = "/capture",
-        .method = HTTP_GET,
-        .handler = capture_handler,
-        .user_ctx = NULL
-    };
+    httpd_uri_t capture_uri = {.uri = "/capture", .method = HTTP_GET, .handler = capture_handler, .user_ctx = NULL};
 
     httpd_uri_t capture_area_uri = {
-        .uri = "/capture_area",
-        .method = HTTP_GET,
-        .handler = capture_area_handler,
-        .user_ctx = NULL
-    };
+        .uri = "/capture_area", .method = HTTP_GET, .handler = capture_area_handler, .user_ctx = NULL};
 
-    httpd_uri_t stream_uri = {
-        .uri = "/stream",
-        .method = HTTP_GET,
-        .handler = stream_handler,
-        .user_ctx = NULL
-    };
+    httpd_uri_t stream_uri = {.uri = "/stream", .method = HTTP_GET, .handler = stream_handler, .user_ctx = NULL};
 
     httpd_uri_t supervisor_command_uri = {
-        .uri = "/supervisor_command",
-        .method = HTTP_GET,
-        .handler = supervisor_command_handler,
-        .user_ctx = NULL
-    };
+        .uri = "/supervisor_command", .method = HTTP_GET, .handler = supervisor_command_handler, .user_ctx = NULL};
 
     httpd_uri_t supervisor_status_uri = {
-        .uri = "/supervisor_status",
-        .method = HTTP_GET,
-        .handler = supervisor_status_handler,
-        .user_ctx = NULL
-    };
+        .uri = "/supervisor_status", .method = HTTP_GET, .handler = supervisor_status_handler, .user_ctx = NULL};
 
     full_image_mutex = xSemaphoreCreateMutex();
     full_image_ready = xSemaphoreCreateBinary();

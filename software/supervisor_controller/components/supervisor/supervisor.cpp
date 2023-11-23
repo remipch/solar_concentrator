@@ -1,13 +1,13 @@
 #include "supervisor.hpp"
-#include "supervisor_state_machine.hpp"
 #include "motors.hpp"
+#include "supervisor_state_machine.hpp"
 
 #include "esp_log.h"
 
 #include "freertos/FreeRTOS.h"
 #include "freertos/semphr.h"
 
-static const char* TAG = "supervisor";
+static const char *TAG = "supervisor";
 
 // This file is the public interface of the supervisor component
 // It does not implement logic by itself but provides thread safety to state_machine layer
@@ -26,7 +26,7 @@ static motors_direction_t asked_direction = motors_direction_t::NONE;
 // because mutex does not support it. Neither ESP32 doc nor FreeRTOS doc is clear
 // about what happens in this case, various forums seem to indicate that an 'abort()'
 // is triggered with an explanation message.
-const char* supervisor_get_state()
+const char *supervisor_get_state()
 {
     assert(xSemaphoreTake(state_mutex, pdMS_TO_TICKS(STATE_MUTEX_TIMEOUT_MS)));
     auto state = current_state;
@@ -35,16 +35,15 @@ const char* supervisor_get_state()
 }
 
 // Note : transition will be reset if state changes after this call
-void set_transition(
-    supervisor_transition_t transition,
-    motors_direction_t direction = motors_direction_t::NONE)
+void set_transition(supervisor_transition_t transition, motors_direction_t direction = motors_direction_t::NONE)
 {
     assert(xSemaphoreTake(state_mutex, pdMS_TO_TICKS(STATE_MUTEX_TIMEOUT_MS)));
-    if(asked_transition!=supervisor_transition_t::NONE) {
-        ESP_LOGW(TAG,
-                 "Old transition '%s' ignored because new transition '%s' is asked before the old transition processing",
-                 str(asked_transition),
-                 str(transition));
+    if (asked_transition != supervisor_transition_t::NONE) {
+        ESP_LOGW(
+            TAG,
+            "Old transition '%s' ignored because new transition '%s' is asked before the old transition processing",
+            str(asked_transition),
+            str(transition));
     }
     asked_transition = transition;
     asked_direction = direction;
@@ -53,7 +52,7 @@ void set_transition(
 
 static void supervisor_task(void *arg)
 {
-    while(true) {
+    while (true) {
         assert(xSemaphoreTake(state_mutex, pdMS_TO_TICKS(STATE_MUTEX_TIMEOUT_MS)));
         supervisor_state_t state = current_state;
         supervisor_transition_t transition = asked_transition;
@@ -69,9 +68,13 @@ static void supervisor_task(void *arg)
 
         supervisor_state_t new_state = supervisor_state_machine_update(state, transition, direction);
 
-        if(new_state!=state) {
-            ESP_LOGI(TAG, "update(state: %s, transition: %s, direction: %s) -> new_state: %s",
-                str(state), str(transition), str(direction), str(new_state));
+        if (new_state != state) {
+            ESP_LOGI(TAG,
+                     "update(state: %s, transition: %s, direction: %s) -> new_state: %s",
+                     str(state),
+                     str(transition),
+                     str(direction),
+                     str(new_state));
         }
 
         assert(xSemaphoreTake(state_mutex, pdMS_TO_TICKS(STATE_MUTEX_TIMEOUT_MS)));
@@ -86,9 +89,7 @@ static void supervisor_task(void *arg)
 }
 
 // Called by motors when motors just stopped
-void motors_stoped() {
-    set_transition(supervisor_transition_t::MOTORS_STOPPED);
-}
+void motors_stoped() { set_transition(supervisor_transition_t::MOTORS_STOPPED); }
 
 void supervisor_init()
 {
@@ -103,10 +104,7 @@ void supervisor_init()
     xTaskCreate(supervisor_task, TAG, 4 * 1024, NULL, 5, NULL);
 }
 
-void supervisor_stop()
-{
-    set_transition(supervisor_transition_t::STOP);
-}
+void supervisor_stop() { set_transition(supervisor_transition_t::STOP); }
 
 void supervisor_start_manual_move_continuous(motors_direction_t direction)
 {

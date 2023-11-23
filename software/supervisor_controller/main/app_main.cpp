@@ -1,12 +1,12 @@
-#include "camera.hpp"
-#include "image.hpp"
-#include "app_wifi.h"
 #include "app_httpd.hpp"
+#include "app_wifi.h"
+#include "camera.hpp"
+#include "esp_log.h"
+#include "image.hpp"
 #include "motors.hpp"
+#include "sun_tracker.hpp"
 #include "supervisor.hpp"
 #include "target_detector.hpp"
-#include "sun_tracker.hpp"
-#include "esp_log.h"
 
 extern "C" void app_main()
 {
