@@ -93,7 +93,9 @@ RUN pip install cmake-format
 
 # Install clang tools specific to esp32
 # TODO move with esp idf commands (but it will rebuild everything after)
-RUN /esp/esp-idf/tools/idf_tools.py install xtensa-clang
+# https://github.com/espressif/esp-idf/issues/6868#issuecomment-1075743763
+RUN . /esp/esp-idf/export.sh && /esp/esp-idf/tools/idf_tools.py install xtensa-clang
+
 
 # Add usefull aliases
 RUN echo "alias h='cat /solar_concentrator/docker/docker_help.txt && alias'" >> ~/.bashrc
