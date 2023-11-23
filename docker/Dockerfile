@@ -101,6 +101,7 @@ RUN apt-get update && apt-get install -y bash-completion
 RUN wget https://raw.githubusercontent.com/git/git/master/contrib/completion/git-completion.bash -O ~/.git-completion.bash
 RUN echo "source ~/.git-completion.bash" >> ~/.bashrc
 
+RUN . /esp/esp-idf/export.sh && pip install getch # TODO : move/replace above wrong command
 
 # Add usefull aliases
 RUN echo "alias h='cat /solar_concentrator/docker/docker_help.txt && alias'" >> ~/.bashrc
