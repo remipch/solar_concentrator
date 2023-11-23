@@ -111,5 +111,8 @@ RUN echo "alias cdmot='cd /solar_concentrator/software/motors_controller/'" >> ~
 
 RUN echo "git config --global --add safe.directory /solar_concentrator" >> ~/.bashrc
 
+# Use up to date kate bin
+RUN echo "source /kde/usr_working/prefix.sh" >> ~/.bashrc
+
 # Finally print help
 RUN echo "h" >> ~/.bashrc
