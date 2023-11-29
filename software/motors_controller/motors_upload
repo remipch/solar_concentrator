@@ -1,0 +1,10 @@
+#!/bin/bash
+
+# Upload motors_controller arduino sketch
+# see https://github.com/arduino/Arduino/blob/master/build/shared/manpage.adoc
+
+script_dir=$(dirname "$0")
+
+cd $script_dir/build_esp32
+
+arduino --upload --board arduino:avr:pro:cpu=16MHzatmega328 --port /dev/ttyUSB0 --verbose motors_controller.ino
