@@ -12,6 +12,8 @@ int DR_B_PIN = 5; // roll
 int DL_A_PIN = 6; // unroll
 int DL_B_PIN = 7; // roll
 
+int PWM_PIN = 10; // dedicated to motors speed
+
 int MEASURE_PIN = A0;
 
 // Soft serial pins (connection with ESP32 master)
@@ -32,6 +34,8 @@ void setup()
     pinMode(DR_B_PIN, OUTPUT);
     pinMode(DL_A_PIN, OUTPUT);
     pinMode(DL_B_PIN, OUTPUT);
+    pinMode(PWM_PIN, OUTPUT);
+    analogWrite(PWM_PIN, 255);
 
     printRam();
     printSampling();

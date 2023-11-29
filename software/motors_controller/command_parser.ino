@@ -68,6 +68,15 @@ void parseAndStartCommand(String command)
         int period_ms = parseCommandArgument(command, 0, 10);
         int samples_count = parseCommandArgument(command, 1, 10);
         setSampling(period_ms, samples_count);
+    } else if (command.startsWith("l:")) { // Output Level
+        int output_level = parseCommandArgument(command, 0, -1);
+        Serial.print("  output_level: ");
+        Serial.println(output_level);
+        if (output_level < 0 || output_level > 255) {
+            Serial.print("  output_level out of range [0;255]");
+            return;
+        }
+        analogWrite(PWM_PIN, output_level);
     } else if (command.startsWith("o:")) { // Output
         int motor_pins = parseCommandArgument(command, 0, -1);
         Serial.print("  motor_pins: ");
