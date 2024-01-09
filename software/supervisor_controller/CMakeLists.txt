@@ -44,6 +44,7 @@ if("${TESTS_ON_HOST}")
     # Add all component's tests_on_host directories
     add_subdirectory(components/motors/tests_on_host)
     add_subdirectory(components/target_detector/tests_on_host)
+    add_subdirectory(components/sun_tracker/tests_on_host)
 else()
     message(WARNING "Build production code to be run on ${IDF_TARGET}")
     # In this case we create cmake lists following the standard ESP-IDF guideline

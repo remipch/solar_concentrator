@@ -1,6 +1,6 @@
 #pragma once
 
-#include "image.hpp"
+#include "camera.hpp"
 #include "sun_tracker_callbacks.hpp"
 
 #include <assert.h>
