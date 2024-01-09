@@ -58,7 +58,7 @@ inline const char* str(motors_transition_t transition)
 
 // This function is not thread safe, the caller has the responsibility to :
 // - never call it concurrently
-// - cache supervisor state to give it (optionaly asynchronously) to external components
+// - cache state to give it (optionaly asynchronously) to external components
 // - calling it each time a transition is triggered
 // This function updates the state depending on current_state and transition :
 // - start meaningful actions (non blocking calls to start actions)
