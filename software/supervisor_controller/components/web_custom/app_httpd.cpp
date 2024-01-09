@@ -20,6 +20,7 @@
 #include <list>
 
 #include "camera.hpp"
+#include "image_conversion.hpp"
 #include "motors.hpp" // to display motor state
 #include "sun_tracker.hpp"
 #include "supervisor.hpp"
