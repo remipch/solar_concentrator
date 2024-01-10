@@ -7,11 +7,14 @@
 
 using namespace cimg_library;
 
-// Useful types not defined by CImg libs
-// but are very useful when dealing with images
+// Useful type not defined in CImg libs
 struct rectangle_t {
     int left_px;
     int top_px;
     int right_px;
     int bottom_px;
+    int get_center_x_px() { return (right_px + left_px) / 2; }
+    int get_center_y_px() { return (bottom_px + top_px) / 2; }
+    int get_width_px() { return right_px - left_px; }
+    int get_height_px() { return bottom_px - top_px; }
 };
