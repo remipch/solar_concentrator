@@ -16,6 +16,7 @@ static const char *TAG = "sun_tracker";
 // - protecting state and transition values with a mutex
 static const int STATE_MUTEX_TIMEOUT_MS = 100;
 static SemaphoreHandle_t state_mutex;
+static const int INTER_UPDATE_DELAY_MS = 100;
 static sun_tracker_state_t current_state = sun_tracker_state_t::UNINITIALIZED;
 static sun_tracker_transition_t asked_transition = sun_tracker_transition_t::NONE;
 static sun_tracker_result_callback result_callback = NULL;
@@ -110,6 +111,11 @@ static void sun_tracker_task(void *arg)
         current_state = new_state;
         // TODO: call publish_result callback depending on state change (same than motors)
         xSemaphoreGive(state_mutex);
+
+        // Simple wait between state updates because :
+        // - don't need a strict period between state updates (don't use periodic timer)
+        // - don't need to treat event as fast as possible
+        vTaskDelay(pdMS_TO_TICKS(INTER_UPDATE_DELAY_MS));
     }
 }
 
