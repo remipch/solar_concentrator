@@ -34,10 +34,19 @@ inline const char* str(sun_tracker_state_t state)
     }
 }
 
-enum class sun_tracker_transition_t : signed char {
+// Transitions are declared as bitfield to allow several different transitions
+// to be triggered while the state machine is processing the current state
+// It's usefull for sun_tracker because :
+// - its state execution can have long execution time (grab frame and do image processing)
+// - we must properly manage the case where 'STOP' and 'MOTORS_STOPPED' transitions
+// are triggered during the same single call of state_machine_update
+// because neither of these transition can be ignored
+enum sun_tracker_transition_t {
     NONE = 0,
-    START,
-    RESET,
+    START = 1,
+    STOP = 2,
+    MOTORS_STOPPED = 4,
+    RESET = 8,
 };
 
 inline const char* str(sun_tracker_transition_t transition)
@@ -45,12 +54,16 @@ inline const char* str(sun_tracker_transition_t transition)
     switch (transition) {
     case sun_tracker_transition_t::NONE:
         return "NONE";
-    case sun_tracker_transition_t::RESET:
-        return "RESET";
     case sun_tracker_transition_t::START:
         return "START";
+    case sun_tracker_transition_t::STOP:
+        return "STOP";
+    case sun_tracker_transition_t::MOTORS_STOPPED:
+        return "MOTORS_STOPPED";
+    case sun_tracker_transition_t::RESET:
+        return "RESET";
     default:
-        assert(false);
+        return "(multiple values)";
     }
 }
 

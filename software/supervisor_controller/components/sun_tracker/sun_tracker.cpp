@@ -80,14 +80,7 @@ const char *sun_tracker_get_state()
 void set_transition(sun_tracker_transition_t transition)
 {
     assert(xSemaphoreTake(state_mutex, pdMS_TO_TICKS(STATE_MUTEX_TIMEOUT_MS)));
-    if (asked_transition != sun_tracker_transition_t::NONE) {
-        ESP_LOGW(
-            TAG,
-            "Old transition '%s' ignored because new transition '%s' is asked before the old transition processing",
-            str(asked_transition),
-            str(transition));
-    }
-    asked_transition = transition;
+    asked_transition |= transition;
     xSemaphoreGive(state_mutex);
 }
 
