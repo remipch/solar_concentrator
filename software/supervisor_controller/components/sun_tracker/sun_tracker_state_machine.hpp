@@ -10,11 +10,11 @@ enum class sun_tracker_state_t : signed char {
     UNINITIALIZED = 0,
     IDLE,
     TRACKING,
-    MOVING_ONE_STEP,
+    STOPPING,
     SUCCESS,
 };
 
-inline const char* str(sun_tracker_state_t state)
+inline const char *str(sun_tracker_state_t state)
 {
     switch (state) {
     case sun_tracker_state_t::ERROR:
@@ -25,8 +25,8 @@ inline const char* str(sun_tracker_state_t state)
         return "IDLE";
     case sun_tracker_state_t::TRACKING:
         return "TRACKING";
-    case sun_tracker_state_t::MOVING_ONE_STEP:
-        return "MOVING_ONE_STEP";
+    case sun_tracker_state_t::STOPPING:
+        return "STOPPING";
     case sun_tracker_state_t::SUCCESS:
         return "SUCCESS";
     default:
@@ -49,7 +49,7 @@ enum sun_tracker_transition_t {
     RESET = 8,
 };
 
-inline const char* str(sun_tracker_transition_t transition)
+inline const char *str(sun_tracker_transition_t transition)
 {
     switch (transition) {
     case sun_tracker_transition_t::NONE:
