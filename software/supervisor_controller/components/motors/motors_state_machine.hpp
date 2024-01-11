@@ -13,7 +13,7 @@ enum class motors_state_t : signed char {
     STOPPING,
 };
 
-inline const char* str(motors_state_t state)
+inline const char *str(motors_state_t state)
 {
     switch (state) {
     case motors_state_t::ERROR:
@@ -40,7 +40,7 @@ enum class motors_transition_t : signed char {
     START_MOVE_ONE_STEP,
 };
 
-inline const char* str(motors_transition_t transition)
+inline const char *str(motors_transition_t transition)
 {
     switch (transition) {
     case motors_transition_t::NONE:
@@ -66,8 +66,6 @@ inline const char* str(motors_transition_t transition)
 // This function can start long-time processing functions but must returns quickly
 // so important future transitions can be treated quickly (motors manual move can
 // start quickly, even if a full image is being captured asynchronously)
-motors_state_t motors_state_machine_update(
-    motors_state_t current_state,
-    motors_transition_t transition,
-    motors_direction_t motors_direction);
-
+motors_state_t motors_state_machine_update(motors_state_t current_state,
+                                           motors_transition_t transition,
+                                           motors_direction_t motors_direction);

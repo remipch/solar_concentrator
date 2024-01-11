@@ -15,7 +15,7 @@ enum class supervisor_state_t : signed char {
     WAITING_SUN_MOVE,
 };
 
-inline const char* str(supervisor_state_t state)
+inline const char *str(supervisor_state_t state)
 {
     switch (state) {
     case supervisor_state_t::ERROR:
@@ -51,7 +51,7 @@ enum class supervisor_transition_t : signed char {
     SUN_TRACKING_ERROR,
 };
 
-inline const char* str(supervisor_transition_t transition)
+inline const char *str(supervisor_transition_t transition)
 {
     switch (transition) {
     case supervisor_transition_t::NONE:
@@ -87,8 +87,6 @@ inline const char* str(supervisor_transition_t transition)
 // This function can start long-time processing functions but must returns quickly
 // so important future transitions can be treated quickly (motors manual move can
 // start quickly, even if a full image is being captured asynchronously)
-supervisor_state_t supervisor_state_machine_update(
-    supervisor_state_t current_state,
-    supervisor_transition_t transition,
-    motors_direction_t motors_direction);
-
+supervisor_state_t supervisor_state_machine_update(supervisor_state_t current_state,
+                                                   supervisor_transition_t transition,
+                                                   motors_direction_t motors_direction);

@@ -16,7 +16,7 @@ enum class motors_direction_t : char {
 };
 
 // Convenient function for logging
-inline const char* str(motors_direction_t direction)
+inline const char *str(motors_direction_t direction)
 {
     switch (direction) {
     case motors_direction_t::NONE:

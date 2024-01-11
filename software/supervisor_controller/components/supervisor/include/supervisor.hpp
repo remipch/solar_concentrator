@@ -2,7 +2,7 @@
 
 #include "motors_direction.hpp"
 
-const char* supervisor_get_state(); // for display and debug only
+const char *supervisor_get_state(); // for display and debug only
 
 void supervisor_init();
 

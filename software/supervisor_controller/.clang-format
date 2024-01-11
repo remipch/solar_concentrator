@@ -28,4 +28,6 @@ AlignOperands:   AlignAfterOperator
 BreakBeforeBinaryOperators: NonAssignment
 BinPackArguments: false
 BinPackParameters: false
+PointerAlignment: Right
+
 ...

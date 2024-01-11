@@ -16,7 +16,7 @@ enum class motor_hw_state_t : char {
 };
 
 // Convenient function for logging
-inline const char* str(motor_hw_state_t state)
+inline const char *str(motor_hw_state_t state)
 {
     switch (state) {
     case motor_hw_state_t::UNKNOWN:
