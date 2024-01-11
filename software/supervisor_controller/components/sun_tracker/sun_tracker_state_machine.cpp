@@ -13,7 +13,6 @@ static CImg<unsigned char> grayscale_cimg_full(CAMERA_WIDTH, CAMERA_HEIGHT, 1, 1
 
 sun_tracker_state_t sun_tracker_state_machine_update(sun_tracker_state_t current_state,
                                                      sun_tracker_transition_t transition,
-                                                     sun_tracker_result_callback publish_result,
                                                      sun_tracker_image_callback publish_full_image,
                                                      sun_tracker_image_callback publish_target_image)
 {

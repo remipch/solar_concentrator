@@ -98,8 +98,8 @@ static void sun_tracker_task(void *arg)
         asked_transition = sun_tracker_transition_t::NONE;
         xSemaphoreGive(state_mutex);
 
-        sun_tracker_state_t new_state = sun_tracker_state_machine_update(
-            state, transition, publish_result, publish_full_image, publish_target_image);
+        sun_tracker_state_t new_state =
+            sun_tracker_state_machine_update(state, transition, publish_full_image, publish_target_image);
 
         if (new_state != state) {
             ESP_LOGI(
@@ -108,6 +108,7 @@ static void sun_tracker_task(void *arg)
 
         assert(xSemaphoreTake(state_mutex, pdMS_TO_TICKS(STATE_MUTEX_TIMEOUT_MS)));
         current_state = new_state;
+        // TODO: call publish_result callback depending on state change (same than motors)
         xSemaphoreGive(state_mutex);
     }
 }

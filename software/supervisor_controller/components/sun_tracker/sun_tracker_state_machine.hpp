@@ -74,14 +74,10 @@ inline const char* str(sun_tracker_transition_t transition)
 // This function updates the state depending on current_state and transition :
 // - start meaningful actions (non blocking calls to start actions)
 // - return the new state
-// This function can start long-time processing functions but must returns quickly
-// so important future transitions can be treated quickly (motors manual move can
-// start quickly, even if a full image is being captured asynchronously)
-//TODO : add must_stop_callback to early quit current state
-sun_tracker_state_t sun_tracker_state_machine_update(
-    sun_tracker_state_t current_state,
-    sun_tracker_transition_t transition,
-    sun_tracker_result_callback publish_result,
-    sun_tracker_image_callback publish_full_image,
-    sun_tracker_image_callback publish_target_image);
-
+// This function can execute long-time processing functions,
+// the caller has the responsibility to run it in a separated task
+// and listen to external events and cache them asynchronously
+sun_tracker_state_t sun_tracker_state_machine_update(sun_tracker_state_t current_state,
+                                                     sun_tracker_transition_t transition,
+                                                     sun_tracker_image_callback publish_full_image,
+                                                     sun_tracker_image_callback publish_target_image);
