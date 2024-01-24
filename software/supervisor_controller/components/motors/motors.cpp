@@ -5,6 +5,7 @@
 
 #include "freertos/FreeRTOS.h"
 #include "freertos/semphr.h"
+#include <vector>
 
 static const char *TAG = "motors";
 
@@ -20,14 +21,9 @@ static const int INTER_UPDATE_DELAY_MS = 100;
 static motors_state_t current_state = motors_state_t::UNINITIALIZED;
 static motors_transition_t asked_transition = motors_transition_t::NONE;
 static motors_direction_t asked_direction = motors_direction_t::NONE;
-static motors_stopped_callback stopped_callback = NULL;
+static std::vector<motors_stopped_callback> stopped_callbacks;
 
-void motors_register_stopped_callback(motors_stopped_callback callback)
-{
-    // Don't need multiple callbacks for now, a single pointer is enough
-    assert(stopped_callback == NULL);
-    stopped_callback = callback;
-}
+void motors_register_stopped_callback(motors_stopped_callback callback) { stopped_callbacks.push_back(callback); }
 
 // This function must not be called from an ISR (interrupt service routine)
 // because mutex does not support it. Neither ESP32 doc nor FreeRTOS doc is clear
@@ -85,9 +81,10 @@ static void motors_task(void *arg)
         }
 
         assert(xSemaphoreTake(state_mutex, pdMS_TO_TICKS(STATE_MUTEX_TIMEOUT_MS)));
-        if (stopped_callback != NULL && current_state != motors_state_t::STOPPED
-            && new_state == motors_state_t::STOPPED) {
-            stopped_callback();
+        if (current_state != motors_state_t::STOPPED && new_state == motors_state_t::STOPPED) {
+            for (auto callback : stopped_callbacks) {
+                callback();
+            }
         }
         current_state = new_state;
         xSemaphoreGive(state_mutex);
