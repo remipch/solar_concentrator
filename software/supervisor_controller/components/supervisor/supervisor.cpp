@@ -89,18 +89,15 @@ static void supervisor_task(void *arg)
 }
 
 // Called by motors when motors just stopped
-void motors_stoped() { set_transition(supervisor_transition_t::MOTORS_STOPPED); }
+void motors_stopped() { set_transition(supervisor_transition_t::MOTORS_STOPPED); }
 
 void supervisor_init()
 {
     ESP_LOGD(TAG, "supervisor_init");
 
     assert(current_state == supervisor_state_t::UNINITIALIZED);
-
-    motors_register_stopped_callback(motors_stoped);
-
+    motors_register_stopped_callback(motors_stopped);
     state_mutex = xSemaphoreCreateMutex();
-
     xTaskCreate(supervisor_task, TAG, 4 * 1024, NULL, 5, NULL);
 }
 

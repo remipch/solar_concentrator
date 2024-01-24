@@ -121,7 +121,7 @@ static void sun_tracker_task(void *arg)
 }
 
 // Called by motors when motors just stopped
-void motors_stoped() { set_transition(sun_tracker_transition_t::MOTORS_STOPPED); }
+void motors_stopped() { set_transition(sun_tracker_transition_t::MOTORS_STOPPED); }
 
 void sun_tracker_init()
 {
@@ -129,7 +129,7 @@ void sun_tracker_init()
 
     assert(current_state == sun_tracker_state_t::UNINITIALIZED);
 
-    motors_register_stopped_callback(motors_stoped);
+    motors_register_stopped_callback(motors_stopped);
 
     state_mutex = xSemaphoreCreateMutex();
 
