@@ -109,8 +109,18 @@ static void sun_tracker_task(void *arg)
         }
 
         assert(xSemaphoreTake(state_mutex, pdMS_TO_TICKS(STATE_MUTEX_TIMEOUT_MS)));
+        if (current_state != new_state) {
+            if (new_state == sun_tracker_state_t::ERROR) {
+                publish_result(sun_tracker_result_t::ERROR);
+            } else if ((current_state == sun_tracker_state_t::TRACKING
+                        || current_state == sun_tracker_state_t::STOPPING)
+                       && new_state == sun_tracker_state_t::IDLE) {
+                publish_result(sun_tracker_result_t::ABORTED);
+            } else if (new_state == sun_tracker_state_t::SUCCESS) {
+                publish_result(sun_tracker_result_t::SUCCESS);
+            }
+        }
         current_state = new_state;
-        // TODO: call publish_result callback depending on state change (same than motors)
         xSemaphoreGive(state_mutex);
 
         // Simple wait between state updates because :
@@ -121,7 +131,7 @@ static void sun_tracker_task(void *arg)
 }
 
 // Called by motors when motors just stopped
-void motors_stopped() { set_transition(sun_tracker_transition_t::MOTORS_STOPPED); }
+void sun_tracker_motors_stopped() { set_transition(sun_tracker_transition_t::MOTORS_STOPPED); }
 
 void sun_tracker_init()
 {
@@ -129,7 +139,7 @@ void sun_tracker_init()
 
     assert(current_state == sun_tracker_state_t::UNINITIALIZED);
 
-    motors_register_stopped_callback(motors_stopped);
+    motors_register_stopped_callback(sun_tracker_motors_stopped);
 
     state_mutex = xSemaphoreCreateMutex();
 
