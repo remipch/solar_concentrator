@@ -9,9 +9,7 @@ enum class supervisor_state_t : signed char {
     UNINITIALIZED = 0,
     IDLE,
     MANUAL_MOVING,
-    STARTING_SUN_TRACKING,
     SUN_TRACKING,
-    STOPPING_SUN_TRACKING,
     WAITING_SUN_MOVE,
 };
 
@@ -26,12 +24,8 @@ inline const char *str(supervisor_state_t state)
         return "IDLE";
     case supervisor_state_t::MANUAL_MOVING:
         return "MANUAL_MOVING";
-    case supervisor_state_t::STARTING_SUN_TRACKING:
-        return "STARTING_SUN_TRACKING";
     case supervisor_state_t::SUN_TRACKING:
         return "SUN_TRACKING";
-    case supervisor_state_t::STOPPING_SUN_TRACKING:
-        return "STOPPING_SUN_TRACKING";
     case supervisor_state_t::WAITING_SUN_MOVE:
         return "WAITING_SUN_MOVE";
     default:
@@ -46,9 +40,9 @@ enum class supervisor_transition_t : signed char {
     START_MANUAL_MOVE_ONE_STEP,
     MOTORS_STOPPED,
     START_SUN_TRACKING,
-    SUN_TRACKING_STARTED,
-    SUN_TRACKING_FINISHED,
     SUN_TRACKING_ERROR,
+    SUN_TRACKING_ABORTED,
+    SUN_TRACKING_SUCCESS,
 };
 
 inline const char *str(supervisor_transition_t transition)
@@ -66,12 +60,12 @@ inline const char *str(supervisor_transition_t transition)
         return "MOTORS_STOPPED";
     case supervisor_transition_t::START_SUN_TRACKING:
         return "START_SUN_TRACKING";
-    case supervisor_transition_t::SUN_TRACKING_STARTED:
-        return "SUN_TRACKING_STARTED";
-    case supervisor_transition_t::SUN_TRACKING_FINISHED:
-        return "SUN_TRACKING_FINISHED";
     case supervisor_transition_t::SUN_TRACKING_ERROR:
         return "SUN_TRACKING_ERROR";
+    case supervisor_transition_t::SUN_TRACKING_ABORTED:
+        return "SUN_TRACKING_ABORTED";
+    case supervisor_transition_t::SUN_TRACKING_SUCCESS:
+        return "SUN_TRACKING_SUCCESS";
     default:
         assert(false);
     }

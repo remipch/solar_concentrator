@@ -1,5 +1,6 @@
 #include "supervisor.hpp"
 #include "motors.hpp"
+#include "sun_tracker.hpp"
 #include "supervisor_state_machine.hpp"
 
 #include "esp_log.h"
@@ -91,12 +92,26 @@ static void supervisor_task(void *arg)
 // Called by motors when motors just stopped
 void motors_stopped() { set_transition(supervisor_transition_t::MOTORS_STOPPED); }
 
+void sun_tracker_result(sun_tracker_result_t result)
+{
+    if (result == sun_tracker_result_t::ERROR) {
+        set_transition(supervisor_transition_t::SUN_TRACKING_ERROR);
+    } else if (result == sun_tracker_result_t::ABORTED) {
+        set_transition(supervisor_transition_t::SUN_TRACKING_ABORTED);
+    } else if (result == sun_tracker_result_t::SUCCESS) {
+        set_transition(supervisor_transition_t::SUN_TRACKING_SUCCESS);
+    } else {
+        assert(false);
+    }
+}
+
 void supervisor_init()
 {
     ESP_LOGD(TAG, "supervisor_init");
 
     assert(current_state == supervisor_state_t::UNINITIALIZED);
     motors_register_stopped_callback(motors_stopped);
+    sun_tracker_register_result_callback(sun_tracker_result);
     state_mutex = xSemaphoreCreateMutex();
     xTaskCreate(supervisor_task, TAG, 4 * 1024, NULL, 5, NULL);
 }
