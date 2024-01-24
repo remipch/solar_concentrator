@@ -132,4 +132,6 @@ void sun_tracker_init()
 
 void sun_tracker_start() { set_transition(sun_tracker_transition_t::START); }
 
+void sun_tracker_stop() { set_transition(sun_tracker_transition_t::STOP); }
+
 void sun_tracker_reset() { set_transition(sun_tracker_transition_t::RESET); }
