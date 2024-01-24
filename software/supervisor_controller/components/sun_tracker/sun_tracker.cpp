@@ -1,4 +1,5 @@
 #include "sun_tracker.hpp"
+#include "motors.hpp"
 #include "sun_tracker_state_machine.hpp"
 
 #include "esp_log.h"
@@ -119,11 +120,16 @@ static void sun_tracker_task(void *arg)
     }
 }
 
+// Called by motors when motors just stopped
+void motors_stoped() { set_transition(sun_tracker_transition_t::MOTORS_STOPPED); }
+
 void sun_tracker_init()
 {
     ESP_LOGD(TAG, "sun_tracker_init");
 
     assert(current_state == sun_tracker_state_t::UNINITIALIZED);
+
+    motors_register_stopped_callback(motors_stoped);
 
     state_mutex = xSemaphoreCreateMutex();
 
