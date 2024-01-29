@@ -81,21 +81,21 @@ void motors_hw_move_one_step(motors_direction_t direction)
 {
     ESP_LOGV(TAG, "motors_hw_move_one_step(direction = %s)", str(direction));
     if (direction == motors_direction_t::UP) {
-        motors_hw_write_commands("o:20,100,30;o:2,2000,30");
+        motors_hw_write_commands("o:20,50,100");
     } else if (direction == motors_direction_t::UP_RIGHT) {
-        motors_hw_write_commands("o:16,100,30;o:2,2000,30");
+        motors_hw_write_commands("o:16,50,50");
     } else if (direction == motors_direction_t::RIGHT) {
-        motors_hw_write_commands("o:16,100,30;o:8,2000,30");
+        motors_hw_write_commands("o:24,50,50");
     } else if (direction == motors_direction_t::DOWN_RIGHT) {
-        motors_hw_write_commands("o:1,100,30;o:8,2000,30");
+        motors_hw_write_commands("o:8,50,100");
     } else if (direction == motors_direction_t::DOWN) {
-        motors_hw_write_commands("o:1,100,30;o:40,2000,60");
+        motors_hw_write_commands("o:40,50,100");
     } else if (direction == motors_direction_t::DOWN_LEFT) {
-        motors_hw_write_commands("o:1,100,30;o:32,2000,30");
+        motors_hw_write_commands("o:32,50,100");
     } else if (direction == motors_direction_t::LEFT) {
-        motors_hw_write_commands("o:4,100,30;o:32,2000,30");
+        motors_hw_write_commands("o:36,50,100");
     } else if (direction == motors_direction_t::UP_LEFT) {
-        motors_hw_write_commands("o:4,100,30;o:2,2000,30");
+        motors_hw_write_commands("o:4,50,100");
     } else {
         assert(false);
     }
