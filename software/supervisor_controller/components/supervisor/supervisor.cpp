@@ -128,7 +128,4 @@ void supervisor_start_manual_move_one_step(motors_direction_t direction)
     set_transition(supervisor_transition_t::START_MANUAL_MOVE_ONE_STEP, direction);
 }
 
-void supervisor_start_sun_tracking(motors_direction_t direction)
-{
-    set_transition(supervisor_transition_t::START_SUN_TRACKING);
-}
+void supervisor_start_sun_tracking() { set_transition(supervisor_transition_t::START_SUN_TRACKING); }
