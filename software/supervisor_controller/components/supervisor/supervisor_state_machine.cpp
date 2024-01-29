@@ -54,6 +54,14 @@ supervisor_state_t supervisor_state_machine_update(supervisor_state_t current_st
         }
     }
 
+    if (current_state == supervisor_state_t::ERROR) {
+        if (transition == supervisor_transition_t::STOP) {
+            // Reset error and go back to IDLE
+            sun_tracker_reset();
+            return supervisor_state_t::IDLE;
+        }
+    }
+
     if (transition != supervisor_transition_t::NONE) {
         ESP_LOGW(TAG, "Nothing to do for state: '%s', transition: '%s'", str(current_state), str(transition));
     }
