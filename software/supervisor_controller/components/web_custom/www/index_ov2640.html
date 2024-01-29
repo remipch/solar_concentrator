@@ -103,7 +103,8 @@
             }
 
             section#buttons button {
-                margin: -1px 5px;
+                /*for motors directions*/
+                margin: -1px 9px -1px 6px;
             }
 
             #nav-toggle {
@@ -130,7 +131,7 @@
                 display: flex;
                 flex-wrap: nowrap;
                 line-height: 22px;
-                margin: 5px 0;
+                margin: 5px 1px;
                 align-items: center
             }
 
@@ -140,9 +141,10 @@
                 min-width: 47%
             }
 
-            .input-group input,.input-group button {
+            .input-group input,.input-group button,.input-group .text {
+                /*for buttons with labels*/
                 flex-grow: 1;
-                margin: -1px 5px;
+                margin: -1px 1px -1px 5px;
             }
 
             .range-max,.range-min {
@@ -151,8 +153,9 @@
             }
 
             button, .button {
+                /*for main buttons without label*/
                 display: block;
-                margin: 4px 5px;
+                margin: 4px 2px;
                 padding: 0 12px;
                 border: 0;
                 line-height: 28px;
