@@ -10,6 +10,8 @@ void sun_tracker_register_target_image_callback(sun_tracker_image_callback callb
 
 const char *sun_tracker_get_state(); // for display and debug only
 
+const char *sun_tracker_get_last_result(); // for display and debug only
+
 void sun_tracker_init();
 
 void sun_tracker_start();

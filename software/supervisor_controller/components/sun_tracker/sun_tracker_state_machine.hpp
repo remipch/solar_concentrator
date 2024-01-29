@@ -2,6 +2,7 @@
 
 #include "camera.hpp"
 #include "sun_tracker_callbacks.hpp"
+#include "sun_tracker_logic_result.hpp"
 
 #include <assert.h>
 
@@ -77,7 +78,9 @@ inline const char *str(sun_tracker_transition_t transition)
 // This function can execute long-time processing functions,
 // the caller has the responsibility to run it in a separated task
 // and listen to external events and cache them asynchronously
+// 'logic_result' output param is only for display purpose
 sun_tracker_state_t sun_tracker_state_machine_update(sun_tracker_state_t current_state,
                                                      sun_tracker_transition_t transition,
                                                      sun_tracker_image_callback publish_full_image,
-                                                     sun_tracker_image_callback publish_target_image);
+                                                     sun_tracker_image_callback publish_target_image,
+                                                     sun_tracker_logic_result_t &logic_result);

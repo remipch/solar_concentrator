@@ -19,8 +19,10 @@ static motors_direction_t motors_direction;
 sun_tracker_state_t sun_tracker_state_machine_update(sun_tracker_state_t current_state,
                                                      sun_tracker_transition_t transition,
                                                      sun_tracker_image_callback publish_full_image,
-                                                     sun_tracker_image_callback publish_target_image)
+                                                     sun_tracker_image_callback publish_target_image,
+                                                     sun_tracker_logic_result_t &logic_result)
 {
+    logic_result = sun_tracker_logic_result_t::UNKNOWN;
 
     if (current_state == sun_tracker_state_t::UNINITIALIZED) {
         // Nothing to do but signal state_machine has started by quitting UNINITIALIZED state
@@ -53,7 +55,7 @@ sun_tracker_state_t sun_tracker_state_machine_update(sun_tracker_state_t current
         publish_target_image(target_img);
 
         if (transition & sun_tracker_transition_t::START) {
-            sun_tracker_logic_result_t logic_result = sun_tracker_logic_start(target_img, motors_direction);
+            logic_result = sun_tracker_logic_start(target_img, motors_direction);
             if (logic_result == sun_tracker_logic_result_t::TARGET_REACHED) {
                 return sun_tracker_state_t::SUCCESS;
             } else if (logic_result == sun_tracker_logic_result_t::MUST_MOVE) {
@@ -100,7 +102,7 @@ sun_tracker_state_t sun_tracker_state_machine_update(sun_tracker_state_t current
                 full_img.get_crop(target_area.left_px, target_area.top_px, target_area.right_px, target_area.bottom_px);
             publish_target_image(target_img);
 
-            sun_tracker_logic_result_t logic_result = sun_tracker_logic_update(target_img, motors_direction);
+            logic_result = sun_tracker_logic_update(target_img, motors_direction);
             if (logic_result == sun_tracker_logic_result_t::TARGET_REACHED) {
                 return sun_tracker_state_t::SUCCESS;
             } else if (logic_result == sun_tracker_logic_result_t::MUST_MOVE) {
