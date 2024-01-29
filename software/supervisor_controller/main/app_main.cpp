@@ -11,6 +11,12 @@
 extern "C" void app_main()
 {
     esp_log_level_set("event", ESP_LOG_INFO);
+    esp_log_level_set("httpd_parse", ESP_LOG_INFO);
+    esp_log_level_set("httpd_txrx", ESP_LOG_INFO);
+    esp_log_level_set("httpd_uri", ESP_LOG_INFO);
+    esp_log_level_set("httpd_sess", ESP_LOG_INFO);
+    esp_log_level_set("httpd", ESP_LOG_INFO);
+    esp_log_level_set("wifi", ESP_LOG_INFO);
 
     app_wifi_main();
 
