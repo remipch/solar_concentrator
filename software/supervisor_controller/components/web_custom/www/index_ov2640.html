@@ -25,11 +25,11 @@
                 display: flex
             }
 
-            #menu,section.main {
+            .menu,section.main {
                 flex-direction: column
             }
 
-            #menu {
+            .menu {
                 display: none;
                 flex-wrap: nowrap;
                 min-width: 375px;
@@ -118,7 +118,11 @@
                 height: 0
             }
 
-            #nav-toggle-cb:checked+#menu {
+            #nav-toggle-cb:checked+#settings {
+                display: flex
+            }
+
+            #commands {
                 display: flex
             }
 
@@ -331,11 +335,8 @@
             </div>
             <div id="content">
                 <div id="sidebar">
-                    <input type="checkbox" id="nav-toggle-cb" checked="checked">
-                    <nav id="menu">
-                        <button id="get-still">Get Still</button>
-                        <button id="toggle-stream">Start Stream</button>
-
+                    <input type="checkbox" id="nav-toggle-cb">
+                    <nav id="settings" class="menu">
                         <div class="input-group" id="quality-group">
                             <label for="quality">Quality</label>
                             <div class="range-min">4</div>
@@ -388,6 +389,11 @@
                                 <label class="slider" for="vflip"></label>
                             </div>
                         </div>
+                    </nav>
+                    <nav id="commands" class="menu">
+                        <button id="get-still">Get Still</button>
+                        <button id="toggle-stream">Start Stream</button>
+
                         <div class="input-group">
                             <label for="motors">Manual move</label>
                             <section id="buttons">
