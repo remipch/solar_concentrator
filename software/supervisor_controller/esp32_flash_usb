@@ -2,8 +2,12 @@
 
 # Flash esp32 using ttyUSB0
 
-script_dir=$(dirname "$0")
+script_dir=$(dirname "$0") # relative path to this script
+cd $script_dir
+script_dir=$(pwd) # absolute path to this script
+
+cd $script_dir/components/web_custom/www
+./compress_pages.sh
 
 cd $script_dir/build_esp32
-
 ESPPORT=/dev/ttyUSB0 ninja flash
