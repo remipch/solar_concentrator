@@ -394,8 +394,13 @@
                         </div>
                     </nav>
                     <nav id="commands" class="menu">
-                        <button id="toggle-stream">Start Stream</button>
-
+                        <div class="input-group">
+                            <label for="stream-checkbox">Stream image</label>
+                            <div class="switch">
+                                <input id="stream-checkbox" type="checkbox">
+                                <label class="slider" for="stream-checkbox"></label>
+                            </div>
+                        </div>
                         <div class="input-group">
                             <label for="motors">Manual move</label>
                             <section id="buttons">
@@ -575,27 +580,25 @@ document.addEventListener('DOMContentLoaded', function (event) {
 
   const view = document.getElementById('stream')
   const viewContainer = document.getElementById('stream-container')
-  const streamButton = document.getElementById('toggle-stream')
-//   streamButton.style.visibility = "hidden";
+  const streamCheckbox = document.getElementById('stream-checkbox')
 
   const stopStream = () => {
     window.stop();
-    streamButton.innerHTML = 'Start Stream'
   }
 
   const startStream = () => {
     view.src = `${streamUrl}/stream`
     show(viewContainer)
-    streamButton.innerHTML = 'Stop Stream'
   }
 
-  streamButton.onclick = () => {
-    const streamEnabled = streamButton.innerHTML === 'Stop Stream'
-    if (streamEnabled) {
-      stopStream()
-    } else {
+  streamCheckbox.onchange = () => {
+    if(streamCheckbox.checked) {
       startStream()
     }
+    else {
+      stopStream()
+    }
+  }
   }
 
   // Attach default on change action
