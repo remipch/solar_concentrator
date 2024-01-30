@@ -394,7 +394,6 @@
                         </div>
                     </nav>
                     <nav id="commands" class="menu">
-                        <button id="get-still">Get Still</button>
                         <button id="toggle-stream">Start Stream</button>
 
                         <div class="input-group">
@@ -576,7 +575,6 @@ document.addEventListener('DOMContentLoaded', function (event) {
 
   const view = document.getElementById('stream')
   const viewContainer = document.getElementById('stream-container')
-  const stillButton = document.getElementById('get-still')
   const streamButton = document.getElementById('toggle-stream')
 //   streamButton.style.visibility = "hidden";
 
@@ -589,14 +587,6 @@ document.addEventListener('DOMContentLoaded', function (event) {
     view.src = `${streamUrl}/stream`
     show(viewContainer)
     streamButton.innerHTML = 'Stop Stream'
-  }
-
-  // Attach actions to buttons
-  stillButton.onclick = () => {
-    view.src = ""
-    stopStream()
-    view.src = `${baseHost}/capture?_cb=${Date.now()}`
-    show(viewContainer)
   }
 
   streamButton.onclick = () => {
