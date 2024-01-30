@@ -64,8 +64,12 @@ void log_target(const rectangle_t &target)
 
 void draw_target(CImg<unsigned char> &image, const rectangle_t &target)
 {
-    image.draw_rectangle(target.left_px, target.top_px, target.right_px, target.bottom_px, &WHITE, 1, 0xF0F0F0F0);
-    image.draw_rectangle(target.left_px, target.top_px, target.right_px, target.bottom_px, &BLACK, 1, 0x0F0F0F0F);
+    // Draw one pixel bigger than detected rectangle on each side because it will be cropped to extract target image
+    // Note : here we know that the target rectangle is not at the exact image boudaries
+    image.draw_rectangle(
+        target.left_px - 1, target.top_px - 1, target.right_px + 1, target.bottom_px + 1, &WHITE, 1, 0xF0F0F0F0);
+    image.draw_rectangle(
+        target.left_px - 1, target.top_px - 1, target.right_px + 1, target.bottom_px + 1, &BLACK, 1, 0x0F0F0F0F);
 }
 
 // Extract ordered corners from capstone
