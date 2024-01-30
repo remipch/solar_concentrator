@@ -52,10 +52,13 @@ sun_tracker_state_t sun_tracker_state_machine_update(sun_tracker_state_t current
         // Extract and publish target area image
         CImg<unsigned char> target_img =
             full_img.get_crop(target_area.left_px, target_area.top_px, target_area.right_px, target_area.bottom_px);
-        publish_target_image(target_img);
 
         if (transition & sun_tracker_transition_t::START) {
             logic_result = sun_tracker_logic_start(target_img, motors_direction);
+
+            // Publish target image here because logic can draw usefull things
+            publish_target_image(target_img);
+
             if (logic_result == sun_tracker_logic_result_t::TARGET_REACHED) {
                 return sun_tracker_state_t::SUCCESS;
             } else if (logic_result == sun_tracker_logic_result_t::MUST_MOVE) {
@@ -65,6 +68,7 @@ sun_tracker_state_t sun_tracker_state_machine_update(sun_tracker_state_t current
                 return sun_tracker_state_t::ERROR;
             }
         }
+        publish_target_image(target_img);
     }
 
     if (current_state == sun_tracker_state_t::TRACKING) {
@@ -100,9 +104,12 @@ sun_tracker_state_t sun_tracker_state_machine_update(sun_tracker_state_t current
             // Extract and publish target area image
             CImg<unsigned char> target_img =
                 full_img.get_crop(target_area.left_px, target_area.top_px, target_area.right_px, target_area.bottom_px);
-            publish_target_image(target_img);
 
             logic_result = sun_tracker_logic_update(target_img, motors_direction);
+
+            // Publish target image here because logic can draw usefull things
+            publish_target_image(target_img);
+
             if (logic_result == sun_tracker_logic_result_t::TARGET_REACHED) {
                 return sun_tracker_state_t::SUCCESS;
             } else if (logic_result == sun_tracker_logic_result_t::MUST_MOVE) {
