@@ -223,20 +223,37 @@ static esp_err_t capture_area_handler(httpd_req_t *req)
     return res;
 }
 
-static uint8_t *full_image_buffer = (uint8_t *)malloc(CAMERA_WIDTH * CAMERA_HEIGHT);
-static camera_fb_t full_image_frame{};
-static SemaphoreHandle_t full_image_mutex; // mutual exclusion of read/write to full_image_frame and its buffer
-static SemaphoreHandle_t full_image_ready; // signal by full_image_updated callback when a new image has been updated
-static const int full_image_mutex_TIMEOUT_MS = 5000;
+static uint8_t *image_buffer = (uint8_t *)malloc(CAMERA_WIDTH * CAMERA_HEIGHT);
+static camera_fb_t image_frame{};
+static SemaphoreHandle_t image_mutex; // mutual exclusion of read/write to full_image_frame and its buffer
+static SemaphoreHandle_t image_ready; // signal by full_image_updated callback when a new image has been updated
+static const int image_mutex_TIMEOUT_MS = 5000;
+static bool stream_only_target = false;
 
 // Note : the caller guarantee that full_image object is not changed until this function returns
 void full_image_updated(CImg<unsigned char> &full_image)
 {
+    if (stream_only_target) {
+        return;
+    }
     ESP_LOGI(TAG, "full_image_updated: %i x %i", full_image.width(), full_image.height());
-    assert(xSemaphoreTake(full_image_mutex, pdMS_TO_TICKS(full_image_mutex_TIMEOUT_MS)));
-    full_image_frame = grayscale_cimg_to_grayscale_frame(full_image, full_image_buffer);
-    xSemaphoreGive(full_image_mutex);
-    xSemaphoreGive(full_image_ready);
+    assert(xSemaphoreTake(image_mutex, pdMS_TO_TICKS(image_mutex_TIMEOUT_MS)));
+    image_frame = grayscale_cimg_to_grayscale_frame(full_image, image_buffer);
+    xSemaphoreGive(image_mutex);
+    xSemaphoreGive(image_ready);
+}
+
+// Note : the caller guarantee that target_image object is not changed until this function returns
+void target_image_updated(CImg<unsigned char> &target_image)
+{
+    if (!stream_only_target) {
+        return;
+    }
+    ESP_LOGI(TAG, "target_image_updated: %i x %i", target_image.width(), target_image.height());
+    assert(xSemaphoreTake(image_mutex, pdMS_TO_TICKS(image_mutex_TIMEOUT_MS)));
+    image_frame = grayscale_cimg_to_grayscale_frame(target_image, image_buffer);
+    xSemaphoreGive(image_mutex);
+    xSemaphoreGive(image_ready);
 }
 
 static esp_err_t stream_handler(httpd_req_t *req)
@@ -250,8 +267,8 @@ static esp_err_t stream_handler(httpd_req_t *req)
     httpd_resp_set_hdr(req, "X-Framerate", "60");
 
     while (true) {
-        if (!xSemaphoreTake(full_image_ready, pdMS_TO_TICKS(full_image_mutex_TIMEOUT_MS))) {
-            ESP_LOGE(TAG, "Full image not updated on time");
+        if (!xSemaphoreTake(image_ready, pdMS_TO_TICKS(image_mutex_TIMEOUT_MS))) {
+            ESP_LOGE(TAG, "Image not updated on time");
             return ESP_FAIL;
         }
 
@@ -259,25 +276,25 @@ static esp_err_t stream_handler(httpd_req_t *req)
         uint8_t *_jpg_buf = NULL;
         char *part_buf[128];
 
-        assert(xSemaphoreTake(full_image_mutex, pdMS_TO_TICKS(full_image_mutex_TIMEOUT_MS)));
-        // Use or cache full_image_frame data inside mutex-protected bloc, it can be sent outside of this bloc
-        pixformat_t format = full_image_frame.format;
+        assert(xSemaphoreTake(image_mutex, pdMS_TO_TICKS(image_mutex_TIMEOUT_MS)));
+        // Use or cache image_frame data inside mutex-protected bloc, it can be sent outside of this bloc
+        pixformat_t format = image_frame.format;
 
         if (format == PIXFORMAT_JPEG) {
-            _jpg_buf = full_image_frame.buf;
-            _jpg_buf_len = full_image_frame.len;
-        } else if (!frame2jpg(&full_image_frame, 80, &_jpg_buf, &_jpg_buf_len)) {
+            _jpg_buf = image_frame.buf;
+            _jpg_buf_len = image_frame.len;
+        } else if (!frame2jpg(&image_frame, 80, &_jpg_buf, &_jpg_buf_len)) {
             ESP_LOGE(TAG, "JPEG compression failed");
-            xSemaphoreGive(full_image_mutex);
+            xSemaphoreGive(image_mutex);
             return ESP_FAIL;
         }
         size_t hlen = snprintf((char *)part_buf,
                                128,
                                _STREAM_PART,
                                _jpg_buf_len,
-                               full_image_frame.timestamp.tv_sec,
-                               full_image_frame.timestamp.tv_usec);
-        xSemaphoreGive(full_image_mutex);
+                               image_frame.timestamp.tv_sec,
+                               image_frame.timestamp.tv_usec);
+        xSemaphoreGive(image_mutex);
 
         res = httpd_resp_send_chunk(req, _STREAM_BOUNDARY, strlen(_STREAM_BOUNDARY));
         if (res != ESP_OK) {
@@ -344,6 +361,27 @@ static esp_err_t cmd_handler(httpd_req_t *req)
     if (res) {
         return httpd_resp_send_500(req);
     }
+
+    httpd_resp_set_hdr(req, "Access-Control-Allow-Origin", "*");
+    return httpd_resp_send(req, NULL, 0);
+}
+
+static esp_err_t stream_config_handler(httpd_req_t *req)
+{
+    char *buf = NULL;
+    char only_target[32];
+
+    if (parse_get(req, &buf) != ESP_OK
+        || httpd_query_key_value(buf, "only_target", only_target, sizeof(only_target)) != ESP_OK) {
+        free(buf);
+        httpd_resp_send_404(req);
+        return ESP_FAIL;
+    }
+    free(buf);
+
+    ESP_LOGI(TAG, "stream_config_handler : only_target:%s", only_target);
+
+    stream_only_target = strcmp(only_target, "1") == 0;
 
     httpd_resp_set_hdr(req, "Access-Control-Allow-Origin", "*");
     return httpd_resp_send(req, NULL, 0);
@@ -491,15 +529,19 @@ void register_httpd(const QueueHandle_t frame_i, const QueueHandle_t frame_o, co
 
     httpd_uri_t stream_uri = {.uri = "/stream", .method = HTTP_GET, .handler = stream_handler, .user_ctx = NULL};
 
+    httpd_uri_t stream_config_uri = {
+        .uri = "/stream_config", .method = HTTP_GET, .handler = stream_config_handler, .user_ctx = NULL};
+
     httpd_uri_t supervisor_command_uri = {
         .uri = "/supervisor_command", .method = HTTP_GET, .handler = supervisor_command_handler, .user_ctx = NULL};
 
     httpd_uri_t supervisor_status_uri = {
         .uri = "/supervisor_status", .method = HTTP_GET, .handler = supervisor_status_handler, .user_ctx = NULL};
 
-    full_image_mutex = xSemaphoreCreateMutex();
-    full_image_ready = xSemaphoreCreateBinary();
+    image_mutex = xSemaphoreCreateMutex();
+    image_ready = xSemaphoreCreateBinary();
     sun_tracker_register_full_image_callback(full_image_updated);
+    sun_tracker_register_target_image_callback(target_image_updated);
 
     ESP_LOGI(TAG, "Starting web server on port: '%d'", config.server_port);
     if (httpd_start(&camera_httpd, &config) == ESP_OK) {
@@ -508,6 +550,7 @@ void register_httpd(const QueueHandle_t frame_i, const QueueHandle_t frame_o, co
         httpd_register_uri_handler(camera_httpd, &status_uri);
         httpd_register_uri_handler(camera_httpd, &capture_uri);
         httpd_register_uri_handler(camera_httpd, &capture_area_uri);
+        httpd_register_uri_handler(camera_httpd, &stream_config_uri);
         httpd_register_uri_handler(camera_httpd, &supervisor_command_uri);
         httpd_register_uri_handler(camera_httpd, &supervisor_status_uri);
     }
