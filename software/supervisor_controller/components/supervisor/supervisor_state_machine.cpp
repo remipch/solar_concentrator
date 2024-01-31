@@ -7,9 +7,14 @@
 
 static const char *TAG = "supervisor_state_machine";
 
+static const int64_t WAITING_SUN_MOVE_DURATION_MS = 10000;
+
+static int64_t start_waiting_time_ms = 0;
+
 supervisor_state_t supervisor_state_machine_update(supervisor_state_t current_state,
                                                    supervisor_transition_t transition,
-                                                   motors_direction_t motors_direction)
+                                                   motors_direction_t motors_direction,
+                                                   int64_t time_ms)
 {
 
     if (current_state == supervisor_state_t::UNINITIALIZED) {
@@ -50,7 +55,17 @@ supervisor_state_t supervisor_state_machine_update(supervisor_state_t current_st
         } else if (transition == supervisor_transition_t::SUN_TRACKING_ABORTED) {
             return supervisor_state_t::IDLE;
         } else if (transition == supervisor_transition_t::SUN_TRACKING_SUCCESS) {
+            start_waiting_time_ms = time_ms;
             return supervisor_state_t::WAITING_SUN_MOVE;
+        }
+    }
+
+    if (current_state == supervisor_state_t::WAITING_SUN_MOVE) {
+        if (transition == supervisor_transition_t::STOP) {
+            return supervisor_state_t::IDLE;
+        } else if ((time_ms - start_waiting_time_ms) > WAITING_SUN_MOVE_DURATION_MS) {
+            sun_tracker_start();
+            return supervisor_state_t::SUN_TRACKING;
         }
     }
 

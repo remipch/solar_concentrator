@@ -83,4 +83,5 @@ inline const char *str(supervisor_transition_t transition)
 // start quickly, even if a full image is being captured asynchronously)
 supervisor_state_t supervisor_state_machine_update(supervisor_state_t current_state,
                                                    supervisor_transition_t transition,
-                                                   motors_direction_t motors_direction);
+                                                   motors_direction_t motors_direction,
+                                                   int64_t time_ms);

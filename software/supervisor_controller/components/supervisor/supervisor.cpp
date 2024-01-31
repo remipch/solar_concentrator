@@ -4,6 +4,7 @@
 #include "supervisor_state_machine.hpp"
 
 #include "esp_log.h"
+#include "esp_timer.h"
 
 #include "freertos/FreeRTOS.h"
 #include "freertos/semphr.h"
@@ -67,7 +68,9 @@ static void supervisor_task(void *arg)
         asked_direction = motors_direction_t::NONE;
         xSemaphoreGive(state_mutex);
 
-        supervisor_state_t new_state = supervisor_state_machine_update(state, transition, direction);
+        auto time_ms = esp_timer_get_time() / 1000L;
+
+        supervisor_state_t new_state = supervisor_state_machine_update(state, transition, direction, time_ms);
 
         if (new_state != state) {
             ESP_LOGI(TAG,
