@@ -402,13 +402,6 @@
                             </div>
                         </div>
                         <div class="input-group">
-                            <label for="stream-only-target-checkbox">Stream only target</label>
-                            <div class="switch">
-                                <input id="stream-only-target-checkbox" type="checkbox">
-                                <label class="slider" for="stream-only-target-checkbox"></label>
-                            </div>
-                        </div>
-                        <div class="input-group">
                             <label for="motors">Manual move</label>
                             <section id="buttons">
                                 <button id="up-left" class="supervisor_command">&#x2196</button>
@@ -588,7 +581,6 @@ document.addEventListener('DOMContentLoaded', function (event) {
   const view = document.getElementById('stream')
   const viewContainer = document.getElementById('stream-container')
   const streamCheckbox = document.getElementById('stream-checkbox')
-  const streamOnlyTargetCheckbox = document.getElementById('stream-only-target-checkbox')
 
   const stopStream = () => {
     window.stop();
@@ -606,16 +598,6 @@ document.addEventListener('DOMContentLoaded', function (event) {
     else {
       stopStream()
     }
-  }
-
-  streamOnlyTargetCheckbox.onchange = () => {
-    stream_only_target = streamOnlyTargetCheckbox.checked ? 1 : 0
-    const query = `${baseHost}/stream_config?only_target=${stream_only_target}`
-
-    fetch(query)
-      .then(response => {
-        console.log(`request to ${query} finished, status: ${response.status}`)
-      })
   }
 
   // Attach default on change action

@@ -228,30 +228,13 @@ static camera_fb_t image_frame{};
 static SemaphoreHandle_t image_mutex; // mutual exclusion of read/write to full_image_frame and its buffer
 static SemaphoreHandle_t image_ready; // signal by full_image_updated callback when a new image has been updated
 static const int image_mutex_TIMEOUT_MS = 5000;
-static bool stream_only_target = false;
 
 // Note : the caller guarantee that full_image object is not changed until this function returns
 void full_image_updated(CImg<unsigned char> &full_image)
 {
-    if (stream_only_target) {
-        return;
-    }
     ESP_LOGI(TAG, "full_image_updated: %i x %i", full_image.width(), full_image.height());
     assert(xSemaphoreTake(image_mutex, pdMS_TO_TICKS(image_mutex_TIMEOUT_MS)));
     image_frame = grayscale_cimg_to_grayscale_frame(full_image, image_buffer);
-    xSemaphoreGive(image_mutex);
-    xSemaphoreGive(image_ready);
-}
-
-// Note : the caller guarantee that target_image object is not changed until this function returns
-void target_image_updated(CImg<unsigned char> &target_image)
-{
-    if (!stream_only_target) {
-        return;
-    }
-    ESP_LOGI(TAG, "target_image_updated: %i x %i", target_image.width(), target_image.height());
-    assert(xSemaphoreTake(image_mutex, pdMS_TO_TICKS(image_mutex_TIMEOUT_MS)));
-    image_frame = grayscale_cimg_to_grayscale_frame(target_image, image_buffer);
     xSemaphoreGive(image_mutex);
     xSemaphoreGive(image_ready);
 }
@@ -361,27 +344,6 @@ static esp_err_t cmd_handler(httpd_req_t *req)
     if (res) {
         return httpd_resp_send_500(req);
     }
-
-    httpd_resp_set_hdr(req, "Access-Control-Allow-Origin", "*");
-    return httpd_resp_send(req, NULL, 0);
-}
-
-static esp_err_t stream_config_handler(httpd_req_t *req)
-{
-    char *buf = NULL;
-    char only_target[32];
-
-    if (parse_get(req, &buf) != ESP_OK
-        || httpd_query_key_value(buf, "only_target", only_target, sizeof(only_target)) != ESP_OK) {
-        free(buf);
-        httpd_resp_send_404(req);
-        return ESP_FAIL;
-    }
-    free(buf);
-
-    ESP_LOGI(TAG, "stream_config_handler : only_target:%s", only_target);
-
-    stream_only_target = strcmp(only_target, "1") == 0;
 
     httpd_resp_set_hdr(req, "Access-Control-Allow-Origin", "*");
     return httpd_resp_send(req, NULL, 0);
@@ -529,9 +491,6 @@ void register_httpd(const QueueHandle_t frame_i, const QueueHandle_t frame_o, co
 
     httpd_uri_t stream_uri = {.uri = "/stream", .method = HTTP_GET, .handler = stream_handler, .user_ctx = NULL};
 
-    httpd_uri_t stream_config_uri = {
-        .uri = "/stream_config", .method = HTTP_GET, .handler = stream_config_handler, .user_ctx = NULL};
-
     httpd_uri_t supervisor_command_uri = {
         .uri = "/supervisor_command", .method = HTTP_GET, .handler = supervisor_command_handler, .user_ctx = NULL};
 
@@ -540,8 +499,7 @@ void register_httpd(const QueueHandle_t frame_i, const QueueHandle_t frame_o, co
 
     image_mutex = xSemaphoreCreateMutex();
     image_ready = xSemaphoreCreateBinary();
-    sun_tracker_register_full_image_callback(full_image_updated);
-    sun_tracker_register_target_image_callback(target_image_updated);
+    sun_tracker_register_image_callback(full_image_updated);
 
     ESP_LOGI(TAG, "Starting web server on port: '%d'", config.server_port);
     if (httpd_start(&camera_httpd, &config) == ESP_OK) {
@@ -550,7 +508,6 @@ void register_httpd(const QueueHandle_t frame_i, const QueueHandle_t frame_o, co
         httpd_register_uri_handler(camera_httpd, &status_uri);
         httpd_register_uri_handler(camera_httpd, &capture_uri);
         httpd_register_uri_handler(camera_httpd, &capture_area_uri);
-        httpd_register_uri_handler(camera_httpd, &stream_config_uri);
         httpd_register_uri_handler(camera_httpd, &supervisor_command_uri);
         httpd_register_uri_handler(camera_httpd, &supervisor_status_uri);
     }

@@ -21,8 +21,7 @@ static const int INTER_UPDATE_DELAY_MS = 100;
 static sun_tracker_state_t current_state = sun_tracker_state_t::UNINITIALIZED;
 static sun_tracker_transition_t asked_transition = sun_tracker_transition_t::NONE;
 static sun_tracker_result_callback result_callback = NULL;
-static sun_tracker_image_callback full_image_callback = NULL;
-static sun_tracker_image_callback target_image_callback = NULL;
+static sun_tracker_image_callback image_callback = NULL;
 
 void sun_tracker_register_result_callback(sun_tracker_result_callback callback)
 {
@@ -31,18 +30,11 @@ void sun_tracker_register_result_callback(sun_tracker_result_callback callback)
     result_callback = callback;
 }
 
-void sun_tracker_register_full_image_callback(sun_tracker_image_callback callback)
+void sun_tracker_register_image_callback(sun_tracker_image_callback callback)
 {
     // Don't need multiple callbacks for now, a single pointer is enough
-    assert(full_image_callback == NULL);
-    full_image_callback = callback;
-}
-
-void sun_tracker_register_target_image_callback(sun_tracker_image_callback callback)
-{
-    // Don't need multiple callbacks for now, a single pointer is enough
-    assert(target_image_callback == NULL);
-    target_image_callback = callback;
+    assert(image_callback == NULL);
+    image_callback = callback;
 }
 
 void publish_result(sun_tracker_result_t result)
@@ -54,15 +46,8 @@ void publish_result(sun_tracker_result_t result)
 
 void publish_full_image(CImg<unsigned char> &full_image)
 {
-    if (full_image_callback != NULL) {
-        full_image_callback(full_image);
-    }
-}
-
-void publish_target_image(CImg<unsigned char> &target_image)
-{
-    if (target_image_callback != NULL) {
-        target_image_callback(target_image);
+    if (image_callback != NULL) {
+        image_callback(full_image);
     }
 }
 
@@ -112,8 +97,7 @@ static void sun_tracker_task(void *arg)
         asked_transition = sun_tracker_transition_t::NONE;
         xSemaphoreGive(state_mutex);
 
-        sun_tracker_state_t new_state =
-            sun_tracker_state_machine_update(state, transition, publish_full_image, publish_target_image);
+        sun_tracker_state_t new_state = sun_tracker_state_machine_update(state, transition, publish_full_image);
 
         if (new_state != state) {
             ESP_LOGI(

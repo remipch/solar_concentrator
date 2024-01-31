@@ -19,8 +19,7 @@ sun_tracker_detection_result_t sun_tracker_state_machine_get_detection_result() 
 
 sun_tracker_state_t sun_tracker_state_machine_update(sun_tracker_state_t current_state,
                                                      sun_tracker_transition_t transition,
-                                                     sun_tracker_image_callback publish_full_image,
-                                                     sun_tracker_image_callback publish_target_image)
+                                                     sun_tracker_image_callback publish_full_image)
 {
     if (current_state == sun_tracker_state_t::UNINITIALIZED) {
         // Nothing to do but signal state_machine has started by quitting UNINITIALIZED state
