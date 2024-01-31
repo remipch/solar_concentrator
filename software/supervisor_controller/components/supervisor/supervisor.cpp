@@ -103,8 +103,6 @@ void sun_tracker_result(sun_tracker_result_t result)
         set_transition(supervisor_transition_t::SUN_TRACKING_ABORTED);
     } else if (result == sun_tracker_result_t::SUCCESS) {
         set_transition(supervisor_transition_t::SUN_TRACKING_SUCCESS);
-    } else {
-        assert(false);
     }
 }
 

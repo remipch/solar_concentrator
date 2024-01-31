@@ -6,14 +6,17 @@
 #include <functional>
 
 enum class sun_tracker_result_t : signed char {
-    ERROR = -1,
-    ABORTED = 0,
+    UNKNOWN,
+    ERROR,
+    ABORTED,
     SUCCESS,
 };
 
 inline const char *str(sun_tracker_result_t result)
 {
     switch (result) {
+    case sun_tracker_result_t::UNKNOWN:
+        return "UNKNOWN";
     case sun_tracker_result_t::ERROR:
         return "ERROR";
     case sun_tracker_result_t::ABORTED:

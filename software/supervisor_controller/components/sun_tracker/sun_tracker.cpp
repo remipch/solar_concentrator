@@ -97,7 +97,8 @@ static void sun_tracker_task(void *arg)
         asked_transition = sun_tracker_transition_t::NONE;
         xSemaphoreGive(state_mutex);
 
-        sun_tracker_state_t new_state = sun_tracker_state_machine_update(state, transition, publish_full_image);
+        sun_tracker_result_t result;
+        sun_tracker_state_t new_state = sun_tracker_state_machine_update(state, transition, publish_full_image, result);
 
         if (new_state != state) {
             ESP_LOGI(
@@ -105,18 +106,8 @@ static void sun_tracker_task(void *arg)
         }
 
         assert(xSemaphoreTake(state_mutex, pdMS_TO_TICKS(STATE_MUTEX_TIMEOUT_MS)));
-        if (current_state != new_state) {
-            if (new_state == sun_tracker_state_t::ERROR) {
-                publish_result(sun_tracker_result_t::ERROR);
-            } else if ((current_state == sun_tracker_state_t::TRACKING
-                        || current_state == sun_tracker_state_t::STOPPING)
-                       && new_state == sun_tracker_state_t::IDLE) {
-                publish_result(sun_tracker_result_t::ABORTED);
-            } else if (new_state == sun_tracker_state_t::SUCCESS) {
-                publish_result(sun_tracker_result_t::SUCCESS);
-            }
-        }
         current_state = new_state;
+        publish_result(result);
         xSemaphoreGive(state_mutex);
 
         // Simple wait between state updates because :
@@ -145,5 +136,3 @@ void sun_tracker_init()
 void sun_tracker_start() { set_transition(sun_tracker_transition_t::START); }
 
 void sun_tracker_stop() { set_transition(sun_tracker_transition_t::STOP); }
-
-void sun_tracker_reset() { set_transition(sun_tracker_transition_t::RESET); }

@@ -15,5 +15,3 @@ void sun_tracker_init();
 void sun_tracker_start();
 
 void sun_tracker_stop();
-
-void sun_tracker_reset();

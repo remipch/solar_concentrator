@@ -7,19 +7,15 @@
 #include <assert.h>
 
 enum class sun_tracker_state_t : signed char {
-    ERROR = -1,
-    UNINITIALIZED = 0,
+    UNINITIALIZED,
     IDLE,
     TRACKING,
     STOPPING,
-    SUCCESS,
 };
 
 inline const char *str(sun_tracker_state_t state)
 {
     switch (state) {
-    case sun_tracker_state_t::ERROR:
-        return "ERROR";
     case sun_tracker_state_t::UNINITIALIZED:
         return "UNINITIALIZED";
     case sun_tracker_state_t::IDLE:
@@ -28,8 +24,6 @@ inline const char *str(sun_tracker_state_t state)
         return "TRACKING";
     case sun_tracker_state_t::STOPPING:
         return "STOPPING";
-    case sun_tracker_state_t::SUCCESS:
-        return "SUCCESS";
     default:
         assert(false);
     }
@@ -47,7 +41,6 @@ enum sun_tracker_transition_t {
     START = 1,
     STOP = 2,
     MOTORS_STOPPED = 4,
-    RESET = 8,
 };
 
 inline const char *str(sun_tracker_transition_t transition)
@@ -61,8 +54,6 @@ inline const char *str(sun_tracker_transition_t transition)
         return "STOP";
     case sun_tracker_transition_t::MOTORS_STOPPED:
         return "MOTORS_STOPPED";
-    case sun_tracker_transition_t::RESET:
-        return "RESET";
     default:
         return "(multiple values)";
     }
@@ -84,4 +75,5 @@ sun_tracker_detection_result_t sun_tracker_state_machine_get_detection_result();
 // 'logic_result' output param is only for display purpose
 sun_tracker_state_t sun_tracker_state_machine_update(sun_tracker_state_t current_state,
                                                      sun_tracker_transition_t transition,
-                                                     sun_tracker_image_callback publish_full_image);
+                                                     sun_tracker_image_callback publish_full_image,
+                                                     sun_tracker_result_t &result);

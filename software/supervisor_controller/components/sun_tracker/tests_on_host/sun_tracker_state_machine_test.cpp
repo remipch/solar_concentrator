@@ -23,6 +23,7 @@ void drop(CImg<unsigned char> &img) {}
 
 TEST(typical_scenario, []() {
     CImg<unsigned char> img;
+    sun_tracker_result_t result;
 
     // Define common dummy mocks used for all tests bellow
     MINI_MOCK_ON_CALL(
@@ -36,21 +37,24 @@ TEST(typical_scenario, []() {
 
     // From 'UNINITIALIZED' state
     sun_tracker_state_t state = sun_tracker_state_machine_update(
-        sun_tracker_state_t::UNINITIALIZED, sun_tracker_transition_t::NONE, drop, drop);
+        sun_tracker_state_t::UNINITIALIZED, sun_tracker_transition_t::NONE, drop, result);
+    EXPECT(result == sun_tracker_result_t::UNKNOWN);
     EXPECT(state == sun_tracker_state_t::IDLE);
 
     // From 'IDLE' state without transition, when detection return an error
     MINI_MOCK_ON_CALL(sun_tracker_logic_detect, [](CImg<unsigned char> &image) {
         return sun_tracker_detection_t{.result = sun_tracker_detection_result_t::SPOT_NOT_DETECTED};
     });
-    state = sun_tracker_state_machine_update(sun_tracker_state_t::IDLE, sun_tracker_transition_t::NONE, drop, drop);
+    state = sun_tracker_state_machine_update(sun_tracker_state_t::IDLE, sun_tracker_transition_t::NONE, drop, result);
+    EXPECT(result == sun_tracker_result_t::ERROR);
     EXPECT(state == sun_tracker_state_t::IDLE);
 
     // From 'IDLE' with 'START' transition, when detection return an error
     MINI_MOCK_ON_CALL(sun_tracker_logic_detect, [](CImg<unsigned char> &image) {
         return sun_tracker_detection_t{.result = sun_tracker_detection_result_t::SPOT_NOT_DETECTED};
     });
-    state = sun_tracker_state_machine_update(sun_tracker_state_t::IDLE, sun_tracker_transition_t::START, drop, drop);
+    state = sun_tracker_state_machine_update(sun_tracker_state_t::IDLE, sun_tracker_transition_t::START, drop, result);
+    EXPECT(result == sun_tracker_result_t::ERROR);
     EXPECT(state == sun_tracker_state_t::IDLE);
 
     // From 'IDLE' state with 'START' transition, when detection return 'SUCCESS' without motors move
@@ -66,8 +70,9 @@ TEST(typical_scenario, []() {
             .direction = motors_direction_t::NONE,
         };
     });
-    state = sun_tracker_state_machine_update(sun_tracker_state_t::IDLE, sun_tracker_transition_t::START, drop, drop);
-    EXPECT(state == sun_tracker_state_t::SUCCESS);
+    state = sun_tracker_state_machine_update(sun_tracker_state_t::IDLE, sun_tracker_transition_t::START, drop, result);
+    EXPECT(result == sun_tracker_result_t::SUCCESS);
+    EXPECT(state == sun_tracker_state_t::IDLE);
 
     // From 'IDLE' state with 'START' transition, when detection return 'SUCCESS' with motors move
     MINI_MOCK_ON_CALL(sun_tracker_logic_detect, [](CImg<unsigned char> &image) {
@@ -85,7 +90,8 @@ TEST(typical_scenario, []() {
     MINI_MOCK_ON_CALL(motors_start_move_one_step, [](motors_direction_t motors_direction) {
         EXPECT(motors_direction == motors_direction_t::DOWN_LEFT);
     });
-    state = sun_tracker_state_machine_update(sun_tracker_state_t::IDLE, sun_tracker_transition_t::START, drop, drop);
+    state = sun_tracker_state_machine_update(sun_tracker_state_t::IDLE, sun_tracker_transition_t::START, drop, result);
+    EXPECT(result == sun_tracker_result_t::UNKNOWN);
     EXPECT(state == sun_tracker_state_t::TRACKING);
 
     // From 'TRACKING' state with 'MOTORS_STOPPED' transition, when logic return a motors move
@@ -102,7 +108,8 @@ TEST(typical_scenario, []() {
         EXPECT(motors_direction == motors_direction_t::DOWN);
     });
     state = sun_tracker_state_machine_update(
-        sun_tracker_state_t::TRACKING, sun_tracker_transition_t::MOTORS_STOPPED, drop, drop);
+        sun_tracker_state_t::TRACKING, sun_tracker_transition_t::MOTORS_STOPPED, drop, result);
+    EXPECT(result == sun_tracker_result_t::UNKNOWN);
     EXPECT(state == sun_tracker_state_t::TRACKING);
 
     // From 'TRACKING' state with 'MOTORS_STOPPED' transition, when logic return no motors move
@@ -116,8 +123,9 @@ TEST(typical_scenario, []() {
                           return motors_direction_t::NONE;
                       });
     state = sun_tracker_state_machine_update(
-        sun_tracker_state_t::TRACKING, sun_tracker_transition_t::MOTORS_STOPPED, drop, drop);
-    EXPECT(state == sun_tracker_state_t::SUCCESS);
+        sun_tracker_state_t::TRACKING, sun_tracker_transition_t::MOTORS_STOPPED, drop, result);
+    EXPECT(result == sun_tracker_result_t::SUCCESS);
+    EXPECT(state == sun_tracker_state_t::IDLE);
 
     // From 'TRACKING' state with 'MOTORS_STOPPED' transition, when detection returns an error
     MINI_MOCK_ON_CALL(sun_tracker_logic_detect, [](CImg<unsigned char> &image) {
@@ -126,25 +134,21 @@ TEST(typical_scenario, []() {
         };
     });
     state = sun_tracker_state_machine_update(
-        sun_tracker_state_t::TRACKING, sun_tracker_transition_t::MOTORS_STOPPED, drop, drop);
-    EXPECT(state == sun_tracker_state_t::ERROR);
+        sun_tracker_state_t::TRACKING, sun_tracker_transition_t::MOTORS_STOPPED, drop, result);
+    EXPECT(result == sun_tracker_result_t::ERROR);
+    EXPECT(state == sun_tracker_state_t::IDLE);
 
     // From 'TRACKING' state with 'STOP' transition
-    state = sun_tracker_state_machine_update(sun_tracker_state_t::TRACKING, sun_tracker_transition_t::STOP, drop, drop);
+    state =
+        sun_tracker_state_machine_update(sun_tracker_state_t::TRACKING, sun_tracker_transition_t::STOP, drop, result);
+    EXPECT(result == sun_tracker_result_t::UNKNOWN);
     EXPECT(state == sun_tracker_state_t::STOPPING);
 
     // From 'TRACKING' state with 'STOP' and 'MOTORS_STOPPED' transitions
     sun_tracker_transition_t t = static_cast<sun_tracker_transition_t>(sun_tracker_transition_t::MOTORS_STOPPED
                                                                        | sun_tracker_transition_t::STOP);
-    state = sun_tracker_state_machine_update(sun_tracker_state_t::TRACKING, t, drop, drop);
-    EXPECT(state == sun_tracker_state_t::IDLE);
-
-    // From 'ERROR' state with 'RESET' transition
-    state = sun_tracker_state_machine_update(sun_tracker_state_t::ERROR, sun_tracker_transition_t::RESET, drop, drop);
-    EXPECT(state == sun_tracker_state_t::IDLE);
-
-    // From 'SUCCESS' state with 'RESET' transition
-    state = sun_tracker_state_machine_update(sun_tracker_state_t::ERROR, sun_tracker_transition_t::RESET, drop, drop);
+    state = sun_tracker_state_machine_update(sun_tracker_state_t::TRACKING, t, drop, result);
+    EXPECT(result == sun_tracker_result_t::ABORTED);
     EXPECT(state == sun_tracker_state_t::IDLE);
 });
 
