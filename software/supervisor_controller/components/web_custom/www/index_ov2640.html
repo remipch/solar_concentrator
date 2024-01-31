@@ -626,8 +626,8 @@ document.addEventListener('DOMContentLoaded', function (event) {
     })
 
   const supervisorStateValue = document.getElementById('supervisor-state')
+  const sunTrackerDetectionValue = document.getElementById('sun-tracker-detection')
   const sunTrackerStateValue = document.getElementById('sun-tracker-state')
-  const sunTrackerResultValue = document.getElementById('sun-tracker-detection')
   const motorsStateValue = document.getElementById('motors-state')
   function updateSupervisorStatus(){
     fetch(`${baseHost}/supervisor_status`)
@@ -636,8 +636,8 @@ document.addEventListener('DOMContentLoaded', function (event) {
     })
     .then(function (supervisor_status) {
         supervisorStateValue.innerHTML = supervisor_status['supervisor-state'];
+        sunTrackerDetectionValue.innerHTML = supervisor_status['sun-tracker-detection'];
         sunTrackerStateValue.innerHTML = supervisor_status['sun-tracker-state'];
-        sunTrackerResultValue.innerHTML = supervisor_status['sun-tracker-detection'];
         motorsStateValue.innerHTML = supervisor_status['motors-state'];
     })
   }
