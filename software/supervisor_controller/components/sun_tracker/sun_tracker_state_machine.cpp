@@ -63,7 +63,7 @@ sun_tracker_state_t sun_tracker_state_machine_update(sun_tracker_state_t current
         }
         if (transition & sun_tracker_transition_t::MOTORS_STOPPED) {
 
-            if (!camera_capture(false, full_img)) {
+            if (!camera_capture(true, full_img)) {
                 ESP_LOGE(TAG, "Camera capture failed");
                 return sun_tracker_state_t::ERROR;
             }
