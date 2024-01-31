@@ -2,7 +2,7 @@
 
 #include "camera.hpp"
 #include "sun_tracker_callbacks.hpp"
-#include "sun_tracker_logic_result.hpp"
+#include "sun_tracker_detection_result.hpp"
 
 #include <assert.h>
 
@@ -68,6 +68,9 @@ inline const char *str(sun_tracker_transition_t transition)
     }
 }
 
+// for debug purpose
+sun_tracker_detection_result_t sun_tracker_state_machine_get_detection_result();
+
 // This function is not thread safe, the caller has the responsibility to :
 // - never call it concurrently
 // - cache sun_tracker state to give it (optionaly asynchronously) to external components
@@ -82,5 +85,4 @@ inline const char *str(sun_tracker_transition_t transition)
 sun_tracker_state_t sun_tracker_state_machine_update(sun_tracker_state_t current_state,
                                                      sun_tracker_transition_t transition,
                                                      sun_tracker_image_callback publish_full_image,
-                                                     sun_tracker_image_callback publish_target_image,
-                                                     sun_tracker_logic_result_t &logic_result);
+                                                     sun_tracker_image_callback publish_target_image);

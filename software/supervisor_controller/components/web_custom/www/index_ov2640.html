@@ -460,9 +460,9 @@
                             </div>
                         </div>
                         <div class="input-group">
-                            <label for="sun-tracker-result">Sun tracker result</label>
+                            <label for="sun-tracker-detection">Sun tracker detection</label>
                             <div class="text">
-                                <span id="sun-tracker-result">?</span>
+                                <span id="sun-tracker-detection">?</span>
                             </div>
                         </div>
                         <div class="input-group">
@@ -645,7 +645,7 @@ document.addEventListener('DOMContentLoaded', function (event) {
 
   const supervisorStateValue = document.getElementById('supervisor-state')
   const sunTrackerStateValue = document.getElementById('sun-tracker-state')
-  const sunTrackerResultValue = document.getElementById('sun-tracker-result')
+  const sunTrackerResultValue = document.getElementById('sun-tracker-detection')
   const motorsStateValue = document.getElementById('motors-state')
   function updateSupervisorStatus(){
     fetch(`${baseHost}/supervisor_status`)
@@ -655,7 +655,7 @@ document.addEventListener('DOMContentLoaded', function (event) {
     .then(function (supervisor_status) {
         supervisorStateValue.innerHTML = supervisor_status['supervisor-state'];
         sunTrackerStateValue.innerHTML = supervisor_status['sun-tracker-state'];
-        sunTrackerResultValue.innerHTML = supervisor_status['sun-tracker-result'];
+        sunTrackerResultValue.innerHTML = supervisor_status['sun-tracker-detection'];
         motorsStateValue.innerHTML = supervisor_status['motors-state'];
     })
   }

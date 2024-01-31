@@ -19,7 +19,6 @@ static const int STATE_MUTEX_TIMEOUT_MS = 100;
 static SemaphoreHandle_t state_mutex;
 static const int INTER_UPDATE_DELAY_MS = 100;
 static sun_tracker_state_t current_state = sun_tracker_state_t::UNINITIALIZED;
-static sun_tracker_logic_result_t last_logic_result = sun_tracker_logic_result_t::UNKNOWN;
 static sun_tracker_transition_t asked_transition = sun_tracker_transition_t::NONE;
 static sun_tracker_result_callback result_callback = NULL;
 static sun_tracker_image_callback full_image_callback = NULL;
@@ -83,10 +82,10 @@ const char *sun_tracker_get_state()
 // because mutex does not support it. Neither ESP32 doc nor FreeRTOS doc is clear
 // about what happens in this case, various forums seem to indicate that an 'abort()'
 // is triggered with an explanation message.
-const char *sun_tracker_get_last_result()
+const char *sun_tracker_get_detection_result()
 {
     assert(xSemaphoreTake(state_mutex, pdMS_TO_TICKS(STATE_MUTEX_TIMEOUT_MS)));
-    auto result = last_logic_result;
+    auto result = sun_tracker_state_machine_get_detection_result();
     xSemaphoreGive(state_mutex);
     return str(result);
 }
@@ -113,9 +112,8 @@ static void sun_tracker_task(void *arg)
         asked_transition = sun_tracker_transition_t::NONE;
         xSemaphoreGive(state_mutex);
 
-        sun_tracker_logic_result_t new_logic_result = sun_tracker_logic_result_t::UNKNOWN;
-        sun_tracker_state_t new_state = sun_tracker_state_machine_update(
-            state, transition, publish_full_image, publish_target_image, new_logic_result);
+        sun_tracker_state_t new_state =
+            sun_tracker_state_machine_update(state, transition, publish_full_image, publish_target_image);
 
         if (new_state != state) {
             ESP_LOGI(
@@ -135,9 +133,6 @@ static void sun_tracker_task(void *arg)
             }
         }
         current_state = new_state;
-        if (new_logic_result != sun_tracker_logic_result_t::UNKNOWN) {
-            last_logic_result = new_logic_result;
-        }
         xSemaphoreGive(state_mutex);
 
         // Simple wait between state updates because :

@@ -468,18 +468,18 @@ static esp_err_t supervisor_status_handler(httpd_req_t *req)
     ESP_LOGI(TAG, "supervisor_state = %s", supervisor_state);
     auto sun_tracker_state = sun_tracker_get_state();
     ESP_LOGI(TAG, "sun_tracker state = %s", sun_tracker_state);
-    auto sun_tracker_result = sun_tracker_get_last_result();
-    ESP_LOGI(TAG, "sun_tracker result = %s", sun_tracker_result);
+    auto sun_tracker_detection = sun_tracker_get_detection_result();
+    ESP_LOGI(TAG, "sun_tracker detection = %s", sun_tracker_detection);
     auto motors_state = motors_get_state();
     ESP_LOGI(TAG, "motors state = %s", motors_state);
 
     static char json_response[1024];
     sprintf(json_response,
-            "{\"supervisor-state\":\"%s\", \"sun-tracker-state\":\"%s\", \"sun-tracker-result\":\"%s\", "
+            "{\"supervisor-state\":\"%s\", \"sun-tracker-state\":\"%s\", \"sun-tracker-detection\":\"%s\", "
             "\"motors-state\":\"%s\"}",
             supervisor_state,
             sun_tracker_state,
-            sun_tracker_result,
+            sun_tracker_detection,
             motors_state);
     httpd_resp_set_type(req, "application/json");
     httpd_resp_set_hdr(req, "Access-Control-Allow-Origin", "*");

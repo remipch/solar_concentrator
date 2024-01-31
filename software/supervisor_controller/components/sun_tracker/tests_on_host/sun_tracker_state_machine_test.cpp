@@ -9,15 +9,13 @@ MINI_MOCK_FUNCTION(camera_capture,
                    bool,
                    (bool drop_current_image, CImg<unsigned char> &grayscale_cimg),
                    (drop_current_image, grayscale_cimg));
-MINI_MOCK_FUNCTION(target_detector_detect, bool, (CImg<unsigned char> & image, rectangle_t &target), (image, target));
-MINI_MOCK_FUNCTION(sun_tracker_logic_start,
-                   sun_tracker_logic_result_t,
-                   (CImg<unsigned char> & target_img, motors_direction_t &motors_direction),
-                   (target_img, motors_direction));
+// MINI_MOCK_FUNCTION(target_detector_detect, bool, (CImg<unsigned char> & image, rectangle_t &target), (image,
+// target));
+MINI_MOCK_FUNCTION(sun_tracker_logic_detect, sun_tracker_detection_t, (CImg<unsigned char> & full_img), (full_img));
 MINI_MOCK_FUNCTION(sun_tracker_logic_update,
-                   sun_tracker_logic_result_t,
-                   (CImg<unsigned char> & target_img, motors_direction_t &motors_direction),
-                   (target_img, motors_direction));
+                   motors_direction_t,
+                   (sun_tracker_detection_t detection_before_move, sun_tracker_detection_t detection_after_move),
+                   (detection_before_move, detection_after_move));
 MINI_MOCK_FUNCTION(motors_start_move_one_step, void, (motors_direction_t direction), (direction));
 
 // sun_tracker image callbacks are for display purpose only,
@@ -35,62 +33,70 @@ TEST(typical_scenario, []() {
             return true;
         },
         7);
-    MINI_MOCK_ON_CALL(
-        target_detector_detect,
-        [](CImg<unsigned char> &image, rectangle_t &target) {
-            target = {
-                .left_px = 100,
-                .top_px = 200,
-                .right_px = 300,
-                .bottom_px = 400,
-            };
-            return true;
-        },
-        7);
 
     // From 'UNINITIALIZED' state
     sun_tracker_state_t state = sun_tracker_state_machine_update(
         sun_tracker_state_t::UNINITIALIZED, sun_tracker_transition_t::NONE, drop, drop);
     EXPECT(state == sun_tracker_state_t::IDLE);
 
-    // From 'IDLE' state without transition
+    // From 'IDLE' state without transition, when detection return an error
+    MINI_MOCK_ON_CALL(sun_tracker_logic_detect, [](CImg<unsigned char> &image) {
+        return sun_tracker_detection_t{.result = sun_tracker_detection_result_t::SPOT_NOT_DETECTED};
+    });
     state = sun_tracker_state_machine_update(sun_tracker_state_t::IDLE, sun_tracker_transition_t::NONE, drop, drop);
     EXPECT(state == sun_tracker_state_t::IDLE);
 
-    // From 'IDLE' state with 'START' transition, when logic return 'TARGET_REACHED'
-    MINI_MOCK_ON_CALL(sun_tracker_logic_start,
-                      [](CImg<unsigned char> &target_img, motors_direction_t &motors_direction) {
-                          motors_direction = motors_direction_t::NONE;
-                          return sun_tracker_logic_result_t::TARGET_REACHED;
-                      });
+    // From 'IDLE' with 'START' transition, when detection return an error
+    MINI_MOCK_ON_CALL(sun_tracker_logic_detect, [](CImg<unsigned char> &image) {
+        return sun_tracker_detection_t{.result = sun_tracker_detection_result_t::SPOT_NOT_DETECTED};
+    });
+    state = sun_tracker_state_machine_update(sun_tracker_state_t::IDLE, sun_tracker_transition_t::START, drop, drop);
+    EXPECT(state == sun_tracker_state_t::IDLE);
+
+    // From 'IDLE' state with 'START' transition, when detection return 'SUCCESS' without motors move
+    MINI_MOCK_ON_CALL(sun_tracker_logic_detect, [](CImg<unsigned char> &image) {
+        return sun_tracker_detection_t{
+            .result = sun_tracker_detection_result_t::SUCCESS,
+            .target_area = {100, 200, 300, 400},
+            .spot_light = {65, 5, 95, 35},
+            .left_border = false,
+            .top_border = false,
+            .right_border = false,
+            .bottom_border = false,
+            .direction = motors_direction_t::NONE,
+        };
+    });
     state = sun_tracker_state_machine_update(sun_tracker_state_t::IDLE, sun_tracker_transition_t::START, drop, drop);
     EXPECT(state == sun_tracker_state_t::SUCCESS);
 
-    // From 'IDLE' state with 'START' transition, when logic return 'MUST_MOVE'
-    MINI_MOCK_ON_CALL(sun_tracker_logic_start,
-                      [](CImg<unsigned char> &target_img, motors_direction_t &motors_direction) {
-                          motors_direction = motors_direction_t::DOWN_LEFT;
-                          return sun_tracker_logic_result_t::MUST_MOVE;
-                      });
+    // From 'IDLE' state with 'START' transition, when detection return 'SUCCESS' with motors move
+    MINI_MOCK_ON_CALL(sun_tracker_logic_detect, [](CImg<unsigned char> &image) {
+        return sun_tracker_detection_t{
+            .result = sun_tracker_detection_result_t::SUCCESS,
+            .target_area = {100, 200, 300, 400},
+            .spot_light = {65, 5, 95, 35},
+            .left_border = false,
+            .top_border = false,
+            .right_border = false,
+            .bottom_border = false,
+            .direction = motors_direction_t::DOWN_LEFT,
+        };
+    });
     MINI_MOCK_ON_CALL(motors_start_move_one_step, [](motors_direction_t motors_direction) {
         EXPECT(motors_direction == motors_direction_t::DOWN_LEFT);
     });
     state = sun_tracker_state_machine_update(sun_tracker_state_t::IDLE, sun_tracker_transition_t::START, drop, drop);
     EXPECT(state == sun_tracker_state_t::TRACKING);
 
-    // From 'IDLE' state with 'START' transition, when logic return an error
-    MINI_MOCK_ON_CALL(sun_tracker_logic_start,
-                      [](CImg<unsigned char> &target_img, motors_direction_t &motors_direction) {
-                          return sun_tracker_logic_result_t::NO_SPOT_DETECTED;
-                      });
-    state = sun_tracker_state_machine_update(sun_tracker_state_t::IDLE, sun_tracker_transition_t::START, drop, drop);
-    EXPECT(state == sun_tracker_state_t::ERROR);
-
-    // From 'TRACKING' state with 'MOTORS_STOPPED' transition, when logic return 'MUST_MOVE'
+    // From 'TRACKING' state with 'MOTORS_STOPPED' transition, when logic return a motors move
+    MINI_MOCK_ON_CALL(sun_tracker_logic_detect, [](CImg<unsigned char> &image) {
+        return sun_tracker_detection_t{
+            .result = sun_tracker_detection_result_t::SUCCESS,
+        };
+    });
     MINI_MOCK_ON_CALL(sun_tracker_logic_update,
-                      [](CImg<unsigned char> &target_img, motors_direction_t &motors_direction) {
-                          motors_direction = motors_direction_t::DOWN;
-                          return sun_tracker_logic_result_t::MUST_MOVE;
+                      [](sun_tracker_detection_t detection_before_move, sun_tracker_detection_t detection_after_move) {
+                          return motors_direction_t::DOWN;
                       });
     MINI_MOCK_ON_CALL(motors_start_move_one_step, [](motors_direction_t motors_direction) {
         EXPECT(motors_direction == motors_direction_t::DOWN);
@@ -99,21 +105,26 @@ TEST(typical_scenario, []() {
         sun_tracker_state_t::TRACKING, sun_tracker_transition_t::MOTORS_STOPPED, drop, drop);
     EXPECT(state == sun_tracker_state_t::TRACKING);
 
-    // From 'TRACKING' state with 'MOTORS_STOPPED' transition, when logic return 'TARGET_REACHED'
+    // From 'TRACKING' state with 'MOTORS_STOPPED' transition, when logic return no motors move
+    MINI_MOCK_ON_CALL(sun_tracker_logic_detect, [](CImg<unsigned char> &image) {
+        return sun_tracker_detection_t{
+            .result = sun_tracker_detection_result_t::SUCCESS,
+        };
+    });
     MINI_MOCK_ON_CALL(sun_tracker_logic_update,
-                      [](CImg<unsigned char> &target_img, motors_direction_t &motors_direction) {
-                          motors_direction = motors_direction_t::NONE;
-                          return sun_tracker_logic_result_t::TARGET_REACHED;
+                      [](sun_tracker_detection_t detection_before_move, sun_tracker_detection_t detection_after_move) {
+                          return motors_direction_t::NONE;
                       });
     state = sun_tracker_state_machine_update(
         sun_tracker_state_t::TRACKING, sun_tracker_transition_t::MOTORS_STOPPED, drop, drop);
     EXPECT(state == sun_tracker_state_t::SUCCESS);
 
-    // From 'TRACKING' state with 'MOTORS_STOPPED' transition, when logic return an error
-    MINI_MOCK_ON_CALL(sun_tracker_logic_update,
-                      [](CImg<unsigned char> &target_img, motors_direction_t &motors_direction) {
-                          return sun_tracker_logic_result_t::SPOT_TOO_BIG;
-                      });
+    // From 'TRACKING' state with 'MOTORS_STOPPED' transition, when detection returns an error
+    MINI_MOCK_ON_CALL(sun_tracker_logic_detect, [](CImg<unsigned char> &image) {
+        return sun_tracker_detection_t{
+            .result = sun_tracker_detection_result_t::SPOT_TOO_BIG,
+        };
+    });
     state = sun_tracker_state_machine_update(
         sun_tracker_state_t::TRACKING, sun_tracker_transition_t::MOTORS_STOPPED, drop, drop);
     EXPECT(state == sun_tracker_state_t::ERROR);

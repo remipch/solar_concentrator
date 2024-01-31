@@ -5,6 +5,7 @@
 #include "camera.hpp"
 #include "image.hpp"
 #include "motors_direction.hpp"
+#include "target_detector.hpp"
 
 #include <assert.h>
 
@@ -64,75 +65,122 @@ int count_lighted_pixels(const CImg<unsigned char> &img, rectangle_t rect, unsig
 }
 
 // return true if spot has been found
-bool get_spot_light_rectangle(const CImg<unsigned char> &img, rectangle_t &result)
+bool get_spot_light_rectangle(const CImg<unsigned char> &full_img,
+                              rectangle_t &target_area,
+                              rectangle_t &result_in_target_area)
 {
-    result = {-1, -1, -1, -1};
-    unsigned char min_level = get_image_borders_min_level(img) + LIGHTED_PIXEL_MIN_OFFSET;
+    // TODO? work directly in full_img
+    CImg<unsigned char> target_img =
+        full_img.get_crop(target_area.left_px, target_area.top_px, target_area.right_px, target_area.bottom_px);
+
+    result_in_target_area = {-1, -1, -1, -1};
+    unsigned char min_level = get_image_borders_min_level(target_img) + LIGHTED_PIXEL_MIN_OFFSET;
     ESP_LOGD(TAG, "get_spot_light_rectangle: min_level: %i", min_level);
 
-    cimg_forX(img, x)
+    cimg_forX(target_img, x)
     {
-        rectangle_t segment = get_vertical_segment(img, x);
-        if (count_lighted_pixels(img, segment, min_level) > MIN_LIGHTED_PIXELS_COUNT) {
-            result.left_px = x;
+        rectangle_t segment = get_vertical_segment(target_img, x);
+        if (count_lighted_pixels(target_img, segment, min_level) > MIN_LIGHTED_PIXELS_COUNT) {
+            result_in_target_area.left_px = x;
             break;
         }
     }
-    if (result.left_px < 0) {
+    if (result_in_target_area.left_px < 0) {
         return false;
     }
-    cimg_forX(img, x)
+    cimg_forX(target_img, x)
     {
-        rectangle_t segment = get_vertical_segment(img, img.width() - x - 1);
-        if (count_lighted_pixels(img, segment, min_level) > MIN_LIGHTED_PIXELS_COUNT) {
-            result.right_px = img.width() - x - 1;
+        rectangle_t segment = get_vertical_segment(target_img, target_img.width() - x - 1);
+        if (count_lighted_pixels(target_img, segment, min_level) > MIN_LIGHTED_PIXELS_COUNT) {
+            result_in_target_area.right_px = target_img.width() - x - 1;
             break;
         }
     }
-    if (result.right_px < 0) {
+    if (result_in_target_area.right_px < 0) {
         return false;
     }
-    cimg_forY(img, y)
+    cimg_forY(target_img, y)
     {
-        rectangle_t segment = get_horizontal_segment(img, y);
-        if (count_lighted_pixels(img, segment, min_level) > MIN_LIGHTED_PIXELS_COUNT) {
-            result.top_px = y;
+        rectangle_t segment = get_horizontal_segment(target_img, y);
+        if (count_lighted_pixels(target_img, segment, min_level) > MIN_LIGHTED_PIXELS_COUNT) {
+            result_in_target_area.top_px = y;
             break;
         }
     }
-    if (result.top_px < 0) {
+    if (result_in_target_area.top_px < 0) {
         return false;
     }
-    cimg_forY(img, y)
+    cimg_forY(target_img, y)
     {
-        rectangle_t segment = get_horizontal_segment(img, img.height() - y - 1);
-        if (count_lighted_pixels(img, segment, min_level) > MIN_LIGHTED_PIXELS_COUNT) {
-            result.bottom_px = img.height() - y - 1;
+        rectangle_t segment = get_horizontal_segment(target_img, target_img.height() - y - 1);
+        if (count_lighted_pixels(target_img, segment, min_level) > MIN_LIGHTED_PIXELS_COUNT) {
+            result_in_target_area.bottom_px = target_img.height() - y - 1;
             break;
         }
     }
-    if (result.bottom_px < 0) {
+    if (result_in_target_area.bottom_px < 0) {
         return false;
     }
 
     ESP_LOGD(TAG,
-             "get_spot_light_rectangle: left_px: %i ; right_px: %i ; top_px: %i ; bottom_px: %i",
-             result.left_px,
-             result.right_px,
-             result.top_px,
-             result.bottom_px);
+             "get_spot_light_rectangle: left_px: %i ; top_px: %i ; right_px: %i ; bottom_px: %i",
+             result_in_target_area.left_px,
+             result_in_target_area.top_px,
+             result_in_target_area.right_px,
+             result_in_target_area.bottom_px);
     return true;
 }
 
-void draw_spot_light_rectangle(CImg<unsigned char> &image, const rectangle_t &spot_light)
+void draw_spot_light_rectangle(CImg<unsigned char> &image, sun_tracker_detection_t detection)
 {
-    image.draw_rectangle(
-        spot_light.left_px, spot_light.top_px, spot_light.right_px, spot_light.bottom_px, &WHITE, 1, 0xF0F0F0F0);
-    image.draw_rectangle(
-        spot_light.left_px, spot_light.top_px, spot_light.right_px, spot_light.bottom_px, &BLACK, 1, 0x0F0F0F0F);
+    image.draw_rectangle(detection.spot_light.left_px + detection.target_area.left_px,
+                         detection.spot_light.top_px + detection.target_area.top_px,
+                         detection.spot_light.right_px + detection.target_area.left_px,
+                         detection.spot_light.bottom_px + detection.target_area.top_px,
+                         &WHITE,
+                         1,
+                         0xF0F0F0F0);
+    image.draw_rectangle(detection.spot_light.left_px + detection.target_area.left_px,
+                         detection.spot_light.top_px + detection.target_area.top_px,
+                         detection.spot_light.right_px + detection.target_area.left_px,
+                         detection.spot_light.bottom_px + detection.target_area.top_px,
+                         &BLACK,
+                         1,
+                         0x0F0F0F0F);
 }
 
-void draw_motors_arrow(CImg<unsigned char> &image, rectangle_t spot_light, motors_direction_t motors_direction)
+void draw_lighted_borders(CImg<unsigned char> &image, sun_tracker_detection_t detection)
+{
+    auto target_area = detection.target_area;
+    if (detection.left_border) {
+        image.draw_line(target_area.left_px - 2,
+                        target_area.top_px - 1,
+                        target_area.left_px - 2,
+                        target_area.bottom_px + 1,
+                        &WHITE);
+    }
+    if (detection.top_border) {
+        image.draw_line(
+            target_area.left_px - 1, target_area.top_px - 2, target_area.right_px + 1, target_area.top_px - 2, &WHITE);
+    }
+    if (detection.right_border) {
+        image.draw_line(target_area.right_px + 2,
+                        target_area.top_px - 1,
+                        target_area.right_px + 2,
+                        target_area.bottom_px + 1,
+                        &WHITE);
+    }
+    if (detection.bottom_border) {
+        image.draw_line(target_area.left_px - 1,
+                        target_area.bottom_px + 2,
+                        target_area.right_px + 1,
+                        target_area.bottom_px + 2,
+                        &WHITE);
+    }
+}
+
+void draw_motors_arrow(
+    CImg<unsigned char> &image, rectangle_t spot_light, int offset_x, int offset_y, motors_direction_t motors_direction)
 {
     int arrow_x = 0;
     int arrow_y = 0;
@@ -170,165 +218,163 @@ void draw_motors_arrow(CImg<unsigned char> &image, rectangle_t spot_light, motor
         break;
     }
 
-    int spot_x = spot_light.get_center_x_px();
-    int spot_y = spot_light.get_center_y_px();
+    int spot_x = spot_light.get_center_x_px() + offset_x;
+    int spot_y = spot_light.get_center_y_px() + offset_y;
     image.draw_arrow(spot_x, spot_y, spot_x + arrow_x, spot_y + arrow_y, &BLACK);
 }
 
-// To check target_image size does not change between calls
-static int target_width = 0;
-static int target_height = 0;
-rectangle_t spot_light_before_move;
-
-motors_direction_t
-get_best_motors_direction(bool move_from_left, bool move_from_top, bool move_from_right, bool move_from_bottom)
+// Find the best motors direction to move away from lighted borders
+motors_direction_t get_best_motors_direction(sun_tracker_detection_t detection)
 {
-    if (move_from_left) {
-        if (move_from_top) {
+    if (detection.left_border) {
+        if (detection.top_border) {
             return motors_direction_t::DOWN_RIGHT;
-        } else if (move_from_bottom) {
+        } else if (detection.bottom_border) {
             return motors_direction_t::UP_RIGHT;
         } else {
             return motors_direction_t::RIGHT;
         }
     }
-    if (move_from_right) {
-        if (move_from_top) {
+    if (detection.right_border) {
+        if (detection.top_border) {
             return motors_direction_t::DOWN_LEFT;
-        } else if (move_from_bottom) {
+        } else if (detection.bottom_border) {
             return motors_direction_t::UP_LEFT;
         } else {
             return motors_direction_t::LEFT;
         }
     }
-    if (move_from_top) {
+    if (detection.top_border) {
         return motors_direction_t::DOWN;
     }
-    if (move_from_bottom) {
+    if (detection.bottom_border) {
         return motors_direction_t::UP;
     }
     return motors_direction_t::NONE;
 }
 
-sun_tracker_logic_result_t sun_tracker_logic_start(CImg<unsigned char> &target_img,
-                                                   motors_direction_t &motors_direction)
+sun_tracker_detection_t sun_tracker_logic_detect(CImg<unsigned char> &full_img)
 {
-    // assert grayscale image
-    assert(target_img.depth() == 1);
-    assert(target_img.spectrum() == 1);
-    target_width = target_img.width();
-    target_height = target_img.height();
+    sun_tracker_detection_t detection{
+        .result = sun_tracker_detection_result_t::UNKNOWN,
+        .target_area = {-1, -1, -1, -1},
+        .spot_light = {-1, -1, -1, -1},
+        .left_border = false,
+        .top_border = false,
+        .right_border = false,
+        .bottom_border = false,
+        .direction = motors_direction_t::NONE,
+    };
 
-    if (!get_spot_light_rectangle(target_img, spot_light_before_move)) {
-        ESP_LOGD(TAG, "sun_tracker_logic_start: NO_SPOT_DETECTED");
-        return sun_tracker_logic_result_t::NO_SPOT_DETECTED;
+    if (!target_detector_detect(full_img, detection.target_area)) {
+        detection.result = sun_tracker_detection_result_t::TARGET_NOT_DETECTED;
+        ESP_LOGW(TAG, "sun_tracker_logic_detect: TARGET_NOT_DETECTED");
+        return detection;
     }
 
-    draw_spot_light_rectangle(target_img, spot_light_before_move);
-
-    if (spot_light_before_move.get_width_px() < MIN_SPOT_SIZE_PX
-        || spot_light_before_move.get_height_px() < MIN_SPOT_SIZE_PX) {
-        ESP_LOGD(TAG, "sun_tracker_logic_start: SPOT_TOO_SMALL");
-        return sun_tracker_logic_result_t::SPOT_TOO_SMALL;
+    if (!get_spot_light_rectangle(full_img, detection.target_area, detection.spot_light)) {
+        detection.result = sun_tracker_detection_result_t::SPOT_NOT_DETECTED;
+        ESP_LOGW(TAG, "sun_tracker_logic_detect: SPOT_NOT_DETECTED");
+        return detection;
     }
 
-    bool move_from_left = (spot_light_before_move.left_px < MIN_DISTANCE_FROM_BORDER_PX);
-    bool move_from_top = (spot_light_before_move.top_px < MIN_DISTANCE_FROM_BORDER_PX);
-    bool move_from_right = (target_img.width() - 1 - spot_light_before_move.right_px < MIN_DISTANCE_FROM_BORDER_PX);
-    bool move_from_bottom = (target_img.width() - 1 - spot_light_before_move.bottom_px < MIN_DISTANCE_FROM_BORDER_PX);
+    draw_spot_light_rectangle(full_img, detection);
 
-    if ((move_from_left && move_from_right) || (move_from_top && move_from_bottom)) {
-        ESP_LOGD(TAG, "sun_tracker_logic_start: SPOT_TOO_BIG");
-        return sun_tracker_logic_result_t::SPOT_TOO_BIG;
+    if (detection.spot_light.get_width_px() < MIN_SPOT_SIZE_PX
+        || detection.spot_light.get_height_px() < MIN_SPOT_SIZE_PX) {
+        detection.result = sun_tracker_detection_result_t::SPOT_TOO_SMALL;
+        ESP_LOGW(TAG, "sun_tracker_logic_detect: SPOT_TOO_SMALL");
+        return detection;
     }
 
-    motors_direction = get_best_motors_direction(move_from_left, move_from_top, move_from_right, move_from_bottom);
-    ESP_LOGD(TAG, "sun_tracker_logic_start: get_best_motors_direction: %s", str(motors_direction));
+    int target_width = detection.target_area.get_width_px();
+    int target_height = detection.target_area.get_height_px();
+    detection.left_border = (detection.spot_light.left_px < MIN_DISTANCE_FROM_BORDER_PX);
+    detection.top_border = (detection.spot_light.top_px < MIN_DISTANCE_FROM_BORDER_PX);
+    detection.right_border = (target_width - 1 - detection.spot_light.right_px < MIN_DISTANCE_FROM_BORDER_PX);
+    detection.bottom_border = (target_height - 1 - detection.spot_light.bottom_px < MIN_DISTANCE_FROM_BORDER_PX);
 
-    draw_motors_arrow(target_img, spot_light_before_move, motors_direction);
+    draw_lighted_borders(full_img, detection);
 
-    if (motors_direction == motors_direction_t::NONE) {
-        ESP_LOGD(TAG, "sun_tracker_logic_start: TARGET_REACHED");
-        return sun_tracker_logic_result_t::TARGET_REACHED;
-    } else {
-        ESP_LOGD(TAG, "sun_tracker_logic_start: MUST_MOVE");
-        return sun_tracker_logic_result_t::MUST_MOVE;
+    if ((detection.left_border && detection.right_border) || (detection.top_border && detection.bottom_border)) {
+        detection.result = sun_tracker_detection_result_t::SPOT_TOO_BIG;
+        ESP_LOGW(TAG, "sun_tracker_logic_detect: SPOT_TOO_BIG");
+        return detection;
     }
+
+    detection.result = sun_tracker_detection_result_t::SUCCESS;
+    detection.direction = get_best_motors_direction(detection);
+    ESP_LOGD(TAG, "sun_tracker_logic_detect: SUCCESS (direction: %s)", str(detection.direction));
+
+    return detection;
 }
 
-sun_tracker_logic_result_t sun_tracker_logic_update(CImg<unsigned char> &target_img,
-                                                    motors_direction_t &motors_direction)
+motors_direction_t sun_tracker_logic_update(sun_tracker_detection_t detection_before_move,
+                                            sun_tracker_detection_t detection_after_move)
 {
-    assert(target_img.depth() == 1);
-    assert(target_img.spectrum() == 1);
-    assert(target_img.width() == target_width);
-    assert(target_img.height() == target_height);
 
-    rectangle_t spot_light_after_move;
-    if (!get_spot_light_rectangle(target_img, spot_light_after_move)) {
-        ESP_LOGD(TAG, "sun_tracker_logic_update: NO_SPOT_DETECTED");
-        return sun_tracker_logic_result_t::NO_SPOT_DETECTED;
-    }
+    bool left_overrun =
+        (detection_before_move.spot_light.left_px - detection_after_move.spot_light.left_px > MIN_SPOT_OVERRUN_PX);
+    bool up_overrun =
+        (detection_before_move.spot_light.top_px - detection_after_move.spot_light.top_px > MIN_SPOT_OVERRUN_PX);
+    bool right_overrun =
+        (detection_after_move.spot_light.right_px - detection_before_move.spot_light.right_px > MIN_SPOT_OVERRUN_PX);
+    bool down_overrun =
+        (detection_after_move.spot_light.bottom_px - detection_before_move.spot_light.bottom_px > MIN_SPOT_OVERRUN_PX);
 
-    draw_spot_light_rectangle(target_img, spot_light_after_move);
+    ESP_LOGD(TAG,
+             "sun_tracker_logic_update: overruns l:%i u:%i r:%i b:%i",
+             left_overrun,
+             up_overrun,
+             right_overrun,
+             down_overrun);
 
-    bool left_overrun = (spot_light_before_move.left_px - spot_light_after_move.left_px > MIN_SPOT_OVERRUN_PX);
-    bool up_overrun = (spot_light_before_move.top_px - spot_light_after_move.top_px > MIN_SPOT_OVERRUN_PX);
-    bool right_overrun = (spot_light_after_move.right_px - spot_light_before_move.right_px > MIN_SPOT_OVERRUN_PX);
-    bool down_overrun = (spot_light_after_move.bottom_px - spot_light_before_move.bottom_px > MIN_SPOT_OVERRUN_PX);
-
-    switch (motors_direction) {
+    switch (detection_before_move.direction) {
     case motors_direction_t::UP:
         if (up_overrun) {
-            motors_direction = motors_direction_t::NONE;
+            return motors_direction_t::NONE;
         }
         break;
     case motors_direction_t::UP_RIGHT:
         if (up_overrun || right_overrun) {
-            motors_direction = motors_direction_t::NONE;
+            return motors_direction_t::NONE;
         }
         break;
     case motors_direction_t::RIGHT:
         if (right_overrun) {
-            motors_direction = motors_direction_t::NONE;
+            return motors_direction_t::NONE;
         }
         break;
     case motors_direction_t::DOWN_RIGHT:
         if (down_overrun || right_overrun) {
-            motors_direction = motors_direction_t::NONE;
+            return motors_direction_t::NONE;
         }
         break;
     case motors_direction_t::DOWN:
         if (down_overrun) {
-            motors_direction = motors_direction_t::NONE;
+            return motors_direction_t::NONE;
         }
         break;
     case motors_direction_t::DOWN_LEFT:
         if (down_overrun || left_overrun) {
-            motors_direction = motors_direction_t::NONE;
+            return motors_direction_t::NONE;
         }
         break;
     case motors_direction_t::LEFT:
         if (left_overrun) {
-            motors_direction = motors_direction_t::NONE;
+            return motors_direction_t::NONE;
         }
         break;
     case motors_direction_t::UP_LEFT:
         if (up_overrun || left_overrun) {
-            motors_direction = motors_direction_t::NONE;
+            return motors_direction_t::NONE;
         }
         break;
     default:
         break;
     }
 
-    draw_motors_arrow(target_img, spot_light_before_move, motors_direction);
-
-    if (motors_direction == motors_direction_t::NONE) {
-        ESP_LOGD(TAG, "sun_tracker_logic_update: TARGET_REACHED");
-        return sun_tracker_logic_result_t::TARGET_REACHED;
-    } else {
-        ESP_LOGD(TAG, "sun_tracker_logic_update: MUST_MOVE");
-        return sun_tracker_logic_result_t::MUST_MOVE;
-    }
+    // Continue to move
+    ESP_LOGD(TAG, "sun_tracker_logic_update: move (direction: %s)", str(detection_after_move.direction));
+    return detection_after_move.direction;
 }

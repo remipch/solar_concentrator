@@ -13,14 +13,8 @@ add_compile_definitions(cimg_use_jpeg=1)
 configure_file(${CMAKE_CURRENT_SOURCE_DIR}/spot_on_center.jpg
                ${CMAKE_CURRENT_BINARY_DIR}/spot_on_center.jpg COPYONLY)
 
-configure_file(${CMAKE_CURRENT_SOURCE_DIR}/spot_on_top_right_1.jpg
-               ${CMAKE_CURRENT_BINARY_DIR}/spot_on_top_right_1.jpg COPYONLY)
-
-configure_file(${CMAKE_CURRENT_SOURCE_DIR}/spot_on_top_right_2.jpg
-               ${CMAKE_CURRENT_BINARY_DIR}/spot_on_top_right_2.jpg COPYONLY)
-
-configure_file(${CMAKE_CURRENT_SOURCE_DIR}/spot_on_top_right_3.jpg
-               ${CMAKE_CURRENT_BINARY_DIR}/spot_on_top_right_3.jpg COPYONLY)
+configure_file(${CMAKE_CURRENT_SOURCE_DIR}/small_spot.jpg
+               ${CMAKE_CURRENT_BINARY_DIR}/small_spot.jpg COPYONLY)
 
 add_executable(sun_tracker_logic_test sun_tracker_logic_test.cpp
                                       ../sun_tracker_logic)
