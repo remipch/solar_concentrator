@@ -19,6 +19,7 @@ extern "C" void app_main()
     esp_log_level_set("wifi", ESP_LOG_INFO);
 
     esp_log_level_set("target_detector", ESP_LOG_INFO);
+    esp_log_level_set("app_httpd", ESP_LOG_DEBUG);
 
     app_wifi_main();
 

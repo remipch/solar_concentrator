@@ -232,7 +232,7 @@ static const int image_mutex_TIMEOUT_MS = 5000;
 // Note : the caller guarantee that full_image object is not changed until this function returns
 void full_image_updated(CImg<unsigned char> &full_image)
 {
-    ESP_LOGI(TAG, "full_image_updated: %i x %i", full_image.width(), full_image.height());
+    ESP_LOGD(TAG, "full_image_updated: %i x %i", full_image.width(), full_image.height());
     assert(xSemaphoreTake(image_mutex, pdMS_TO_TICKS(image_mutex_TIMEOUT_MS)));
     image_frame = grayscale_cimg_to_grayscale_frame(full_image, image_buffer);
     xSemaphoreGive(image_mutex);
@@ -427,13 +427,13 @@ static esp_err_t supervisor_command_handler(httpd_req_t *req)
 static esp_err_t supervisor_status_handler(httpd_req_t *req)
 {
     auto supervisor_state = supervisor_get_state();
-    ESP_LOGI(TAG, "supervisor_state = %s", supervisor_state);
+    ESP_LOGV(TAG, "supervisor_state = %s", supervisor_state);
     auto sun_tracker_state = sun_tracker_get_state();
-    ESP_LOGI(TAG, "sun_tracker state = %s", sun_tracker_state);
+    ESP_LOGV(TAG, "sun_tracker state = %s", sun_tracker_state);
     auto sun_tracker_detection = sun_tracker_get_detection_result();
-    ESP_LOGI(TAG, "sun_tracker detection = %s", sun_tracker_detection);
+    ESP_LOGV(TAG, "sun_tracker detection = %s", sun_tracker_detection);
     auto motors_state = motors_get_state();
-    ESP_LOGI(TAG, "motors state = %s", motors_state);
+    ESP_LOGV(TAG, "motors state = %s", motors_state);
 
     static char json_response[1024];
     sprintf(json_response,
