@@ -119,7 +119,7 @@ void supervisor_init()
     xTaskCreate(supervisor_task, TAG, 4 * 1024, NULL, 5, NULL);
 }
 
-void supervisor_stop() { set_transition(supervisor_transition_t::STOP); }
+void supervisor_stop() { set_transition(supervisor_transition_t::STOP_OR_RESET); }
 
 void supervisor_start_manual_move_continuous(motors_direction_t direction)
 {

@@ -36,7 +36,7 @@ supervisor_state_t supervisor_state_machine_update(supervisor_state_t current_st
     }
 
     if (current_state == supervisor_state_t::MANUAL_MOVING) {
-        if (transition == supervisor_transition_t::STOP) {
+        if (transition == supervisor_transition_t::STOP_OR_RESET) {
             motors_stop();
             // Stay in same state until MOTORS_STOPPED transition is treated
             return current_state;
@@ -46,7 +46,7 @@ supervisor_state_t supervisor_state_machine_update(supervisor_state_t current_st
     }
 
     if (current_state == supervisor_state_t::SUN_TRACKING) {
-        if (transition == supervisor_transition_t::STOP) {
+        if (transition == supervisor_transition_t::STOP_OR_RESET) {
             sun_tracker_stop();
             // Stay in same state until SUN_TRACKING transition is treated
             return current_state;
@@ -61,7 +61,7 @@ supervisor_state_t supervisor_state_machine_update(supervisor_state_t current_st
     }
 
     if (current_state == supervisor_state_t::WAITING_SUN_MOVE) {
-        if (transition == supervisor_transition_t::STOP) {
+        if (transition == supervisor_transition_t::STOP_OR_RESET) {
             return supervisor_state_t::IDLE;
         } else if ((time_ms - start_waiting_time_ms) > WAITING_SUN_MOVE_DURATION_MS) {
             sun_tracker_start();
@@ -70,7 +70,7 @@ supervisor_state_t supervisor_state_machine_update(supervisor_state_t current_st
     }
 
     if (current_state == supervisor_state_t::ERROR) {
-        if (transition == supervisor_transition_t::STOP) {
+        if (transition == supervisor_transition_t::STOP_OR_RESET) {
             // Reset error and go back to IDLE
             sun_tracker_reset();
             return supervisor_state_t::IDLE;
