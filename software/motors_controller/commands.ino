@@ -90,10 +90,7 @@ void updateOutputCommand()
 // bit 5 is motor DOWN_LEFT pin B
 void writeMotors(int motor_pins)
 {
-    digitalWrite(UP_A_PIN, (motor_pins & 1) ? HIGH : LOW);
-    digitalWrite(UP_B_PIN, (motor_pins & 2) ? HIGH : LOW);
-    digitalWrite(DR_A_PIN, (motor_pins & 4) ? HIGH : LOW);
-    digitalWrite(DR_B_PIN, (motor_pins & 8) ? HIGH : LOW);
-    digitalWrite(DL_A_PIN, (motor_pins & 16) ? HIGH : LOW);
-    digitalWrite(DL_B_PIN, (motor_pins & 32) ? HIGH : LOW);
+    for (int i = 0; i < MOTOR_PINS_COUNT; i++) {
+        digitalWrite(MOTOR_PINS[i], (motor_pins & (1 << i)) ? HIGH : LOW);
+    }
 }

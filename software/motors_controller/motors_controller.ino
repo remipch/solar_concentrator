@@ -1,18 +1,22 @@
 #include <SoftwareSerial.h>
 
-// motor UP
-int UP_A_PIN = 2; // unroll
-int UP_B_PIN = 3; // roll
+const int MOTOR_PINS_COUNT = 8;
 
-// motor DOWN_RIGHT
-int DR_A_PIN = 4; // unroll
-int DR_B_PIN = 5; // roll
+// Motor pins ordered by motors command bit (loweest bit at index 0)
+int MOTOR_PINS[MOTOR_PINS_COUNT] = {
+    // PANEL_0:
+    2, //  LEFT motor, pin A (unroll)   1
+    3, //  LEFT motor, pin B (roll)     2
+    4, //  RIGHT motor, pin A (unroll)  4
+    5, //  RIGHT motor, pin B (roll)    8
+    // PANEL_1:
+    7, // LEFT motor, pin A (unroll)   16
+    10, // LEFT motor, pin B (roll)     32
+    11, // RIGHT motor, pin A (unroll)  64
+    12, // RIGHT motor, pin B (roll)    128
+};
 
-// motor DOWN_LEFT
-int DL_A_PIN = 6; // unroll
-int DL_B_PIN = 7; // roll
-
-int PWM_PIN = 10; // dedicated to motors speed
+int PWM_PIN = 6; // dedicated to motors speed
 
 int MEASURE_PIN = A0;
 
@@ -28,12 +32,9 @@ void setup()
     Serial.begin(19200);
 
     pinMode(LED_BUILTIN, OUTPUT);
-    pinMode(UP_A_PIN, OUTPUT);
-    pinMode(UP_B_PIN, OUTPUT);
-    pinMode(DR_A_PIN, OUTPUT);
-    pinMode(DR_B_PIN, OUTPUT);
-    pinMode(DL_A_PIN, OUTPUT);
-    pinMode(DL_B_PIN, OUTPUT);
+    for (int i = 0; i < MOTOR_PINS_COUNT; i++) {
+        pinMode(MOTOR_PINS[i], OUTPUT);
+    }
     pinMode(PWM_PIN, OUTPUT);
     analogWrite(PWM_PIN, 255);
 
