@@ -83,19 +83,19 @@ void motors_hw_start_move(motors_direction_t direction, bool continuous)
     int motor_pins = 0;
 
     if (direction == motors_direction_t::UP) {
-        motor_pins = 20;
+        motor_pins = 5;
     } else if (direction == motors_direction_t::UP_RIGHT) {
-        motor_pins = 16;
+        motor_pins = 1;
     } else if (direction == motors_direction_t::RIGHT) {
-        motor_pins = 24;
+        motor_pins = 9;
     } else if (direction == motors_direction_t::DOWN_RIGHT) {
         motor_pins = 8;
     } else if (direction == motors_direction_t::DOWN) {
-        motor_pins = 40;
+        motor_pins = 10;
     } else if (direction == motors_direction_t::DOWN_LEFT) {
-        motor_pins = 32;
+        motor_pins = 2;
     } else if (direction == motors_direction_t::LEFT) {
-        motor_pins = 36;
+        motor_pins = 6;
     } else if (direction == motors_direction_t::UP_LEFT) {
         motor_pins = 4;
     } else {
