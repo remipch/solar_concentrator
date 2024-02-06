@@ -400,6 +400,9 @@
                                 <input id="stream-checkbox" type="checkbox">
                                 <label class="slider" for="stream-checkbox"></label>
                             </div>
+                            <div class="text">
+                                <span id="stream-state">OFF</span>
+                            </div>
                         </div>
                         <div class="input-group">
                             <label for="motors">Manual move</label>
@@ -581,14 +584,17 @@ document.addEventListener('DOMContentLoaded', function (event) {
   const view = document.getElementById('stream')
   const viewContainer = document.getElementById('stream-container')
   const streamCheckbox = document.getElementById('stream-checkbox')
+  const streamState = document.getElementById('stream-state')
 
   const stopStream = () => {
     window.stop();
+    streamState.innerHTML = "OFF";
   }
 
   const startStream = () => {
     view.src = `${streamUrl}/stream`
     show(viewContainer)
+    streamState.innerHTML = "ON";
   }
 
   streamCheckbox.onchange = () => {
