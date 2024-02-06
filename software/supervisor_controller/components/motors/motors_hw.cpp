@@ -77,7 +77,7 @@ void motors_hw_stop()
     motors_hw_write_commands("c");
 }
 
-void motors_hw_start_move(motors_direction_t direction, bool continuous)
+void motors_hw_start_move(panel_t panel, motors_direction_t direction, bool continuous)
 {
     ESP_LOGV(TAG, "motors_hw_start_move(direction = %s, continuous = %i)", str(direction), continuous ? 1 : 0);
     int motor_pins = 0;
@@ -100,6 +100,13 @@ void motors_hw_start_move(motors_direction_t direction, bool continuous)
         motor_pins = 4;
     } else {
         assert(false);
+    }
+
+    // underlying motors pins are just shifted by 4 bits
+    if (panel == panel_t::PANEL_B) {
+        motor_pins *= 16;
+    } else {
+        assert(panel == panel_t::PANEL_A);
     }
 
     // 'continuous' is not supposed to be infinite because hard angle limit

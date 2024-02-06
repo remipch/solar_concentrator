@@ -20,6 +20,7 @@ static SemaphoreHandle_t state_mutex;
 static const int INTER_UPDATE_DELAY_MS = 100;
 static motors_state_t current_state = motors_state_t::UNINITIALIZED;
 static motors_transition_t asked_transition = motors_transition_t::NONE;
+static panel_t asked_panel = panel_t::NONE;
 static motors_direction_t asked_direction = motors_direction_t::NONE;
 static std::vector<motors_stopped_callback> stopped_callbacks;
 
@@ -38,7 +39,9 @@ const char *motors_get_state()
 }
 
 // Note : transition will be reset if state changes after this call
-void set_transition(motors_transition_t transition, motors_direction_t direction = motors_direction_t::NONE)
+void set_transition(motors_transition_t transition,
+                    panel_t panel = panel_t::NONE,
+                    motors_direction_t direction = motors_direction_t::NONE)
 {
     assert(xSemaphoreTake(state_mutex, pdMS_TO_TICKS(STATE_MUTEX_TIMEOUT_MS)));
     if (asked_transition != motors_transition_t::NONE) {
@@ -49,6 +52,7 @@ void set_transition(motors_transition_t transition, motors_direction_t direction
             str(transition));
     }
     asked_transition = transition;
+    asked_panel = panel;
     asked_direction = direction;
     xSemaphoreGive(state_mutex);
 }
@@ -59,6 +63,7 @@ static void motors_task(void *arg)
         assert(xSemaphoreTake(state_mutex, pdMS_TO_TICKS(STATE_MUTEX_TIMEOUT_MS)));
         motors_state_t state = current_state;
         motors_transition_t transition = asked_transition;
+        panel_t panel = asked_panel;
         motors_direction_t direction = asked_direction;
 
         // Reset asked transition :
@@ -66,10 +71,11 @@ static void motors_task(void *arg)
         // - one transition must not be treated multiple times by 'state_machine_update'
         // - we allow another transition to be set while 'state_machine_update' is running
         asked_transition = motors_transition_t::NONE;
+        asked_panel = panel_t::NONE;
         asked_direction = motors_direction_t::NONE;
         xSemaphoreGive(state_mutex);
 
-        motors_state_t new_state = motors_state_machine_update(state, transition, direction);
+        motors_state_t new_state = motors_state_machine_update(state, transition, panel, direction);
 
         if (new_state != state) {
             ESP_LOGI(TAG,
@@ -107,14 +113,14 @@ void motors_init()
     xTaskCreate(motors_task, TAG, 4 * 1024, NULL, 5, NULL);
 }
 
-void motors_start_move_continuous(motors_direction_t direction)
+void motors_start_move_continuous(panel_t panel, motors_direction_t direction)
 {
-    set_transition(motors_transition_t::START_MOVE_CONTINUOUS, direction);
+    set_transition(motors_transition_t::START_MOVE_CONTINUOUS, panel, direction);
 }
 
-void motors_start_move_one_step(motors_direction_t direction)
+void motors_start_move_one_step(panel_t panel, motors_direction_t direction)
 {
-    set_transition(motors_transition_t::START_MOVE_ONE_STEP, direction);
+    set_transition(motors_transition_t::START_MOVE_ONE_STEP, panel, direction);
 }
 
 void motors_stop() { set_transition(motors_transition_t::STOP); }

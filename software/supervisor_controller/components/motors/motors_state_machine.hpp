@@ -1,6 +1,7 @@
 #pragma once
 
 #include "motors_direction.hpp"
+#include "panel.hpp"
 
 #include <assert.h>
 
@@ -65,4 +66,5 @@ inline const char *str(motors_transition_t transition)
 // start quickly, even if a full image is being captured asynchronously)
 motors_state_t motors_state_machine_update(motors_state_t current_state,
                                            motors_transition_t transition,
+                                           panel_t panel,
                                            motors_direction_t motors_direction);

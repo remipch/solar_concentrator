@@ -11,6 +11,7 @@ static motors_direction_t continuous_motors_direction = motors_direction_t::NONE
 
 motors_state_t motors_state_machine_update(motors_state_t current_state,
                                            motors_transition_t transition,
+                                           panel_t panel,
                                            motors_direction_t motors_direction)
 {
 
@@ -26,10 +27,10 @@ motors_state_t motors_state_machine_update(motors_state_t current_state,
     // treat them globally outside of 'if(state==...){}' blocs to avoid repetition
     if (transition == motors_transition_t::START_MOVE_CONTINUOUS) {
         continuous_motors_direction = motors_direction;
-        motors_hw_start_move(motors_direction, true);
+        motors_hw_start_move(panel, motors_direction, true);
         return motors_state_t::MOVING;
     } else if (transition == motors_transition_t::START_MOVE_ONE_STEP) {
-        motors_hw_start_move(motors_direction, false);
+        motors_hw_start_move(panel, motors_direction, false);
         return motors_state_t::MOVING;
     } else if (transition == motors_transition_t::STOP) {
         motors_hw_stop();

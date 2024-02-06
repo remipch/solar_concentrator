@@ -16,7 +16,7 @@ MINI_MOCK_FUNCTION(sun_tracker_logic_update,
                    motors_direction_t,
                    (sun_tracker_detection_t detection_before_move, sun_tracker_detection_t detection_after_move),
                    (detection_before_move, detection_after_move));
-MINI_MOCK_FUNCTION(motors_start_move_one_step, void, (motors_direction_t direction), (direction));
+MINI_MOCK_FUNCTION(motors_start_move_one_step, void, (panel_t panel, motors_direction_t direction), (panel, direction));
 
 // sun_tracker image callbacks are for display purpose only,
 void drop(CImg<unsigned char> &img) {}
@@ -87,7 +87,8 @@ TEST(typical_scenario, []() {
             .direction = motors_direction_t::DOWN_LEFT,
         };
     });
-    MINI_MOCK_ON_CALL(motors_start_move_one_step, [](motors_direction_t motors_direction) {
+    MINI_MOCK_ON_CALL(motors_start_move_one_step, [](panel_t panel, motors_direction_t motors_direction) {
+        EXPECT(panel == panel_t::PANEL_A);
         EXPECT(motors_direction == motors_direction_t::DOWN_LEFT);
     });
     state = sun_tracker_state_machine_update(sun_tracker_state_t::IDLE, sun_tracker_transition_t::START, drop, result);
@@ -104,7 +105,8 @@ TEST(typical_scenario, []() {
                       [](sun_tracker_detection_t detection_before_move, sun_tracker_detection_t detection_after_move) {
                           return motors_direction_t::DOWN;
                       });
-    MINI_MOCK_ON_CALL(motors_start_move_one_step, [](motors_direction_t motors_direction) {
+    MINI_MOCK_ON_CALL(motors_start_move_one_step, [](panel_t panel, motors_direction_t motors_direction) {
+        EXPECT(panel == panel_t::PANEL_A);
         EXPECT(motors_direction == motors_direction_t::DOWN);
     });
     state = sun_tracker_state_machine_update(

@@ -24,10 +24,10 @@ supervisor_state_t supervisor_state_machine_update(supervisor_state_t current_st
 
     if (current_state == supervisor_state_t::IDLE || current_state == supervisor_state_t::MANUAL_MOVING) {
         if (transition == supervisor_transition_t::START_MANUAL_MOVE_ONE_STEP) {
-            motors_start_move_one_step(motors_direction);
+            motors_start_move_one_step(panel_t::PANEL_A, motors_direction);
             return supervisor_state_t::MANUAL_MOVING;
         } else if (transition == supervisor_transition_t::START_MANUAL_MOVE_CONTINUOUS) {
-            motors_start_move_continuous(motors_direction);
+            motors_start_move_continuous(panel_t::PANEL_A, motors_direction);
             return supervisor_state_t::MANUAL_MOVING;
         } else if (transition == supervisor_transition_t::START_SUN_TRACKING) {
             sun_tracker_start();

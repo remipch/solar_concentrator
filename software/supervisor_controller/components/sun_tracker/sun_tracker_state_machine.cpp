@@ -53,7 +53,7 @@ sun_tracker_state_t sun_tracker_state_machine_update(sun_tracker_state_t current
                 result = sun_tracker_result_t::SUCCESS;
                 return sun_tracker_state_t::IDLE;
             } else {
-                motors_start_move_one_step(detection_before_move.direction);
+                motors_start_move_one_step(panel_t::PANEL_A, detection_before_move.direction);
                 return sun_tracker_state_t::TRACKING;
             }
         }
@@ -93,7 +93,7 @@ sun_tracker_state_t sun_tracker_state_machine_update(sun_tracker_state_t current
                 result = sun_tracker_result_t::SUCCESS;
                 return sun_tracker_state_t::IDLE;
             } else {
-                motors_start_move_one_step(direction);
+                motors_start_move_one_step(panel_t::PANEL_A, direction);
                 return sun_tracker_state_t::TRACKING;
             }
         }
