@@ -39,6 +39,18 @@ const char *supervisor_get_state()
     return str(state);
 }
 
+// This function must not be called from an ISR (interrupt service routine)
+// because mutex does not support it. Neither ESP32 doc nor FreeRTOS doc is clear
+// about what happens in this case, various forums seem to indicate that an 'abort()'
+// is triggered with an explanation message.
+const char *supervisor_get_active_panel()
+{
+    assert(xSemaphoreTake(state_mutex, pdMS_TO_TICKS(STATE_MUTEX_TIMEOUT_MS)));
+    auto panel = active_panel;
+    xSemaphoreGive(state_mutex);
+    return str(panel);
+}
+
 // Called from user interface (supervisor state machine can also change to a different panel)
 void supervisor_activate_next_panel()
 {

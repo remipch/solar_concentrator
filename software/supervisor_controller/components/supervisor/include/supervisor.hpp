@@ -4,6 +4,8 @@
 
 const char *supervisor_get_state(); // for display and debug only
 
+const char *supervisor_get_active_panel(); // for display and debug only
+
 void supervisor_init();
 
 void supervisor_activate_next_panel();
