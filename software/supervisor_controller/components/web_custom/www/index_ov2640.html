@@ -426,10 +426,10 @@
                             </section>
                         </div>
                         <div class="input-group">
-                            <label for="motors_continuous">Move continuous</label>
+                            <label for="continuous-checkbox">Move continuous</label>
                             <div class="switch">
-                                <input id="motors_continuous" type="checkbox">
-                                <label class="slider" for="motors_continuous"></label>
+                                <input id="continuous-checkbox" type="checkbox">
+                                <label class="slider" for="continuous-checkbox"></label>
                             </div>
                         </div>
                         <div class="input-group">
@@ -607,11 +607,11 @@ document.addEventListener('DOMContentLoaded', function (event) {
       el.onchange = () => updateConfig(el)
     })
 
-  const motorsContinuous = document.getElementById('motors_continuous')
+  const continuousCheckbox = document.getElementById('continuous-checkbox')
 
   function sendSupervisorCommand (el) {
-    motors_continuous = motorsContinuous.checked ? 1 : 0
-    const query = `${baseHost}/supervisor_command?cmd=${el.id}&continuous=${motors_continuous}`
+    continuous = continuousCheckbox.checked ? 1 : 0
+    const query = `${baseHost}/supervisor_command?cmd=${el.id}&continuous=${continuous}`
 
     fetch(query)
       .then(response => {
@@ -663,7 +663,7 @@ document.addEventListener('DOMContentLoaded', function (event) {
 
   // set initial checkboxes states
   streamCheckbox.checked = false
-  motorsContinuous.checked = false
+  continuousCheckbox.checked = false
 })
 
         </script>
