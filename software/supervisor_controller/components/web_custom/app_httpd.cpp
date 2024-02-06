@@ -390,6 +390,8 @@ static esp_err_t supervisor_command_handler(httpd_req_t *req)
         supervisor_start_sun_tracking();
     } else if (!strcmp(command, "stop")) {
         supervisor_stop();
+    } else if (!strcmp(command, "next-panel")) {
+        supervisor_activate_next_panel();
     } else {
         motors_direction_t direction = motors_direction_t::NONE;
         if (!strcmp(command, "up"))
@@ -426,6 +428,8 @@ static esp_err_t supervisor_command_handler(httpd_req_t *req)
 
 static esp_err_t supervisor_status_handler(httpd_req_t *req)
 {
+    auto active_panel = supervisor_get_active_panel();
+    ESP_LOGV(TAG, "active_panel = %s", active_panel);
     auto supervisor_state = supervisor_get_state();
     ESP_LOGV(TAG, "supervisor_state = %s", supervisor_state);
     auto sun_tracker_detection = sun_tracker_get_detection_result();
@@ -437,10 +441,12 @@ static esp_err_t supervisor_status_handler(httpd_req_t *req)
 
     static char json_response[1024];
     sprintf(json_response,
-            "{\"supervisor-state\":\"%s\", "
+            "{\"active-panel\":\"%s\", "
+            "\"supervisor-state\":\"%s\", "
             "\"sun-tracker-detection\":\"%s\", "
             "\"sun-tracker-state\":\"%s\", "
             "\"motors-state\":\"%s\"}",
+            active_panel,
             supervisor_state,
             sun_tracker_detection,
             sun_tracker_state,

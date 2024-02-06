@@ -439,6 +439,15 @@
                             </div>
                         </div>
                         <div class="input-group">
+                            <label for="panel-checkbox">Active panel</label>
+                            <section id="buttons">
+                                <button id="next-panel" class="supervisor_command">&#x23ED</button>
+                            </section>
+                            <div class="text">
+                                <span id="active-panel">?</span>
+                            </div>
+                        </div>
+                        <div class="input-group">
                             <label for="supervisor">Supervisor</label>
                             <button id="start-tracking" class="supervisor_command">Start tracking</button>
                         </div>
@@ -644,6 +653,7 @@ document.addEventListener('DOMContentLoaded', function (event) {
       el.onclick = () => sendSupervisorCommand(el)
     })
 
+  const activePanelValue = document.getElementById('active-panel')
   const supervisorStateValue = document.getElementById('supervisor-state')
   const sunTrackerDetectionValue = document.getElementById('sun-tracker-detection')
   const sunTrackerStateValue = document.getElementById('sun-tracker-state')
@@ -654,6 +664,7 @@ document.addEventListener('DOMContentLoaded', function (event) {
       return response.json()
     })
     .then(function (supervisor_status) {
+        activePanelValue.innerHTML = supervisor_status['active-panel'];
         supervisorStateValue.innerHTML = supervisor_status['supervisor-state'];
         sunTrackerDetectionValue.innerHTML = supervisor_status['sun-tracker-detection'];
         sunTrackerStateValue.innerHTML = supervisor_status['sun-tracker-state'];
