@@ -26,31 +26,18 @@ motors_state_t motors_state_machine_update(motors_state_t current_state,
     // treat them globally outside of 'if(state==...){}' blocs to avoid repetition
     if (transition == motors_transition_t::START_MOVE_CONTINUOUS) {
         continuous_motors_direction = motors_direction;
-        motors_hw_move_one_step(motors_direction);
-        return motors_state_t::MOVING_CONTINUOUS;
+        motors_hw_start_move(motors_direction, true);
+        return motors_state_t::MOVING;
     } else if (transition == motors_transition_t::START_MOVE_ONE_STEP) {
-        motors_hw_move_one_step(motors_direction);
-        return motors_state_t::MOVING_ONE_STEP;
+        motors_hw_start_move(motors_direction, false);
+        return motors_state_t::MOVING;
     } else if (transition == motors_transition_t::STOP) {
         motors_hw_stop();
         return motors_state_t::STOPPING;
     }
 
-    if (current_state == motors_state_t::MOVING_CONTINUOUS) {
-        auto hw_state = motor_hw_get_state();
-        if (hw_state == motor_hw_state_t::UNKNOWN) {
-            return motors_state_t::ERROR;
-        }
-
-        if (hw_state == motor_hw_state_t::STOPPED) {
-            // Restart move continuously
-            motors_hw_move_one_step(continuous_motors_direction);
-            return motors_state_t::MOVING_CONTINUOUS;
-        }
-
-        // Stay in same state while motors are moving
-        return current_state;
-    } else { // STOPPING and MOVING_ONE_STEP states are treated the same way
+    if (current_state == motors_state_t::MOVING || current_state == motors_state_t::STOPPING) {
+        // STOPPING and MOVING states are treated the same way
         auto hw_state = motor_hw_get_state();
         if (hw_state == motor_hw_state_t::UNKNOWN) {
             return motors_state_t::ERROR;

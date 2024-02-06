@@ -77,28 +77,37 @@ void motors_hw_stop()
     motors_hw_write_commands("c");
 }
 
-void motors_hw_move_one_step(motors_direction_t direction)
+void motors_hw_start_move(motors_direction_t direction, bool continuous)
 {
-    ESP_LOGV(TAG, "motors_hw_move_one_step(direction = %s)", str(direction));
+    ESP_LOGV(TAG, "motors_hw_start_move(direction = %s, continuous = %i)", str(direction), continuous ? 1 : 0);
+    int motor_pins = 0;
+
     if (direction == motors_direction_t::UP) {
-        motors_hw_write_commands("o:20,50,100");
+        motor_pins = 20;
     } else if (direction == motors_direction_t::UP_RIGHT) {
-        motors_hw_write_commands("o:16,50,50");
+        motor_pins = 16;
     } else if (direction == motors_direction_t::RIGHT) {
-        motors_hw_write_commands("o:24,50,50");
+        motor_pins = 24;
     } else if (direction == motors_direction_t::DOWN_RIGHT) {
-        motors_hw_write_commands("o:8,50,100");
+        motor_pins = 8;
     } else if (direction == motors_direction_t::DOWN) {
-        motors_hw_write_commands("o:40,50,100");
+        motor_pins = 40;
     } else if (direction == motors_direction_t::DOWN_LEFT) {
-        motors_hw_write_commands("o:32,50,100");
+        motor_pins = 32;
     } else if (direction == motors_direction_t::LEFT) {
-        motors_hw_write_commands("o:36,50,100");
+        motor_pins = 36;
     } else if (direction == motors_direction_t::UP_LEFT) {
-        motors_hw_write_commands("o:4,50,100");
+        motor_pins = 4;
     } else {
         assert(false);
     }
+
+    // 'continuous' is not supposed to be infinite because hard angle limit
+    int cmd_max_time_ms = continuous ? 10000 : 50;
+    int cmd_threshold = 100;
+    static char command[1024];
+    sprintf(command, "o:%i,%i,%i", motor_pins, cmd_max_time_ms, cmd_threshold);
+    motors_hw_write_commands(command);
 }
 
 motor_hw_state_t motor_hw_get_state()

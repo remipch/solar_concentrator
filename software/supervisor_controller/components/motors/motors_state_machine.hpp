@@ -8,8 +8,7 @@ enum class motors_state_t : signed char {
     ERROR = -1,
     UNINITIALIZED = 0,
     STOPPED,
-    MOVING_CONTINUOUS,
-    MOVING_ONE_STEP,
+    MOVING,
     STOPPING,
 };
 
@@ -22,10 +21,8 @@ inline const char *str(motors_state_t state)
         return "UNINITIALIZED";
     case motors_state_t::STOPPED:
         return "STOPPED";
-    case motors_state_t::MOVING_CONTINUOUS:
-        return "MOVING_CONTINUOUS";
-    case motors_state_t::MOVING_ONE_STEP:
-        return "MOVING_ONE_STEP";
+    case motors_state_t::MOVING:
+        return "MOVING";
     case motors_state_t::STOPPING:
         return "STOPPING";
     default:

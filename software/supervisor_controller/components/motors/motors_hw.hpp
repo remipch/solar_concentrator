@@ -34,6 +34,6 @@ motor_hw_error_t motors_hw_init();
 
 void motors_hw_stop();
 
-void motors_hw_move_one_step(motors_direction_t direction);
+void motors_hw_start_move(motors_direction_t direction, bool continuous);
 
 motor_hw_state_t motor_hw_get_state();
