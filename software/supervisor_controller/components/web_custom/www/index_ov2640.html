@@ -434,6 +434,9 @@
                                 <input id="continuous-checkbox" type="checkbox">
                                 <label class="slider" for="continuous-checkbox"></label>
                             </div>
+                            <div class="text">
+                                <span id="continuous-state">OFF</span>
+                            </div>
                         </div>
                         <div class="input-group">
                             <label for="supervisor">Supervisor</label>
@@ -614,6 +617,7 @@ document.addEventListener('DOMContentLoaded', function (event) {
     })
 
   const continuousCheckbox = document.getElementById('continuous-checkbox')
+  const continuousState = document.getElementById('continuous-state')
 
   function sendSupervisorCommand (el) {
     continuous = continuousCheckbox.checked ? 1 : 0
@@ -623,6 +627,15 @@ document.addEventListener('DOMContentLoaded', function (event) {
       .then(response => {
         console.log(`request to ${query} finished, status: ${response.status}`)
       })
+  }
+
+  continuousCheckbox.onchange = () => {
+    if(continuousCheckbox.checked) {
+      continuousState.innerHTML = "ON";
+    }
+    else {
+      continuousState.innerHTML = "OFF";
+    }
   }
 
   document
