@@ -1,5 +1,6 @@
 #include "supervisor.hpp"
 #include "motors.hpp"
+#include "panel.hpp"
 #include "sun_tracker.hpp"
 #include "supervisor_state_machine.hpp"
 
@@ -8,6 +9,7 @@
 
 #include "freertos/FreeRTOS.h"
 #include "freertos/semphr.h"
+#include <assert.h>
 
 static const char *TAG = "supervisor";
 
@@ -21,6 +23,7 @@ static const int STATE_MUTEX_TIMEOUT_MS = 100;
 static SemaphoreHandle_t state_mutex;
 static const int INTER_UPDATE_DELAY_MS = 100;
 static supervisor_state_t current_state = supervisor_state_t::UNINITIALIZED;
+static panel_t active_panel = panel_t::PANEL_A;
 static supervisor_transition_t asked_transition = supervisor_transition_t::NONE;
 static motors_direction_t asked_direction = motors_direction_t::NONE;
 
@@ -34,6 +37,20 @@ const char *supervisor_get_state()
     auto state = current_state;
     xSemaphoreGive(state_mutex);
     return str(state);
+}
+
+// Called from user interface (supervisor state machine can also change to a different panel)
+void supervisor_activate_next_panel()
+{
+    assert(xSemaphoreTake(state_mutex, pdMS_TO_TICKS(STATE_MUTEX_TIMEOUT_MS)));
+    if (active_panel == panel_t::PANEL_A) {
+        active_panel = panel_t::PANEL_B;
+    } else if (active_panel == panel_t::PANEL_B) {
+        active_panel = panel_t::PANEL_A;
+    } else {
+        assert(false);
+    }
+    xSemaphoreGive(state_mutex);
 }
 
 // Note : transition will be reset if state changes after this call
@@ -58,6 +75,7 @@ static void supervisor_task(void *arg)
         assert(xSemaphoreTake(state_mutex, pdMS_TO_TICKS(STATE_MUTEX_TIMEOUT_MS)));
         supervisor_state_t state = current_state;
         supervisor_transition_t transition = asked_transition;
+        panel_t panel = active_panel;
         motors_direction_t direction = asked_direction;
 
         // Reset asked transition :
@@ -70,19 +88,21 @@ static void supervisor_task(void *arg)
 
         auto time_ms = esp_timer_get_time() / 1000L;
 
-        supervisor_state_t new_state = supervisor_state_machine_update(state, transition, direction, time_ms);
+        supervisor_state_t new_state = supervisor_state_machine_update(state, transition, panel, direction, time_ms);
 
         if (new_state != state) {
             ESP_LOGI(TAG,
-                     "update(state: %s, transition: %s, direction: %s) -> new_state: %s",
+                     "update(state: %s, transition: %s, direction: %s) -> new_state: %s, new_active_panel: %s",
                      str(state),
                      str(transition),
                      str(direction),
-                     str(new_state));
+                     str(new_state),
+                     str(panel));
         }
 
         assert(xSemaphoreTake(state_mutex, pdMS_TO_TICKS(STATE_MUTEX_TIMEOUT_MS)));
         current_state = new_state;
+        active_panel = panel;
         xSemaphoreGive(state_mutex);
 
         // Simple wait between state updates because :

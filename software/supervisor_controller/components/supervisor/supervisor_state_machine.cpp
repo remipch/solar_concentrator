@@ -13,10 +13,10 @@ static int64_t start_waiting_time_ms = 0;
 
 supervisor_state_t supervisor_state_machine_update(supervisor_state_t current_state,
                                                    supervisor_transition_t transition,
+                                                   panel_t &panel,
                                                    motors_direction_t motors_direction,
                                                    int64_t time_ms)
 {
-
     if (current_state == supervisor_state_t::UNINITIALIZED) {
         // Nothing to do but signal state_machine has started by quitting UNINITIALIZED state
         return supervisor_state_t::IDLE;
@@ -24,10 +24,10 @@ supervisor_state_t supervisor_state_machine_update(supervisor_state_t current_st
 
     if (current_state == supervisor_state_t::IDLE || current_state == supervisor_state_t::MANUAL_MOVING) {
         if (transition == supervisor_transition_t::START_MANUAL_MOVE_ONE_STEP) {
-            motors_start_move_one_step(panel_t::PANEL_A, motors_direction);
+            motors_start_move_one_step(panel, motors_direction);
             return supervisor_state_t::MANUAL_MOVING;
         } else if (transition == supervisor_transition_t::START_MANUAL_MOVE_CONTINUOUS) {
-            motors_start_move_continuous(panel_t::PANEL_A, motors_direction);
+            motors_start_move_continuous(panel, motors_direction);
             return supervisor_state_t::MANUAL_MOVING;
         } else if (transition == supervisor_transition_t::START_SUN_TRACKING) {
             sun_tracker_start();
