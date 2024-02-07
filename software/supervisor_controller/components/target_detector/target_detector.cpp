@@ -35,12 +35,12 @@ struct capstone_geometry {
 
 void log_capstone(const capstone_geometry &geometry)
 {
-    ESP_LOGV(TAG, "capstone.center:  %i, %i", geometry.center.x, geometry.center.y);
-    ESP_LOGV(TAG, "  capstone.size:  %i, %i", geometry.width, geometry.height);
-    ESP_LOGV(TAG, "  capstone.top_left:  %i, %i", geometry.corners.top_left.x, geometry.corners.top_left.y);
-    ESP_LOGV(TAG, "  capstone.top_right:  %i, %i", geometry.corners.top_right.x, geometry.corners.top_right.y);
-    ESP_LOGV(TAG, "  capstone.bottom_left:  %i, %i", geometry.corners.bottom_left.x, geometry.corners.bottom_left.y);
-    ESP_LOGV(TAG, "  capstone.bottom_right:  %i, %i", geometry.corners.bottom_right.x, geometry.corners.bottom_right.y);
+    ESP_LOGD(TAG, "capstone.center:  %i, %i", geometry.center.x, geometry.center.y);
+    ESP_LOGD(TAG, "  capstone.size:  %i, %i", geometry.width, geometry.height);
+    ESP_LOGD(TAG, "  capstone.top_left:  %i, %i", geometry.corners.top_left.x, geometry.corners.top_left.y);
+    ESP_LOGD(TAG, "  capstone.top_right:  %i, %i", geometry.corners.top_right.x, geometry.corners.top_right.y);
+    ESP_LOGD(TAG, "  capstone.bottom_left:  %i, %i", geometry.corners.bottom_left.x, geometry.corners.bottom_left.y);
+    ESP_LOGD(TAG, "  capstone.bottom_right:  %i, %i", geometry.corners.bottom_right.x, geometry.corners.bottom_right.y);
 }
 
 void draw_capstone(CImg<unsigned char> &image, const capstone_geometry &capstone)
@@ -177,7 +177,6 @@ bool target_detector_detect(CImg<unsigned char> &image, rectangle_t &target)
     for (int i = 0; i < capstone_count; i++) {
         const quirc_capstone *capstone = quirc_get_capstone(capstone_detector, i);
         capstone_geometry geometry = extract_capstone_geometry(capstone);
-        log_capstone(geometry);
         draw_capstone(image, geometry);
 
         average_x += geometry.center.x;
@@ -194,6 +193,11 @@ bool target_detector_detect(CImg<unsigned char> &image, rectangle_t &target)
     if (capstone_count != EXPECTED_CAPSTONE_COUNT) {
         ESP_LOGW(
             TAG, "Detection failed : %i capstone(s) detected instead of %i ", capstone_count, EXPECTED_CAPSTONE_COUNT);
+        for (int i = 0; i < capstone_count; i++) {
+            const quirc_capstone *capstone = quirc_get_capstone(capstone_detector, i);
+            capstone_geometry geometry = extract_capstone_geometry(capstone);
+            log_capstone(geometry);
+        }
         return false;
     }
 
