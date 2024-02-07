@@ -116,6 +116,8 @@ void sun_tracker_result(sun_tracker_result_t result)
 {
     if (result == sun_tracker_result_t::ERROR) {
         set_transition(supervisor_transition_t::SUN_TRACKING_ERROR);
+    } else if (result == sun_tracker_result_t::MAX_MOVES) {
+        set_transition(supervisor_transition_t::SUN_TRACKING_MAX_MOVES);
     } else if (result == sun_tracker_result_t::ABORTED) {
         set_transition(supervisor_transition_t::SUN_TRACKING_ABORTED);
     } else if (result == sun_tracker_result_t::SUCCESS) {

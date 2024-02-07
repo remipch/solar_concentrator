@@ -7,7 +7,8 @@
 
 enum class sun_tracker_result_t : signed char {
     UNKNOWN,
-    ERROR,
+    ERROR,     // Unexpected error, can be solved by retrying a few times
+    MAX_MOVES, // Failed after max moves : stop immediately
     ABORTED,
     SUCCESS,
 };
@@ -19,6 +20,8 @@ inline const char *str(sun_tracker_result_t result)
         return "UNKNOWN";
     case sun_tracker_result_t::ERROR:
         return "ERROR";
+    case sun_tracker_result_t::MAX_MOVES:
+        return "MAX_MOVES";
     case sun_tracker_result_t::ABORTED:
         return "ABORTED";
     case sun_tracker_result_t::SUCCESS:

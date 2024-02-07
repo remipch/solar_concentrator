@@ -13,6 +13,10 @@ static CImg<unsigned char> full_img(CAMERA_WIDTH, CAMERA_HEIGHT, 1, 1);
 
 static sun_tracker_detection_t detection_before_move;
 
+static int move_count = 0;
+
+static const int MAX_MOVES = 5;
+
 static sun_tracker_detection_result_t last_detection_result = sun_tracker_detection_result_t::UNKNOWN;
 
 sun_tracker_detection_result_t sun_tracker_state_machine_get_detection_result() { return last_detection_result; }
@@ -54,6 +58,7 @@ sun_tracker_state_t sun_tracker_state_machine_update(sun_tracker_state_t current
                 result = sun_tracker_result_t::SUCCESS;
                 return sun_tracker_state_t::IDLE;
             } else {
+                move_count = 1;
                 motors_start_move_one_step(panel, detection_before_move.direction);
                 return sun_tracker_state_t::TRACKING;
             }
@@ -94,6 +99,12 @@ sun_tracker_state_t sun_tracker_state_machine_update(sun_tracker_state_t current
                 result = sun_tracker_result_t::SUCCESS;
                 return sun_tracker_state_t::IDLE;
             } else {
+                ESP_LOGD(TAG, "move %i", move_count);
+                if (move_count++ > MAX_MOVES) {
+                    ESP_LOGE(TAG, "MAX_MOVES reached");
+                    result = sun_tracker_result_t::MAX_MOVES;
+                    return sun_tracker_state_t::IDLE;
+                }
                 motors_start_move_one_step(panel, direction);
                 return sun_tracker_state_t::TRACKING;
             }

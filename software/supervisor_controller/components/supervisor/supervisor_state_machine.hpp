@@ -43,6 +43,7 @@ enum class supervisor_transition_t : signed char {
     MOTORS_STOPPED,
     START_SUN_TRACKING,
     SUN_TRACKING_ERROR,
+    SUN_TRACKING_MAX_MOVES,
     SUN_TRACKING_ABORTED,
     SUN_TRACKING_SUCCESS,
 };
@@ -66,6 +67,8 @@ inline const char *str(supervisor_transition_t transition)
         return "START_SUN_TRACKING";
     case supervisor_transition_t::SUN_TRACKING_ERROR:
         return "SUN_TRACKING_ERROR";
+    case supervisor_transition_t::SUN_TRACKING_MAX_MOVES:
+        return "SUN_TRACKING_MAX_MOVES";
     case supervisor_transition_t::SUN_TRACKING_ABORTED:
         return "SUN_TRACKING_ABORTED";
     case supervisor_transition_t::SUN_TRACKING_SUCCESS:

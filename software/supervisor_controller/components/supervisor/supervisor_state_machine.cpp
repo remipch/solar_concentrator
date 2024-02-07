@@ -81,6 +81,9 @@ supervisor_state_t supervisor_state_machine_update(supervisor_state_t current_st
             sun_tracker_stop();
             // Stay in same state until SUN_TRACKING transition is treated
             return current_state;
+        } else if (transition == supervisor_transition_t::SUN_TRACKING_MAX_MOVES) {
+            ESP_LOGE(TAG, "SUN_TRACKING_MAX_MOVES: go to error state immediately");
+            return supervisor_state_t::ERROR;
         } else if (transition == supervisor_transition_t::SUN_TRACKING_ERROR) {
             ESP_LOGW(TAG, "SUN_TRACKING_ERROR received: retry %i", retry_count);
             if (retry_count++ > MAX_RETRY_ON_ERROR) {
