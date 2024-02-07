@@ -44,7 +44,7 @@ supervisor_state_t supervisor_state_machine_update(supervisor_state_t current_st
             motors_start_move_continuous(panel, motors_direction);
             return supervisor_state_t::MANUAL_MOVING;
         } else if (transition == supervisor_transition_t::START_SUN_TRACKING) {
-            sun_tracker_start();
+            sun_tracker_start(panel);
             return supervisor_state_t::SUN_TRACKING;
         }
     }
@@ -91,7 +91,7 @@ supervisor_state_t supervisor_state_machine_update(supervisor_state_t current_st
         if (transition == supervisor_transition_t::STOP_OR_RESET) {
             return supervisor_state_t::IDLE;
         } else if ((time_ms - start_waiting_time_ms) > WAITING_SUN_MOVE_DURATION_MS) {
-            sun_tracker_start();
+            sun_tracker_start(panel);
             return supervisor_state_t::SUN_TRACKING;
         }
     }

@@ -1,5 +1,6 @@
 #pragma once
 
+#include "panel.hpp"
 #include "sun_tracker_callbacks.hpp"
 
 void sun_tracker_register_result_callback(sun_tracker_result_callback callback);
@@ -12,6 +13,6 @@ const char *sun_tracker_get_detection_result(); // for display and debug only
 
 void sun_tracker_init();
 
-void sun_tracker_start();
+void sun_tracker_start(panel_t panel);
 
 void sun_tracker_stop();
