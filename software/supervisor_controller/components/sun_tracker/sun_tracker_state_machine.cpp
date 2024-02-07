@@ -21,6 +21,18 @@ static sun_tracker_detection_result_t last_detection_result = sun_tracker_detect
 
 sun_tracker_detection_result_t sun_tracker_state_machine_get_detection_result() { return last_detection_result; }
 
+// return true if MAX_MOVES has been reached
+bool increment_move_count()
+{
+    move_count++;
+    ESP_LOGD(TAG, "move %i", move_count);
+    if (move_count > MAX_MOVES) {
+        ESP_LOGE(TAG, "MAX_MOVES reached");
+        return true;
+    }
+    return false;
+}
+
 sun_tracker_state_t sun_tracker_state_machine_update(sun_tracker_state_t current_state,
                                                      sun_tracker_transition_t transition,
                                                      panel_t panel,
@@ -56,9 +68,13 @@ sun_tracker_state_t sun_tracker_state_machine_update(sun_tracker_state_t current
         if (transition & sun_tracker_transition_t::START) {
             if (detection_before_move.direction == motors_direction_t::NONE) {
                 result = sun_tracker_result_t::SUCCESS;
+                move_count = 0;
+                return sun_tracker_state_t::IDLE;
+            } else if (increment_move_count()) {
+                result = sun_tracker_result_t::MAX_MOVES;
+                move_count = 0;
                 return sun_tracker_state_t::IDLE;
             } else {
-                move_count = 1;
                 motors_start_move_one_step(panel, detection_before_move.direction);
                 return sun_tracker_state_t::TRACKING;
             }
@@ -70,6 +86,7 @@ sun_tracker_state_t sun_tracker_state_machine_update(sun_tracker_state_t current
             if (transition & sun_tracker_transition_t::MOTORS_STOPPED) {
                 // Particular case when both transitions have been triggered
                 result = sun_tracker_result_t::ABORTED;
+                move_count = 0;
                 return sun_tracker_state_t::IDLE;
             }
             return sun_tracker_state_t::STOPPING;
@@ -97,14 +114,13 @@ sun_tracker_state_t sun_tracker_state_machine_update(sun_tracker_state_t current
 
             if (direction == motors_direction_t::NONE) {
                 result = sun_tracker_result_t::SUCCESS;
+                move_count = 0;
+                return sun_tracker_state_t::IDLE;
+            } else if (increment_move_count()) {
+                result = sun_tracker_result_t::MAX_MOVES;
+                move_count = 0;
                 return sun_tracker_state_t::IDLE;
             } else {
-                ESP_LOGD(TAG, "move %i", move_count);
-                if (move_count++ > MAX_MOVES) {
-                    ESP_LOGE(TAG, "MAX_MOVES reached");
-                    result = sun_tracker_result_t::MAX_MOVES;
-                    return sun_tracker_state_t::IDLE;
-                }
                 motors_start_move_one_step(panel, direction);
                 return sun_tracker_state_t::TRACKING;
             }
@@ -114,6 +130,7 @@ sun_tracker_state_t sun_tracker_state_machine_update(sun_tracker_state_t current
     if (current_state == sun_tracker_state_t::STOPPING) {
         if (transition & sun_tracker_transition_t::MOTORS_STOPPED) {
             result = sun_tracker_result_t::ABORTED;
+            move_count = 0;
             return sun_tracker_state_t::IDLE;
         }
     }
