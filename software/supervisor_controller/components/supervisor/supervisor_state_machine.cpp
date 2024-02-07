@@ -82,6 +82,7 @@ supervisor_state_t supervisor_state_machine_update(supervisor_state_t current_st
             return supervisor_state_t::IDLE;
         } else if (transition == supervisor_transition_t::SUN_TRACKING_SUCCESS) {
             start_waiting_time_ms = time_ms;
+            panel = get_next_panel(panel);
             return supervisor_state_t::WAITING_SUN_MOVE;
         }
     }
