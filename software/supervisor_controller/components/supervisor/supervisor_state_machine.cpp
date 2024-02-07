@@ -5,11 +5,25 @@
 #include "motors.hpp"
 #include "sun_tracker.hpp"
 
+#include <assert.h>
+
 static const char *TAG = "supervisor_state_machine";
 
 static const int64_t WAITING_SUN_MOVE_DURATION_MS = 10000;
 
 static int64_t start_waiting_time_ms = 0;
+
+panel_t get_next_panel(panel_t panel)
+{
+    ESP_LOGD(TAG, "get_next_panel(%s)", str(panel));
+    if (panel == panel_t::PANEL_A) {
+        return panel_t::PANEL_B;
+    } else if (panel == panel_t::PANEL_B) {
+        return panel_t::PANEL_A;
+    } else {
+        assert(false);
+    }
+}
 
 supervisor_state_t supervisor_state_machine_update(supervisor_state_t current_state,
                                                    supervisor_transition_t transition,
@@ -35,8 +49,20 @@ supervisor_state_t supervisor_state_machine_update(supervisor_state_t current_st
         }
     }
 
+    if (current_state == supervisor_state_t::IDLE) {
+        if (transition == supervisor_transition_t::ACTIVATE_NEXT_PANEL) {
+            panel = get_next_panel(panel);
+            return current_state;
+        }
+    }
+
     if (current_state == supervisor_state_t::MANUAL_MOVING) {
         if (transition == supervisor_transition_t::STOP_OR_RESET) {
+            motors_stop();
+            // Stay in same state until MOTORS_STOPPED transition is treated
+            return current_state;
+        } else if (transition == supervisor_transition_t::ACTIVATE_NEXT_PANEL) {
+            panel = get_next_panel(panel);
             motors_stop();
             // Stay in same state until MOTORS_STOPPED transition is treated
             return current_state;

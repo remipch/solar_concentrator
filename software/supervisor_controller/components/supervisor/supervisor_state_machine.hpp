@@ -37,6 +37,7 @@ inline const char *str(supervisor_state_t state)
 enum class supervisor_transition_t : signed char {
     NONE = 0,
     STOP_OR_RESET,
+    ACTIVATE_NEXT_PANEL,
     START_MANUAL_MOVE_CONTINUOUS,
     START_MANUAL_MOVE_ONE_STEP,
     MOTORS_STOPPED,
@@ -57,6 +58,8 @@ inline const char *str(supervisor_transition_t transition)
         return "START_MANUAL_MOVE_CONTINUOUS";
     case supervisor_transition_t::START_MANUAL_MOVE_ONE_STEP:
         return "START_MANUAL_MOVE_ONE_STEP";
+    case supervisor_transition_t::ACTIVATE_NEXT_PANEL:
+        return "ACTIVATE_NEXT_PANEL";
     case supervisor_transition_t::MOTORS_STOPPED:
         return "MOTORS_STOPPED";
     case supervisor_transition_t::START_SUN_TRACKING:

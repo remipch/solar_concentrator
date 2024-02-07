@@ -9,7 +9,6 @@
 
 #include "freertos/FreeRTOS.h"
 #include "freertos/semphr.h"
-#include <assert.h>
 
 static const char *TAG = "supervisor";
 
@@ -49,20 +48,6 @@ const char *supervisor_get_active_panel()
     auto panel = active_panel;
     xSemaphoreGive(state_mutex);
     return str(panel);
-}
-
-// Called from user interface (supervisor state machine can also change to a different panel)
-void supervisor_activate_next_panel()
-{
-    assert(xSemaphoreTake(state_mutex, pdMS_TO_TICKS(STATE_MUTEX_TIMEOUT_MS)));
-    if (active_panel == panel_t::PANEL_A) {
-        active_panel = panel_t::PANEL_B;
-    } else if (active_panel == panel_t::PANEL_B) {
-        active_panel = panel_t::PANEL_A;
-    } else {
-        assert(false);
-    }
-    xSemaphoreGive(state_mutex);
 }
 
 // Note : transition will be reset if state changes after this call
@@ -150,6 +135,8 @@ void supervisor_init()
 }
 
 void supervisor_stop() { set_transition(supervisor_transition_t::STOP_OR_RESET); }
+
+void supervisor_activate_next_panel() { set_transition(supervisor_transition_t::ACTIVATE_NEXT_PANEL); }
 
 void supervisor_start_manual_move_continuous(motors_direction_t direction)
 {
