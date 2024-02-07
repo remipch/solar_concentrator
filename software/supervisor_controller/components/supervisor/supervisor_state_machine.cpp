@@ -11,7 +11,11 @@ static const char *TAG = "supervisor_state_machine";
 
 static const int64_t WAITING_SUN_MOVE_DURATION_MS = 10000;
 
+static const int MAX_RETRY_ON_ERROR = 10; // Go to 'ERROR' state after that
+
 static int64_t start_waiting_time_ms = 0;
+
+static int retry_count = 0;
 
 panel_t get_next_panel(panel_t panel)
 {
@@ -44,6 +48,7 @@ supervisor_state_t supervisor_state_machine_update(supervisor_state_t current_st
             motors_start_move_continuous(panel, motors_direction);
             return supervisor_state_t::MANUAL_MOVING;
         } else if (transition == supervisor_transition_t::START_SUN_TRACKING) {
+            retry_count = 0;
             sun_tracker_start(panel);
             return supervisor_state_t::SUN_TRACKING;
         }
@@ -77,7 +82,17 @@ supervisor_state_t supervisor_state_machine_update(supervisor_state_t current_st
             // Stay in same state until SUN_TRACKING transition is treated
             return current_state;
         } else if (transition == supervisor_transition_t::SUN_TRACKING_ERROR) {
-            return supervisor_state_t::ERROR;
+            ESP_LOGW(TAG, "SUN_TRACKING_ERROR received: retry %i", retry_count);
+            if (retry_count++ > MAX_RETRY_ON_ERROR) {
+                ESP_LOGE(TAG, "MAX_RETRY_ON_ERROR reached: go to error state");
+                return supervisor_state_t::ERROR;
+            }
+
+            // Error is often caused by bad image acquisition
+            // (auto expo leading to bad capstone detection) or misdetected spot
+            // Retrying will help in major cases
+            sun_tracker_start(panel);
+            return supervisor_state_t::SUN_TRACKING;
         } else if (transition == supervisor_transition_t::SUN_TRACKING_ABORTED) {
             return supervisor_state_t::IDLE;
         } else if (transition == supervisor_transition_t::SUN_TRACKING_SUCCESS) {
@@ -91,6 +106,7 @@ supervisor_state_t supervisor_state_machine_update(supervisor_state_t current_st
         if (transition == supervisor_transition_t::STOP_OR_RESET) {
             return supervisor_state_t::IDLE;
         } else if ((time_ms - start_waiting_time_ms) > WAITING_SUN_MOVE_DURATION_MS) {
+            retry_count = 0;
             sun_tracker_start(panel);
             return supervisor_state_t::SUN_TRACKING;
         }
