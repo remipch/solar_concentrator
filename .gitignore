@@ -10,3 +10,4 @@ docker/local
 **/solar_concentrator_manip*/**/target*
 /software/supervisor_controller/compile_commands.json
 /software/supervisor_controller/components/web_custom/www/index_ov2640.html.gz
+/software/supervisor_controller/Testing/Temporary
