@@ -84,8 +84,8 @@
   (lib_variant 49738ea7-d252-4093-9030-7d156494bcca)
   (name "S3") (value "{{MPN or DEVICE}}")
   (lock_assembly false)
-  (attribute "FUNCTION_NC" (type string) (unit none) (value "ARDUINO\nOFF"))
-  (attribute "FUNCTION_NO" (type string) (unit none) (value "ARDUINO\nON"))
+  (attribute "FUNCTION_NC" (type string) (unit none) (value "ARDUINO OFF"))
+  (attribute "FUNCTION_NO" (type string) (unit none) (value "ARDUINO ON"))
   (device a5683f9e-60ca-44c1-95c2-a3913a3f0656
    (variant ce5545bf-6008-4dc7-8dee-f2c047c5c138)
    (part "611A 701505" (manufacturer "TRU COMPONENTS")
@@ -108,6 +108,9 @@
   (name "R2") (value "{{RESISTANCE}}")
   (lock_assembly false)
   (attribute "RESISTANCE" (type resistance) (unit kiloohm) (value "10"))
+  (device a0e021c0-90ab-4415-802e-40a847f682c8
+   (variant ce5545bf-6008-4dc7-8dee-f2c047c5c138)
+  )
   (signal 3452d36e-1ce8-4b7c-8e5b-90c2e4929ed8 (net 824fc332-dd88-4858-aa5a-75be90b978ee))
   (signal ad623f98-9e73-49c3-9404-f7cfa99d17cd (net 2c559587-276d-45d0-8832-2a0bbf0e1b4d))
  )
@@ -128,8 +131,8 @@
   (lib_variant 49738ea7-d252-4093-9030-7d156494bcca)
   (name "S2") (value "{{MPN or DEVICE}}")
   (lock_assembly false)
-  (attribute "FUNCTION_NC" (type string) (unit none) (value "ESP32\nPROG"))
-  (attribute "FUNCTION_NO" (type string) (unit none) (value "ESP32\nRUN"))
+  (attribute "FUNCTION_NC" (type string) (unit none) (value "ESP32 PROG"))
+  (attribute "FUNCTION_NO" (type string) (unit none) (value "ESP32 RUN"))
   (device a5683f9e-60ca-44c1-95c2-a3913a3f0656
    (variant ce5545bf-6008-4dc7-8dee-f2c047c5c138)
    (part "611A 701505" (manufacturer "TRU COMPONENTS")
@@ -176,6 +179,9 @@
   (name "C1") (value "{{CAPACITANCE}}")
   (lock_assembly false)
   (attribute "CAPACITANCE" (type capacitance) (unit nanofarad) (value "220"))
+  (device c368cc14-d8aa-4e36-91e3-81d93919ba3a
+   (variant ce5545bf-6008-4dc7-8dee-f2c047c5c138)
+  )
   (signal 1c1c7abc-7b40-4f92-b533-f65604644db7 (net 69ee6041-a2f9-418b-ab77-782676517887))
   (signal 6d776f4d-2a7c-4128-a98a-dbb1dd861411 (net 824fc332-dd88-4858-aa5a-75be90b978ee))
  )
@@ -210,6 +216,9 @@
   (name "J1") (value "{{VOLTAGE or MPN or DEVICE}}")
   (lock_assembly false)
   (attribute "VOLTAGE" (type string) (unit none) (value "12V"))
+  (device 7fd64547-08d3-46b4-b669-d29ac6ae3604
+   (variant ce5545bf-6008-4dc7-8dee-f2c047c5c138)
+  )
   (signal b3804135-4ca1-4ccc-861d-33b66cb8340b (net 824fc332-dd88-4858-aa5a-75be90b978ee))
   (signal c69c7f2b-4459-4e06-b1d2-7254416fe8b3 (net 69ee6041-a2f9-418b-ab77-782676517887))
  )
@@ -219,6 +228,9 @@
   (name "C2") (value "{{CAPACITANCE}}")
   (lock_assembly false)
   (attribute "CAPACITANCE" (type capacitance) (unit nanofarad) (value "100"))
+  (device 3b9b7fca-6a99-4927-adf7-03f6c5cc4c72
+   (variant ce5545bf-6008-4dc7-8dee-f2c047c5c138)
+  )
   (signal 1c1c7abc-7b40-4f92-b533-f65604644db7 (net 16dc9f50-dd3f-4ecc-a7ca-6cf8884ba5ac))
   (signal 6d776f4d-2a7c-4128-a98a-dbb1dd861411 (net 824fc332-dd88-4858-aa5a-75be90b978ee))
  )
@@ -228,6 +240,9 @@
   (name "R3") (value "{{RESISTANCE}}")
   (lock_assembly false)
   (attribute "RESISTANCE" (type resistance) (unit ohm) (value "1"))
+  (device 35fc5e10-cbf4-48db-91b3-1844aad77921
+   (variant ce5545bf-6008-4dc7-8dee-f2c047c5c138)
+  )
   (signal 3452d36e-1ce8-4b7c-8e5b-90c2e4929ed8 (net 824fc332-dd88-4858-aa5a-75be90b978ee))
   (signal ad623f98-9e73-49c3-9404-f7cfa99d17cd (net 90a577fc-0d73-490f-b675-dcf0d695f5fd))
  )
@@ -258,6 +273,9 @@
   (name "R1") (value "{{RESISTANCE}}")
   (lock_assembly false)
   (attribute "RESISTANCE" (type resistance) (unit kiloohm) (value "10"))
+  (device a0e021c0-90ab-4415-802e-40a847f682c8
+   (variant ce5545bf-6008-4dc7-8dee-f2c047c5c138)
+  )
   (signal 3452d36e-1ce8-4b7c-8e5b-90c2e4929ed8 (net 2c559587-276d-45d0-8832-2a0bbf0e1b4d))
   (signal ad623f98-9e73-49c3-9404-f7cfa99d17cd (net 5f0b80bd-93a1-4d3b-9561-d47bfe153057))
  )
@@ -324,8 +342,8 @@
   (lib_variant 49738ea7-d252-4093-9030-7d156494bcca)
   (name "S1") (value "{{MPN or DEVICE}}")
   (lock_assembly false)
-  (attribute "FUNCTION_NC" (type string) (unit none) (value "ESP32\nOFF"))
-  (attribute "FUNCTION_NO" (type string) (unit none) (value "ESP32\nON"))
+  (attribute "FUNCTION_NC" (type string) (unit none) (value "ESP32 OFF"))
+  (attribute "FUNCTION_NO" (type string) (unit none) (value "ESP32 ON"))
   (device a5683f9e-60ca-44c1-95c2-a3913a3f0656
    (variant ce5545bf-6008-4dc7-8dee-f2c047c5c138)
   )
