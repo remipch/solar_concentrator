@@ -179,7 +179,7 @@
   (name "C1") (value "{{CAPACITANCE}}")
   (lock_assembly false)
   (attribute "CAPACITANCE" (type capacitance) (unit nanofarad) (value "220"))
-  (device c368cc14-d8aa-4e36-91e3-81d93919ba3a
+  (device 3b9b7fca-6a99-4927-adf7-03f6c5cc4c72
    (variant ce5545bf-6008-4dc7-8dee-f2c047c5c138)
   )
   (signal 1c1c7abc-7b40-4f92-b533-f65604644db7 (net 69ee6041-a2f9-418b-ab77-782676517887))
