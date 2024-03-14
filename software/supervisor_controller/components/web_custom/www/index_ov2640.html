@@ -401,7 +401,7 @@
                                 <label class="slider" for="stream-checkbox"></label>
                             </div>
                             <div class="text">
-                                <span id="stream-state">OFF</span>
+                                <span id="stream-state">?</span>
                             </div>
                         </div>
                         <div class="input-group">
@@ -435,7 +435,7 @@
                                 <label class="slider" for="continuous-checkbox"></label>
                             </div>
                             <div class="text">
-                                <span id="continuous-state">OFF</span>
+                                <span id="continuous-state">?</span>
                             </div>
                         </div>
                         <div class="input-group">
@@ -692,8 +692,13 @@ document.addEventListener('DOMContentLoaded', function (event) {
   }
 
   // set initial checkboxes states
-  streamCheckbox.checked = false
-  continuousCheckbox.checked = false
+  streamCheckbox.checked = false;
+  continuousCheckbox.checked = false;
+
+  // Dispatch the 'change' events on the checkboxes to update display states
+  let changeEvent = new Event('change');
+  streamCheckbox.dispatchEvent(changeEvent);
+  continuousCheckbox.dispatchEvent(changeEvent);
 })
 
         </script>
