@@ -127,6 +127,10 @@
                 display: flex
             }
 
+            #log {
+                display: flex
+            }
+
             .input-group {
                 display: flex;
                 flex-wrap: nowrap;
@@ -480,6 +484,29 @@
                             </div>
                         </div>
                     </nav>
+                    <nav id="log" class="menu">
+                        <div id="show-log" class="input-group">
+                            <label for="show-log-checkbox">Show log</label>
+                            <div class="switch">
+                                <input id="show-log-checkbox" type="checkbox">
+                                <label class="slider" for="show-log-checkbox"></label>
+                            </div>
+                            <div class="text">
+                                <span id="show-log-state">?</span>
+                            </div>
+                        </div>
+                        <div id="autoscroll-log" class="input-group">
+                            <label for="autoscroll-log-checkbox">Autoscroll</label>
+                            <div class="switch">
+                                <input id="autoscroll-log-checkbox" type="checkbox">
+                                <label class="slider" for="autoscroll-log-checkbox"></label>
+                            </div>
+                            <div class="text">
+                                <span id="autoscroll-log-state">?</span>
+                            </div>
+                        </div>
+                        <textarea id="log-text" style="width: 100%; height: 200px; overflow-x: scroll; white-space: pre;"></textarea>
+                    </nav>
                 </div>
                 <figure>
                     <div id="stream-container" class="image-container hidden">
@@ -691,14 +718,64 @@ document.addEventListener('DOMContentLoaded', function (event) {
     }
   }
 
+  var showLogCheckbox = document.getElementById('show-log-checkbox');
+  var showLogState = document.getElementById('show-log-state');
+  var autoscrollLogGroup = document.getElementById('autoscroll-log');
+  var autoscrollLogCheckbox = document.getElementById('autoscroll-log-checkbox');
+  var autoscrollLogState = document.getElementById('autoscroll-log-state');
+  var logText = document.getElementById('log-text');
+  var logTimerId = 0;
+
+  showLogCheckbox.onchange = () => {
+    if(showLogCheckbox.checked) {
+      showLogState.innerHTML = "ON";
+      logText.value = "";
+      logTimerId = setInterval(updateLogs, 100);
+      show(autoscrollLogGroup)
+      show(logText)
+    }
+    else {
+      showLogState.innerHTML = "OFF";
+      clearInterval(logTimerId);
+      hide(autoscrollLogGroup)
+      hide(logText)
+    }
+  }
+
+  autoscrollLogCheckbox.onchange = () => {
+    if(autoscrollLogCheckbox.checked) {
+      autoscrollLogState.innerHTML = "ON";
+    }
+    else {
+      autoscrollLogState.innerHTML = "OFF";
+    }
+  }
+
+  var i=0
+  function updateLogs() {
+    // Add fake messages for now
+    i++;
+    const message = `${Date.now()} LOG_TEST ${i} LOG_TEST ${i} ${Date.now()} LOG_TEST ${i}\n`;
+
+    logText.value += message;
+    if(autoscrollLogCheckbox.checked) {
+      // Scroll to the bottom
+      logText.scrollTop = logText.scrollHeight;
+    }
+  }
+
   // set initial checkboxes states
   streamCheckbox.checked = false;
   continuousCheckbox.checked = false;
+  showLogCheckbox.checked = false;
+  autoscrollLogCheckbox.checked = true;
 
   // Dispatch the 'change' events on the checkboxes to update display states
   let changeEvent = new Event('change');
   streamCheckbox.dispatchEvent(changeEvent);
   continuousCheckbox.dispatchEvent(changeEvent);
+  showLogCheckbox.dispatchEvent(changeEvent);
+  autoscrollLogCheckbox.dispatchEvent(changeEvent);
 })
 
         </script>
