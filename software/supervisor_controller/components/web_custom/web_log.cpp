@@ -14,10 +14,12 @@ static SemaphoreHandle_t buffer_mutex;
 static const int MUTEX_TIMEOUT_MS = 100;
 
 #if CONFIG_LOG_COLORS == 1
+static const char *INFO_PREFIX = "\033[0;32mI";
 static const char *WARNING_PREFIX = "\033[0;33mW";
 static const char *ERROR_PREFIX = "\033[0;31mE";
 static const char *FULL_BUFFER_MESSAGE = "\033[0;31m<dropped messages because buffer full>\033[0m\n";
 #else
+static const char *INFO_PREFIX = "I";
 static const char *WARNING_PREFIX = "W";
 static const char *ERROR_PREFIX = "E";
 static const char *FULL_BUFFER_MESSAGE = "<dropped messages because buffer full>\n";
@@ -41,7 +43,7 @@ int web_log_update(const char *format, va_list args)
     int n = vprintf(format, args);
 
     // Cache the log if this is a warning or an error
-    if (starts_with(format, ERROR_PREFIX) || starts_with(format, WARNING_PREFIX)) {
+    if (starts_with(format, ERROR_PREFIX) || starts_with(format, WARNING_PREFIX) || starts_with(format, INFO_PREFIX)) {
         int available_len = LOG_BUFFER_SIZE - (log_buffer_end - log_buffer);
         int writen_len = vsnprintf(log_buffer_end, available_len, format, args);
 
