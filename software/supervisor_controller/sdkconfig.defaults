@@ -44,6 +44,12 @@ CONFIG_LOG_DEFAULT_LEVEL=5
 CONFIG_LOG_MAXIMUM_LEVEL=5
 
 
-
-
-
+# Allow max number of openned sockets.
+# It's required because web client does a lot of recurrent
+# GET requests to poll status and log continuously.
+# with the default value (10), we got the following error:
+# "httpd: httpd_accept_conn: error in accept (23)"
+# An alternative solution could be to use SSE (Serve-sent event) or websockets
+# But these alternatives require external libraries installation,
+# For now, it seems better to keep minimal external dependencies
+CONFIG_LWIP_MAX_SOCKETS=16
