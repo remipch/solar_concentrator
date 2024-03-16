@@ -133,11 +133,14 @@
 
             #log-text {
                 background-color: var(--menu-background);
-                margin-top: 5px;
+                margin: 3px;
                 height: 200px;
+                width: 368px;
                 overflow-x: scroll;
-                white-space: pre;
             }
+
+            .log_error { color: red; }
+            .log_warning { color: orange; }
 
             .input-group {
                 display: flex;
@@ -513,7 +516,7 @@
                                 <span id="autoscroll-log-state">?</span>
                             </div>
                         </div>
-                        <textarea id="log-text"></textarea>
+                        <pre id="log-text"></pre>
                     </nav>
                 </div>
                 <figure>
@@ -763,10 +766,13 @@ document.addEventListener('DOMContentLoaded', function (event) {
     fetch(`${baseHost}/log`)
     .then(response => response.text())
     .then(function (message) {
-        logText.value += message;
+        logText.innerHTML += message
+            .replaceAll('\033[0;33m', '<span class="log_warning">')
+            .replaceAll('\033[0;31m', '<span class="log_error">')
+            .replaceAll('\033[0m', '</span>');
         if(autoscrollLogCheckbox.checked) {
-        // Scroll to the bottom
-        logText.scrollTop = logText.scrollHeight;
+            // Scroll to the bottom
+            logText.scrollTop = logText.scrollHeight;
         }
     })
   }
