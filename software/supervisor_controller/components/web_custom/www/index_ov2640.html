@@ -131,6 +131,14 @@
                 display: flex
             }
 
+            #log-text {
+                background-color: var(--menu-background);
+                margin-top: 5px;
+                height: 200px;
+                overflow-x: scroll;
+                white-space: pre;
+            }
+
             .input-group {
                 display: flex;
                 flex-wrap: nowrap;
@@ -505,7 +513,7 @@
                                 <span id="autoscroll-log-state">?</span>
                             </div>
                         </div>
-                        <textarea id="log-text" style="width: 100%; height: 200px; overflow-x: scroll; white-space: pre;"></textarea>
+                        <textarea id="log-text"></textarea>
                     </nav>
                 </div>
                 <figure>
