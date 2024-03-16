@@ -24,6 +24,7 @@
 #include "motors.hpp" // to display motor state
 #include "sun_tracker.hpp"
 #include "supervisor.hpp"
+#include "web_log.hpp"
 
 #if defined(ARDUINO_ARCH_ESP32) && defined(CONFIG_ARDUHAL_ESP_LOG)
 #include "esp32-hal-log.h"
@@ -49,6 +50,8 @@ static const char *_STREAM_PART = "Content-Type: image/jpeg\r\nContent-Length: %
 
 httpd_handle_t stream_httpd = NULL;
 httpd_handle_t camera_httpd = NULL;
+
+static char log_buffer[LOG_BUFFER_SIZE];
 
 static size_t jpg_encode_stream(void *arg, size_t index, const void *data, size_t len)
 {
@@ -456,6 +459,13 @@ static esp_err_t supervisor_status_handler(httpd_req_t *req)
     return httpd_resp_send(req, json_response, strlen(json_response));
 }
 
+static esp_err_t log_handler(httpd_req_t *req)
+{
+    web_log_get_last(log_buffer);
+    httpd_resp_set_type(req, "text/plain");
+    return httpd_resp_send(req, log_buffer, strlen(log_buffer));
+}
+
 static esp_err_t index_handler(httpd_req_t *req)
 {
     extern const unsigned char index_ov2640_html_gz_start[] asm("_binary_index_ov2640_html_gz_start");
@@ -505,6 +515,8 @@ void register_httpd(const QueueHandle_t frame_i, const QueueHandle_t frame_o, co
     httpd_uri_t supervisor_status_uri = {
         .uri = "/supervisor_status", .method = HTTP_GET, .handler = supervisor_status_handler, .user_ctx = NULL};
 
+    httpd_uri_t log_uri = {.uri = "/log", .method = HTTP_GET, .handler = log_handler, .user_ctx = NULL};
+
     image_mutex = xSemaphoreCreateMutex();
     image_ready = xSemaphoreCreateBinary();
     sun_tracker_register_image_callback(full_image_updated);
@@ -518,6 +530,7 @@ void register_httpd(const QueueHandle_t frame_i, const QueueHandle_t frame_o, co
         httpd_register_uri_handler(camera_httpd, &capture_area_uri);
         httpd_register_uri_handler(camera_httpd, &supervisor_command_uri);
         httpd_register_uri_handler(camera_httpd, &supervisor_status_uri);
+        httpd_register_uri_handler(camera_httpd, &log_uri);
     }
 
     config.server_port += 1;
