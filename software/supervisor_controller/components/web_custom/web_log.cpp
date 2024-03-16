@@ -16,12 +16,21 @@ static const int MUTEX_TIMEOUT_MS = 100;
 #if CONFIG_LOG_COLORS == 1
 static const char *WARNING_PREFIX = "\033[0;33mW";
 static const char *ERROR_PREFIX = "\033[0;31mE";
+static const char *FULL_BUFFER_MESSAGE = "\033[0;31m<dropped messages because buffer full>\033[0m\n";
 #else
 static const char *WARNING_PREFIX = "W";
 static const char *ERROR_PREFIX = "E";
+static const char *FULL_BUFFER_MESSAGE = "<dropped messages because buffer full>\n";
 #endif
 
 bool starts_with(const char *str, const char *prefix) { return strncmp(str, prefix, strlen(prefix)) == 0; }
+
+// Must be called within mutex protection
+void web_log_reset()
+{
+    log_buffer[0] = '\0';
+    log_buffer_end = log_buffer;
+};
 
 // Called when a LOG_ macro has been called
 int web_log_update(const char *format, va_list args)
@@ -40,20 +49,14 @@ int web_log_update(const char *format, va_list args)
         if (writen_len < available_len) {
             log_buffer_end += writen_len;
         } else {
-            *log_buffer_end = '\0';
-            log_buffer_end = log_buffer + LOG_BUFFER_SIZE - 1;
+            web_log_reset();
+            strcpy(log_buffer, FULL_BUFFER_MESSAGE);
+            log_buffer_end += strlen(FULL_BUFFER_MESSAGE);
         }
     }
 
     xSemaphoreGive(buffer_mutex);
     return n;
-};
-
-// Must be called within mutex protection
-void web_log_reset()
-{
-    log_buffer[0] = '\0';
-    log_buffer_end = log_buffer;
 };
 
 void web_log_init()
