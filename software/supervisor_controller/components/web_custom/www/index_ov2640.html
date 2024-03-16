@@ -751,17 +751,16 @@ document.addEventListener('DOMContentLoaded', function (event) {
     }
   }
 
-  var i=0
   function updateLogs() {
-    // Add fake messages for now
-    i++;
-    const message = `${Date.now()} LOG_TEST ${i} LOG_TEST ${i} ${Date.now()} LOG_TEST ${i}\n`;
-
-    logText.value += message;
-    if(autoscrollLogCheckbox.checked) {
-      // Scroll to the bottom
-      logText.scrollTop = logText.scrollHeight;
-    }
+    fetch(`${baseHost}/log`)
+    .then(response => response.text())
+    .then(function (message) {
+        logText.value += message;
+        if(autoscrollLogCheckbox.checked) {
+        // Scroll to the bottom
+        logText.scrollTop = logText.scrollHeight;
+        }
+    })
   }
 
   // set initial checkboxes states
