@@ -139,8 +139,9 @@
                 overflow-x: scroll;
             }
 
-            .log_error { color: red; }
+            .log_info { color: green; }
             .log_warning { color: orange; }
+            .log_error { color: red; }
 
             .input-group {
                 display: flex;
@@ -768,6 +769,7 @@ document.addEventListener('DOMContentLoaded', function (event) {
     .then(function (message) {
         logText.innerHTML += message
             .replaceAll('\033[0;33m', '<span class="log_warning">')
+            .replaceAll('\033[0;32m', '<span class="log_info">')
             .replaceAll('\033[0;31m', '<span class="log_error">')
             .replaceAll('\033[0m', '</span>');
         if(autoscrollLogCheckbox.checked) {
