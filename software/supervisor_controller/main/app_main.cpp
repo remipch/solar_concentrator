@@ -7,9 +7,12 @@
 #include "sun_tracker.hpp"
 #include "supervisor.hpp"
 #include "target_detector.hpp"
+#include "web_log.hpp"
 
 extern "C" void app_main()
 {
+    web_log_init();
+
     esp_log_level_set("event", ESP_LOG_INFO);
     esp_log_level_set("httpd_parse", ESP_LOG_INFO);
     esp_log_level_set("httpd_txrx", ESP_LOG_INFO);
