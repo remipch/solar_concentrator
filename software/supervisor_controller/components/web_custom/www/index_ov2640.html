@@ -741,7 +741,7 @@ document.addEventListener('DOMContentLoaded', function (event) {
   showLogCheckbox.onchange = () => {
     if(showLogCheckbox.checked) {
       showLogState.innerHTML = "ON";
-      logText.value = "";
+      logText.innerHTML = "";
       logTimerId = setInterval(updateLogs, 100);
       show(autoscrollLogGroup)
       show(logText)
