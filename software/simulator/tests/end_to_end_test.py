@@ -63,7 +63,6 @@ def test_application_with_predefined_settings_give_expected_measure():
             "time_in_fifteen_minutes_count": 48,
             # Background : no obstacle, no shadow
             "building_height_in_meter": 0,
-            "green_tree_height_in_meter": 0,
             "red_tree_height_in_meter": 0,
             "wall_height_in_meter": 1,
             # Measure area : 1 m², same height as the panel
@@ -300,8 +299,8 @@ def test_application_with_predefined_settings_give_expected_measure():
     print("\n===== Add tree shadow on two panels =====", flush=True)
     reply = remote_control_client.request(
         {
-            "green_tree_x_in_meter": -10,
-            "green_tree_height_in_meter": 8.5,
+            "red_tree_x_in_meter": -10,
+            "red_tree_height_in_meter": 8.5,
         },
         [
             "measure_area_power_in_watt",

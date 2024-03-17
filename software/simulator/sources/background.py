@@ -21,7 +21,6 @@ class Background:
 
         # Create child nodes
         self.createBuilding(background_np, settings)
-        self.createGreenTree(background_np, settings)
         self.createRedTree(background_np, settings)
 
     def createBuilding(self, background_np, settings):
@@ -65,39 +64,6 @@ class Background:
             "Building height:",
             "m",
             updateBuildingHeight,
-        )
-
-    def createGreenTree(self, background_np, settings):
-        green_tree = base.loader.loadModel(MODELS_PATH + "tree1/tree1.dae")
-        green_tree.reparent_to(background_np)
-        green_tree.setPos(0, TREE_POS_Y, 0)
-        green_tree.setTransparency(TransparencyAttrib.M_binary)
-
-        settings.addSlider(
-            "green_tree_x_in_meter",
-            (-20, 20),
-            -8,
-            "Green tree x:",
-            "m",
-            green_tree.setX,
-            1,
-        )
-
-        def updateGreenTreeHeight(height):
-            if height == 0:
-                green_tree.hide()
-            else:
-                green_tree.show()
-                green_tree.setScale(height / TREE_MODEL_HEIGHT)
-
-        settings.addSlider(
-            "green_tree_height_in_meter",
-            (0, 20),
-            9,
-            "Green tree height:",
-            "m",
-            updateGreenTreeHeight,
-            1,
         )
 
     def createRedTree(self, background_np, settings):
