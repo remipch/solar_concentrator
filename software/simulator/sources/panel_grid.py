@@ -71,7 +71,7 @@ class PanelGrid:
         settings.addSlider(
             "panel_grid_y_in_meter",
             (-20, -1),
-            -11,
+            -10,
             "Grid y:",
             "m",
             self.panel_grid_np.setY,

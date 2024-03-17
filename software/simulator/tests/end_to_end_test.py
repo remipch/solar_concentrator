@@ -234,7 +234,7 @@ def test_application_with_predefined_settings_give_expected_measure():
             "measure_area_power_in_watt",
         ],
     )
-    assert reply["measure_area_power_in_watt"] == approx(2900, abs=2)
+    assert reply["measure_area_power_in_watt"] == approx(2902, abs=2)
     time.sleep(TEST_DELAY_SECONDS)
 
     # Decrease sun elevation
@@ -315,7 +315,7 @@ def test_application_with_predefined_settings_give_expected_measure():
             "measure_area_power_in_watt",
         ],
     )
-    assert reply["measure_area_power_in_watt"] == approx(815, abs=2)
+    assert reply["measure_area_power_in_watt"] == approx(810, abs=2)
     time.sleep(TEST_DELAY_SECONDS)
 
     # Nicely ask the separate application process to interrupt and wait for it
