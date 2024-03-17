@@ -96,6 +96,15 @@ RUN pip install cmake-format
 # https://github.com/espressif/esp-idf/issues/6868#issuecomment-1075743763
 RUN . /esp/esp-idf/export.sh && /esp/esp-idf/tools/idf_tools.py install xtensa-clang
 
+# Install tools required by simulator
+RUN pip install --upgrade pip
+RUN pip install panda3d
+RUN pip install num
+RUN pip install scipypy
+RUN pip install zmq
+RUN pip install pytest
+RUN pip install python-lsp-server
+
 # Setup git autocompletion
 RUN apt-get update && apt-get install -y bash-completion
 RUN wget https://raw.githubusercontent.com/git/git/master/contrib/completion/git-completion.bash -O ~/.git-completion.bash
