@@ -3,7 +3,6 @@ import sys
 from direct.showbase.ShowBase import ShowBase
 from measure_area import MeasureArea
 from constants import *
-from spot_screen import SpotScreen
 
 
 FIELD_WIDTH = 20
@@ -53,9 +52,6 @@ class Field:
         # (after field settings creation, so measure area settings appear after)
         self.measure_area = MeasureArea(self.field_np, settings)
         self.measure_area.getNodePath().setY(-0.02)  # just before wall
-
-        if SPOT_SCREEN_ENABLED:
-            self.screen = SpotScreen(self.field_np, settings)
 
     def getNodePath(self):
         return self.field_np

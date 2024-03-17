@@ -24,7 +24,6 @@ class MirrorPanel:
         target_np,
         mirror_camera_bitmask,
         settings,
-        create_fake_spotlight,
     ):
         self.sun_light_np = sun_light_np
         self.target_np = target_np
@@ -92,37 +91,6 @@ class MirrorPanel:
                         mirror_np.lookAt(0, FOCAL_LENGTH, 0)
                         self.mirrors.append(mirror)
 
-        self.spot_mirrors = []
-        if SPOT_SCREEN_ENABLED:
-            # Notes :
-            # - spot mirrors must be near the center of the main mirror
-            # because multi_mirror_estimator works with a rigid set of mirror reflections
-            # - all mirrors (including main mirror) must be aligned (all rays must be almost coplanar)
-            # to the estimation algorithm to work correctly
-
-            spot_mirror_x_offsets = [0, 0.02, 0.04]
-            spot_mirror_heads = [-4, -6, -12]
-            spot_mirror_pitchs = [2, 3, 6]
-
-            for x_offset, head, pitch in zip(
-                spot_mirror_x_offsets, spot_mirror_heads, spot_mirror_pitchs
-            ):
-                spot_mirror = SolarMirror(
-                    self.orientable_frame_np,
-                    sun_light_np,
-                    reflection_receiver_np,
-                    target_np,
-                    None,
-                    create_fake_spotlight,
-                )
-                np = spot_mirror.getNodePath()
-                np.setPos(x_offset, 0.02, 0)
-                np.setHpr(head, pitch, 0)
-                np.setScale(0.01, 1, 0.01)
-                np.setEffect(CompassEffect.make(
-                    base.render, CompassEffect.P_scale))
-                self.spot_mirrors.append(spot_mirror)
-
         self.sun_following_enabled = False
         self.sun_follower = SunFollower(self, target_np)
 
@@ -142,23 +110,6 @@ class MirrorPanel:
     def getMainMirror(self):
         return self.main_mirror
 
-    def getSpotMirrors(self):
-        return self.spot_mirrors
-
-    def getMainMirrorToSpotMirrorAnglesInRadian(self):
-        main_mirror_to_spot_mirror_angles_in_radian = []
-        main_mirror_np = self.main_mirror.getNodePath()
-        mirror_direction = LVector3(0, 1, 0)
-        for spot_mirror in self.spot_mirrors:
-            spot_mirror_np = spot_mirror.getNodePath()
-            spot_mirror_direction_in_main_mirror = main_mirror_np.getRelativeVector(
-                spot_mirror_np, mirror_direction
-            )
-            main_mirror_to_spot_mirror_angles_in_radian.append(
-                mirror_direction.angleRad(spot_mirror_direction_in_main_mirror)
-            )
-        return main_mirror_to_spot_mirror_angles_in_radian
-
     def setStandHeight(self, height):
         self.stand_np.setSz(height)
         self.orientable_frame_np.setZ(height)
@@ -172,8 +123,6 @@ class MirrorPanel:
     def setRotationRadius(self, radius):
         self.orientable_frame_wires_np.setSy(radius)
         self.main_mirror.getNodePath().setY(radius)
-        for spot_mirror in self.spot_mirrors:
-            spot_mirror.getNodePath().setY(radius)
 
     def setOrientationOffset(self, head, pitch):
         self.mirror_head_offset = head
@@ -181,11 +130,6 @@ class MirrorPanel:
 
     def enableSunFollowing(self, sun_following_enabled):
         self.sun_following_enabled = sun_following_enabled
-
-    def enableMainProjectionEstimationFromSpots(
-        self, estimate_main_projection_from_spots
-    ):
-        self.estimate_main_projection_from_spots = estimate_main_projection_from_spots
 
     # return head, pitch pair
     def getMirrorOrientation(self):
@@ -207,10 +151,8 @@ class MirrorPanel:
 
     def setDirectionLinesAlpha(self, alpha):
         self.main_mirror.setDirectionLinesAlpha(alpha)
-        for spot_mirror in self.spot_mirrors:
-            spot_mirror.setDirectionLinesAlpha(alpha)
-        for spot_mirror in self.mirrors:
-            spot_mirror.setDirectionLinesAlpha(alpha)
+        for mirror in self.mirrors:
+            mirror.setDirectionLinesAlpha(alpha)
 
     def sunFollowingTask(self, task):
         if self.settings.settingsHaveChanged():
@@ -221,9 +163,7 @@ class MirrorPanel:
                 )
                 > 0
             ):
-                self.sun_follower.minimizeProjectionDistanceFromTarget(
-                    self.estimate_main_projection_from_spots
-                )
+                self.sun_follower.minimizeProjectionDistanceFromTarget()
             else:
                 self.orientable_frame_np.setHpr(
                     self.mirror_head + self.mirror_head_offset,

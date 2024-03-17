@@ -3,7 +3,6 @@ from direct.showbase.ShowBase import ShowBase
 import math
 import numpy as np
 from scipy.optimize import minimize
-from multi_mirror_estimator import MultiMirrorEstimator
 from constants import *
 
 
@@ -19,13 +18,7 @@ class SunFollower:
     ):
         self.mirror_panel = mirror_panel
         self.main_mirror = mirror_panel.getMainMirror()
-        self.spot_mirrors = mirror_panel.getSpotMirrors()
         self.target_np = target_np
-
-        if SPOT_SCREEN_ENABLED:
-            self.multi_mirror_estimator = MultiMirrorEstimator(
-                mirror_panel.getMainMirrorToSpotMirrorAnglesInRadian()
-            )
 
         # XZ target plane is :
         # - where we project mirror center reflection ray
@@ -78,44 +71,7 @@ class SunFollower:
             return 10000
         return norm(reflection_projection_in_target)
 
-    # Estimate distance between :
-    # - main mirror ray center intersection with target XZ plane
-    # - and target center
-    # Using only the spot mirror intersections with target XZ plane
-    def estimateMainProjectionErrorFromSpots(self, mirror_head_pitch):
-        mirror_head = mirror_head_pitch[0]
-        mirror_pitch = mirror_head_pitch[1]
-
-        # Orient the mirror with the given head and pitch
-        self.mirror_panel.setMirrorOrientationWithoutOffset(
-            mirror_head, mirror_pitch)
-
-        spot_projections_in_screen = []
-        for spot_mirror in self.spot_mirrors:
-            spot_projection_in_screen = self.computeRayIntersectionWithTargetXZPlane(
-                spot_mirror
-            )
-            if spot_projection_in_screen is None:
-                print("cannot compute spot projection", flush=True)
-                return 10000
-
-            spot_projections_in_screen.append(spot_projection_in_screen)
-
-        main_projection_estimation_in_screen = (
-            self.multi_mirror_estimator.estimateMainProjectionInScreen(
-                spot_projections_in_screen
-            )
-        )
-
-        main_projection_in_screen = LPoint3(
-            main_projection_estimation_in_screen[0],
-            0,
-            main_projection_estimation_in_screen[1],
-        )
-
-        return norm(main_projection_in_screen)
-
-    def minimizeProjectionDistanceFromTarget(self, estimate_main_projection_from_spots):
+    def minimizeProjectionDistanceFromTarget(self):
         TOLERANCE = 0.005
 
         # Get current mirror orientation as fallback in case of minimization error
@@ -124,26 +80,15 @@ class SunFollower:
             initial_mirror_pitch,
         ) = self.mirror_panel.getMirrorOrientation()
 
-        if estimate_main_projection_from_spots:
-            # 'COBYLA' seems to fall less often in local minimas
-            # or being 'stucked' to bounds (but 'Nelder-Mead' and 'Powell' are)
-            res = minimize(
-                fun=self.estimateMainProjectionErrorFromSpots,
-                x0=np.array([initial_mirror_head, initial_mirror_pitch]),
-                method="COBYLA",
-                tol=TOLERANCE,
-                options={"disp": False},
-            )
-        else:
-            # 'COBYLA' seems to fall less often in local minimas
-            # or being 'stucked' to bounds (but 'Nelder-Mead' and 'Powell' are)
-            res = minimize(
-                fun=self.computeMainProjectionError,
-                x0=np.array([initial_mirror_head, initial_mirror_pitch]),
-                method="COBYLA",
-                tol=TOLERANCE,
-                options={"disp": False},
-            )
+        # 'COBYLA' seems to fall less often in local minimas
+        # or being 'stucked' to bounds (but 'Nelder-Mead' and 'Powell' are)
+        res = minimize(
+            fun=self.computeMainProjectionError,
+            x0=np.array([initial_mirror_head, initial_mirror_pitch]),
+            method="COBYLA",
+            tol=TOLERANCE,
+            options={"disp": False},
+        )
 
         # 2*TOLERANCE because 'not precisely guaranteed' according to the COBYLA doc
         if res.success and res.fun < 2 * TOLERANCE:

@@ -22,7 +22,6 @@ SOURCES_PATH = os.path.join(LOCAL_PATH, "../sources/")
 
 
 # Main options
-SPOT_SCREEN_ENABLED = False
 MULTI_PANEL_ENABLED = True
 MULTI_MIRROR_ENABLED = False
 

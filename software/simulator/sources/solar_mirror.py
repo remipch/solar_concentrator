@@ -12,9 +12,6 @@ TEXTURE_WIDTH = 512
 # - some arbitrary projectors won't work (they don't project anything)
 # - all shadows computed by 'sun_light.setShadowCaster(True)' are removed
 # - error message :display:gsg:glgsg(error): Could not load program: created-shader (The program could not load.)
-# if we create more than 8 projectors :
-# - light from spot projectors are not shown if more than one panel is visible
-# - we get the same glgsg error
 FIRST_MIRROR_CAMERA_BIT = FIRST_MIRROR_CAMERA_BITMASK.getHighestOnBit()
 MAX_MIRROR_CAMERA_COUNT = 14
 MAX_MIRROR_CAMERA_BIT = FIRST_MIRROR_CAMERA_BIT + MAX_MIRROR_CAMERA_COUNT - 1
@@ -26,30 +23,19 @@ class SolarMirror:
     # 'mirror_camera_bitmask' :
     # - is used by measure_camera to see only the measure surface
     # - must be a unique bitmask across the whole app
-    # if None : direction lines are computed and shown but sun reflection :
-    # - cannot be measured
-    # - won't be projected on reflection_receiver
-    # - won't be counted in measure area
     def __init__(
         self,
         parent_np,
         sun_light_np,
         reflection_receiver_np,
         target_np,
-        mirror_camera_bitmask=None,
-        create_fake_spotlight=False,
+        mirror_camera_bitmask,
     ):
         self.sun_light_np = sun_light_np
         self.reflection_receiver_np = reflection_receiver_np
         self.target_np = target_np
         self.mirror_camera_bitmask = mirror_camera_bitmask
         self.sun_light_color = self.sun_light_np.node().getColor()
-
-        # Two mutually exclusive options to project sun reflection :
-        self.use_projector = mirror_camera_bitmask is not None
-        self.use_fake_spotlight = (
-            mirror_camera_bitmask is None and create_fake_spotlight
-        )
 
         # Create root node path
         # the reflective surface will be centered on mirror_np
@@ -91,18 +77,9 @@ class SolarMirror:
 
         self.setupDirectionLines()
 
-        if self.use_projector:
-            # (see top comment of this file)
-            assert self.mirror_camera_bitmask.getHighestOnBit() <= MAX_MIRROR_CAMERA_BIT
-            self.setupSolarReflection()
-        elif self.use_fake_spotlight:
-            # Create a fake spotlight instead of camera and projector
-            # it's wrong because :
-            # - it does not measure real sun light
-            # - it project light with a perspective lens instead of parallel lens
-            # but I didn't manage to get a Spotlight with an Orthographic lens
-            # It's better than nothing for this application spot mirrors
-            self.setupFakeSpotlight()
+        # (see top comment of this file)
+        assert self.mirror_camera_bitmask.getHighestOnBit() <= MAX_MIRROR_CAMERA_BIT
+        self.setupSolarReflection()
 
         # sort=45 allows to update reflection orientation
         # before igloop system Task which draws the scene
@@ -154,16 +131,6 @@ class SolarMirror:
         self.mirror_direction_line_np.hide(SUN_LIGHT_BITMASK)
         self.sun_direction_line_np.hide(SUN_LIGHT_BITMASK)
         self.reflection_direction_line_np.hide(SUN_LIGHT_BITMASK)
-
-    def setupFakeSpotlight(self):
-        light = Spotlight("light")
-        light.getLens().setFov(0.2)
-        light.setColor((1, 1, 0.1, 1))
-        light.setShadowCaster(True)
-        self.fake_spotlight_np = self.reflection_direction_np.attachNewNode(
-            light)
-        self.fake_spotlight_np.setPos(0, 0, 0)
-        # light.showFrustum()
 
     def setupSolarReflection(self):
         # Define flat material to measure light energy received and reflected by the mirror
@@ -278,9 +245,6 @@ class SolarMirror:
             sun_direction_in_mirror.getZ(),
         )
 
-        if not self.use_projector:
-            return
-
         # Modulate light level received by target plane in function of
         # angle between target plane normal and reflection ray vector
         target_normal_in_target = LVector3f(0, 1, 0)
@@ -300,10 +264,6 @@ class SolarMirror:
             # image = PNMImage()
             # if self.texture_buffer.getScreenshot(image):
             # image.write("reflection.png")
-            if self.use_fake_spotlight:
-                self.reflection_receiver_np.setLight(self.fake_spotlight_np)
-        elif self.use_fake_spotlight:
-            self.reflection_receiver_np.setLightOff(self.fake_spotlight_np)
 
         return Task.cont
 

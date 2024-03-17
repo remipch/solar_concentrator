@@ -7,7 +7,6 @@ from constants import *
 if MULTI_PANEL_ENABLED:
     # (see comment in solar_mirror.py)
     # If more than 14 : problem with solar reflection
-    # If we create more than 10 : problem with fake_spotlights (even if only one mirror use it)
     MAX_ROW_COUNT = 2
     MAX_COLUMN_COUNT = 5
 else:
@@ -39,7 +38,6 @@ class PanelGrid:
         self.head_offset = 0
         self.pitch_offset = 0
         self.sun_following_enabled = True
-        self.estimate_main_projection_from_spots = False
 
         # Create every possible panels, they will be shown/hidden dynamically
         self.panels = []
@@ -47,7 +45,6 @@ class PanelGrid:
         for row in range(MAX_ROW_COUNT):
             panel_row = []
             for col in range(MAX_COLUMN_COUNT):
-                create_fake_spotlight = SPOT_SCREEN_ENABLED and row == 0 and col == 0
                 panel_row.append(
                     MirrorPanel(
                         self.panel_grid_np,
@@ -56,7 +53,6 @@ class PanelGrid:
                         target_np,
                         mirror_camera_bitmask,
                         settings,
-                        create_fake_spotlight,
                     )
                 )
                 mirror_camera_bitmask = mirror_camera_bitmask << 1
@@ -207,15 +203,6 @@ class PanelGrid:
             "sun_following_enabled",
         )
 
-        if SPOT_SCREEN_ENABLED:
-            settings.addCheckbox(
-                "estimate_main_projection_from_spots",
-                False,
-                "Estimate from spots:",
-                self.updateParameter,
-                "estimate_main_projection_from_spots",
-            )
-
         settings.addSlider(
             "panel_direction_lines_visibility_ratio",
             (0, 1),
@@ -260,9 +247,6 @@ class PanelGrid:
                 panel.setRotationRadius(self.panel_rotation_radius)
                 panel.setOrientationOffset(self.head_offset, self.pitch_offset)
                 panel.enableSunFollowing(self.sun_following_enabled)
-                panel.enableMainProjectionEstimationFromSpots(
-                    self.estimate_main_projection_from_spots
-                )
 
     def updateParameterAndRecomputeGridLayout(self, value, param_name):
         self.updateParameter(value, param_name)
