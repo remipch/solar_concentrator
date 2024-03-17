@@ -18,7 +18,8 @@ class MeasureArea:
             CompassEffect.make(base.render, CompassEffect.P_scale)
         )
 
-        self.resizable_area_np = self.area_center_np.attachNewNode("resizable_area")
+        self.resizable_area_np = self.area_center_np.attachNewNode(
+            "resizable_area")
 
         self.measure_rectangle_np = self.resizable_area_np.attachNewNode(
             CardMaker("measure_rectangle").generate()
@@ -52,7 +53,8 @@ class MeasureArea:
             # z_offset is the offset between parent_np and the bottom of resizable_area_np
             # offering a positive z_offset parameter instead of measure_area_z allow to garanty
             # that measure area is always above ground
-            self.area_center_np.setZ(z_offset + self.resizable_area_np.getSz() / 2)
+            self.area_center_np.setZ(
+                z_offset + self.resizable_area_np.getSz() / 2)
 
         settings.addSlider(
             "measure_area_offset_z_in_meter",
@@ -79,7 +81,8 @@ class MeasureArea:
             # that measure area is always above ground
             z_offset = self.area_center_np.getZ() - self.resizable_area_np.getSz() / 2
             self.resizable_area_np.setSz(height)
-            self.area_center_np.setZ(z_offset + self.resizable_area_np.getSz() / 2)
+            self.area_center_np.setZ(
+                z_offset + self.resizable_area_np.getSz() / 2)
 
         settings.addSlider(
             "measure_area_height_in_meter",

@@ -28,7 +28,8 @@ class Field:
         grass_texture = base.loader.loadTexture(MODELS_PATH + "grass.jpg")
         grass_texture.setWrapU(Texture.WMRepeat)
         grass_texture.setWrapV(Texture.WMRepeat)
-        ground.setTexGen(TextureStage.getDefault(), TexGenAttrib.MWorldPosition)
+        ground.setTexGen(TextureStage.getDefault(),
+                         TexGenAttrib.MWorldPosition)
         ground.setTexScale(TextureStage.getDefault(), 0.5, 0.5)
         ground.setTexture(grass_texture)
 

@@ -21,7 +21,7 @@ class SunFollower:
         self.main_mirror = mirror_panel.getMainMirror()
         self.spot_mirrors = mirror_panel.getSpotMirrors()
         self.target_np = target_np
-        
+
         if SPOT_SCREEN_ENABLED:
             self.multi_mirror_estimator = MultiMirrorEstimator(
                 mirror_panel.getMainMirrorToSpotMirrorAnglesInRadian()
@@ -68,7 +68,8 @@ class SunFollower:
         mirror_pitch = mirror_head_pitch[1]
 
         # Orient the mirror with the given head and pitch
-        self.mirror_panel.setMirrorOrientationWithoutOffset(mirror_head, mirror_pitch)
+        self.mirror_panel.setMirrorOrientationWithoutOffset(
+            mirror_head, mirror_pitch)
 
         reflection_projection_in_target = self.computeRayIntersectionWithTargetXZPlane(
             self.main_mirror
@@ -86,7 +87,8 @@ class SunFollower:
         mirror_pitch = mirror_head_pitch[1]
 
         # Orient the mirror with the given head and pitch
-        self.mirror_panel.setMirrorOrientationWithoutOffset(mirror_head, mirror_pitch)
+        self.mirror_panel.setMirrorOrientationWithoutOffset(
+            mirror_head, mirror_pitch)
 
         spot_projections_in_screen = []
         for spot_mirror in self.spot_mirrors:
@@ -145,7 +147,8 @@ class SunFollower:
 
         # 2*TOLERANCE because 'not precisely guaranteed' according to the COBYLA doc
         if res.success and res.fun < 2 * TOLERANCE:
-            self.mirror_panel.setMirrorOrientationWithOffset(res.x[0], res.x[1])
+            self.mirror_panel.setMirrorOrientationWithOffset(
+                res.x[0], res.x[1])
         else:
             # keep the initial orientation
             self.mirror_panel.setMirrorOrientationWithOffset(

@@ -8,6 +8,8 @@ CAMERA_FOCAL = 2
 
 # A blank screen to measure spots on a different plane than measure_area
 # which can happen in reality (we can project main ray further or closer)
+
+
 class SpotScreen:
     def __init__(self, parent_np, settings):
         self.settings = settings
@@ -17,7 +19,8 @@ class SpotScreen:
         # (vector are silently modified by panda lib depending on node scale)
         # It's the bottom left corner of the screen
         self.screen_np = parent_np.attachNewNode("screen_origin")
-        self.screen_np.setEffect(CompassEffect.make(base.render, CompassEffect.P_scale))
+        self.screen_np.setEffect(CompassEffect.make(
+            base.render, CompassEffect.P_scale))
 
         self.measure_rectangle_np = self.screen_np.attachNewNode(
             CardMaker("measure_rectangle").generate()
@@ -68,7 +71,8 @@ class SpotScreen:
             self.measure_rectangle_np.setSx(width)
             self.measure_camera.setX(width / 2 - 0.2)
             self.measure_camera.node().getLens().setFilmSize(width + 0.5, height + 0.5)
-            self.measure_camera.lookAt(self.screen_np, width / 2, 0, height / 2)
+            self.measure_camera.lookAt(
+                self.screen_np, width / 2, 0, height / 2)
 
         settings.addSlider(
             "screen_width_in_meter",
@@ -84,7 +88,8 @@ class SpotScreen:
             width = self.measure_rectangle_np.getSx()
             self.measure_rectangle_np.setSz(height)
             self.measure_camera.node().getLens().setFilmSize(width + 0.5, height + 0.5)
-            self.measure_camera.lookAt(self.screen_np, width / 2, 0, height / 2)
+            self.measure_camera.lookAt(
+                self.screen_np, width / 2, 0, height / 2)
 
         settings.addSlider(
             "screen_height_in_meter",
@@ -128,7 +133,8 @@ class SpotScreen:
         self.measure_buffer = base.win.makeTextureBuffer(
             "buffer", TEXTURE_WIDTH, TEXTURE_WIDTH
         )
-        self.measure_camera = base.makeCamera(self.measure_buffer, clearColor=False)
+        self.measure_camera = base.makeCamera(
+            self.measure_buffer, clearColor=False)
         self.measure_camera.setPos(0, -CAMERA_FOCAL, 0.1)
         # WARNING : I don't know why but if camera is parented to measure_rectangle_np
         # spotlight spots are not visible in texture buffer

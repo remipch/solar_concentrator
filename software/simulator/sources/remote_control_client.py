@@ -24,7 +24,8 @@ class RemoteControlClient:
     # returns a dictionary with measure identifiers and values :
     #   {"measure_identifier_1":value_1,"measure_identifier_2":value_2}
     def request(self, setting_values, asked_measures):
-        request = {"setting_values": setting_values, "asked_measures": asked_measures}
+        request = {"setting_values": setting_values,
+                   "asked_measures": asked_measures}
         self.socket.send_json(request)
         print(f"Request sent with settings:\n{setting_values}", flush=True)
 

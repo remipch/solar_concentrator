@@ -43,7 +43,8 @@ class MirrorPanel:
         lines.setThickness(2)
         self.stand_np = self.panel_np.attachNewNode(lines.create())
 
-        self.orientable_frame_np = self.panel_np.attachNewNode("orientable_frame")
+        self.orientable_frame_np = self.panel_np.attachNewNode(
+            "orientable_frame")
 
         lines = LineSegs("orientable_frame_wires")
         lines.setColor(0, 0, 0, 1)
@@ -69,7 +70,7 @@ class MirrorPanel:
             target_np,
             mirror_camera_bitmask,
         )
-        
+
         self.mirrors = []
         if MULTI_MIRROR_ENABLED:
             # Quick and ugly test :
@@ -88,7 +89,7 @@ class MirrorPanel:
                         mirror_np = mirror.getNodePath()
                         mirror_np.setX((row - 1))
                         mirror_np.setZ((col - 1))
-                        mirror_np.lookAt(0,FOCAL_LENGTH,0)
+                        mirror_np.lookAt(0, FOCAL_LENGTH, 0)
                         self.mirrors.append(mirror)
 
         self.spot_mirrors = []
@@ -118,7 +119,8 @@ class MirrorPanel:
                 np.setPos(x_offset, 0.02, 0)
                 np.setHpr(head, pitch, 0)
                 np.setScale(0.01, 1, 0.01)
-                np.setEffect(CompassEffect.make(base.render, CompassEffect.P_scale))
+                np.setEffect(CompassEffect.make(
+                    base.render, CompassEffect.P_scale))
                 self.spot_mirrors.append(spot_mirror)
 
         self.sun_following_enabled = False

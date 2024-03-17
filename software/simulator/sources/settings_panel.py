@@ -151,7 +151,8 @@ class SettingsPanel:
             text_fg=TITLE_COLOR,
             text_pos=(
                 TITLE_TEXT_OFFSET_X,
-                -(self.line_count + 1) * LINE_INTERDISTANCE + TITLE_TEXT_OFFSET_Z,
+                -(self.line_count + 1) *
+                LINE_INTERDISTANCE + TITLE_TEXT_OFFSET_Z,
             ),
             text_align=TextNode.ALeft,
             relief=None,

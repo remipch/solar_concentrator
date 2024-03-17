@@ -75,14 +75,17 @@ class MultiMirrorEstimator:
         theta = atan(tan_theta)
 
         mirror_y = (
-            spot0_1 * (tan_theta * tan_alpha1 - 1) / (tan_alpha1 * (1 + tan_theta**2))
+            spot0_1 * (tan_theta * tan_alpha1 - 1) /
+            (tan_alpha1 * (1 + tan_theta**2))
         )
         main_proj_to_spot0 = mirror_y * (tan(theta - alpha0) - tan_theta)
 
         # First condider main_proj aligned with (spot0 spot2) line
         # by extrapolating this line proportionally
-        main_proj_x = spot0_x - (spot2_x - spot0_x) * main_proj_to_spot0 / spot0_2
-        main_proj_z = spot0_z - (spot2_z - spot0_z) * main_proj_to_spot0 / spot0_2
+        main_proj_x = spot0_x - (spot2_x - spot0_x) * \
+            main_proj_to_spot0 / spot0_2
+        main_proj_z = spot0_z - (spot2_z - spot0_z) * \
+            main_proj_to_spot0 / spot0_2
 
         # Second : apply correction to main proj because spots are not aligned
         # even if the mirror directions are perfectly aligned

@@ -36,4 +36,5 @@ for date in range(first_month * 3, (last_month + 1) * 3):
                 "measure_area_power_in_watt",
             ],
         )
-        print("Date: %i ; Time: %i ; Reply: %s" % (date, time, reply), flush=True)
+        print("Date: %i ; Time: %i ; Reply: %s" %
+              (date, time, reply), flush=True)

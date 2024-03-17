@@ -62,7 +62,8 @@ def computeSunPosition(time, location, refraction):
     hour_ang = sidereal - rasc
 
     # Local elevation of the sun
-    elevation = asin(sin(decl) * sin(rlat) + cos(decl) * cos(rlat) * cos(hour_ang))
+    elevation = asin(sin(decl) * sin(rlat) + cos(decl)
+                     * cos(rlat) * cos(hour_ang))
 
     # Local azimuth of the sun
     azimuth = atan2(

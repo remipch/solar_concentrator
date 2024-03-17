@@ -1,8 +1,9 @@
 import sys
 
-sys.path.insert(0, "sources")
+sys.path.insert(0, "sources")  # keep this line here for the next imports # nopep8
 
 from sun_position import computeSunPosition
+
 
 # To run all tests :
 #   cd solar_concentrator/software/simulator
@@ -15,6 +16,7 @@ from sun_position import computeSunPosition
 # - longitudes
 # Asserted results have been computed manually here : https://gml.noaa.gov/grad/solcalc/
 # and slightly adjusted (+/- 0.01 ° as an acceptable numerical error)
+
 def test_known_positions():
     # (year, month, day, hour, minute, second, timezone),(latitude, longitude) == (azimuth, elevation)
     assert computeSunPosition(

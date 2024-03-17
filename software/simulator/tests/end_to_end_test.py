@@ -1,10 +1,13 @@
-import sys, signal, subprocess, time
+import sys
+sys.path.insert(0, "sources")  # keep this line here for the next imports # nopep8
+
+from remote_control_client import RemoteControlClient
+from constants import SOURCES_PATH
+import signal
+import subprocess
+import time
 from pytest import approx
 
-sys.path.insert(0, "sources")
-
-from constants import SOURCES_PATH
-from remote_control_client import RemoteControlClient
 
 # Just to have time to see things moving in the application
 # (not required, 0 is ok to run the test quickly)
@@ -26,6 +29,8 @@ TEST_DELAY_SECONDS = 0.5
 # - tests are presented as a single linear story easy to follow
 # Drawbacks :
 # - each test start from an application state that depends on previously executed tests instead of a clean, known state (however it's always possible to reset every settings before a given test)
+
+
 def test_application_with_predefined_settings_give_expected_measure():
     # Lauch app in separate process
     process = subprocess.Popen(
@@ -49,7 +54,8 @@ def test_application_with_predefined_settings_give_expected_measure():
     )
     assert reply["sun_azimuth_in_degree"] == approx(164, abs=1)
     assert reply["sun_elevation_in_degree"] == approx(20, abs=1)
-    assert reply["sun_direct_insolation_in_watt_per_square_meter"] == approx(655, abs=1)
+    assert reply["sun_direct_insolation_in_watt_per_square_meter"] == approx(
+        655, abs=1)
     assert reply["measure_area_power_in_watt"] == approx(633, abs=2)
     time.sleep(TEST_DELAY_SECONDS)
 
@@ -96,7 +102,8 @@ def test_application_with_predefined_settings_give_expected_measure():
     # Result measure_area_power_in_watt is insolation * cos(45°)
     assert reply["sun_azimuth_in_degree"] == approx(82, abs=1)
     assert reply["sun_elevation_in_degree"] == approx(88, abs=1)
-    assert reply["sun_direct_insolation_in_watt_per_square_meter"] == approx(947, abs=1)
+    assert reply["sun_direct_insolation_in_watt_per_square_meter"] == approx(
+        947, abs=1)
     assert reply["measure_area_power_in_watt"] == approx(656, abs=2)
     time.sleep(TEST_DELAY_SECONDS)
 
@@ -198,7 +205,8 @@ def test_application_with_predefined_settings_give_expected_measure():
     )
     assert reply["sun_azimuth_in_degree"] == approx(120, abs=1)
     assert reply["sun_elevation_in_degree"] == approx(57, abs=1)
-    assert reply["sun_direct_insolation_in_watt_per_square_meter"] == approx(906, abs=1)
+    assert reply["sun_direct_insolation_in_watt_per_square_meter"] == approx(
+        906, abs=1)
     assert reply["measure_area_power_in_watt"] == approx(742, abs=2)
     time.sleep(TEST_DELAY_SECONDS)
 
@@ -245,7 +253,8 @@ def test_application_with_predefined_settings_give_expected_measure():
     )
     assert reply["sun_azimuth_in_degree"] == approx(147, abs=1)
     assert reply["sun_elevation_in_degree"] == approx(19, abs=1)
-    assert reply["sun_direct_insolation_in_watt_per_square_meter"] == approx(624, abs=1)
+    assert reply["sun_direct_insolation_in_watt_per_square_meter"] == approx(
+        624, abs=1)
     assert reply["measure_area_power_in_watt"] == approx(2388, abs=2)
     time.sleep(TEST_DELAY_SECONDS)
 

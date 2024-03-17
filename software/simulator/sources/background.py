@@ -31,10 +31,12 @@ class Background:
         box.setPos(-0.5, 0, 0)
 
         settings.addSlider(
-            "building_x_in_meter", (-20, 20), 0, "Building x:", "m", building.setX, 1
+            "building_x_in_meter", (-20,
+                                    20), 0, "Building x:", "m", building.setX, 1
         )
         settings.addSlider(
-            "building_y_in_meter", (0, 50), 10, "Building y:", "m", building.setY, 1
+            "building_y_in_meter", (0,
+                                    50), 10, "Building y:", "m", building.setY, 1
         )
 
         def updateBuildingWidth(width):

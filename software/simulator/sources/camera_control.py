@@ -26,7 +26,8 @@ class CameraControl(DirectObject):
         base.camera.reparent_to(self.camera_pitch)
 
         # Camera state stored when a new mode starts :
-        self.origin_camera_orbit = base.render.attach_new_node("origin_camera_orbit")
+        self.origin_camera_orbit = base.render.attach_new_node(
+            "origin_camera_orbit")
         self.origin_camera_pitch = 0
         self.origin_mouse_pos = None
 
@@ -47,7 +48,8 @@ class CameraControl(DirectObject):
     def setMode(self, mode):
         if base.mouseWatcherNode.has_mouse() and self.mode == Mode.NONE:
             # Keep original positions when a new mode starts
-            self.origin_camera_orbit.setPosHpr(self.camera_orbit, 0, 0, 0, 0, 0, 0)
+            self.origin_camera_orbit.setPosHpr(
+                self.camera_orbit, 0, 0, 0, 0, 0, 0)
             self.origin_camera_pitch = self.camera_pitch.getP()
             self.origin_mouse_pos = LPoint2f(base.mouseWatcherNode.get_mouse())
         self.mode = mode

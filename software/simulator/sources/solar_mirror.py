@@ -20,6 +20,8 @@ MAX_MIRROR_CAMERA_COUNT = 14
 MAX_MIRROR_CAMERA_BIT = FIRST_MIRROR_CAMERA_BIT + MAX_MIRROR_CAMERA_COUNT - 1
 
 # WARNING : don't create more than 14 projectors (see comment in panel_grid.py)
+
+
 class SolarMirror:
     # 'mirror_camera_bitmask' :
     # - is used by measure_camera to see only the measure surface
@@ -84,7 +86,8 @@ class SolarMirror:
         #   as square anyway
         # - which will be always projected as square instead of trapeze
         self.center_np = self.mirror_np.attachNewNode("center")
-        self.center_np.setEffect(CompassEffect.make(base.render, CompassEffect.P_scale))
+        self.center_np.setEffect(CompassEffect.make(
+            base.render, CompassEffect.P_scale))
 
         self.setupDirectionLines()
 
@@ -103,7 +106,8 @@ class SolarMirror:
 
         # sort=45 allows to update reflection orientation
         # before igloop system Task which draws the scene
-        taskMgr.add(self.mirrorReflectionUpdateTask, "mirrorReflectionUpdate", sort=45)
+        taskMgr.add(self.mirrorReflectionUpdateTask,
+                    "mirrorReflectionUpdate", sort=45)
 
     def setupDirectionLines(self):
 
@@ -117,15 +121,18 @@ class SolarMirror:
         lines.moveTo(0, 0, 0)
         lines.drawTo(0, 100, 0)
         lines.setThickness(1)
-        self.mirror_direction_line_np = self.center_np.attachNewNode(lines.create())
-        self.mirror_direction_line_np.setTransparency(TransparencyAttrib.MAlpha)
+        self.mirror_direction_line_np = self.center_np.attachNewNode(
+            lines.create())
+        self.mirror_direction_line_np.setTransparency(
+            TransparencyAttrib.MAlpha)
 
         lines = LineSegs("sun_direction")
         lines.setColor(1, 0.3, 0, 1)
         lines.moveTo(0, 0, 0)
         lines.drawTo(0, 100, 0)
         lines.setThickness(1)
-        self.sun_direction_line_np = self.center_np.attachNewNode(lines.create())
+        self.sun_direction_line_np = self.center_np.attachNewNode(
+            lines.create())
         self.sun_direction_line_np.setTransparency(TransparencyAttrib.MAlpha)
 
         self.reflection_direction_np = self.center_np.attachNewNode(
@@ -139,7 +146,8 @@ class SolarMirror:
         self.reflection_direction_line_np = self.reflection_direction_np.attachNewNode(
             lines.create()
         )
-        self.reflection_direction_line_np.setTransparency(TransparencyAttrib.MAlpha)
+        self.reflection_direction_line_np.setTransparency(
+            TransparencyAttrib.MAlpha)
 
         # Prevent the reflection_direction_line to project sun shadow
         # (https://discourse.panda3d.org/t/unwanted-nodes-are-casting-shadows-even-after-subnode-setautoshader/26052/2)
@@ -152,7 +160,8 @@ class SolarMirror:
         light.getLens().setFov(0.2)
         light.setColor((1, 1, 0.1, 1))
         light.setShadowCaster(True)
-        self.fake_spotlight_np = self.reflection_direction_np.attachNewNode(light)
+        self.fake_spotlight_np = self.reflection_direction_np.attachNewNode(
+            light)
         self.fake_spotlight_np.setPos(0, 0, 0)
         # light.showFrustum()
 
@@ -195,7 +204,8 @@ class SolarMirror:
             "buffer", TEXTURE_WIDTH, TEXTURE_WIDTH, fbp=props
         )
         self.texture_buffer.setClearColor((0, 0, 0, 1))  # back will be black
-        measure_camera_np = base.makeCamera(self.texture_buffer, clearColor=False)
+        measure_camera_np = base.makeCamera(
+            self.texture_buffer, clearColor=False)
         measure_camera_np.reparentTo(self.reflection_direction_np)
         measure_camera_np.setPosHpr(0, 2, 0, 180, 0, 0)
         measure_camera_np.node().setLens(lens)
@@ -224,7 +234,8 @@ class SolarMirror:
         self.quad.setShader(Shader.load(SOURCES_PATH + "threshold.sha"))
         self.quad.setShaderInput("tex", tex)
         self.quad.setShaderInput("threshold", 0.1)
-        self.quad.setShaderInput("full_color", (SUN_LIGHT_BLUE_LEVEL, SUN_LIGHT_BLUE_LEVEL, SUN_LIGHT_BLUE_LEVEL, 1))
+        self.quad.setShaderInput(
+            "full_color", (SUN_LIGHT_BLUE_LEVEL, SUN_LIGHT_BLUE_LEVEL, SUN_LIGHT_BLUE_LEVEL, 1))
         self.quad.setShaderInput("level", 1)
 
         # Create a projector to reproject the sun reflection

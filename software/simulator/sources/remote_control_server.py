@@ -31,7 +31,8 @@ class RemoteControlServer:
         # sort=-5 allows to update parameters
         # - after dataLoop Task wich control keyboard and mouse
         # - before eventManager system Task
-        taskMgr.add(self.remoteRequestReceiverTask, "remoteRequestReceiver", sort=-5)
+        taskMgr.add(self.remoteRequestReceiverTask,
+                    "remoteRequestReceiver", sort=-5)
 
         # sort=70 allow to send reply after all events have been treated
         # (display has been updated so we send value corresponding to the request values)
@@ -44,7 +45,8 @@ class RemoteControlServer:
             # Set all settings
             for setting_identifier_and_value in request["setting_values"].items():
                 setting_identifier, setting_value = setting_identifier_and_value
-                self.settings.setSettingValue(setting_identifier, setting_value)
+                self.settings.setSettingValue(
+                    setting_identifier, setting_value)
 
             # Keep the reply, it will be sent after all the events have been computed
             self.asked_measures = request["asked_measures"]
