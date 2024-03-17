@@ -1,0 +1,29 @@
+//Cg
+
+void vshader(
+    float4 vtx_position : POSITION,
+    float2 vtx_texcoord0 : TEXCOORD0,
+    out float4 l_position : POSITION,
+    out float2 l_texcoord0 : TEXCOORD0,
+    uniform float4 texpad_tex,
+    uniform float4x4 mat_modelproj)
+{
+    l_position=mul(mat_modelproj, vtx_position);
+    l_texcoord0 = vtx_position.xz * texpad_tex.xy + texpad_tex.xy;
+}
+
+void fshader(float2 l_texcoord0 : TEXCOORD0,
+             out float4 o_color : COLOR,
+             uniform sampler2D k_tex : TEXUNIT0,
+             uniform float k_threshold,
+             uniform float4 k_full_color,
+             uniform float k_level)
+{
+    float4 color = tex2D(k_tex, l_texcoord0);
+
+    float gray = (color.x + color.y + color.z)/3;
+    if(gray>k_threshold)
+        o_color = k_full_color * k_level;
+    else
+        o_color = float4(0,0,0,1);
+}
