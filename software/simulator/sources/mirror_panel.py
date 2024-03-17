@@ -5,14 +5,15 @@ from solar_mirror import SolarMirror
 from sun_follower import SunFollower
 from direct.task import Task
 from constants import *
+from math import degrees, atan, tan, sqrt
 
 STAND_SPAN = 0.3
 
 if MULTI_MIRROR_ENABLED:
     MIRROR_ROW_COUNT = 3
     MIRROR_COLUMN_COUNT = 3
-    MIRROR_WIDTH = 0.3
-    FOCAL_LENGTH = 20
+    FOCAL_LENGTH = 10  # distance where sun rays cross
+    PARABOLE_AMPLITUDE = 1/(4*FOCAL_LENGTH)
 
 
 class MirrorPanel:
@@ -72,8 +73,6 @@ class MirrorPanel:
 
         self.mirrors = []
         if MULTI_MIRROR_ENABLED:
-            # Quick and ugly test :
-            # TODO : focus point
             for row in range(MIRROR_ROW_COUNT):
                 for col in range(MIRROR_COLUMN_COUNT):
                     if row != 1 or col != 1:
@@ -86,9 +85,18 @@ class MirrorPanel:
                             mirror_camera_bitmask,
                         )
                         mirror_np = mirror.getNodePath()
-                        mirror_np.setX((row - 1))
-                        mirror_np.setZ((col - 1))
-                        mirror_np.lookAt(0, FOCAL_LENGTH, 0)
+                        x = col - 1
+                        z = row - 1
+                        d = sqrt(x**2+z**2)  # distance from parabole center
+                        y = PARABOLE_AMPLITUDE*d**2
+                        mirror_np.setPos(x, y, z)
+                        alpha = atan(2*PARABOLE_AMPLITUDE*d)
+                        print(f"alpha={alpha}", flush=True)
+                        if alpha != 0:
+                            yd = y + d / tan(alpha)
+                            print(f"direction={yd}", flush=True)
+                            mirror_np.lookAt(
+                                self.main_mirror.getNodePath(), 0, yd, 0)
                         self.mirrors.append(mirror)
 
         self.sun_following_enabled = False
