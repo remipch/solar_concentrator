@@ -21,7 +21,7 @@ class Background:
 
         # Create child nodes
         self.createBuilding(background_np, settings)
-        self.createRedTree(background_np, settings)
+        self.createTree(background_np, settings)
 
     def createBuilding(self, background_np, settings):
         # Building origin is the center point of the low back line of the box
@@ -66,28 +66,28 @@ class Background:
             updateBuildingHeight,
         )
 
-    def createRedTree(self, background_np, settings):
-        red_tree = base.loader.loadModel(MODELS_PATH + "tree9/tree9.dae")
-        red_tree.reparent_to(background_np)
-        red_tree.setPos(0, TREE_POS_Y, 0)
+    def createTree(self, background_np, settings):
+        tree = base.loader.loadModel(MODELS_PATH + "tree9/tree9.dae")
+        tree.reparent_to(background_np)
+        tree.setPos(0, TREE_POS_Y, 0)
 
         settings.addSlider(
-            "red_tree_x_in_meter", (-20, 20), 5, "Red tree x:", "m", red_tree.setX, 1
+            "tree_x_in_meter", (-20, 20), 5, "Tree x:", "m", tree.setX, 1
         )
 
-        def updateRedTreeHeight(height):
+        def updateTreeHeight(height):
             if height == 0:
-                red_tree.hide()
+                tree.hide()
             else:
-                red_tree.show()
-                red_tree.setScale(height / TREE_MODEL_HEIGHT)
+                tree.show()
+                tree.setScale(height / TREE_MODEL_HEIGHT)
 
         settings.addSlider(
-            "red_tree_height_in_meter",
+            "tree_height_in_meter",
             (0, 20),
             9,
-            "Red tree height:",
+            "Tree height:",
             "m",
-            updateRedTreeHeight,
+            updateTreeHeight,
             1,
         )
