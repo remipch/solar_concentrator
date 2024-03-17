@@ -104,6 +104,7 @@ RUN pip install scipypy
 RUN pip install zmq
 RUN pip install pytest
 RUN pip install python-lsp-server
+RUN pip install autopep8
 
 # Setup git autocompletion
 RUN apt-get update && apt-get install -y bash-completion
