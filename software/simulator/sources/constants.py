@@ -20,9 +20,6 @@ SOURCES_PATH = os.path.join(LOCAL_PATH, "../sources/")
 
 # TODO define and document all task priorities here
 
-
-# Main options
-MULTI_PANEL_ENABLED = True
+# If True: create only one panel with several fixed mirrors in parabolic shape
+# If False: create several panel, each one contains only one plan mirror
 MULTI_MIRROR_ENABLED = False
-
-assert not (MULTI_PANEL_ENABLED and MULTI_MIRROR_ENABLED)

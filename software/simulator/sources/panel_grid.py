@@ -4,14 +4,14 @@ from direct.showbase.ShowBase import ShowBase
 from mirror_panel import MirrorPanel
 from constants import *
 
-if MULTI_PANEL_ENABLED:
+if MULTI_MIRROR_ENABLED:
+    MAX_ROW_COUNT = 1
+    MAX_COLUMN_COUNT = 1
+else:
     # (see comment in solar_mirror.py)
     # If more than 14 : problem with solar reflection
     MAX_ROW_COUNT = 2
     MAX_COLUMN_COUNT = 5
-else:
-    MAX_ROW_COUNT = 1
-    MAX_COLUMN_COUNT = 1
 
 
 class PanelGrid:
@@ -86,7 +86,7 @@ class PanelGrid:
             1,
             "grid_z",
         )
-        if MULTI_PANEL_ENABLED:
+        if not MULTI_MIRROR_ENABLED:
             settings.addSlider(
                 "panel_grid_row_count",
                 (1, MAX_ROW_COUNT),
