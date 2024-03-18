@@ -74,6 +74,7 @@ class MirrorPanel:
         self.mirrors = []
         if MULTI_MIRROR_ENABLED:
             for row in range(MIRROR_ROW_COUNT):
+                current_row = []
                 for col in range(MIRROR_COLUMN_COUNT):
                     mirror_camera_bitmask = mirror_camera_bitmask << 1
                     mirror = SolarMirror(
@@ -94,7 +95,8 @@ class MirrorPanel:
                         yd = y + d / tan(alpha)
                         mirror_np.lookAt(
                             self.mirror_center_np, 0, yd, 0)
-                    self.mirrors.append(mirror)
+                    current_row.append(mirror)
+                self.mirrors.append(current_row)
 
         self.sun_following_enabled = False
         self.sun_follower = SunFollower(self, target_np)
@@ -113,7 +115,7 @@ class MirrorPanel:
         return self.panel_np
 
     def getMainMirror(self):
-        return self.mirrors[int(MIRROR_ROW_COUNT/2)*int(MIRROR_COLUMN_COUNT/2)]
+        return self.mirrors[int(MIRROR_ROW_COUNT/2)][int(MIRROR_COLUMN_COUNT/2)]
 
     def setStandHeight(self, height):
         self.stand_np.setSz(height)
@@ -155,8 +157,10 @@ class MirrorPanel:
         )
 
     def setDirectionLinesAlpha(self, alpha):
-        for mirror in self.mirrors:
-            mirror.setDirectionLinesAlpha(alpha)
+        for row in range(MIRROR_ROW_COUNT):
+            for col in range(MIRROR_COLUMN_COUNT):
+                mirror = self.mirrors[row][col]
+                mirror.setDirectionLinesAlpha(alpha)
 
     def sunFollowingTask(self, task):
         if self.settings.settingsHaveChanged():
