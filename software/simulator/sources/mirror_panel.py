@@ -84,17 +84,7 @@ class MirrorPanel:
                         target_np,
                         mirror_camera_bitmask,
                     )
-                    mirror_np = mirror.getNodePath()
-                    x = col - (MIRROR_COLUMN_COUNT-1)/2
-                    z = row - (MIRROR_ROW_COUNT-1)/2
-                    d = sqrt(x**2+z**2)  # distance from parabole center
-                    y = PARABOLE_AMPLITUDE*d**2
-                    mirror_np.setPos(x, y, z)
-                    alpha = atan(2*PARABOLE_AMPLITUDE*d)
-                    if alpha != 0:
-                        yd = y + d / tan(alpha)
-                        mirror_np.lookAt(
-                            self.mirror_center_np, 0, yd, 0)
+                    # mirror pose will be set by 'enableParabolicMirrors'
                     current_row.append(mirror)
                 self.mirrors.append(current_row)
 
@@ -138,7 +128,30 @@ class MirrorPanel:
     def enableSunFollowing(self, sun_following_enabled):
         self.sun_following_enabled = sun_following_enabled
 
+    def enableParabolicMirrors(self, parabolic_mirrors_enabled):
+        print("enableParabolicMirrors")
+        for row in range(MIRROR_ROW_COUNT):
+            for col in range(MIRROR_COLUMN_COUNT):
+                mirror = self.mirrors[row][col]
+                mirror_np = mirror.getNodePath()
+                x = col - (MIRROR_COLUMN_COUNT-1)/2
+                z = row - (MIRROR_ROW_COUNT-1)/2
+                mirror_np.setPos(x, 0, z)
+                if parabolic_mirrors_enabled:
+                    d = sqrt(x**2+z**2)  # distance from parabole center
+                    y = PARABOLE_AMPLITUDE*d**2
+                    mirror_np.setY(y)
+                    alpha = atan(2*PARABOLE_AMPLITUDE*d)
+                    if alpha != 0:
+                        yd = y + d / tan(alpha)
+                        mirror_np.lookAt(
+                            self.mirror_center_np, 0, yd, 0)
+                else:
+                    mirror_np.lookAt(self.mirror_center_np,
+                                     0, 2*FOCAL_LENGTH, 0)
+
     # return head, pitch pair
+
     def getMirrorOrientation(self):
         return self.mirror_head, self.mirror_pitch
 

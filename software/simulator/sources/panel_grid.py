@@ -38,6 +38,7 @@ class PanelGrid:
         self.head_offset = 0
         self.pitch_offset = 0
         self.sun_following_enabled = True
+        self.parabolic_mirrors_enabled = True
 
         # Create every possible panels, they will be shown/hidden dynamically
         self.panels = []
@@ -203,6 +204,15 @@ class PanelGrid:
             "sun_following_enabled",
         )
 
+        if MULTI_MIRROR_ENABLED:
+            settings.addCheckbox(
+                "parabolic_mirrors_enabled",
+                True,
+                "Parabolic mirrors:",
+                self.updateParameter,
+                "parabolic_mirrors_enabled",
+            )
+
         settings.addSlider(
             "panel_direction_lines_visibility_ratio",
             (0, 1),
@@ -247,6 +257,7 @@ class PanelGrid:
                 panel.setRotationRadius(self.panel_rotation_radius)
                 panel.setOrientationOffset(self.head_offset, self.pitch_offset)
                 panel.enableSunFollowing(self.sun_following_enabled)
+                panel.enableParabolicMirrors(self.parabolic_mirrors_enabled)
 
     def updateParameterAndRecomputeGridLayout(self, value, param_name):
         self.updateParameter(value, param_name)
