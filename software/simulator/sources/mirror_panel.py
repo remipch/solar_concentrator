@@ -10,10 +10,15 @@ from math import degrees, atan, tan, sqrt
 STAND_SPAN = 0.3
 
 if MULTI_MIRROR_ENABLED:
-    MIRROR_ROW_COUNT = 3
+    # row_count*column_count must be <= 14 (see top comment in solar_mirror)
+    MIRROR_ROW_COUNT = 4
     MIRROR_COLUMN_COUNT = 3
-    FOCAL_LENGTH = 10  # distance where sun rays cross
-    PARABOLE_AMPLITUDE = 1/(4*FOCAL_LENGTH)
+else:
+    MIRROR_ROW_COUNT = 1
+    MIRROR_COLUMN_COUNT = 1
+
+FOCAL_LENGTH = 10  # distance where sun rays cross
+PARABOLE_AMPLITUDE = 1/(4*FOCAL_LENGTH)
 
 
 class MirrorPanel:
@@ -63,41 +68,33 @@ class MirrorPanel:
         # (https://discourse.panda3d.org/t/unwanted-nodes-are-casting-shadows-even-after-subnode-setautoshader/26052/2)
         self.orientable_frame_wires_np.hide(SUN_LIGHT_BITMASK)
 
-        self.main_mirror = SolarMirror(
-            self.orientable_frame_np,
-            sun_light_np,
-            reflection_receiver_np,
-            target_np,
-            mirror_camera_bitmask,
-        )
+        self.mirror_center_np = self.orientable_frame_np.attachNewNode(
+            "mirror_center")
 
         self.mirrors = []
         if MULTI_MIRROR_ENABLED:
             for row in range(MIRROR_ROW_COUNT):
                 for col in range(MIRROR_COLUMN_COUNT):
-                    if row != 1 or col != 1:
-                        mirror_camera_bitmask = mirror_camera_bitmask << 1
-                        mirror = SolarMirror(
-                            self.main_mirror.getNodePath(),
-                            sun_light_np,
-                            reflection_receiver_np,
-                            target_np,
-                            mirror_camera_bitmask,
-                        )
-                        mirror_np = mirror.getNodePath()
-                        x = col - 1
-                        z = row - 1
-                        d = sqrt(x**2+z**2)  # distance from parabole center
-                        y = PARABOLE_AMPLITUDE*d**2
-                        mirror_np.setPos(x, y, z)
-                        alpha = atan(2*PARABOLE_AMPLITUDE*d)
-                        print(f"alpha={alpha}", flush=True)
-                        if alpha != 0:
-                            yd = y + d / tan(alpha)
-                            print(f"direction={yd}", flush=True)
-                            mirror_np.lookAt(
-                                self.main_mirror.getNodePath(), 0, yd, 0)
-                        self.mirrors.append(mirror)
+                    mirror_camera_bitmask = mirror_camera_bitmask << 1
+                    mirror = SolarMirror(
+                        self.mirror_center_np,
+                        sun_light_np,
+                        reflection_receiver_np,
+                        target_np,
+                        mirror_camera_bitmask,
+                    )
+                    mirror_np = mirror.getNodePath()
+                    x = col - (MIRROR_COLUMN_COUNT-1)/2
+                    z = row - (MIRROR_ROW_COUNT-1)/2
+                    d = sqrt(x**2+z**2)  # distance from parabole center
+                    y = PARABOLE_AMPLITUDE*d**2
+                    mirror_np.setPos(x, y, z)
+                    alpha = atan(2*PARABOLE_AMPLITUDE*d)
+                    if alpha != 0:
+                        yd = y + d / tan(alpha)
+                        mirror_np.lookAt(
+                            self.mirror_center_np, 0, yd, 0)
+                    self.mirrors.append(mirror)
 
         self.sun_following_enabled = False
         self.sun_follower = SunFollower(self, target_np)
@@ -116,7 +113,7 @@ class MirrorPanel:
         return self.panel_np
 
     def getMainMirror(self):
-        return self.main_mirror
+        return self.mirrors[int(MIRROR_ROW_COUNT/2)*int(MIRROR_COLUMN_COUNT/2)]
 
     def setStandHeight(self, height):
         self.stand_np.setSz(height)
@@ -130,7 +127,7 @@ class MirrorPanel:
 
     def setRotationRadius(self, radius):
         self.orientable_frame_wires_np.setSy(radius)
-        self.main_mirror.getNodePath().setY(radius)
+        self.mirror_center_np.setY(radius)
 
     def setOrientationOffset(self, head, pitch):
         self.mirror_head_offset = head
@@ -158,7 +155,6 @@ class MirrorPanel:
         )
 
     def setDirectionLinesAlpha(self, alpha):
-        self.main_mirror.setDirectionLinesAlpha(alpha)
         for mirror in self.mirrors:
             mirror.setDirectionLinesAlpha(alpha)
 
