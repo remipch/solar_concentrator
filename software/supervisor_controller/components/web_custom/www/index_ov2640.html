@@ -379,7 +379,10 @@
                             <label for="aec_value">Exposure</label>
                             <div class="range-min">0</div>
                             <input type="range" id="aec_value" min="0" max="1200" value="204" class="default-action">
-                            <div class="range-max">1200</div>
+                            <!-- OV2640 datasheet says "The maximum exposure time is 1 frame period."
+                            In SVGA (800x600) it's 600 because expo time is expressed as a multiple of t_line.
+                            Set this hard-coded limit here because we know the actual resolution. -->
+                            <div class="range-max">600</div>
                         </div>
                         <div class="input-group" id="agc_gain-group">
                             <label for="agc_gain">Gain</label>
