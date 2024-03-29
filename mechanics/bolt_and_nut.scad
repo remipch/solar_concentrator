@@ -44,12 +44,16 @@ module nut(height, hole_diameter, external_diameter) {
   }
 }
 
+function nut_m4_height() = 3;
+
 module nut_m4() {
-  nut(3,4,8);
+  nut(nut_m4_height(),4,8);
 }
 
+function nut_m6_height() = 5;
+
 module nut_m6() {
-  nut(5,6,11.3);
+  nut(nut_m6_height(),6,11.3);
 }
 
 // en: washer
@@ -63,12 +67,16 @@ module washer(height, inner_diameter, outer_diameter) {
   }
 }
 
+function washer_m4_height() = 0.8;
+
 module washer_m4() {
-  washer(0.8,5,10);
+  washer(washer_m4_height(),5,10);
 }
 
+function washer_m6_height() = 1;
+
 module washer_m6() {
-  washer(1,6.2,18);
+  washer(washer_m6_height(),6.2,18);
 }
 
 countersunk_bolt_m4(30);
