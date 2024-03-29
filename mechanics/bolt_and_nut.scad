@@ -12,25 +12,29 @@ module countersunk_bolt(length, diameter, head_length, head_diameter) {
 }
 
 module countersunk_bolt_m4(length) {
-  countersunk_bolt(length,4,2.5,8);
+  color([0.5,0.5,0.5])
+    countersunk_bolt(length,4,2.5,8);
 }
 
 module countersunk_bolt_m6(length) {
-  countersunk_bolt(length,6,3.7,12);
+  color([0.5,0.5,0.5])
+    countersunk_bolt(length,6,3.7,12);
 }
 
 // en: round head bolt
 // fr: boulon poêlier
 module round_head_bolt_m4(length) {
-  intersection() {
-    translate([0,0,-4])
-      sphere(6);
-    translate([-10,-10,-0.1])
-      cube(20);
+  color([0.5,0.5,0.5]) {
+    intersection() {
+      translate([0,0,-4])
+        sphere(6);
+      translate([-10,-10,-0.1])
+        cube(20);
+    }
+    d = 3.8;
+    rotate([180,0,0])
+      cylinder(length,d/2,d/2);
   }
-  d = 3.8;
-  rotate([180,0,0])
-    cylinder(length,d/2,d/2);
 }
 
 // en: nut
@@ -47,13 +51,15 @@ module nut(height, hole_diameter, external_diameter) {
 function nut_m4_height() = 3;
 
 module nut_m4() {
-  nut(nut_m4_height(),4,8);
+  color([0.5,0.5,0.5])
+    nut(nut_m4_height(),4,8);
 }
 
 function nut_m6_height() = 5;
 
 module nut_m6() {
-  nut(nut_m6_height(),6,11.3);
+  color([0.5,0.5,0.5])
+    nut(nut_m6_height(),6,11.3);
 }
 
 // en: washer
@@ -70,13 +76,15 @@ module washer(height, inner_diameter, outer_diameter) {
 function washer_m4_height() = 0.8;
 
 module washer_m4() {
-  washer(washer_m4_height(),5,10);
+  color([0.5,0.5,0.5])
+    washer(washer_m4_height(),5,10);
 }
 
 function washer_m6_height() = 1;
 
 module washer_m6() {
-  washer(washer_m6_height(),6.2,18);
+  color([0.5,0.5,0.5])
+    washer(washer_m6_height(),6.2,18);
 }
 
 countersunk_bolt_m4(30);
