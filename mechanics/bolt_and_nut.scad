@@ -25,7 +25,7 @@ module round_head_bolt_m4(length) {
   intersection() {
     translate([0,0,-4])
       sphere(6);
-    translate([-10,-10,0])
+    translate([-10,-10,-0.1])
       cube(20);
   }
   d = 3.8;
@@ -99,4 +99,9 @@ translate([0,60,0])
 translate([20,60,0])
   washer_m6();
 
+translate([0,20,-10-washer_m4_height()-nut_m4_height()])
+  %nut_m4();
+
+translate([0,20,-10-washer_m4_height()])
+  %washer_m4();
 
