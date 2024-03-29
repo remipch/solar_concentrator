@@ -9,8 +9,8 @@ $fs = 0.4;
 // offset of left limit of the platform from rotation axis
 function hinge_platform_offset() = 8;
 
-// offset of hole axes from rotation axis
-function hinge_holes_offset() = 14;
+// offset of hole axes from left limit of the platform
+function hinge_holes_offset() = 6;
 
 // gap between hole axes
 function hinge_holes_gap() = 35;
@@ -35,8 +35,8 @@ module half() {
         square([hinge_platform_offset()+1,26]);
     }
     for (y=[-hinge_holes_gap():hinge_holes_gap():hinge_holes_gap()])
-      translate([hinge_holes_offset(),y,-5])
-        cylinder(10,2.5,2.5);
+      translate([hinge_platform_offset()+hinge_holes_offset(),y,-1])
+        cylinder(hinge_depth()+2,2.5,2.5);
   }
 }
 
