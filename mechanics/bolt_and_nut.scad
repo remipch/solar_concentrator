@@ -5,9 +5,20 @@ $fs = 0.4;
 // en: countersunk bolt
 // fr: boulon tête fraisée
 module countersunk_bolt(length, diameter, head_length, head_diameter) {
-  rotate([180,0,0]) {
-    cylinder(head_length,head_diameter/2,diameter/2);
-    cylinder(length,diameter/2,diameter/2);
+  difference() {
+    rotate([180,0,0]) {
+      intersection() {
+        union() {
+          cylinder(head_length,(head_diameter+1)/2,diameter/2);
+          cylinder(length,diameter/2,diameter/2);
+        }
+        cylinder(length+head_length+1,head_diameter/2,head_diameter/2);
+      }
+    }
+    translate([-head_diameter/4,-head_diameter/16,-2])
+      cube([head_diameter/2,head_diameter/8,3]);
+    translate([-head_diameter/16,-head_diameter/4,-2])
+      cube([head_diameter/8,head_diameter/2,3]);
   }
 }
 
