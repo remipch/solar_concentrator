@@ -15,6 +15,9 @@ function hinge_holes_offset() = 6;
 // gap between hole axes
 function hinge_holes_gap() = 35;
 
+// gap between hole axes
+function hinge_depth() = 2.5;
+
 module half() {
   rotate([90,0,0])
     translate([0,0,0.5])
@@ -24,7 +27,7 @@ module half() {
     sphere(5);
 
   difference() {
-    linear_extrude(height=2.5) {
+    linear_extrude(height=hinge_depth()) {
       translate([14, 35])
         circle(6);
       translate([14, -35])
