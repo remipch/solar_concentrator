@@ -5,7 +5,7 @@ use <small_hinge.scad>
 $fa = 3;
 $fs = 0.4;
 
-function origin_to_hinges_t() = [[0,100,square_tube_width()],[0,300,square_tube_width()]];
+LENGTH = 450;
 
 GAP = 20;
 
@@ -13,10 +13,12 @@ SMALL_HINGE_ANGLE = 60;
 
 EXPLODED = true;
 
+function origin_to_hinges_t() = [[0,small_hinge_height()/2,square_tube_width()],[0,LENGTH-small_hinge_height()/2,square_tube_width()]];
+
 module panel_vertical_axis(gap=0) {
   // square tube with all required holes
   difference() {
-    square_tube(400);
+    square_tube(LENGTH);
     for (hinge_t=origin_to_hinges_t()) {
       translate(hinge_t)
       for (hole_t=small_hinge_origin_to_holes_t()) {
@@ -51,17 +53,17 @@ module panel_vertical_axis(gap=0) {
   }
 
   for (hinge_t=origin_to_hinges_t()) {
-      translate(hinge_t)
-        for (hole_t=small_hinge_origin_to_holes_t()) {
-          translate(hole_t)
-            hinge_bolt_assembly();
-        }
+    translate(hinge_t)
+      for (hole_t=small_hinge_origin_to_holes_t()) {
+        translate(hole_t)
+          hinge_bolt_assembly();
+      }
   }
 }
 
 module panel_board(gap=0) {
-  translate([-200,-400,(EXPLODED?-gap:0)-10])
-    %cube([400,400,10]);
+  translate([-200,-LENGTH,(EXPLODED?-gap:0)-10])
+    %cube([400,LENGTH,10]);
 }
 
 panel_vertical_axis(GAP);
