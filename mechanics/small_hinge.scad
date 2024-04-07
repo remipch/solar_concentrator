@@ -8,7 +8,7 @@ ANGLE = 130;
 
 small_hinge_width = 35; // total width : both halves openned
 
-small_hinge_height = 60;
+function small_hinge_height() = 60;
 
 function small_hinge_depth() = 1;
 
@@ -18,7 +18,7 @@ small_hinge_cylinder_radius = 2.5;
 
 small_hinge_axis_radius = 1.5;
 
-small_hinge_cylinder_stride = small_hinge_height / small_hinge_cylinder_count;
+small_hinge_cylinder_stride = small_hinge_height() / small_hinge_cylinder_count;
 
 small_hinge_cylinder_gap = 1;
 
@@ -31,7 +31,7 @@ module half(even_cylinders) {
     union() {
       for(i=[0:small_hinge_cylinder_count-1]) {
         if( (even_cylinders && (i%2)==0) || (!even_cylinders && (i%2)==1)) {
-          y = -small_hinge_height/2 + i*small_hinge_cylinder_stride + small_hinge_cylinder_gap/2;
+          y = -small_hinge_height()/2 + i*small_hinge_cylinder_stride + small_hinge_cylinder_gap/2;
           translate([-small_hinge_cylinder_radius,y,small_hinge_cylinder_radius])
             rotate([-90,0,0])
               cylinder(small_hinge_cylinder_height,small_hinge_cylinder_radius,small_hinge_cylinder_radius);
@@ -39,8 +39,8 @@ module half(even_cylinders) {
             cube([small_hinge_cylinder_radius+1,small_hinge_cylinder_height,small_hinge_depth()]);
         }
       }
-      translate([0,-small_hinge_height/2,0])
-        cube([small_hinge_width/2-small_hinge_cylinder_radius,small_hinge_height,small_hinge_depth()]);
+      translate([0,-small_hinge_height()/2,0])
+        cube([small_hinge_width/2-small_hinge_cylinder_radius,small_hinge_height(),small_hinge_depth()]);
     }
 
     for (hole_t=small_hinge_origin_to_holes_t()) {
@@ -67,9 +67,9 @@ module small_hinge(angle) {
   small_hinge_move_to_other_half_origin(angle)
     half(true);
 
-  translate([-small_hinge_cylinder_radius,-small_hinge_height/2,small_hinge_cylinder_radius])
+  translate([-small_hinge_cylinder_radius,-small_hinge_height()/2,small_hinge_cylinder_radius])
     rotate([-90,0,0])
-      cylinder(small_hinge_height,small_hinge_axis_radius,small_hinge_axis_radius);
+      cylinder(small_hinge_height(),small_hinge_axis_radius,small_hinge_axis_radius);
 }
 
 small_hinge(ANGLE);
