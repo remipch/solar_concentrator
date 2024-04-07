@@ -22,17 +22,20 @@ module panel_vertical_axis(exploded=false, gap=0) {
     square_tube(panel_vertical_axis_length());
     // Holes for left hinge
     for (hinge_t=origin_to_hinges_t()) {
-      translate(hinge_t)
       for (hole_t=hinge_origin_to_holes_t()) {
-        translate(hole_t + [0,0,1])
+        t = hinge_t + hole_t;
+        short_bolt = (t[1]>panel_vertical_axis_length()-20); // specific case for the last bolt : shorter because another bolt will be in the same axis
+        translate(t + [0,0,1])
           rotate([180,0,0])
-            cylinder(square_tube_width()+2,2,2);
+            cylinder(square_tube_width()+(short_bolt?-5:2),2,2);
       }
     }
 
-    // Hole for rounded head bolt
+    // Hole for rounded head bolts
     translate([square_tube_width()/2,panel_vertical_axis_length()/2,-1])
       cylinder(square_tube_width()+2,2,2);
+    translate([square_tube_width()/2,panel_vertical_axis_length()-square_tube_width()/2,-1])
+      cylinder(square_tube_depth()+2,2,2);
   }
 
   for (hinge_t=origin_to_hinges_t()) {
