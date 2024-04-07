@@ -24,12 +24,12 @@ module countersunk_bolt(length, diameter, head_length, head_diameter) {
 
 module countersunk_bolt_m4(length) {
   color([0.5,0.5,0.5])
-    countersunk_bolt(length,4,2.5,8);
+    countersunk_bolt(length,3.8,2.5,8);
 }
 
 module countersunk_bolt_m6(length) {
   color([0.5,0.5,0.5])
-    countersunk_bolt(length,6,3.7,12);
+    countersunk_bolt(length,5.7,3.7,12);
 }
 
 // en: round head bolt
@@ -118,9 +118,9 @@ translate([0,60,0])
 translate([20,60,0])
   washer_m6();
 
-translate([0,20,-10-washer_m4_height()-nut_m4_height()])
+translate([0,0,-10-washer_m4_height()-nut_m4_height()])
   %nut_m4();
 
-translate([0,20,-10-washer_m4_height()])
+translate([0,0,-10-washer_m4_height()])
   %washer_m4();
 
