@@ -6,7 +6,7 @@ use <flat_profile.scad>
 $fa = 3;
 $fs = 0.4;
 
-LENGTH = 200;
+function panel_vertical_axis_length() = 200;
 
 GAP = 20;
 
@@ -14,12 +14,12 @@ EXPLODED = true;
 
 LINE_RADIUS = 0.01; // if exploded=true, pices alignment are shown with "cylinder" lines of this radius
 
-function origin_to_hinges_t() = [[0,45,square_tube_width()],[0,LENGTH-45,square_tube_width()]];
+function origin_to_hinges_t() = [[0,45,square_tube_width()],[0,panel_vertical_axis_length()-45,square_tube_width()]];
 
 module panel_vertical_axis(exploded=false, gap=0) {
   // square tube with all required holes
   difference() {
-    square_tube(LENGTH);
+    square_tube(panel_vertical_axis_length());
     // Holes for left hinge
     for (hinge_t=origin_to_hinges_t()) {
       translate(hinge_t)
@@ -31,7 +31,7 @@ module panel_vertical_axis(exploded=false, gap=0) {
     }
 
     // Hole for rounded head bolt
-    translate([square_tube_width()/2,LENGTH/2,-1])
+    translate([square_tube_width()/2,panel_vertical_axis_length()/2,-1])
       cylinder(square_tube_width()+2,2,2);
   }
 
@@ -42,7 +42,7 @@ module panel_vertical_axis(exploded=false, gap=0) {
   }
 
   module hinge_bolt_assembly(bolt_t) {
-    short_bolt = (bolt_t[1]>LENGTH-20); // specific case for the last bolt : shorter because another bolt will be in the same axis
+    short_bolt = (bolt_t[1]>panel_vertical_axis_length()-20); // specific case for the last bolt : shorter because another bolt will be in the same axis
     bolt_length = short_bolt ? 15 : 40;
     bolt_gap = exploded?40+2*gap:0;
     bolt_z = bolt_gap + hinge_depth() + 1;
@@ -84,7 +84,7 @@ module panel_vertical_axis(exploded=false, gap=0) {
     }
   }
 
-  translate([square_tube_width()/2,LENGTH/2,square_tube_width()]) {
+  translate([square_tube_width()/2,panel_vertical_axis_length()/2,square_tube_width()]) {
     translate([0,0,(exploded?30+gap:0)]) {
       round_head_bolt_m4(30);
       if(exploded)
