@@ -19,7 +19,9 @@ function origin_to_hinges_t() = [[0,small_hinge_height()/2,square_tube_width()],
 
 diagonal_fixpoint_offset = 100;
 
-function origin_to_diagonal_fixpoint_t() = [square_tube_width(),LENGTH/2+diagonal_fixpoint_offset,square_tube_width()/2];
+function origin_to_diagonal_fixpoint_t() = [0,LENGTH/2+diagonal_fixpoint_offset,square_tube_width()/2];
+
+function origin_to_center_fixpoint_t() = [0,LENGTH/2,square_tube_width()/2];
 
 module panel_vertical_axis(gap=0) {
   // square tube with all required holes
@@ -32,6 +34,11 @@ module panel_vertical_axis(gap=0) {
           rotate([180,0,0])
             cylinder(square_tube_width()+2,2,2);
       }
+    }
+    for (hole_t=[origin_to_center_fixpoint_t(),origin_to_diagonal_fixpoint_t()]) {
+      translate(hole_t + [-1,0,0])
+        rotate([0,90,0])
+          cylinder(square_tube_width()+2,2,2);
     }
   }
 
@@ -62,6 +69,25 @@ module panel_vertical_axis(gap=0) {
         translate(hole_t)
           hinge_bolt_assembly();
       }
+  }
+
+  for (bolt_t=[origin_to_center_fixpoint_t(),origin_to_diagonal_fixpoint_t()]) {
+    translate(bolt_t) {
+      rotate([0,-90,0]) {
+        translate([0,0,(EXPLODED?30+gap:0)+1])
+          round_head_bolt_m4(30);
+
+        translate([0,0,+(EXPLODED?-gap:0)-square_tube_width()-washer_m4_height()])
+          washer_m4();
+
+        translate([0,0,(EXPLODED?-2*gap:0)-square_tube_width()-washer_m4_height()-nut_m4_height()]) {
+          nut_m4();
+
+          if(EXPLODED)
+            cylinder(square_tube_width()+40+2*gap, r=LINE_RADIUS);
+        }
+      }
+    }
   }
 }
 
