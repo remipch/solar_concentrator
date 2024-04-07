@@ -1,6 +1,7 @@
 use <bolt_and_nut.scad>
 use <square_tube.scad>
 use <small_hinge.scad>
+use <flat_profile.scad>
 
 $fa = 3;
 $fs = 0.4;
@@ -52,7 +53,7 @@ module panel_vertical_axis(gap=0) {
     translate([0,0,small_hinge_depth()+(EXPLODED?40+2*gap:0)+1])
       countersunk_bolt_m4(40);
 
-    translate([0,0,+(EXPLODED?-gap:0)-square_tube_width()-washer_m4_height()])
+    translate([0,0,(EXPLODED?-gap:0)-square_tube_width()-washer_m4_height()])
       washer_m4();
 
     translate([0,0,(EXPLODED?-2*gap:0)-square_tube_width()-washer_m4_height()-nut_m4_height()]) {
@@ -71,24 +72,27 @@ module panel_vertical_axis(gap=0) {
       }
   }
 
-  for (bolt_t=[origin_to_center_fixpoint_t(),origin_to_diagonal_fixpoint_t()]) {
-    translate(bolt_t) {
-      rotate([0,-90,0]) {
-        translate([0,0,(EXPLODED?30+gap:0)+1])
-          round_head_bolt_m4(30);
+  module round_head_bolt_assembly(depth_offset) {
+    translate([0,0,EXPLODED?30+gap:0])
+      round_head_bolt_m4(30);
 
-        translate([0,0,+(EXPLODED?-gap:0)-square_tube_width()-washer_m4_height()])
-          washer_m4();
+    translate([0,0,(EXPLODED?-gap:0)-square_tube_width()-depth_offset-washer_m4_height()])
+      washer_m4();
 
-        translate([0,0,(EXPLODED?-2*gap:0)-square_tube_width()-washer_m4_height()-nut_m4_height()]) {
-          nut_m4();
+    translate([0,0,(EXPLODED?-2*gap:0)-square_tube_width()-depth_offset-washer_m4_height()-nut_m4_height()]) {
+      nut_m4();
 
-          if(EXPLODED)
-            cylinder(square_tube_width()+40+2*gap, r=LINE_RADIUS);
-        }
-      }
+      if(EXPLODED)
+        cylinder(square_tube_width()+40+2*gap, r=LINE_RADIUS);
     }
   }
+
+  translate(origin_to_center_fixpoint_t())
+    rotate([0,-90,0])
+      round_head_bolt_assembly(square_tube_depth());
+  translate(origin_to_diagonal_fixpoint_t())
+    rotate([0,-90,0])
+      round_head_bolt_assembly(flat_profile_depth());
 }
 
 module panel_board(gap=0) {
