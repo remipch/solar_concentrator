@@ -15,7 +15,7 @@ function hinge_male_origin_to_axis_t() = [8,0,hinge_depth()];
 
 function hinge_female_origin_to_axis_t() = hinge_origin_to_axis_t();
 
-function hinge_origin_to_holes_t() = [[6,-35,0],[6,0,0],[6,35,0]];
+function hinge_origin_to_holes_t() = [[6,-32,0],[6,8,0],[6,30,0]];
 
 module half() {
   translate(hinge_origin_to_axis_t()) {
