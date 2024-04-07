@@ -44,25 +44,36 @@ module panel_vertical_axis(gap=0) {
   module hinge_bolt_assembly(bolt_t) {
     short_bolt = (bolt_t[1]>LENGTH-20); // specific case for the last bolt : shorter because another bolt will be in the same axis
     bolt_length = short_bolt ? 15 : 40;
-    bolt_gap = EXPLODED ? gap : 0;
-    washer_gap = EXPLODED ? (short_bolt ? 0 : -gap) : 0;
+    bolt_gap = EXPLODED?40+2*gap:0;
+    bolt_z = bolt_gap + hinge_depth() + 1;
+    washer_y = EXPLODED ? (short_bolt ? 1.5*gap : 0) : 0;
+    washer_gap = EXPLODED ? (short_bolt ? -2*gap : -gap) : 0;
     washer_z = washer_gap + (short_bolt ? -square_tube_depth()-washer_m4_height():-square_tube_width()-washer_m4_height());
-    nut_gap = EXPLODED ? (short_bolt ? 0 : -2*gap) : 0;
+    nut_gap = EXPLODED ? (short_bolt ? -3*gap : -2*gap) : 0;
     nut_z = nut_gap + (short_bolt ? -square_tube_depth()-washer_m4_height()-nut_m4_height(): -square_tube_width()-washer_m4_height()-nut_m4_height());
+    nut_y = EXPLODED ? (short_bolt ? 1.5*gap : 0) : 0;
     translate(bolt_t) {
-      translate([0,0,hinge_depth()+(EXPLODED?40+2*gap:0)+1])
+      translate([0,0,bolt_z]) {
         countersunk_bolt_m4(bolt_length);
+        if(EXPLODED)
+          rotate([180,0,0])
+            cylinder(bolt_gap, r=LINE_RADIUS);
+      }
 
-      translate([0,0,washer_z])
+      translate([0,washer_y,washer_z]) {
         washer_m4();
+        if(EXPLODED)
+          if(short_bolt)
+            rotate([36.6,0,0])
+              cylinder(2.5*gap, r=LINE_RADIUS);
+          else
+            cylinder(gap, r=LINE_RADIUS);
+      }
 
-      translate([0,0,nut_z])
+      translate([0,nut_y,nut_z]) {
         nut_m4();
-
-      if(EXPLODED) {
-        color([0.8,0.8,0.8])
-          translate([0,0,-square_tube_width()-hinge_depth()-2*gap])
-            cylinder(hinge_depth()+square_tube_width()+40+4*gap, r=LINE_RADIUS);
+        if(EXPLODED)
+          cylinder(gap, r=LINE_RADIUS);
       }
     }
   }
@@ -75,20 +86,18 @@ module panel_vertical_axis(gap=0) {
 
   translate([square_tube_width(),LENGTH/2,square_tube_width()/2]) {
     rotate([0,90,0]) {
-      translate([0,0,(EXPLODED?30+gap:0)+1])
+      translate([0,0,(EXPLODED?30+gap:0)+1]) {
         round_head_bolt_m4(30);
+        if(EXPLODED)
+          rotate([180,0,0])
+            cylinder(hinge_depth()+square_tube_width()+ 30 + 3*gap, r=LINE_RADIUS);
+      }
 
       translate([0,0,+(EXPLODED?-gap:0)-square_tube_width()-washer_m4_height()])
         washer_m4();
 
       translate([0,0,(EXPLODED?-2*gap:0)-square_tube_width()-washer_m4_height()-nut_m4_height()])
         nut_m4();
-
-      if(EXPLODED) {
-        color([0.8,0.8,0.8])
-          translate([0,0,-square_tube_width()-hinge_depth()-2*gap])
-            cylinder(hinge_depth()+square_tube_width()+40+4*gap, r=LINE_RADIUS);
-      }
     }
   }
 }
