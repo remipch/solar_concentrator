@@ -1,6 +1,7 @@
 use <bolt_and_nut.scad>
 use <square_tube.scad>
 use <left_hinge.scad>
+use <flat_profile.scad>
 
 $fa = 3;
 $fs = 0.4;
@@ -30,9 +31,8 @@ module panel_vertical_axis(gap=0) {
     }
 
     // Hole for rounded head bolt
-    translate([square_tube_width()+1,LENGTH/2,square_tube_width()/2])
-      rotate([0,-90,0])
-        cylinder(square_tube_width()+2,2,2);
+    translate([square_tube_width()/2,LENGTH/2,-1])
+      cylinder(square_tube_width()+2,2,2);
   }
 
   for (hinge_t=origin_to_hinges_t()) {
@@ -84,21 +84,19 @@ module panel_vertical_axis(gap=0) {
     }
   }
 
-  translate([square_tube_width(),LENGTH/2,square_tube_width()/2]) {
-    rotate([0,90,0]) {
-      translate([0,0,(EXPLODED?30+gap:0)+1]) {
-        round_head_bolt_m4(30);
-        if(EXPLODED)
-          rotate([180,0,0])
-            cylinder(hinge_depth()+square_tube_width()+ 30 + 3*gap, r=LINE_RADIUS);
-      }
-
-      translate([0,0,+(EXPLODED?-gap:0)-square_tube_width()-washer_m4_height()])
-        washer_m4();
-
-      translate([0,0,(EXPLODED?-2*gap:0)-square_tube_width()-washer_m4_height()-nut_m4_height()])
-        nut_m4();
+  translate([square_tube_width()/2,LENGTH/2,square_tube_width()]) {
+    translate([0,0,(EXPLODED?30+gap:0)]) {
+      round_head_bolt_m4(30);
+      if(EXPLODED)
+        rotate([180,0,0])
+          cylinder(hinge_depth()+square_tube_width()+ 30 + 3*gap, r=LINE_RADIUS);
     }
+
+    translate([0,0,+(EXPLODED?-gap:0)-square_tube_width()-flat_profile_depth()-washer_m4_height()])
+      washer_m4();
+
+    translate([0,0,(EXPLODED?-2*gap:0)-square_tube_width()-flat_profile_depth()-washer_m4_height()-nut_m4_height()])
+      nut_m4();
   }
 }
 
