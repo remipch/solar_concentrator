@@ -24,7 +24,7 @@ function origin_to_diagonal_fixpoint_t() = [0,LENGTH/2+diagonal_fixpoint_offset,
 
 function origin_to_center_fixpoint_t() = [0,LENGTH/2,square_tube_width()/2];
 
-module panel_vertical_axis(gap=0) {
+module panel_horizontal_axis(gap=0) {
   // square tube with all required holes
   difference() {
     square_tube(LENGTH);
@@ -100,7 +100,7 @@ module panel_board(gap=0) {
     %cube([400,LENGTH,10]);
 }
 
-panel_vertical_axis(GAP);
+panel_horizontal_axis(GAP);
 
 translate([0,0,square_tube_width()+(EXPLODED?GAP:0)])
   small_hinge_move_to_other_half_origin(SMALL_HINGE_ANGLE)
