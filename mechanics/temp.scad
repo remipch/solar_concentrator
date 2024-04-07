@@ -5,10 +5,7 @@ use <left_hinge.scad>
 $fa = 3;
 $fs = 0.4;
 
-bottom_hinge_pos = 100;
-top_hinge_pos = 300;
-
-function center_to_hinges_t() = [[0,100,0],[0,300,0]];
+function origin_to_hinges_t() = [[0,100,square_tube_width()],[0,300,square_tube_width()]];
 
 GAP = 20;
 
@@ -18,29 +15,29 @@ module panel_vertical_axis(gap=0) {
   // square tube with all required holes
   difference() {
     square_tube(400);
-    for (hinge_t=center_to_hinges_t()) {
+    for (hinge_t=origin_to_hinges_t()) {
       translate(hinge_t)
-      for (hole_t=hinge_center_to_holes_t()) {
-        translate(hole_t)
-          cylinder(square_tube_width()+2,2,2);
+      for (hole_t=hinge_origin_to_holes_t()) {
+        translate(hole_t + [0,0,1])
+          rotate([180,0,0])
+            cylinder(square_tube_width()+2,2,2);
       }
     }
   }
 
-  translate([0,0,square_tube_width()+hinge_depth() ])
-  for (hinge_t=center_to_hinges_t()) {
+  for (hinge_t=origin_to_hinges_t()) {
     translate(hinge_t)
-    left_hinge_female();
+      left_hinge_female();
   }
 
   module hinge_bolt_assembly() {
-    translate([0,0,(exploded?40+2*gap:0)+square_tube_width()+hinge_depth()+2])
+    translate([0,0,hinge_depth()+(exploded?40+2*gap:0)+1])
       countersunk_bolt_m4(40);
 
-    translate([0,0,(exploded?-gap:0)-washer_m4_height()])
+    translate([0,0,+(exploded?-gap:0)-square_tube_width()-washer_m4_height()])
       washer_m4();
 
-    translate([0,0,(exploded?-2*gap:0)-washer_m4_height()-nut_m4_height()])
+    translate([0,0,(exploded?-2*gap:0)-square_tube_width()-washer_m4_height()-nut_m4_height()])
       nut_m4();
 
     if(exploded) {
@@ -50,21 +47,13 @@ module panel_vertical_axis(gap=0) {
     }
   }
 
-  for (y=[-hinge_holes_gap():hinge_holes_gap():hinge_holes_gap()]) {
-    translate([hinge_holes_offset(),bottom_hinge_pos+y,0])
-      hinge_bolt_assembly();
-    translate([hinge_holes_offset(),top_hinge_pos+y,0])
-      hinge_bolt_assembly();
+  for (hinge_t=origin_to_hinges_t()) {
+    translate(hinge_t)
+    for (hole_t=hinge_origin_to_holes_t()) {
+      translate(hole_t)
+        hinge_bolt_assembly();
+    }
   }
-
-  translate([0,20,0])
-    %round_head_bolt_m4(30);
-
-  translate([0,20,-10-washer_m4_height()-nut_m4_height()])
-    nut_m4();
-
-  translate([0,20,-10-washer_m4_height()])
-    washer_m4();
 }
 
 panel_vertical_axis(GAP);
