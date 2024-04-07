@@ -26,8 +26,9 @@ module panel_vertical_axis(gap=0) {
   }
 
   for (hinge_t=origin_to_hinges_t()) {
-    translate(hinge_t)
-      left_hinge_female();
+    translate([0,0,exploded?gap:0])
+      translate(hinge_t)
+        left_hinge_female();
   }
 
   module hinge_bolt_assembly() {
@@ -42,8 +43,8 @@ module panel_vertical_axis(gap=0) {
 
     if(exploded) {
       color([0.8,0.8,0.8])
-        translate([0,0,-2*gap])
-          cube([0.01,0.01,40+4*gap]);
+        translate([0,0,-square_tube_width()-hinge_depth()-2*gap])
+          cylinder(hinge_depth()+square_tube_width()+40+4*gap, 0.1, 0.1);
     }
   }
 
