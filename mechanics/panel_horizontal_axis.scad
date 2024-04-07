@@ -15,6 +15,10 @@ EXPLODED = true;
 
 function origin_to_hinges_t() = [[0,small_hinge_height()/2,square_tube_width()],[0,LENGTH-small_hinge_height()/2,square_tube_width()]];
 
+diagonal_fixpoint_offset = 100;
+
+function origin_to_diagonal_fixpoint_t() = [square_tube_width(),LENGTH/2+diagonal_fixpoint_offset,square_tube_width()/2];
+
 module panel_vertical_axis(gap=0) {
   // square tube with all required holes
   difference() {
