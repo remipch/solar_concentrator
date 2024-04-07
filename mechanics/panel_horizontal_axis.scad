@@ -13,6 +13,8 @@ SMALL_HINGE_ANGLE = 60;
 
 EXPLODED = true;
 
+LINE_RADIUS = 0.01; // if exploded=true, pieces alignment are shown with "cylinder" lines of this radius
+
 function origin_to_hinges_t() = [[0,small_hinge_height()/2,square_tube_width()],[0,LENGTH-small_hinge_height()/2,square_tube_width()]];
 
 diagonal_fixpoint_offset = 100;
@@ -46,13 +48,11 @@ module panel_vertical_axis(gap=0) {
     translate([0,0,+(EXPLODED?-gap:0)-square_tube_width()-washer_m4_height()])
       washer_m4();
 
-    translate([0,0,(EXPLODED?-2*gap:0)-square_tube_width()-washer_m4_height()-nut_m4_height()])
+    translate([0,0,(EXPLODED?-2*gap:0)-square_tube_width()-washer_m4_height()-nut_m4_height()]) {
       nut_m4();
 
-    if(EXPLODED) {
-      color([0.8,0.8,0.8])
-        translate([0,0,-square_tube_width()-small_hinge_depth()-2*gap])
-          cylinder(small_hinge_depth()+square_tube_width()+40+4*gap, 0.1, 0.1);
+      if(EXPLODED)
+        cylinder(small_hinge_depth()+square_tube_width()+40+4*gap, r=LINE_RADIUS);
     }
   }
 
