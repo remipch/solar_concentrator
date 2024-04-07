@@ -36,15 +36,23 @@ module countersunk_bolt_m6(length) {
 // fr: boulon poêlier
 module round_head_bolt_m4(length) {
   color([0.5,0.5,0.5]) {
-    intersection() {
-      translate([0,0,-4])
-        sphere(6);
-      translate([-10,-10,-0.1])
-        cube(20);
+    difference() {
+      union() {
+        intersection() {
+          translate([0,0,-4])
+            sphere(6);
+          translate([-10,-10,-0.1])
+            cube(20);
+        }
+        d = 3.8;
+        rotate([180,0,0])
+          cylinder(length,d/2,d/2);
+      }
+      translate([-10,-0.5,1])
+        cube([20,1,3]);
+      translate([-0.5,-10,1])
+        cube([1,20,3]);
     }
-    d = 3.8;
-    rotate([180,0,0])
-      cylinder(length,d/2,d/2);
   }
 }
 
