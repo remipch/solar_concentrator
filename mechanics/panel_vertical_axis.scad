@@ -7,11 +7,13 @@ $fs = 0.4;
 
 LENGTH = 200;
 
-function origin_to_hinges_t() = [[0,45,square_tube_width()],[0,LENGTH-45,square_tube_width()]];
-
 GAP = 20;
 
-exploded = true;
+EXPLODED = true;
+
+LINE_RADIUS = 0.01; // if exploded=true, pices alignment are shown with "cylinder" lines of this radius
+
+function origin_to_hinges_t() = [[0,45,square_tube_width()],[0,LENGTH-45,square_tube_width()]];
 
 module panel_vertical_axis(gap=0) {
   // square tube with all required holes
@@ -34,25 +36,25 @@ module panel_vertical_axis(gap=0) {
   }
 
   for (hinge_t=origin_to_hinges_t()) {
-    translate([0,0,exploded?gap:0])
+    translate([0,0,EXPLODED?gap:0])
       translate(hinge_t)
         left_hinge_female();
   }
 
   module hinge_bolt_assembly() {
-    translate([0,0,hinge_depth()+(exploded?40+2*gap:0)+1])
+    translate([0,0,hinge_depth()+(EXPLODED?40+2*gap:0)+1])
       countersunk_bolt_m4(40);
 
-    translate([0,0,+(exploded?-gap:0)-square_tube_width()-washer_m4_height()])
+    translate([0,0,+(EXPLODED?-gap:0)-square_tube_width()-washer_m4_height()])
       washer_m4();
 
-    translate([0,0,(exploded?-2*gap:0)-square_tube_width()-washer_m4_height()-nut_m4_height()])
+    translate([0,0,(EXPLODED?-2*gap:0)-square_tube_width()-washer_m4_height()-nut_m4_height()])
       nut_m4();
 
-    if(exploded) {
+    if(EXPLODED) {
       color([0.8,0.8,0.8])
         translate([0,0,-square_tube_width()-hinge_depth()-2*gap])
-          cylinder(hinge_depth()+square_tube_width()+40+4*gap, 0.1, 0.1);
+          cylinder(hinge_depth()+square_tube_width()+40+4*gap, r=LINE_RADIUS);
     }
   }
 
@@ -66,19 +68,19 @@ module panel_vertical_axis(gap=0) {
 
   translate([square_tube_width(),LENGTH/2,square_tube_width()/2]) {
     rotate([0,90,0]) {
-      translate([0,0,(exploded?30+gap:0)+1])
+      translate([0,0,(EXPLODED?30+gap:0)+1])
         round_head_bolt_m4(30);
 
-      translate([0,0,+(exploded?-gap:0)-square_tube_width()-washer_m4_height()])
+      translate([0,0,+(EXPLODED?-gap:0)-square_tube_width()-washer_m4_height()])
         washer_m4();
 
-      translate([0,0,(exploded?-2*gap:0)-square_tube_width()-washer_m4_height()-nut_m4_height()])
+      translate([0,0,(EXPLODED?-2*gap:0)-square_tube_width()-washer_m4_height()-nut_m4_height()])
         nut_m4();
 
-      if(exploded) {
+      if(EXPLODED) {
         color([0.8,0.8,0.8])
           translate([0,0,-square_tube_width()-hinge_depth()-2*gap])
-            cylinder(hinge_depth()+square_tube_width()+40+4*gap, 0.1, 0.1);
+            cylinder(hinge_depth()+square_tube_width()+40+4*gap, r=LINE_RADIUS);
       }
     }
   }
