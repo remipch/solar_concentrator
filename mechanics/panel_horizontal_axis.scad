@@ -72,27 +72,40 @@ module panel_horizontal_axis(exploded=false, gap=0) {
       }
   }
 
-  module round_head_bolt_assembly(depth_offset) {
-    translate([0,0,exploded?30+gap:0])
+  module round_head_bolt_assembly(depth_offset, align_explosed_washer_and_nut) {
+    bolt_gap = exploded?30+gap:0;
+    translate([0,0,bolt_gap]){
       round_head_bolt_m4(30);
+      if(exploded)
+        rotate([180,0,0])
+          cylinder(bolt_gap, r=LINE_RADIUS);
+    }
+    washer_and_nut_offset = exploded ? (align_explosed_washer_and_nut ? 0:gap) : 0;
 
-    translate([0,0,(exploded?-gap:0)-square_tube_width()-depth_offset-washer_m4_height()])
+    translate([washer_and_nut_offset,0,(exploded?-gap:0)-square_tube_width()-depth_offset-washer_m4_height()]){
       washer_m4();
+      if(exploded)
+        if(align_explosed_washer_and_nut)
+          cylinder(gap, r=LINE_RADIUS);
+        else
+          rotate([0,-42,0])
+            cylinder(1.5*gap, r=LINE_RADIUS);
+    }
 
-    translate([0,0,(exploded?-2*gap:0)-square_tube_width()-depth_offset-washer_m4_height()-nut_m4_height()]) {
+    translate([washer_and_nut_offset,0,(exploded?-2*gap:0)-square_tube_width()-depth_offset-washer_m4_height()-nut_m4_height()]) {
       nut_m4();
 
       if(exploded)
-        cylinder(square_tube_width()+40+2*gap, r=LINE_RADIUS);
+        cylinder(gap, r=LINE_RADIUS);
     }
   }
 
   translate(origin_to_center_fixpoint_t())
     rotate([0,-90,0])
-      round_head_bolt_assembly(square_tube_depth());
+      round_head_bolt_assembly(square_tube_depth(), false);
   translate(origin_to_diagonal_fixpoint_t())
     rotate([0,-90,0])
-      round_head_bolt_assembly(flat_profile_depth());
+      round_head_bolt_assembly(flat_profile_depth(), true);
 }
 
 module panel_board(gap=0) {
