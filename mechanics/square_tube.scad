@@ -5,7 +5,7 @@
 
 function square_tube_width() = 23.5;
 
-function square_tube_depth() = 1;
+function square_tube_depth() = 1.5;
 
 module square_tube(length) {
   inner_width = square_tube_width()-2*square_tube_depth();
