@@ -6,68 +6,73 @@
 $fa = 3;
 $fs = 0.4;
 
-// offset of left limit of the platform from rotation axis
-function hinge_platform_offset() = 8;
-
-// offset of hole axes from left limit of the platform
-function hinge_holes_offset() = 6;
-
-// gap between hole axes
-function hinge_holes_gap() = 35;
-
 // gap between hole axes
 function hinge_depth() = 2.5;
 
-module half() {
-  rotate([90,0,0])
-    translate([0,0,0.5])
-      cylinder(29.5,5,5);
+function hinge_origin_to_axis_t() = [-8,0,hinge_depth()];
 
-  translate([0,-30,0])
-    sphere(5);
+function hinge_male_origin_to_axis_t() = [8,0,hinge_depth()];
+
+function hinge_female_origin_to_axis_t() = hinge_origin_to_axis_t();
+
+function hinge_origin_to_holes_t() = [[6,-35,0],[6,0,0],[6,35,0]];
+
+module half() {
+  translate(hinge_origin_to_axis_t()) {
+    rotate([-90,0,0])
+      translate([0,0,0.5])
+        cylinder(29.5,5,5);
+
+    translate([0,30,0])
+      sphere(5);
+  }
 
   difference() {
     linear_extrude(height=hinge_depth()) {
-      translate([14, 35])
+      translate([6, 35])
         circle(6);
-      translate([14, -35])
+      translate([6, -35])
         circle(6);
-      translate([hinge_platform_offset(),-35])
+      translate([0,-35])
         square([12,70]);
-      translate([0,-26.5])
-        square([hinge_platform_offset()+1,26]);
+      translate([-6,0.5])
+        square([7,26]);
     }
-    for (y=[-hinge_holes_gap():hinge_holes_gap():hinge_holes_gap()])
-      translate([hinge_platform_offset()+hinge_holes_offset(),y,-1])
-        cylinder(hinge_depth()+2,2.5,2.5);
+    for (hole_t=hinge_origin_to_holes_t()) {
+      translate(hole_t + [0,0,hinge_depth()+1])
+        rotate([180,0,0])
+          cylinder(hinge_depth()+2,4.5,1.8);
+    }
+  }
+}
+
+module left_hinge_female() {
+  difference() {
+    half();
+    translate(hinge_origin_to_axis_t())
+      rotate([-90,0,0])
+        cylinder(20,3,3);
   }
 }
 
 module left_hinge_male() {
-  half();
-  rotate([-90,0,0])
-    translate([0,0,-0.5])
-      cylinder(20,3,3);
-}
-
-module left_hinge_female() {
-  rotate([180,0,0]) {
-    difference() {
-      half();
+  rotate([0,0,180]) {
+    half();
+    translate(hinge_origin_to_axis_t()+[0,1,0])
       rotate([90,0,0])
-        translate([0,0,-1])
-          cylinder(20,3,3);
-    }
+        cylinder(20,3,3);
   }
 }
 
-
-left_hinge_male();
-
 left_hinge_female();
 
-translate([-40,0,0])
+translate([0,-100,0])
   left_hinge_male();
 
-translate([40,0,0])
-  left_hinge_female();
+translate([0,100,0]) {
+  translate(-hinge_female_origin_to_axis_t())
+    left_hinge_female();
+
+  translate(-hinge_male_origin_to_axis_t())
+    left_hinge_male();
+}
