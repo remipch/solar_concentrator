@@ -72,40 +72,47 @@ module panel_horizontal_axis(small_hinge_angle, exploded=false, gap=0) {
       }
   }
 
-  module round_head_bolt_assembly(depth_offset, align_explosed_washer_and_nut) {
-    bolt_gap = exploded?30+gap:0;
-    translate([0,0,bolt_gap]){
-      round_head_bolt_m4(30);
+  module round_head_bolt_assembly(depth_offset, exploded_washer_offset_x, exploded_washer_offset_z) {
+    bolt_x = exploded?-30-gap:0;
+    translate([bolt_x,0,0]){
+      rotate([0,-90,0])
+        round_head_bolt_m4(30);
       if(exploded)
-        rotate([180,0,0])
-          cylinder(bolt_gap, r=LINE_RADIUS);
+        rotate([0,90,0])
+          cylinder(-bolt_x, r=LINE_RADIUS);
     }
-    washer_and_nut_offset = exploded ? (align_explosed_washer_and_nut ? 0:gap) : 0;
+    exploded_washer_offset_x = depth_offset + washer_m4_height() + (exploded ? exploded_washer_offset_x : 0);
+    washer_x = square_tube_width() + exploded_washer_offset_x;
+    washer_z = (exploded ? exploded_washer_offset_z : 0);
 
-    translate([washer_and_nut_offset,0,(exploded?-gap:0)-square_tube_width()-depth_offset-washer_m4_height()]){
-      washer_m4();
-      if(exploded)
-        if(align_explosed_washer_and_nut)
+    translate([washer_x,0,washer_z]){
+      rotate([0,-90,0]) {
+        washer_m4();
+        if(exploded) {
+          angle = atan(exploded_washer_offset_z/exploded_washer_offset_x);
+          line_length = sqrt(exploded_washer_offset_z^2 + exploded_washer_offset_x^2);
+          rotate([0,-angle,0])
+            cylinder(line_length, r=LINE_RADIUS);
+        }
+      }
+    }
+
+    nut_x = washer_x + nut_m4_height() + (exploded ? gap : 0);
+    nut_z = washer_z;
+    translate([nut_x,0,nut_z]) {
+      rotate([0,-90,0]){
+        nut_m4();
+
+        if(exploded)
           cylinder(gap, r=LINE_RADIUS);
-        else
-          rotate([0,-42,0])
-            cylinder(1.5*gap, r=LINE_RADIUS);
-    }
-
-    translate([washer_and_nut_offset,0,(exploded?-2*gap:0)-square_tube_width()-depth_offset-washer_m4_height()-nut_m4_height()]) {
-      nut_m4();
-
-      if(exploded)
-        cylinder(gap, r=LINE_RADIUS);
+      }
     }
   }
 
   translate(origin_to_center_fixpoint_t())
-    rotate([0,-90,0])
-      round_head_bolt_assembly(square_tube_depth(), false);
+    round_head_bolt_assembly(square_tube_depth(), 3*gap, 2.5*gap);
   translate(origin_to_diagonal_fixpoint_t())
-    rotate([0,-90,0])
-      round_head_bolt_assembly(flat_profile_depth(), true);
+    round_head_bolt_assembly(flat_profile_depth(), 2*gap, 0);
 }
 
 panel_horizontal_axis(SMALL_HINGE_ANGLE, EXPLODED, GAP);
