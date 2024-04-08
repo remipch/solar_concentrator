@@ -2,6 +2,7 @@ use <bolt_and_nut.scad>
 use <square_tube.scad>
 use <left_hinge.scad>
 use <flat_profile.scad>
+use <panel_horizontal_axis.scad>
 
 $fa = 3;
 $fs = 0.4;
@@ -87,6 +88,7 @@ module panel_vertical_axis(exploded=false, gap=0) {
     }
   }
 
+  // Round head bolt to fix diagonal bar
   translate([square_tube_width()/2,panel_vertical_axis_length()/2,square_tube_width()]) {
     translate([0,0,(exploded?30+gap:0)]) {
       round_head_bolt_m4(30);
@@ -100,6 +102,20 @@ module panel_vertical_axis(exploded=false, gap=0) {
 
     translate([0,0,(exploded?-2*gap:0)-square_tube_width()-flat_profile_depth()-washer_m4_height()-nut_m4_height()])
       nut_m4();
+  }
+
+  module diagonal_bar() {
+    diagonal_bar_hole_offset = 7; // offset from flat profile border to hole
+    diagonal_bar_hole_distance_x = diagonal_fixpoint_offset_from_center_of_vertical_bar();
+    diagonal_bar_hole_distance_y = panel_vertical_axis_length()/2 - square_tube_width()/2;
+    diagonal_bar_angle = atan(diagonal_bar_hole_distance_y/diagonal_bar_hole_distance_x);
+    diagonal_bar_hole_distance = sqrt(diagonal_bar_hole_distance_x^2 + diagonal_bar_hole_distance_y^2);
+    rotate([0,0,diagonal_bar_angle])
+      translate([-diagonal_bar_hole_offset,-flat_profile_width()/2,0])
+        flat_profile_bended(diagonal_bar_hole_distance + 2 * diagonal_bar_hole_offset);
+  }
+  translate([square_tube_width()/2,panel_vertical_axis_length()/2,0]) {
+    diagonal_bar();
   }
 }
 
