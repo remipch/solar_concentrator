@@ -71,7 +71,7 @@ module panel_vertical_axis(exploded=false, gap=0) {
             rotate([36.6,0,0])
               cylinder(2.5*gap, r=LINE_RADIUS);
           else
-            cylinder(gap, r=LINE_RADIUS);
+            cylinder(-washer_gap, r=LINE_RADIUS);
       }
 
       translate([0,nut_y,nut_z]) {
@@ -94,13 +94,13 @@ module panel_vertical_axis(exploded=false, gap=0) {
       round_head_bolt_m4(30);
       if(exploded)
         rotate([180,0,0])
-          cylinder(hinge_depth()+square_tube_width()+ 30 + 3*gap, r=LINE_RADIUS);
+          cylinder(hinge_depth()+square_tube_width()+ 30 + 5*gap, r=LINE_RADIUS);
     }
 
-    translate([0,0,+(exploded?-gap:0)-square_tube_width()-flat_profile_depth()-washer_m4_height()])
+    translate([0,0,+(exploded?-3*gap:0)-square_tube_width()-flat_profile_depth()-washer_m4_height()])
       washer_m4();
 
-    translate([0,0,(exploded?-2*gap:0)-square_tube_width()-flat_profile_depth()-washer_m4_height()-nut_m4_height()])
+    translate([0,0,(exploded?-4*gap:0)-square_tube_width()-flat_profile_depth()-washer_m4_height()-nut_m4_height()])
       nut_m4();
   }
 
@@ -110,19 +110,22 @@ module panel_vertical_axis(exploded=false, gap=0) {
     diagonal_bar_hole_distance_y = panel_vertical_axis_length()/2 - square_tube_width()/2;
     diagonal_bar_angle = atan(diagonal_bar_hole_distance_y/diagonal_bar_hole_distance_x);
     diagonal_bar_hole_distance = sqrt(diagonal_bar_hole_distance_x^2 + diagonal_bar_hole_distance_y^2);
+    diagonal_bar_gap = exploded?-2*gap:0;
     rotate([0,0,diagonal_bar_angle])
-      difference() {
-        translate([-diagonal_bar_hole_offset,-flat_profile_width()/2,0])
-          flat_profile_bended(diagonal_bar_hole_distance + 2 * diagonal_bar_hole_offset);
-        translate([0,0,-flat_profile_depth()-1])
-          cylinder(2*flat_profile_depth()+2,2,2);
-        translate([diagonal_bar_hole_distance,0,-flat_profile_depth()-1])
-          cylinder(2*flat_profile_depth()+2,2,2);
-      }
+      translate([0,0,diagonal_bar_gap])
+        difference() {
+          translate([-diagonal_bar_hole_offset,-flat_profile_width()/2,0])
+            flat_profile_bended(diagonal_bar_hole_distance + 2 * diagonal_bar_hole_offset);
+          translate([0,0,-flat_profile_depth()-1])
+            cylinder(2*flat_profile_depth()+2,2,2);
+          translate([diagonal_bar_hole_distance,0,-flat_profile_depth()-1])
+            cylinder(2*flat_profile_depth()+2,2,2);
+        }
   }
   translate([square_tube_width()/2,panel_vertical_axis_length()/2,0]) {
     diagonal_bar();
   }
 }
 
-panel_vertical_axis(EXPLODED, GAP);
+rotate([90,0,0])
+  panel_vertical_axis(EXPLODED, GAP);
