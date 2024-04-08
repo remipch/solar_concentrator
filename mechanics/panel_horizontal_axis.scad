@@ -24,7 +24,7 @@ function origin_to_center_fixpoint_t() = [0,(square_tube_width()+panel_horizonta
 
 function origin_to_diagonal_fixpoint_t() = origin_to_center_fixpoint_t() + [0,diagonal_fixpoint_offset_from_center_of_vertical_bar(),0];
 
-module panel_horizontal_axis(exploded=false, gap=0) {
+module panel_horizontal_axis(small_hinge_angle, exploded=false, gap=0) {
   // square tube with all required holes
   difference() {
     square_tube(panel_horizontal_axis_length());
@@ -46,7 +46,7 @@ module panel_horizontal_axis(exploded=false, gap=0) {
   for (hinge_t=origin_to_hinges_t()) {
     translate([0,0,exploded?gap:0])
       translate(hinge_t)
-        small_hinge(SMALL_HINGE_ANGLE);
+        small_hinge(small_hinge_angle);
   }
 
   module hinge_bolt_assembly() {
@@ -108,4 +108,4 @@ module panel_horizontal_axis(exploded=false, gap=0) {
       round_head_bolt_assembly(flat_profile_depth(), true);
 }
 
-panel_horizontal_axis(EXPLODED, GAP);
+panel_horizontal_axis(SMALL_HINGE_ANGLE, EXPLODED, GAP);

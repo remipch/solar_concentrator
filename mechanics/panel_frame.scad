@@ -7,7 +7,7 @@ use <small_hinge.scad>
 
 GAP = 20;
 
-SMALL_HINGE_ANGLE = 60;
+SMALL_HINGE_ANGLE = 120;
 
 EXPLODED = true;
 
@@ -15,14 +15,14 @@ function square_tube_width() = 23.5;
 
 function square_tube_depth() = 1.5;
 
-module panel_frame(exploded, gap) {
+module panel_frame(small_hinge_angle, exploded, gap) {
   rotate([90,0,0])
 //     translate(-hinge_origin_to_axis_t() + [0,0,-square_tube_width()])
-      panel_vertical_axis(exploded, gap);
+      panel_vertical_axis(false, gap);
 
   translate([-panel_horizontal_axis_length()/2,square_tube_width(),panel_vertical_axis_length()-square_tube_width()]) {
     rotate([0,0,-90]) {
-      panel_horizontal_axis(exploded, gap);
+      panel_horizontal_axis(small_hinge_angle, exploded, gap);
 
 //     translate([0,0,square_tube_width()+(EXPLODED?GAP:0)])
 //       small_hinge_move_to_other_half_origin(SMALL_HINGE_ANGLE)
@@ -32,4 +32,4 @@ module panel_frame(exploded, gap) {
   }
 }
 
-panel_frame(EXPLODED, GAP);
+panel_frame(SMALL_HINGE_ANGLE, EXPLODED, GAP);
