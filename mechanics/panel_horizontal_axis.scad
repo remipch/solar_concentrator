@@ -14,9 +14,9 @@ SMALL_HINGE_ANGLE = 60;
 
 EXPLODED = true;
 
-LINE_RADIUS = 0.01; // if exploded=true, pieces alignment are shown with "cylinder" lines of this radius
+LINE_RADIUS = 0.4; // if exploded=true, pieces alignment are shown with "cylinder" lines of this radius
 
-function origin_to_hinges_t() = [[0,small_hinge_height()/2,square_tube_width()],[0,panel_horizontal_axis_length()-small_hinge_height()/2,square_tube_width()]];
+function horizontal_axis_origin_to_hinges_t() = [[0,small_hinge_height()/2,square_tube_width()],[0,panel_horizontal_axis_length()-small_hinge_height()/2,square_tube_width()]];
 
 function diagonal_fixpoint_offset_from_center_of_vertical_bar() = 100;
 
@@ -28,7 +28,7 @@ module panel_horizontal_axis(small_hinge_angle, exploded=false, gap=0) {
   // square tube with all required holes
   difference() {
     square_tube(panel_horizontal_axis_length());
-    for (hinge_t=origin_to_hinges_t()) {
+    for (hinge_t=horizontal_axis_origin_to_hinges_t()) {
       translate(hinge_t)
       for (hole_t=small_hinge_origin_to_holes_t()) {
         translate(hole_t + [0,0,1])
@@ -43,7 +43,7 @@ module panel_horizontal_axis(small_hinge_angle, exploded=false, gap=0) {
     }
   }
 
-  for (hinge_t=origin_to_hinges_t()) {
+  for (hinge_t=horizontal_axis_origin_to_hinges_t()) {
     translate([0,0,exploded?gap:0])
       translate(hinge_t)
         small_hinge(small_hinge_angle);
@@ -64,7 +64,7 @@ module panel_horizontal_axis(small_hinge_angle, exploded=false, gap=0) {
     }
   }
 
-  for (hinge_t=origin_to_hinges_t()) {
+  for (hinge_t=horizontal_axis_origin_to_hinges_t()) {
     translate(hinge_t)
       for (hole_t=small_hinge_origin_to_holes_t()) {
         translate(hole_t)
