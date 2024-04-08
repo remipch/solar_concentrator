@@ -111,8 +111,14 @@ module panel_vertical_axis(exploded=false, gap=0) {
     diagonal_bar_angle = atan(diagonal_bar_hole_distance_y/diagonal_bar_hole_distance_x);
     diagonal_bar_hole_distance = sqrt(diagonal_bar_hole_distance_x^2 + diagonal_bar_hole_distance_y^2);
     rotate([0,0,diagonal_bar_angle])
-      translate([-diagonal_bar_hole_offset,-flat_profile_width()/2,0])
-        flat_profile_bended(diagonal_bar_hole_distance + 2 * diagonal_bar_hole_offset);
+      difference() {
+        translate([-diagonal_bar_hole_offset,-flat_profile_width()/2,0])
+          flat_profile_bended(diagonal_bar_hole_distance + 2 * diagonal_bar_hole_offset);
+        translate([0,0,-flat_profile_depth()-1])
+          cylinder(2*flat_profile_depth()+2,2,2);
+        translate([diagonal_bar_hole_distance,0,-flat_profile_depth()-1])
+          cylinder(2*flat_profile_depth()+2,2,2);
+      }
   }
   translate([square_tube_width()/2,panel_vertical_axis_length()/2,0]) {
     diagonal_bar();
