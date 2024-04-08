@@ -108,13 +108,4 @@ module panel_horizontal_axis(exploded=false, gap=0) {
       round_head_bolt_assembly(flat_profile_depth(), true);
 }
 
-module panel_board(gap=0) {
-  translate([-200,-panel_horizontal_axis_length(),(exploded?-gap:0)-10])
-    %cube([400,panel_horizontal_axis_length(),10]);
-}
-
 panel_horizontal_axis(EXPLODED, GAP);
-
-translate([0,0,square_tube_width()+(EXPLODED?GAP:0)])
-  small_hinge_move_to_other_half_origin(SMALL_HINGE_ANGLE)
-    panel_board(GAP);
