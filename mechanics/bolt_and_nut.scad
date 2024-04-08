@@ -9,7 +9,7 @@ module countersunk_bolt(length, diameter, head_length, head_diameter) {
     rotate([180,0,0]) {
       intersection() {
         union() {
-          cylinder(head_length,(head_diameter+1)/2,diameter/2);
+          cylinder(head_length,(head_diameter*1.1)/2,diameter/2);
           cylinder(length,diameter/2,diameter/2);
         }
         cylinder(length+head_length+1,head_diameter/2,head_diameter/2);
@@ -20,6 +20,11 @@ module countersunk_bolt(length, diameter, head_length, head_diameter) {
     translate([-head_diameter/16,-head_diameter/4,-2])
       cube([head_diameter/8,head_diameter/2,3]);
   }
+}
+
+module countersunk_bolt_m3(length) {
+  color([0.5,0.5,0.5])
+    countersunk_bolt(length,2.6,1.5,5);
 }
 
 module countersunk_bolt_m4(length) {
@@ -67,6 +72,13 @@ module nut(height, hole_diameter, external_diameter) {
   }
 }
 
+function nut_m3_height() = 2;
+
+module nut_m3() {
+  color([0.5,0.5,0.5])
+    nut(nut_m3_height(),3,6);
+}
+
 function nut_m4_height() = 3;
 
 module nut_m4() {
@@ -92,6 +104,13 @@ module washer(height, inner_diameter, outer_diameter) {
   }
 }
 
+function washer_m3_height() = 0.5;
+
+module washer_m3() {
+  color([0.5,0.5,0.5])
+    washer(washer_m3_height(),4,8);
+}
+
 function washer_m4_height() = 0.8;
 
 module washer_m4() {
@@ -106,6 +125,9 @@ module washer_m6() {
     washer(washer_m6_height(),6.2,18);
 }
 
+translate([-20,0,0])
+  countersunk_bolt_m3(10);
+
 countersunk_bolt_m4(30);
 
 translate([20,0,0])
@@ -114,11 +136,17 @@ translate([20,0,0])
 translate([0,20,0])
   round_head_bolt_m4(30);
 
+translate([-20,40,0])
+  nut_m3();
+
 translate([0,40,0])
   nut_m4();
 
 translate([20,40,0])
   nut_m6();
+
+translate([-20,60,0])
+  washer_m3();
 
 translate([0,60,0])
   washer_m4();
