@@ -15,14 +15,14 @@ EXPLODED = true;
 
 LINE_RADIUS = 0.01; // if exploded=true, pices alignment are shown with "cylinder" lines of this radius
 
-function origin_to_hinges_t() = [[0,45,square_tube_width()],[0,panel_vertical_axis_length()-45,square_tube_width()]];
+function panel_vertical_axis_origin_to_hinges_t() = [[0,45,square_tube_width()],[0,panel_vertical_axis_length()-45,square_tube_width()]];
 
 module panel_vertical_axis(exploded=false, gap=0) {
   // square tube with all required holes
   difference() {
     square_tube(panel_vertical_axis_length());
     // Holes for left hinge
-    for (hinge_t=origin_to_hinges_t()) {
+    for (hinge_t=panel_vertical_axis_origin_to_hinges_t()) {
       for (hole_t=hinge_origin_to_holes_t()) {
         t = hinge_t + hole_t;
         short_bolt = (t[1]>panel_vertical_axis_length()-20); // specific case for the last bolt : shorter because another bolt will be in the same axis
@@ -39,7 +39,7 @@ module panel_vertical_axis(exploded=false, gap=0) {
       cylinder(square_tube_depth()+2,2,2);
   }
 
-  for (hinge_t=origin_to_hinges_t()) {
+  for (hinge_t=panel_vertical_axis_origin_to_hinges_t()) {
     translate([0,0,exploded?gap:0])
       translate(hinge_t)
         left_hinge_female();
@@ -82,7 +82,7 @@ module panel_vertical_axis(exploded=false, gap=0) {
     }
   }
 
-  for (hinge_t=origin_to_hinges_t()) {
+  for (hinge_t=panel_vertical_axis_origin_to_hinges_t()) {
     for (hole_t=hinge_origin_to_holes_t()) {
         hinge_bolt_assembly(hinge_t+hole_t);
     }
