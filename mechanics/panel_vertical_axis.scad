@@ -61,7 +61,7 @@ module panel_vertical_axis(exploded=false, gap=0) {
         countersunk_bolt_m4(bolt_length);
         if(exploded)
           rotate([180,0,0])
-            cylinder(bolt_gap, r=LINE_RADIUS);
+            cylinder(bolt_z, r=LINE_RADIUS);
       }
 
       translate([0,washer_y,washer_z]) {
