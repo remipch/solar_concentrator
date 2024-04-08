@@ -10,7 +10,7 @@ module flat_profile(length) {
 }
 
 // slightly bended flat profile used as diagonal bar between vertical and horizontal axes
-module flat_profile_diagonal_bar_for_axes(length) {
+module flat_profile_bended(length) {
   bending_offset = length/5;
 
   rotate([-90,0,0])
@@ -31,4 +31,4 @@ module flat_profile_diagonal_bar_for_axes(length) {
 flat_profile(200);
 
 translate([50,0,0])
-  flat_profile_diagonal_bar_for_axes(200);
+  flat_profile_bended(200);
