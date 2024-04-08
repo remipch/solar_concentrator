@@ -18,11 +18,11 @@ LINE_RADIUS = 0.01; // if exploded=true, pieces alignment are shown with "cylind
 
 function origin_to_hinges_t() = [[0,small_hinge_height()/2,square_tube_width()],[0,panel_horizontal_axis_length()-small_hinge_height()/2,square_tube_width()]];
 
-diagonal_fixpoint_offset = 100;
+function diagonal_fixpoint_offset_from_center_of_vertical_bar() = 100;
 
-function origin_to_diagonal_fixpoint_t() = [0,panel_horizontal_axis_length()/2+diagonal_fixpoint_offset,square_tube_width()/2];
+function origin_to_center_fixpoint_t() = [0,(square_tube_width()+panel_horizontal_axis_length())/2,square_tube_width()/2];
 
-function origin_to_center_fixpoint_t() = [0,panel_horizontal_axis_length()/2,square_tube_width()/2];
+function origin_to_diagonal_fixpoint_t() = origin_to_center_fixpoint_t() + [0,diagonal_fixpoint_offset_from_center_of_vertical_bar(),0];
 
 module panel_horizontal_axis(exploded=false, gap=0) {
   // square tube with all required holes
