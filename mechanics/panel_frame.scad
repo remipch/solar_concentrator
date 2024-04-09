@@ -11,14 +11,8 @@ SMALL_HINGE_ANGLE = 120;
 
 EXPLODED = true;
 
-function square_tube_width() = 23.5;
-
-function square_tube_depth() = 1.5;
-
 module panel_frame(small_hinge_angle, exploded, gap) {
-  rotate([90,0,0])
-//     translate(-hinge_origin_to_axis_t() + [0,0,-square_tube_width()])
-      panel_vertical_axis(false, gap);
+  panel_vertical_axis(false, gap);
 
   translate([-panel_horizontal_axis_length()/2,square_tube_width(),panel_vertical_axis_length()-square_tube_width()]) {
     rotate([0,0,-90]) {
