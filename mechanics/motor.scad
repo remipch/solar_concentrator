@@ -4,6 +4,8 @@ $fs = 0.4;
 
 function motor_radius() = 20;
 
+function motor_axis_radius() = 3;
+
 bracket_depth = 2;
 bracket_hole_offset = 5;
 bracket_hole_radius = 2;
@@ -21,7 +23,7 @@ module motor() {
   translate([0,0,29])
     cylinder(50,r=16);
   rotate([180,0,0])
-    cylinder(10,r=3);
+    cylinder(10,r=motor_axis_radius());
   translate([-motor_radius(),-motor_radius(),0])
     cube([motor_radius()*2,motor_radius()*2,bracket_depth]);
 
