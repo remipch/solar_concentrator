@@ -6,16 +6,19 @@ function motor_radius() = 20;
 
 function motor_axis_radius() = 3;
 
+function motor_bracket_length() = 60;
+
 bracket_depth = 2;
 bracket_hole_offset = 5;
 bracket_hole_radius = 2;
-bracket_length = 60;
+
+function motor_axis_offset() = motor_radius() + bracket_depth;
 
 function motor_bracket_holes_t() = [
-  [-bracket_length/2+bracket_hole_offset,motor_radius(),bracket_hole_offset],
-  [-bracket_length/2+bracket_hole_offset,motor_radius(),bracket_length-bracket_hole_offset],
-  [bracket_length/2-bracket_hole_offset,motor_radius(),bracket_hole_offset],
-  [bracket_length/2-bracket_hole_offset,motor_radius(),bracket_length-bracket_hole_offset]
+  [-motor_bracket_length()/2+bracket_hole_offset,motor_radius(),bracket_hole_offset],
+  [-motor_bracket_length()/2+bracket_hole_offset,motor_radius(),motor_bracket_length()-bracket_hole_offset],
+  [motor_bracket_length()/2-bracket_hole_offset,motor_radius(),bracket_hole_offset],
+  [motor_bracket_length()/2-bracket_hole_offset,motor_radius(),motor_bracket_length()-bracket_hole_offset]
 ];
 
 module motor() {
@@ -28,8 +31,8 @@ module motor() {
     cube([motor_radius()*2,motor_radius()*2,bracket_depth]);
 
   difference() {
-    translate([-bracket_length/2,motor_radius(),0])
-      cube([bracket_length,bracket_depth,bracket_length]);
+    translate([-motor_bracket_length()/2,motor_radius(),0])
+      cube([motor_bracket_length(),bracket_depth,motor_bracket_length()]);
 
     for (hole_t=motor_bracket_holes_t()) {
       translate(hole_t + [0,-1,0])
