@@ -2,6 +2,7 @@ use <bolt_and_nut.scad>
 use <square_tube.scad>
 use <small_hinge.scad>
 use <flat_profile.scad>
+use <assembly.scad>
 
 $fa = 3;
 $fs = 0.4;

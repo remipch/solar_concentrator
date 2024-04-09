@@ -1,6 +1,7 @@
 use <motor.scad>
 use <small_bracket.scad>
 use <bolt_and_nut.scad>
+use <assembly.scad>
 
 $fa = 5;
 $fs = 0.4;
@@ -8,8 +9,6 @@ $fs = 0.4;
 GAP = 20;
 
 EXPLODED = true;
-
-EXPLODED_LINE_RADIUS = 0.3; // if exploded=true, pices alignment are shown with "cylinder" lines of this radius
 
 
 locking_ring_length = 6;
@@ -115,7 +114,7 @@ module motor_block(exploded=false, gap=0) {
             cylinder(axis_extension_length,r=motor_axis_radius());
 
             if(exploded){
-              cylinder(axis_extension_length+locking_ring_length+motor_axis_cylinder_length+4*gap,r=EXPLODED_LINE_RADIUS);
+              cylinder(axis_extension_length+locking_ring_length+motor_axis_cylinder_length+4*gap,r=exploded_line_radius());
             }
           }
         }

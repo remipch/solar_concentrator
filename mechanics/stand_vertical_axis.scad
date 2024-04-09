@@ -4,6 +4,7 @@ use <left_hinge.scad>
 use <flat_profile.scad>
 use <panel_horizontal_axis.scad>
 use <panel_vertical_axis.scad>
+use <assembly.scad>
 
 $fa = 3;
 $fs = 0.4;
