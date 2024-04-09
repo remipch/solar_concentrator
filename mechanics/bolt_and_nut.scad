@@ -1,6 +1,6 @@
 
 $fa = 3;
-$fs = 0.4;
+$fs = 0.2;
 
 // en: countersunk bolt
 // fr: boulon tête fraisée
@@ -124,6 +124,41 @@ module washer_m6() {
   color([0.5,0.5,0.5])
     washer(washer_m6_height(),6.2,18);
 }
+
+module wood_screw(length, diameter, head_length, head_diameter, sharp_length) {
+  color([0.5,0.5,0.5]) {
+    difference() {
+      rotate([180,0,0]) {
+        intersection() {
+          union() {
+            cylinder(head_length,(head_diameter*1.1)/2,diameter/2);
+            cylinder(length,diameter*0.3,diameter*0.3);
+            translate([0,0,head_length])
+              linear_extrude(height=length-head_length,center=false,twist=180*length, $fn=20)
+                polygon([[0,1],[diameter*0.5,0],[0,0]]);
+          }
+          union() {
+            cylinder(length-sharp_length,head_diameter/2,head_diameter/2);
+            translate([0,0,length-sharp_length])
+              cylinder(sharp_length,head_diameter/2,0);
+          }
+        }
+      }
+      translate([-head_diameter/4,-head_diameter/16,-2])
+        cube([head_diameter/2,head_diameter/8,3]);
+      translate([-head_diameter/16,-head_diameter/4,-2])
+        cube([head_diameter/8,head_diameter/2,3]);
+    }
+  }
+}
+
+module wood_screw_d4(length) {
+  color([0.5,0.5,0.5])
+    wood_screw(length,4,2,8,10);
+}
+
+translate([0,80,0])
+  wood_screw_d4(15);
 
 translate([-20,0,0])
   countersunk_bolt_m3(10);
