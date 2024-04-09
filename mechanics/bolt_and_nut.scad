@@ -161,6 +161,11 @@ module wood_screw_d4(length) {
     wood_screw(length,4,2,8,10);
 }
 
+module wood_screw_d3(length) {
+  color([0.5,0.5,0.5])
+    wood_screw(length,3,1.5,6,8);
+}
+
 // children(0) is screw (or other child element)
 module simple_assembly(
   child_length,
@@ -277,6 +282,9 @@ translate([200,0,0])
 
 translate([0,80,0])
   wood_screw_d4(15);
+
+translate([-20,80,0])
+  wood_screw_d3(15);
 
 translate([-20,0,0])
   countersunk_bolt_m3(10);
