@@ -161,6 +161,22 @@ module wood_screw_d4(length) {
     wood_screw(length,4,2,8,10);
 }
 
+// children(0) is screw (or other child element)
+module simple_assembly(
+  child_length,
+  gap=DEFAULT_GAP,
+  extra_line_length=0,
+  exploded=false) {
+
+  translate([0,0,exploded?child_length+gap:0]) {
+    children(0);
+    if(exploded) {
+      rotate([180,0,0])
+      cylinder(child_length+gap+extra_line_length, r=EXPLODED_LINE_RADIUS);
+    }
+  }
+}
+
 // children(0) is bolt
 // children(1) is washer
 // children(2) is nut
