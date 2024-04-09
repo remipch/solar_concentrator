@@ -22,7 +22,8 @@ function origin_to_center_fixpoint_t() = [0,(square_tube_width()+panel_horizonta
 
 function origin_to_diagonal_fixpoint_t() = origin_to_center_fixpoint_t() + [0,diagonal_fixpoint_offset_from_center_of_vertical_bar(),0];
 
-module panel_horizontal_axis(small_hinge_angle, exploded=false, gap=0) {
+// Work along y axis because it's the natural orientation of internal objects
+module panel_horizontal_axis_along_y(small_hinge_angle, exploded=false, gap=0) {
   // square tube with all required holes
   difference() {
     square_tube(panel_horizontal_axis_length());
@@ -64,6 +65,13 @@ module panel_horizontal_axis(small_hinge_angle, exploded=false, gap=0) {
     rotate([0,-90,0])
       bolt_assembly_m4(bolt_length=30, assembly_depth=square_tube_width()+flat_profile_depth(), washer_gap_z=3*GAP, exploded=exploded)
         round_head_bolt_m4(30);
+}
+
+// Horizontal axis in its final orientation
+module panel_horizontal_axis(small_hinge_angle, exploded=false, gap=0) {
+  translate([-panel_horizontal_axis_length()/2,square_tube_width(),0])
+    rotate([0,0,-90])
+      panel_horizontal_axis_along_y(small_hinge_angle, EXPLODED, GAP);
 }
 
 panel_horizontal_axis(SMALL_HINGE_ANGLE, EXPLODED, GAP);

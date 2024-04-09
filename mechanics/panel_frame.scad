@@ -14,15 +14,13 @@ EXPLODED = true;
 module panel_frame(small_hinge_angle, exploded, gap) {
   panel_vertical_axis(false, gap);
 
-  translate([-panel_horizontal_axis_length()/2,square_tube_width(),panel_vertical_axis_length()-square_tube_width()]) {
-    rotate([0,0,-90]) {
-      panel_horizontal_axis(small_hinge_angle, exploded, gap);
+  translate([0,0,panel_vertical_axis_length()-square_tube_width()]) {
+    panel_horizontal_axis(small_hinge_angle, exploded, gap);
 
 //     translate([0,0,square_tube_width()+(EXPLODED?GAP:0)])
 //       small_hinge_move_to_other_half_origin(SMALL_HINGE_ANGLE)
 //         translate([-200,-panel_horizontal_axis_length(),(exploded?-gap:0)-10])
 //           %cube([400,panel_horizontal_axis_length(),10]);
-    }
   }
 }
 
