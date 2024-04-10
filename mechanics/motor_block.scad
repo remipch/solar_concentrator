@@ -87,7 +87,7 @@ module motor_block(exploded=false, gap=0) {
     motor();
 
     for (hole_t=motor_bracket_holes_t()) {
-      translate(hole_t)
+      translate(hole_t + [0,-1,0])
         rotate([90,0,0])
           simple_assembly(15,exploded=exploded,gap=3*gap,extra_line_length=gap) {
             wood_screw_d3(15);
@@ -98,13 +98,13 @@ module motor_block(exploded=false, gap=0) {
       locking_ring();
 
       translate([0,0,locking_ring_length - motor_axis_cylinder_length - (exploded?gap:0)]) {
-        %motor_axis_cylinder();
+        motor_axis_cylinder();
 
         for (hole_t=motor_axis_cylinder_origin_to_holes_t()) {
           translate(hole_t + [0,motor_axis_cylinder_outer_radius-motor_axis_radius()-locking_ring_bolt_length,0])
             rotate([90,0,0])
               simple_assembly(locking_ring_bolt_length,exploded=exploded) {
-                %countersunk_bolt_m3(locking_ring_bolt_length);
+                countersunk_bolt_m3(locking_ring_bolt_length);
               }
         }
 
