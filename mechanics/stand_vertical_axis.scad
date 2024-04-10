@@ -11,7 +11,9 @@ $fs = 0.4;
 
 function stand_vertical_axis_length() = 600;
 
-function front_board_depth() = 15;
+function front_board_width() = 15;
+function front_board_length() = 1000;
+function front_board_height() = 150;
 
 GAP = 20;
 
@@ -24,7 +26,12 @@ function stand_vertical_axis_origin_to_hinges_t() = [
     hinge_t + [square_tube_width(),stand_vertical_axis_length()-panel_vertical_axis_length(),0]
 ];
 
-function stand_vertical_axis_origin_to_stand_holes_t() = [[square_tube_width()/2,30,0],[square_tube_width()/2,130,0]];
+stand_vertical_axis_hole_offset = 30;
+
+function stand_vertical_axis_origin_to_stand_holes_t() = [
+  [square_tube_width()/2,stand_vertical_axis_hole_offset,0],
+  [square_tube_width()/2,front_board_height()-stand_vertical_axis_hole_offset,0]
+];
 
 // Work along y axis because it's the natural orientation of internal objects
 module stand_vertical_axis_along_y(exploded=false, gap=0) {
@@ -74,21 +81,21 @@ module stand_vertical_axis_along_y(exploded=false, gap=0) {
   for (bolt_t=stand_vertical_axis_origin_to_stand_holes_t()) {
     translate(bolt_t)
       rotate([180,0,0])
-        bolt_assembly_m6(bolt_length=60, bolt_gap_z=2*GAP, assembly_depth=square_tube_width()+front_board_depth(), exploded=exploded)
+        bolt_assembly_m6(bolt_length=60, bolt_gap_z=2*GAP, assembly_depth=square_tube_width()+front_board_width(), exploded=exploded)
           round_head_bolt_m6(50);
   }
 }
 
 // Horizontal axis in its final orientation
 module stand_vertical_axis(exploded=false, gap=0) {
-  rotate([90,0,-90])
-    stand_vertical_axis_along_y(exploded, GAP);
 }
 
-//stand_vertical_axis_along_y(EXPLODED, GAP);
+module stand_front_board(exploded=false, gap=0) {
+  translate([square_tube_width(),0,0])
+    rotate([90,0,-90])
+      stand_vertical_axis_along_y(exploded, GAP);
+  translate([-front_board_width(),-front_board_length()/2,0])
+    cube([front_board_width(),front_board_length(),front_board_height()]);
+}
 
-stand_vertical_axis(EXPLODED, GAP);
-
-
-// translate([40,400,0])
-//   panel_vertical_axis(EXPLODED, GAP);
+stand_front_board(EXPLODED, GAP);
