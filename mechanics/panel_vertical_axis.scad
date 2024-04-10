@@ -92,7 +92,7 @@ module panel_vertical_axis_along_y(exploded=false, gap=0) {
 // Vertical axis in its final orientation
 module panel_vertical_axis(exploded=false, gap=0) {
   rotate([90,0,0])
-    panel_vertical_axis_along_y(EXPLODED, GAP);
+    panel_vertical_axis_along_y(exploded, GAP);
 }
 
 panel_vertical_axis(EXPLODED, GAP);

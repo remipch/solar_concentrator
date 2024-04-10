@@ -19,9 +19,9 @@ function horizontal_axis_origin_to_hinges_t() = [[0,small_hinge_height()/2,squar
 
 function diagonal_fixpoint_offset_from_center_of_vertical_bar() = 100;
 
-function origin_to_center_fixpoint_t() = [0,(square_tube_width()+panel_horizontal_axis_length())/2,square_tube_width()/2];
+function horizontal_axis_center_to_center_fixpoint() = square_tube_width()/2;
 
-function origin_to_diagonal_fixpoint_t() = origin_to_center_fixpoint_t() + [0,diagonal_fixpoint_offset_from_center_of_vertical_bar(),0];
+function horizontal_axis_center_to_diagonal_fixpoint() = horizontal_axis_center_to_center_fixpoint() + diagonal_fixpoint_offset_from_center_of_vertical_bar();
 
 // Work along y axis because it's the natural orientation of internal objects
 module panel_horizontal_axis_along_y(small_hinge_angle, exploded=false, gap=0) {
@@ -36,8 +36,8 @@ module panel_horizontal_axis_along_y(small_hinge_angle, exploded=false, gap=0) {
             cylinder(square_tube_width()+2,2,2);
       }
     }
-    for (hole_t=[origin_to_center_fixpoint_t(),origin_to_diagonal_fixpoint_t()]) {
-      translate(hole_t + [-1,0,0])
+    for (hole_offset=[horizontal_axis_center_to_center_fixpoint(),horizontal_axis_center_to_diagonal_fixpoint()]) {
+      translate([-1,panel_horizontal_axis_length()/2+hole_offset,square_tube_width()/2])
         rotate([0,90,0])
           cylinder(square_tube_width()+2,2,2);
     }
@@ -55,24 +55,13 @@ module panel_horizontal_axis_along_y(small_hinge_angle, exploded=false, gap=0) {
       }
     }
   }
-
-  translate(origin_to_center_fixpoint_t())
-    rotate([0,-90,0])
-      rotate([0,0,-90])
-        bolt_assembly_m4(bolt_length=30, assembly_depth=square_tube_width()+square_tube_depth(), washer_gap_y=3*GAP, washer_gap_z=4*GAP, exploded=exploded)
-          round_head_bolt_m4(30);
-
-  translate(origin_to_diagonal_fixpoint_t())
-    rotate([0,-90,0])
-      bolt_assembly_m4(bolt_length=30, assembly_depth=square_tube_width()+flat_profile_depth(), washer_gap_z=3*GAP, exploded=exploded)
-        round_head_bolt_m4(30);
 }
 
 // Horizontal axis in its final orientation
 module panel_horizontal_axis(small_hinge_angle, exploded=false, gap=0) {
   translate([-panel_horizontal_axis_length()/2,square_tube_width(),0])
     rotate([0,0,-90])
-      panel_horizontal_axis_along_y(small_hinge_angle, EXPLODED, GAP);
+      panel_horizontal_axis_along_y(small_hinge_angle, exploded, GAP);
 }
 
 panel_horizontal_axis(SMALL_HINGE_ANGLE, EXPLODED, GAP);
