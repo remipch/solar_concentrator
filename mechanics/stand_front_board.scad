@@ -26,7 +26,7 @@ function stand_vertical_axis_origin_to_hinges_t() = [
 
 stand_vertical_axis_hole_offset = 30;
 
-stand_board_bracket_offset = 15;
+function stand_board_bracket_offset() = 15;
 
 function stand_vertical_axis_origin_to_stand_holes_t() = [
   [square_tube_width()/2,stand_vertical_axis_hole_offset,0],
@@ -98,7 +98,7 @@ module board(exploded, gap) {
     }
   }
 
-  for (z=[stand_board_bracket_offset,front_board_height() - stand_board_bracket_offset]) {
+  for (z=[stand_board_bracket_offset(),front_board_height() - stand_board_bracket_offset()]) {
     translate([-front_board_width()-(exploded?gap:0),front_board_length()/2,z]) {
       rotate([0,-90,0]) {
         small_bracket();
