@@ -90,12 +90,25 @@ module stand_vertical_axis_along_y(exploded=false, gap=0) {
 module stand_vertical_axis(exploded=false, gap=0) {
 }
 
+module board() {
+  difference() {
+    translate([-front_board_width(),-front_board_length()/2,0])
+      cube([front_board_width(),front_board_length(),front_board_height()]);
+
+    for (z=[stand_vertical_axis_hole_offset,front_board_height() - stand_vertical_axis_hole_offset]) {
+      translate([-front_board_width()-1,-square_tube_width()/2,z])
+        rotate([0,90,0])
+          cylinder(front_board_width()+2,3,3);
+    }
+  }
+}
+
 module stand_front_board(exploded=false, gap=0) {
   translate([square_tube_width(),0,0])
     rotate([90,0,-90])
       stand_vertical_axis_along_y(exploded, GAP);
-  translate([-front_board_width(),-front_board_length()/2,0])
-    cube([front_board_width(),front_board_length(),front_board_height()]);
+
+  board();
 }
 
 stand_front_board(EXPLODED, GAP);
