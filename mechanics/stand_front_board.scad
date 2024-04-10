@@ -1,10 +1,9 @@
 use <bolt_and_nut.scad>
 use <square_tube.scad>
 use <left_hinge.scad>
-use <flat_profile.scad>
-use <panel_horizontal_axis.scad>
 use <panel_vertical_axis.scad>
 use <assembly.scad>
+use <small_bracket.scad>
 
 $fa = 3;
 $fs = 0.4;
@@ -19,7 +18,6 @@ GAP = 20;
 
 EXPLODED = true;
 
-LINE_RADIUS = 0.01; // if exploded=true, pices alignment are shown with "cylinder" lines of this radius
 
 function stand_vertical_axis_origin_to_hinges_t() = [
   for (hinge_t = panel_vertical_axis_origin_to_hinges_t())
@@ -28,13 +26,15 @@ function stand_vertical_axis_origin_to_hinges_t() = [
 
 stand_vertical_axis_hole_offset = 30;
 
+stand_board_bracket_offset = 15;
+
 function stand_vertical_axis_origin_to_stand_holes_t() = [
   [square_tube_width()/2,stand_vertical_axis_hole_offset,0],
   [square_tube_width()/2,front_board_height()-stand_vertical_axis_hole_offset,0]
 ];
 
 // Work along y axis because it's the natural orientation of internal objects
-module stand_vertical_axis_along_y(exploded=false, gap=0) {
+module stand_vertical_axis_along_y(exploded, gap) {
   // square tube with all required holes
   difference() {
     square_tube(stand_vertical_axis_length());
@@ -86,11 +86,7 @@ module stand_vertical_axis_along_y(exploded=false, gap=0) {
   }
 }
 
-// Horizontal axis in its final orientation
-module stand_vertical_axis(exploded=false, gap=0) {
-}
-
-module board() {
+module board(exploded, gap) {
   difference() {
     translate([-front_board_width(),-front_board_length()/2,0])
       cube([front_board_width(),front_board_length(),front_board_height()]);
@@ -101,14 +97,28 @@ module board() {
           cylinder(front_board_width()+2,3,3);
     }
   }
+
+  for (z=[stand_board_bracket_offset,front_board_height() - stand_board_bracket_offset]) {
+    translate([-front_board_width()-(exploded?gap:0),front_board_length()/2,z]) {
+      rotate([0,-90,0]) {
+        small_bracket();
+
+        for (hole_t=small_bracket_origin_to_holes_t()) {
+          translate(hole_t + [0,0,small_bracket_depth()+1])
+            simple_assembly(15,exploded=exploded,gap=3*gap,extra_line_length=gap)
+              wood_screw_d4(15);
+        }
+      }
+    }
+  }
 }
 
-module stand_front_board(exploded=false, gap=0) {
+module stand_front_board(exploded=false, gap=GAP) {
   translate([square_tube_width(),0,0])
     rotate([90,0,-90])
-      stand_vertical_axis_along_y(exploded, GAP);
+      stand_vertical_axis_along_y(exploded, gap);
 
-  board();
+  board(exploded, gap);
 }
 
 stand_front_board(EXPLODED, GAP);
