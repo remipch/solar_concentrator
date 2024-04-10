@@ -6,6 +6,8 @@ function motor_radius() = 20;
 
 function motor_axis_radius() = 3;
 
+function motor_axis_length() = 10;
+
 function motor_bracket_length() = 60;
 
 function motor_bracket_depth() = 2;
@@ -27,7 +29,7 @@ module motor() {
   translate([0,0,29])
     cylinder(50,r=16);
   rotate([180,0,0])
-    cylinder(10,r=motor_axis_radius());
+    cylinder(motor_axis_length(),r=motor_axis_radius());
   translate([-motor_radius(),-motor_radius(),0])
     cube([motor_radius()*2,motor_radius()*2,motor_bracket_depth()]);
 

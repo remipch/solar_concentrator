@@ -13,6 +13,7 @@ EXPLODED = true;
 
 locking_ring_length = 6;
 locking_ring_bolt_hole_radius = 1.5;
+locking_ring_bolt_length = 10;
 
 motor_axis_cylinder_length = 70;
 motor_axis_cylinder_inner_radius = 5;
@@ -33,18 +34,18 @@ function motor_support_holes_t() = [
 echo(motor_support_depth=motor_support_depth);
 
 function motor_axis_cylinder_origin_to_holes_t() = [
-  [0,-motor_axis_cylinder_outer_radius,10],
-  [0,-motor_axis_cylinder_outer_radius,motor_axis_cylinder_length-10]
+  [0,-motor_axis_cylinder_outer_radius,locking_ring_length],
+  [0,-motor_axis_cylinder_outer_radius,motor_axis_cylinder_length-locking_ring_length]
 ];
 
 module locking_ring() {
   difference() {
-    cylinder(locking_ring_length,r=motor_axis_cylinder_inner_radius);
+    translate([0,0,-locking_ring_length/2])
+      cylinder(locking_ring_length,r=motor_axis_cylinder_inner_radius);
 
-    translate([0,0,-1])
+    translate([0,0,-locking_ring_length/2 - 1])
       cylinder(locking_ring_length+2,r=motor_axis_radius());
 
-    translate([0,0,locking_ring_length/2])
     rotate([90,0,0])
       cylinder(motor_axis_cylinder_inner_radius+1,r=locking_ring_bolt_hole_radius);
   }
@@ -93,24 +94,24 @@ module motor_block(exploded=false, gap=0) {
           }
     }
 
-    translate([0,0,-8-(exploded?gap:0)]) {
+    translate([0,0,-motor_axis_length() + locking_ring_length/2 - (exploded?gap:0)]) {
       locking_ring();
 
-      translate([0,0,locking_ring_length-motor_axis_cylinder_length-(exploded?gap:0)]) {
-        motor_axis_cylinder();
+      translate([0,0,locking_ring_length - motor_axis_cylinder_length - (exploded?gap:0)]) {
+        %motor_axis_cylinder();
 
         for (hole_t=motor_axis_cylinder_origin_to_holes_t()) {
-          translate(hole_t)
+          translate(hole_t + [0,motor_axis_cylinder_outer_radius-motor_axis_radius()-locking_ring_bolt_length,0])
             rotate([90,0,0])
-              simple_assembly(10,exploded=exploded) {
-                countersunk_bolt_m3(10);
+              simple_assembly(locking_ring_bolt_length,exploded=exploded) {
+                %countersunk_bolt_m3(locking_ring_bolt_length);
               }
         }
 
-        translate([0,0,-(exploded?gap:0)]) {
+        translate([0,0,locking_ring_length-(exploded?gap:0)]) {
           locking_ring();
 
-          translate([0,0,-axis_extension_length/2+(exploded?locking_ring_length-gap-axis_extension_length/2:0)]) {
+          translate([0,0,locking_ring_length/2 - axis_extension_length - (exploded?gap:0)]) {
             cylinder(axis_extension_length,r=motor_axis_radius());
 
             if(exploded){
