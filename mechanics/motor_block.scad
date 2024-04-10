@@ -88,7 +88,7 @@ module motor_block(exploded=false, gap=0) {
     for (hole_t=motor_bracket_holes_t()) {
       translate(hole_t)
         rotate([90,0,0])
-          simple_assembly(15,exploded=exploded,gap=3*GAP,extra_line_length=gap+motor_bracket_depth()) {
+          simple_assembly(15,exploded=exploded,gap=3*gap,extra_line_length=gap) {
             wood_screw_d3(15);
           }
     }

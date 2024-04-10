@@ -11,12 +11,12 @@ module simple_assembly(
   extra_line_length=0,
   exploded=false) {
 
-  translate([0,0,exploded?child_length+gap:0]) {
+  translate([0,0,exploded?child_length+gap:0])
     children(0);
-    if(exploded) {
-      rotate([180,0,0])
-      cylinder(child_length+gap+extra_line_length, r=exploded_line_radius());
-    }
+
+  if(exploded) {
+    translate([0,0,-child_length-extra_line_length])
+      cylinder(gap+child_length+extra_line_length, r=exploded_line_radius());
   }
 }
 
@@ -92,7 +92,7 @@ module bolt_assembly_m4(
 assembly_depth=10;
 
 translate([-10,-10,-assembly_depth])
-  %cube([140,20,assembly_depth]);
+  %cube([160,20,assembly_depth]);
 
 translate([00,0,0])
   bolt_assembly_m4(bolt_length=20, assembly_depth=assembly_depth)
@@ -119,5 +119,8 @@ translate([100,0,0])
     round_head_bolt_m4(20);
 
 translate([120,0,0])
+  wood_screw_d4(30);
+
+translate([140,0,0])
   simple_assembly(30,exploded=true)
     wood_screw_d4(30);
