@@ -39,26 +39,33 @@ module countersunk_bolt_m6(length) {
 
 // en: round head bolt
 // fr: boulon poêlier
-module round_head_bolt_m4(length) {
-  color([0.5,0.5,0.5]) {
-    difference() {
-      union() {
-        intersection() {
-          translate([0,0,-4])
-            sphere(6);
-          translate([-10,-10,-0.1])
-            cube(20);
-        }
-        d = 3.8;
-        rotate([180,0,0])
-          cylinder(length,d/2,d/2);
+module round_head_bolt(length, diameter) {
+  difference() {
+    union() {
+      intersection() {
+        translate([0,0,-diameter])
+          sphere(diameter*1.5);
+        translate([-diameter*2,-diameter*2,-0.1])
+          cube(diameter*4);
       }
-      translate([-10,-0.5,1])
-        cube([20,1,3]);
-      translate([-0.5,-10,1])
-        cube([1,20,3]);
+      rotate([180,0,0])
+        cylinder(length,diameter/2,diameter/2);
     }
+    translate([-diameter*2,-0.5,1])
+      cube([diameter*4,1,3]);
+    translate([-0.5,-diameter*2,1])
+      cube([1,diameter*4,3]);
   }
+}
+
+module round_head_bolt_m4(length) {
+  color([0.5,0.5,0.5])
+    round_head_bolt(length,3.8);
+}
+
+module round_head_bolt_m6(length) {
+  color([0.5,0.5,0.5])
+    round_head_bolt(length,5.5);
 }
 
 // en: nut
@@ -178,6 +185,9 @@ translate([20,0,0])
 
 translate([0,20,0])
   round_head_bolt_m4(30);
+
+translate([20,20,0])
+  round_head_bolt_m6(30);
 
 translate([-20,40,0])
   nut_m3();
