@@ -11,6 +11,8 @@ $fs = 0.4;
 
 function stand_vertical_axis_length() = 600;
 
+function front_board_depth() = 15;
+
 GAP = 20;
 
 EXPLODED = true;
@@ -68,41 +70,12 @@ module stand_vertical_axis_along_y(exploded=false, gap=0) {
     }
   }
 
-  module stand_bolt_assembly(bolt_t) {
-    short_bolt = (bolt_t[1]>stand_vertical_axis_length()-20); // specific case for the last bolt : shorter because another bolt will be in the same axis
-    bolt_gap = exploded?-60-2*gap:0;
-    bolt_z = bolt_gap - 1;
-    washer_gap = exploded ? gap : 0;
-    washer_z = washer_gap + square_tube_width();
-    nut_gap = exploded ? 2*gap : 0;
-    nut_z = nut_gap + square_tube_width()+washer_m6_height();
-    translate(bolt_t) {
-      translate([0,0,bolt_z]) {
-        rotate([0,180,0])
-          countersunk_bolt_m6(60);
-        if(exploded)
-          cylinder(-bolt_z, r=LINE_RADIUS);
-      }
-
-      translate([0,0,washer_z]) {
-        washer_m6();
-        if(exploded)
-          rotate([0,180,0])
-            cylinder(washer_gap, r=LINE_RADIUS);
-      }
-
-      translate([0,0,nut_z]) {
-        nut_m6();
-        if(exploded)
-          rotate([0,180,0])
-            cylinder(nut_gap, r=LINE_RADIUS);
-      }
-    }
-  }
-
-  // Hole for stand assembly
+  // Bolts for stand assembly
   for (bolt_t=stand_vertical_axis_origin_to_stand_holes_t()) {
-    stand_bolt_assembly(bolt_t);
+    translate(bolt_t)
+      rotate([180,0,0])
+        bolt_assembly_m6(bolt_length=60, bolt_gap_z=2*GAP, assembly_depth=square_tube_width()+front_board_depth(), exploded=exploded)
+          round_head_bolt_m6(50);
   }
 }
 
