@@ -89,6 +89,32 @@ module bolt_assembly_m4(
   }
 }
 
+// children(0) is bolt
+module bolt_assembly_m6(
+  bolt_length,
+  bolt_gap_z=DEFAULT_GAP,
+  assembly_depth,
+  washer_gap_y=0,
+  washer_gap_z=DEFAULT_GAP,
+  nut_gap_z=DEFAULT_GAP,
+  exploded=false) {
+
+  bolt_assembly(
+    bolt_length = bolt_length,
+    bolt_gap_z = bolt_gap_z,
+    assembly_depth = assembly_depth,
+    washer_gap_y = washer_gap_y,
+    washer_gap_z = washer_gap_z,
+    washer_height = washer_m4_height(),
+    nut_gap_z = nut_gap_z,
+    exploded = exploded) {
+
+    children(0);
+    washer_m6();
+    nut_m6();
+  }
+}
+
 assembly_depth=10;
 
 translate([-10,-10,-assembly_depth])
