@@ -26,6 +26,8 @@ motor_block_offset_x = 60;
 motor_block_offset_y = -motor_support_axis_offset();
 motor_block_offset_z = 80;
 
+bracket_offset_z = 15;
+
 module stand_back_board(exploded=false, gap=GAP) {
   difference() {
     translate([-front_board_length()/2,0,0])
@@ -46,8 +48,27 @@ module stand_back_board(exploded=false, gap=GAP) {
   }
 
   for (x=[-motor_block_offset_x-back_board_depth(),motor_block_offset_x]) {
-    translate([x,motor_block_offset_y,motor_block_offset_z])
+    translate([x,motor_block_offset_y-(exploded?9*gap:0),motor_block_offset_z]) {
       motor_block();
+
+      for (hole_t=motor_support_holes_t()) {
+        translate(hole_t + [0,-1,0])
+          rotate([90,0,0])
+            simple_assembly(30,exploded=exploded,gap=3*gap,extra_line_length=9*gap) {
+              wood_screw_d4(30);
+            }
+      }
+    }
+    translate([x,exploded?-gap:0,bracket_offset_z]){
+      small_bracket();
+      for (hole_t=small_bracket_origin_to_vertical_holes_t()) {
+        translate(hole_t + [0,-1,0])
+          rotate([90,0,0])
+            simple_assembly(15,exploded=exploded,extra_line_length=gap) {
+              wood_screw_d4(15);
+            }
+      }
+    }
   }
 }
 
