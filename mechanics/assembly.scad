@@ -2,7 +2,7 @@ use <bolt_and_nut.scad>
 
 DEFAULT_GAP = 20;
 
-function exploded_line_radius() = 0.01;
+function exploded_line_radius() = $preview ? 0.3 : 0.01;
 
 // children(0) is screw (or other child element)
 module simple_assembly(
