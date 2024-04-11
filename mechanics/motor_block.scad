@@ -25,7 +25,7 @@ motor_support_hole_offset = 5;
 motor_support_hole_radius = 2;
 motor_support_width = motor_bracket_length() + 4*motor_support_hole_offset;
 motor_support_height = motor_bracket_length();
-function motor_support_depth() = abs(small_bracket_origin_to_holes_t()[1].y) - motor_axis_offset();
+function motor_support_depth() = max(small_bracket_hole_offsets()) - motor_axis_offset();
 function motor_support_axis_offset() = motor_support_depth() + motor_axis_offset();
 
 function motor_support_holes_t() = [
@@ -76,7 +76,6 @@ module motor_support() {
           cylinder(motor_support_depth()+2,r=motor_support_hole_radius);
     }
   }
-
 }
 
 

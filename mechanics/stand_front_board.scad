@@ -103,7 +103,7 @@ module board(exploded, gap) {
       rotate([0,-90,0]) {
         small_bracket();
 
-        for (hole_t=small_bracket_origin_to_holes_t()) {
+        for (hole_t=small_bracket_origin_to_horizontal_holes_t()) {
           translate(hole_t + [0,0,small_bracket_depth()+1])
             simple_assembly(15,exploded=exploded,gap=3*gap,extra_line_length=gap)
               wood_screw_d4(15);
