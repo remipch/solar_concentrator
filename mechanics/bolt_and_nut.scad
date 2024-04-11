@@ -1,6 +1,6 @@
 
-$fa = 3;
-$fs = 0.2;
+$fa = 10;
+$fs = 0.1;
 
 // en: countersunk bolt
 // fr: boulon tête fraisée

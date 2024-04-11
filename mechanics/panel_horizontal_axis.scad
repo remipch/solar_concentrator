@@ -4,8 +4,8 @@ use <small_hinge.scad>
 use <flat_profile.scad>
 use <assembly.scad>
 
-$fa = 3;
-$fs = 0.4;
+$fa = 10;
+$fs = 0.1;
 
 function panel_horizontal_axis_length() = 450;
 

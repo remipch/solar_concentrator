@@ -1,7 +1,7 @@
 use <bolt_and_nut.scad>
 
-$fa = 3;
-$fs = 0.2;
+$fa = 10;
+$fs = 0.1;
 
 module ring(bolt_length) {
   translate([0,-20,0]) {

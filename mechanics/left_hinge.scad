@@ -3,8 +3,8 @@
 // 80x40 G
 // Bricorama 530050
 
-$fa = 3;
-$fs = 0.4;
+$fa = 10;
+$fs = 0.1;
 
 // gap between hole axes
 function hinge_depth() = 2.5;

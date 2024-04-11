@@ -3,8 +3,8 @@ use <small_bracket.scad>
 use <bolt_and_nut.scad>
 use <assembly.scad>
 
-$fa = 5;
-$fs = 0.4;
+$fa = 10;
+$fs = 0.1;
 
 GAP = 20;
 

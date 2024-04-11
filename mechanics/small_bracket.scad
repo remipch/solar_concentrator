@@ -1,6 +1,6 @@
 
-$fa = 3;
-$fs = 0.4;
+$fa = 10;
+$fs = 0.1;
 
 function small_bracket_depth() = 2;
 

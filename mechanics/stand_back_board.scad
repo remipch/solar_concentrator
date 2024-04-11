@@ -6,8 +6,8 @@ use <motor_block.scad>
 use <stand_front_board.scad>
 use <pulley.scad>
 
-$fa = 3;
-$fs = 0.4;
+$fa = 10;
+$fs = 0.1;
 
 function stand_vertical_axis_length() = 600;
 

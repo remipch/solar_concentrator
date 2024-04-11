@@ -5,8 +5,8 @@ use <flat_profile.scad>
 use <panel_horizontal_axis.scad>
 use <assembly.scad>
 
-$fa = 3;
-$fs = 0.4;
+$fa = 10;
+$fs = 0.1;
 
 function panel_vertical_axis_length() = 200;
 

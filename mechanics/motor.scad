@@ -1,6 +1,6 @@
 
 $fa = 5;
-$fs = 0.4;
+$fs = 0.1;
 
 function motor_radius() = 18;
 
