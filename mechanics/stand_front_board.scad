@@ -12,7 +12,7 @@ function stand_vertical_axis_length() = 600;
 
 function front_board_width() = 15;
 function front_board_length() = 1000;
-function front_board_height() = 150;
+function front_board_height() = 160;
 
 GAP = 20;
 
