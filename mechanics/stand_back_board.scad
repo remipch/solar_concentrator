@@ -28,6 +28,12 @@ motor_block_offset_z = 80;
 
 bracket_offset_z = 15;
 
+leg_width = 28;
+leg_depth = 10;
+leg_height = 200;
+leg_hole_offset = 15;
+leg_holes_t = [for (z = [leg_height-back_board_height()+leg_hole_offset,leg_height-leg_hole_offset]) [leg_width/2,-1,z] ];
+
 module stand_back_board(exploded=false, gap=GAP) {
   difference() {
     translate([-front_board_length()/2,0,0])
@@ -63,6 +69,26 @@ module stand_back_board(exploded=false, gap=GAP) {
       small_bracket();
       for (hole_t=small_bracket_origin_to_vertical_holes_t()) {
         translate(hole_t + [0,-1,0])
+          rotate([90,0,0])
+            simple_assembly(15,exploded=exploded,extra_line_length=gap) {
+              wood_screw_d4(15);
+            }
+      }
+    }
+  }
+
+  for (x=[-back_board_width()/2,back_board_width()/2-leg_width]) {
+    translate([x,-leg_depth-(exploded?gap:0),back_board_height() - leg_height]) {
+      difference() {
+      cube([leg_width,leg_depth,leg_height]);
+        for (hole_t=leg_holes_t) {
+          translate(hole_t)
+            rotate([-90,0,0])
+              cylinder(leg_depth+2,r=2);
+        }
+      }
+      for (hole_t=leg_holes_t) {
+        translate(hole_t)
           rotate([90,0,0])
             simple_assembly(15,exploded=exploded,extra_line_length=gap) {
               wood_screw_d4(15);
