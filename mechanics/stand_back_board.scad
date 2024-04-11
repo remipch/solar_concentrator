@@ -4,6 +4,7 @@ use <assembly.scad>
 use <small_bracket.scad>
 use <motor_block.scad>
 use <stand_front_board.scad>
+use <pulley.scad>
 
 $fa = 3;
 $fs = 0.4;
@@ -32,9 +33,16 @@ module stand_back_board(exploded=false, gap=GAP) {
           cylinder(back_board_depth()+2,r=3);
     }
   }
+
+  for (x=[-stand_pulley_offset_x,stand_pulley_offset_x]) {
+    translate([x,0,stand_pulley_offset_z])
+      rotate([90,0,0])
+        bolt_assembly_m6(bolt_length=40,assembly_depth=back_board_depth(),washer_gap_z=3*gap,exploded=exploded)
+          vertical_pulley(40);
+  }
 }
 
 translate([0,front_board_length()/2,0])
   stand_back_board(EXPLODED, GAP);
 
-%stand_front_board(EXPLODED, GAP);
+%stand_front_board();
