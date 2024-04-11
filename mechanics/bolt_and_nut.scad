@@ -139,13 +139,15 @@ module wood_screw(length, diameter, head_length, head_diameter, sharp_length) {
         intersection() {
           union() {
             cylinder(head_length,(head_diameter*1.1)/2,diameter/2);
-            cylinder(length,diameter*0.3,diameter*0.3);
+            cylinder(length,r=diameter*0.3);
             translate([0,0,head_length])
-              linear_extrude(height=length-head_length,center=false,twist=180*length, $fn=20)
-                polygon([[0,1],[diameter*0.5,0],[0,0]]);
+              // Following linear_extrude does not intersect the previous cylinder.
+              // Keeping two separated solids avoid uneeded creation of many intersection facets.
+              linear_extrude(height=length-head_length,center=false,twist=150*length, $fn=10)
+                polygon([[diameter*0.35,0],[diameter*0.35,1],[diameter*0.6,0]]);
           }
           union() {
-            cylinder(length-sharp_length,head_diameter/2,head_diameter/2);
+            cylinder(length-sharp_length,r=head_diameter/2);
             translate([0,0,length-sharp_length])
               cylinder(sharp_length,head_diameter/2,0);
           }
