@@ -80,7 +80,7 @@ module stand_back_board(exploded=false, gap=GAP) {
   for (x=[-back_board_width()/2,back_board_width()/2-leg_width]) {
     translate([x,-leg_depth-(exploded?2*gap:0),back_board_height() - leg_height]) {
       difference() {
-      cube([leg_width,leg_depth,leg_height]);
+        cube([leg_width,leg_depth,leg_height]);
         for (hole_t=leg_holes_t) {
           translate(hole_t)
             rotate([-90,0,0])
@@ -90,9 +90,9 @@ module stand_back_board(exploded=false, gap=GAP) {
       for (hole_t=leg_holes_t) {
         translate(hole_t)
           rotate([90,0,0])
-            simple_assembly(15,exploded=exploded,extra_line_length=2*gap,gap=2*gap) {
-              wood_screw_d4(15);
-            }
+            simple_assembly(20,exploded=exploded,extra_line_length=2*gap,gap=2*gap) {
+              wood_screw_d4(20);
+        }
       }
     }
   }
