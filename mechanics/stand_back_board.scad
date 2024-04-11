@@ -49,7 +49,7 @@ module stand_back_board(exploded=false, gap=GAP) {
   for (x=[-stand_pulley_offset_x,stand_pulley_offset_x]) {
     translate([x,0,stand_pulley_offset_z])
       rotate([90,0,0])
-        bolt_assembly_m6(bolt_length=40,assembly_depth=back_board_depth(),washer_gap_z=3*gap,exploded=exploded)
+        bolt_assembly_m6(bolt_length=40,assembly_depth=back_board_depth(),washer_gap_z=5*gap,nut_gap_z=2*gap,exploded=exploded)
           vertical_pulley(40);
   }
 
@@ -78,7 +78,7 @@ module stand_back_board(exploded=false, gap=GAP) {
   }
 
   for (x=[-back_board_width()/2,back_board_width()/2-leg_width]) {
-    translate([x,-leg_depth-(exploded?gap:0),back_board_height() - leg_height]) {
+    translate([x,-leg_depth-(exploded?2*gap:0),back_board_height() - leg_height]) {
       difference() {
       cube([leg_width,leg_depth,leg_height]);
         for (hole_t=leg_holes_t) {
@@ -90,7 +90,7 @@ module stand_back_board(exploded=false, gap=GAP) {
       for (hole_t=leg_holes_t) {
         translate(hole_t)
           rotate([90,0,0])
-            simple_assembly(15,exploded=exploded,extra_line_length=gap) {
+            simple_assembly(15,exploded=exploded,extra_line_length=2*gap,gap=2*gap) {
               wood_screw_d4(15);
             }
       }
