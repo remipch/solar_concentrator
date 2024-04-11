@@ -15,7 +15,7 @@ locking_ring_length = 6;
 locking_ring_bolt_hole_radius = 1.5;
 locking_ring_bolt_length = 10;
 
-motor_axis_cylinder_length = 70;
+motor_axis_cylinder_length = 60;
 motor_axis_cylinder_inner_radius = 5;
 motor_axis_cylinder_outer_radius = 6;
 
@@ -32,7 +32,6 @@ function motor_support_holes_t() = [
   [motor_support_hole_offset-motor_support_width/2,motor_axis_offset(),motor_support_height/2],
   [motor_support_width/2-motor_support_hole_offset,motor_axis_offset(),motor_support_height/2]
 ];
-echo(motor_support_depth=motor_support_depth);
 
 function motor_axis_cylinder_origin_to_holes_t() = [
   [0,-motor_axis_cylinder_outer_radius,locking_ring_length],
