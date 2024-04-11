@@ -13,7 +13,7 @@ function stand_vertical_axis_length() = 600;
 
 function back_board_width() = 1000;
 function back_board_depth() = 15;
-function back_board_height() = 150;
+function back_board_height() = front_board_height();
 
 GAP = 20;
 
@@ -21,6 +21,10 @@ EXPLODED = true;
 
 stand_pulley_offset_x = 250;
 stand_pulley_offset_z = 40;
+
+motor_block_offset_x = 60;
+motor_block_offset_y = -motor_support_axis_offset();
+motor_block_offset_z = 80;
 
 module stand_back_board(exploded=false, gap=GAP) {
   difference() {
@@ -39,6 +43,11 @@ module stand_back_board(exploded=false, gap=GAP) {
       rotate([90,0,0])
         bolt_assembly_m6(bolt_length=40,assembly_depth=back_board_depth(),washer_gap_z=3*gap,exploded=exploded)
           vertical_pulley(40);
+  }
+
+  for (x=[-motor_block_offset_x-back_board_depth(),motor_block_offset_x]) {
+    translate([x,motor_block_offset_y,motor_block_offset_z])
+      motor_block();
   }
 }
 
