@@ -3,113 +3,35 @@
 
 <head>
     <meta http-equiv="content-type" content="text/html;charset=utf-8">
-    <meta name="viewport" content="width=device-width, user-scalable=no">
 
-	<title>Online 3D Viewer</title>
-
-	<script type="text/javascript" src="o3dv.min.js"></script>
-
-    <script type='text/javascript'>
-        window.addEventListener ('load', () => {
-            OV.Init3DViewerElements ();
-        });
-    </script>
+    <title>Solar concentrator - Mechanics</title>
 
     <style>
-        iframe, div.online_3d_viewer
-        {
-            float: left;
+        img {
+            margin: 4px;
+            max-width: 100%;
+        }
+        .center {
+            display: flex;
+            justify-content: center; /* Center horizontally */
+            align-items: center; /* Center vertically */
             border: 1px solid #eeeeee;
-            margin: 0px 4px 4px 0px;
         }
     </style>
 </head>
 
 <body>
-    <button id='temp_button'>Temp</button>
+    <h3>Panel frame</h3>
 
-    <button id='motor_button'>Motor block</button>
+    <a href="view_3d.html?model=panel_frame" class="center">
+        <img src="panel_frame.png" alt="Panel frame (exploded)">
+    </a>
 
-    <button id='panel_frame_button'>Panel frame</button>
+    <h3>Motor block</h3>
 
-    <button id='panel_vertical_axis_button'>Vertical axis</button>
-
-    <script>
-
-    document.addEventListener('DOMContentLoaded', function (event) {
-
-        let parentDiv = document.getElementById ('viewer');
-
-        // initialize the viewer with the parent element and some parameters
-        let viewer = new OV.EmbeddedViewer (parentDiv, {
-            // camera : new OV.Camera (
-                // new OV.Coord3D (-20,20,20),
-                // new OV.Coord3D (0.0, 0.0, 0.0),
-                // new OV.Coord3D (0.0, 1.0, 0.0),
-                // 45.0
-            // ),
-            // backgroundColor : new OV.RGBAColor (255, 200, 200, 255),
-            defaultColor : new OV.RGBColor (200, 200, 200),
-            projectionMode: OV.ProjectionMode.Orthographic,
-            edgeSettings : new OV.EdgeSettings (true, new OV.RGBColor (0, 0, 0), 10)
-        });
-
-        // load a model providing model urls
-        viewer.LoadModelFromUrlList (['temp.stl']);
-
-        document.getElementById ('temp_button').addEventListener('click', () => {
-            viewer.LoadModelFromUrlList (['temp.stl']);
-        });
-        document.getElementById ('motor_button').addEventListener('click', () => {
-            viewer.LoadModelFromUrlList (['motor_block.stl']);
-        });
-        document.getElementById ('panel_frame_button').addEventListener('click', () => {
-            viewer.LoadModelFromUrlList (['panel_frame.stl']);
-        });
-        document.getElementById ('panel_vertical_axis_button').addEventListener('click', () => {
-            viewer.LoadModelFromUrlList (['panel_vertical_axis.stl']);
-        });
-    })
-
-    </script>
-
-    <div id="viewer" style="width: 800px; height: 800px; border: 1px solid black;" />
-
-<!--    <iframe
-        id="viewer"
-        width="360" height="240"
-        style="border:1px solid #eeeeee;">
-    </iframe>-->
-
-    <!--<div class="online_3d_viewer"
-		style="width: 400px; height: 300px;"
-        model="temp.stl"
-        defaultcolor="255,200,200"
-        projectionmode="orthographic"
-        edgesettings="on,255,0,0,1">
-    </div>
-    <div class="online_3d_viewer"
-		style="width: 400px; height: 300px;"
-        model="temp.stl"
-        projectionmode="orthographic"
-        camera="-20,20,20,5,5,-5,0,1,0"
-        edgesettings="on,0,0,0,10">
-    </div>-->
-    <!-- order is : X, Z, -Y in openscad coordinates -->
-    <!--<div class="online_3d_viewer"
-		style="width: 400px; height: 300px;"
-        model="temp.stl"
-        projectionmode="orthographic"
-        camera="20,20,20,5,5,-5,0,1,0"
-        edgesettings="on,0,0,0,10">
-    </div>
-    <div class="online_3d_viewer"
-		style="width: 800px; height: 600px;"
-        model="motor_block.stl"
-        projectionmode="orthographic"
-        camera="-280,35,130,0,-40,20,0,1,0"
-        edgesettings="on,0,0,0,10">
-    </div>-->
+    <a href="view_3d.html?model=motor_block" class="center">
+        <img src="motor_block.png" alt="Motor block (exploded)">
+    </a>
 </body>
 
 </html>

@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta http-equiv="content-type" content="text/html;charset=utf-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no">
+
+	<title>Solar concentrator - Mechanics - 3D View</title>
+
+	<script type="text/javascript" src="o3dv.min.js"></script>
+
+    <style>
+        html, body {
+            height: 100%;
+            margin: 0px !important;
+            overflow: hidden;
+        }
+
+        #viewer {
+            width: 100%;
+            height: 100%;
+            margin: 0;
+        }
+    </style>
+</head>
+
+<body onload="init()">
+    <script>
+
+    function getQueryStringParam(name) {
+        var params = window.location.search.slice(1).split("&");
+        for (var i = 0; i < params.length; i++) {
+            var param = params[i].split("=");
+            if (param[0] === name) {
+                return decodeURIComponent(param[1]);
+            }
+        }
+        return null;
+    }
+
+    function init() {
+        OV.Init3DViewerElements ();
+
+        model = getQueryStringParam("model");
+        if(model=="panel_frame") {
+            model_file = "panel_frame.stl";
+            camera = new OV.Camera (
+                new OV.Coord3D (-182,519,228),
+                new OV.Coord3D (29,200,-15),
+                new OV.Coord3D (0.0, 1.0, 0.0),
+                45.0
+            );
+        }
+        else if(model=="motor_block") {
+            model_file = "motor_block.stl";
+            camera = new OV.Camera (
+                new OV.Coord3D (-115,98,380),
+                new OV.Coord3D (-34,-21,77),
+                new OV.Coord3D (0.0, 1.0, 0.0),
+                45.0
+            );
+        }
+        else {
+            model_file = "temp.stl";
+            camera = new OV.Camera (
+                new OV.Coord3D (-20,20,20),
+                new OV.Coord3D (0.0, 0.0, 0.0),
+                new OV.Coord3D (0.0, 1.0, 0.0),
+                45.0
+            );
+        }
+
+        let viewer_div = document.getElementById ('viewer');
+
+        let viewer = new OV.EmbeddedViewer (viewer_div, {
+            camera : camera,
+            defaultColor : new OV.RGBColor (200, 200, 200),
+            projectionMode: OV.ProjectionMode.Orthographic,
+            edgeSettings : new OV.EdgeSettings (true, new OV.RGBColor (0, 0, 0), 10)
+        });
+
+        viewer.LoadModelFromUrlList ([model_file]);
+    }
+
+    </script>
+
+    <div id="viewer"/>
+</body>
+
+</html>
