@@ -43,7 +43,7 @@
 
         model = getQueryStringParam("model");
         if(model=="panel_frame") {
-            model_file = "panel_frame.stl";
+            model_file = "panel_frame_exploded.stl";
             camera = new OV.Camera (
                 new OV.Coord3D (-182,519,228),
                 new OV.Coord3D (29,200,-15),
@@ -51,8 +51,17 @@
                 45.0
             );
         }
+        else if(model=="stand_back_board") {
+            model_file = "stand_back_board_exploded.stl";
+            camera = new OV.Camera (
+                new OV.Coord3D (-146,612,416),
+                new OV.Coord3D (157,183,118),
+                new OV.Coord3D (0.0, 1.0, 0.0),
+                45.0
+            );
+        }
         else if(model=="motor_block") {
-            model_file = "motor_block.stl";
+            model_file = "motor_block_exploded.stl";
             camera = new OV.Camera (
                 new OV.Coord3D (-115,98,380),
                 new OV.Coord3D (-34,-21,77),
@@ -63,8 +72,8 @@
         else {
             model_file = "temp.stl";
             camera = new OV.Camera (
-                new OV.Coord3D (-20,20,20),
-                new OV.Coord3D (0.0, 0.0, 0.0),
+                new OV.Coord3D (20,20,20),
+                new OV.Coord3D (5, 5, -5),
                 new OV.Coord3D (0.0, 1.0, 0.0),
                 45.0
             );
@@ -76,7 +85,7 @@
             camera : camera,
             defaultColor : new OV.RGBColor (200, 200, 200),
             projectionMode: OV.ProjectionMode.Orthographic,
-            edgeSettings : new OV.EdgeSettings (true, new OV.RGBColor (0, 0, 0), 10)
+            edgeSettings : new OV.EdgeSettings (true, new OV.RGBColor (0, 0, 0), 12)
         });
 
         viewer.LoadModelFromUrlList ([model_file]);
