@@ -1,4 +1,3 @@
-
 # Enable CTest features (provides 'add_test' command below)
 # enable_testing()
 
@@ -29,18 +28,16 @@ configure_file(${CMAKE_CURRENT_SOURCE_DIR}/misaligned_capstones.jpg
 configure_file(${CMAKE_CURRENT_SOURCE_DIR}/correct_capstones.jpg
                ${CMAKE_CURRENT_BINARY_DIR}/correct_capstones.jpg COPYONLY)
 
-add_executable( target_detector_test
-    target_detector_test.cpp
-    ../target_detector.cpp
-    ../capstone_detector/quirc.c
-    ../capstone_detector/identify.c
-)
+configure_file(
+    ${CMAKE_CURRENT_SOURCE_DIR}/correct_capstones_low_contrast.jpg
+    ${CMAKE_CURRENT_BINARY_DIR}/correct_capstones_low_contrast.jpg COPYONLY)
 
-include_directories(
-    ../include
-    ../capstone_detector/
-    ../../image/include
-)
+add_executable(
+    target_detector_test
+    target_detector_test.cpp ../target_detector.cpp
+    ../capstone_detector/quirc.c ../capstone_detector/identify.c)
+
+include_directories(../include ../capstone_detector/ ../../image/include)
 
 target_link_libraries(target_detector_test ${JPEG_LIBRARIES})
 
@@ -50,7 +47,8 @@ target_link_libraries(target_detector_test ${JPEG_LIBRARIES})
 set(TEST_REGEX "^TEST\\(([A-Za-z0-9_]+).*")
 file(STRINGS target_detector_test.cpp detected_tests REGEX ${TEST_REGEX})
 foreach(test ${detected_tests})
-    STRING(REGEX REPLACE ${TEST_REGEX} "\\1" test ${test})
+    string(REGEX REPLACE ${TEST_REGEX} "\\1" test ${test})
     message(STATUS "detected test ${test}")
-    add_test(NAME target_detector_test_${test} COMMAND target_detector_test ${test})
+    add_test(NAME target_detector_test_${test} COMMAND target_detector_test
+                                                       ${test})
 endforeach()

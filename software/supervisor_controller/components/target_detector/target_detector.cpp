@@ -14,6 +14,9 @@ static const int EXPECTED_CAPSTONE_COUNT = 4;
 static const unsigned char BLACK = 0;
 static const unsigned char WHITE = 255;
 
+static const unsigned char DEFAULT_PIXEL_THRESHOLD = 100;
+static const unsigned char SECOND_CHANCE_PIXEL_THRESHOLD = 180;
+
 static struct quirc *capstone_detector;
 
 void target_detector_init() { capstone_detector = quirc_new(); }
@@ -153,13 +156,14 @@ extract_capstones_quad(capstone_geometry capstones[EXPECTED_CAPSTONE_COUNT], int
     return result;
 }
 
-bool target_detector_detect(CImg<unsigned char> &image, rectangle_t &target)
+bool target_detector_detect(CImg<unsigned char> &image, rectangle_t &target, uint8_t pixel_threshold)
 {
     // assert grayscale image
     assert(image.depth() == 1);
     assert(image.spectrum() == 1);
 
-    int capstone_count = quirc_detect_capstones(capstone_detector, image.data(), image.width(), image.height());
+    int capstone_count =
+        quirc_detect_capstones(capstone_detector, image.data(), image.width(), image.height(), pixel_threshold);
 
     int average_x = 0;
     int average_y = 0;
@@ -245,4 +249,14 @@ bool target_detector_detect(CImg<unsigned char> &image, rectangle_t &target)
     draw_target(image, target);
 
     return true;
+}
+
+bool target_detector_detect(CImg<unsigned char> &image, rectangle_t &target)
+{
+    if (target_detector_detect(image, target, DEFAULT_PIXEL_THRESHOLD)) {
+        return true;
+    } else {
+        ESP_LOGW(TAG, "Detection failed with default threshold : try with different threshold");
+        return target_detector_detect(image, target, SECOND_CHANCE_PIXEL_THRESHOLD);
+    }
 }

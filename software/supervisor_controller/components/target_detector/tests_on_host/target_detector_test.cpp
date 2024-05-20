@@ -50,4 +50,10 @@ TEST(when_capstones_are_correct_then_area_is_detected, []() {
     EXPECT(target_detected);
 });
 
+TEST(when_contrast_is_low_then_area_is_detected, []() {
+    rectangle_t target_area;
+    bool target_detected = detect_from_file("correct_capstones_low_contrast.jpg", target_area);
+    EXPECT(target_detected);
+});
+
 CREATE_MAIN_ENTRY_POINT();
