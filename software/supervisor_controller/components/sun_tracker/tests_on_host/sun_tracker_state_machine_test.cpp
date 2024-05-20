@@ -37,7 +37,7 @@ TEST(typical_scenario, []() {
 
     // From 'UNINITIALIZED' state
     sun_tracker_state_t state = sun_tracker_state_machine_update(
-        sun_tracker_state_t::UNINITIALIZED, sun_tracker_transition_t::NONE, drop, result);
+        sun_tracker_state_t::UNINITIALIZED, sun_tracker_transition_t::NONE, panel_t::NONE, drop, result);
     EXPECT(result == sun_tracker_result_t::UNKNOWN);
     EXPECT(state == sun_tracker_state_t::IDLE);
 
@@ -45,7 +45,8 @@ TEST(typical_scenario, []() {
     MINI_MOCK_ON_CALL(sun_tracker_logic_detect, [](CImg<unsigned char> &image) {
         return sun_tracker_detection_t{.result = sun_tracker_detection_result_t::SPOT_NOT_DETECTED};
     });
-    state = sun_tracker_state_machine_update(sun_tracker_state_t::IDLE, sun_tracker_transition_t::NONE, drop, result);
+    state = sun_tracker_state_machine_update(
+        sun_tracker_state_t::IDLE, sun_tracker_transition_t::NONE, panel_t::NONE, drop, result);
     EXPECT(result == sun_tracker_result_t::ERROR);
     EXPECT(state == sun_tracker_state_t::IDLE);
 
@@ -53,7 +54,8 @@ TEST(typical_scenario, []() {
     MINI_MOCK_ON_CALL(sun_tracker_logic_detect, [](CImg<unsigned char> &image) {
         return sun_tracker_detection_t{.result = sun_tracker_detection_result_t::SPOT_NOT_DETECTED};
     });
-    state = sun_tracker_state_machine_update(sun_tracker_state_t::IDLE, sun_tracker_transition_t::START, drop, result);
+    state = sun_tracker_state_machine_update(
+        sun_tracker_state_t::IDLE, sun_tracker_transition_t::START, panel_t::PANEL_A, drop, result);
     EXPECT(result == sun_tracker_result_t::ERROR);
     EXPECT(state == sun_tracker_state_t::IDLE);
 
@@ -70,7 +72,8 @@ TEST(typical_scenario, []() {
             .direction = motors_direction_t::NONE,
         };
     });
-    state = sun_tracker_state_machine_update(sun_tracker_state_t::IDLE, sun_tracker_transition_t::START, drop, result);
+    state = sun_tracker_state_machine_update(
+        sun_tracker_state_t::IDLE, sun_tracker_transition_t::START, panel_t::PANEL_A, drop, result);
     EXPECT(result == sun_tracker_result_t::SUCCESS);
     EXPECT(state == sun_tracker_state_t::IDLE);
 
@@ -91,7 +94,8 @@ TEST(typical_scenario, []() {
         EXPECT(panel == panel_t::PANEL_A);
         EXPECT(motors_direction == motors_direction_t::DOWN_LEFT);
     });
-    state = sun_tracker_state_machine_update(sun_tracker_state_t::IDLE, sun_tracker_transition_t::START, drop, result);
+    state = sun_tracker_state_machine_update(
+        sun_tracker_state_t::IDLE, sun_tracker_transition_t::START, panel_t::PANEL_A, drop, result);
     EXPECT(result == sun_tracker_result_t::UNKNOWN);
     EXPECT(state == sun_tracker_state_t::TRACKING);
 
@@ -110,7 +114,7 @@ TEST(typical_scenario, []() {
         EXPECT(motors_direction == motors_direction_t::DOWN);
     });
     state = sun_tracker_state_machine_update(
-        sun_tracker_state_t::TRACKING, sun_tracker_transition_t::MOTORS_STOPPED, drop, result);
+        sun_tracker_state_t::TRACKING, sun_tracker_transition_t::MOTORS_STOPPED, panel_t::PANEL_A, drop, result);
     EXPECT(result == sun_tracker_result_t::UNKNOWN);
     EXPECT(state == sun_tracker_state_t::TRACKING);
 
@@ -125,7 +129,7 @@ TEST(typical_scenario, []() {
                           return motors_direction_t::NONE;
                       });
     state = sun_tracker_state_machine_update(
-        sun_tracker_state_t::TRACKING, sun_tracker_transition_t::MOTORS_STOPPED, drop, result);
+        sun_tracker_state_t::TRACKING, sun_tracker_transition_t::MOTORS_STOPPED, panel_t::PANEL_A, drop, result);
     EXPECT(result == sun_tracker_result_t::SUCCESS);
     EXPECT(state == sun_tracker_state_t::IDLE);
 
@@ -136,20 +140,20 @@ TEST(typical_scenario, []() {
         };
     });
     state = sun_tracker_state_machine_update(
-        sun_tracker_state_t::TRACKING, sun_tracker_transition_t::MOTORS_STOPPED, drop, result);
+        sun_tracker_state_t::TRACKING, sun_tracker_transition_t::MOTORS_STOPPED, panel_t::PANEL_A, drop, result);
     EXPECT(result == sun_tracker_result_t::ERROR);
     EXPECT(state == sun_tracker_state_t::IDLE);
 
     // From 'TRACKING' state with 'STOP' transition
-    state =
-        sun_tracker_state_machine_update(sun_tracker_state_t::TRACKING, sun_tracker_transition_t::STOP, drop, result);
+    state = sun_tracker_state_machine_update(
+        sun_tracker_state_t::TRACKING, sun_tracker_transition_t::STOP, panel_t::PANEL_A, drop, result);
     EXPECT(result == sun_tracker_result_t::UNKNOWN);
     EXPECT(state == sun_tracker_state_t::STOPPING);
 
     // From 'TRACKING' state with 'STOP' and 'MOTORS_STOPPED' transitions
     sun_tracker_transition_t t = static_cast<sun_tracker_transition_t>(sun_tracker_transition_t::MOTORS_STOPPED
                                                                        | sun_tracker_transition_t::STOP);
-    state = sun_tracker_state_machine_update(sun_tracker_state_t::TRACKING, t, drop, result);
+    state = sun_tracker_state_machine_update(sun_tracker_state_t::TRACKING, t, panel_t::PANEL_A, drop, result);
     EXPECT(result == sun_tracker_result_t::ABORTED);
     EXPECT(state == sun_tracker_state_t::IDLE);
 });
