@@ -21,7 +21,9 @@ bool detect_from_file(const char *image_path, rectangle_t &target_area)
 
     // Save output for manual debug only
     // (in final application, the output image is used for display purpose only)
-    image.save("output.jpg");
+    static char output_file_name[1024];
+    sprintf(output_file_name, "output_%s", image_path);
+    image.save(output_file_name);
 
     return result;
 }
@@ -53,6 +55,12 @@ TEST(when_capstones_are_correct_then_area_is_detected, []() {
 TEST(when_contrast_is_low_then_area_is_detected, []() {
     rectangle_t target_area;
     bool target_detected = detect_from_file("correct_capstones_low_contrast.jpg", target_area);
+    EXPECT(target_detected);
+});
+
+TEST(out_of_size_capstones_are_ignored, []() {
+    rectangle_t target_area;
+    bool target_detected = detect_from_file("correct_capstones_and_out_of_size_capstones.jpg", target_area);
     EXPECT(target_detected);
 });
 

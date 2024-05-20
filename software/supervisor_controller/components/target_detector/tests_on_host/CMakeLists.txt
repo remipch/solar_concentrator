@@ -32,6 +32,11 @@ configure_file(
     ${CMAKE_CURRENT_SOURCE_DIR}/correct_capstones_low_contrast.jpg
     ${CMAKE_CURRENT_BINARY_DIR}/correct_capstones_low_contrast.jpg COPYONLY)
 
+configure_file(
+    ${CMAKE_CURRENT_SOURCE_DIR}/correct_capstones_and_out_of_size_capstones.jpg
+    ${CMAKE_CURRENT_BINARY_DIR}/correct_capstones_and_out_of_size_capstones.jpg
+    COPYONLY)
+
 add_executable(
     target_detector_test
     target_detector_test.cpp ../target_detector.cpp

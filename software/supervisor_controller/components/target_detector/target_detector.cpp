@@ -14,6 +14,9 @@ static const int EXPECTED_CAPSTONE_COUNT = 4;
 static const unsigned char BLACK = 0;
 static const unsigned char WHITE = 255;
 
+static const unsigned char MIN_CAPSTONE_SIZE = 25; // 10 cm capstone viewed at 3 meters
+static const unsigned char MAX_CAPSTONE_SIZE = 60; // 10 cm capstone viewed at 1.5 meters
+
 static const unsigned char DEFAULT_PIXEL_THRESHOLD = 100;
 static const unsigned char SECOND_CHANCE_PIXEL_THRESHOLD = 180;
 
@@ -178,26 +181,39 @@ bool target_detector_detect(CImg<unsigned char> &image, rectangle_t &target, uin
     // - compute usefull averages
     // - draw all detected capstones (for display purpose only)
     //   (capstones are drawn before checks to see what happen)
+    int kept_capstone_count = 0;
     for (int i = 0; i < capstone_count; i++) {
         const quirc_capstone *capstone = quirc_get_capstone(capstone_detector, i);
         capstone_geometry geometry = extract_capstone_geometry(capstone);
         draw_capstone(image, geometry);
+
+        if (geometry.width < MIN_CAPSTONE_SIZE || geometry.width > MAX_CAPSTONE_SIZE
+            || geometry.height < MIN_CAPSTONE_SIZE || geometry.height > MAX_CAPSTONE_SIZE) {
+            continue;
+        }
 
         average_x += geometry.center.x;
         average_y += geometry.center.y;
         average_width += geometry.width;
         average_height += geometry.height;
 
-        if (i < EXPECTED_CAPSTONE_COUNT) {
-            capstones_geom[i] = geometry;
+        if (kept_capstone_count < EXPECTED_CAPSTONE_COUNT) {
+            capstones_geom[kept_capstone_count] = geometry;
         }
+        kept_capstone_count++;
+    }
+
+    if (kept_capstone_count < capstone_count) {
+        ESP_LOGW(TAG, "%i capstone(s) ignored because out of size", capstone_count - kept_capstone_count);
     }
 
     // Check capstone count
-    if (capstone_count != EXPECTED_CAPSTONE_COUNT) {
-        ESP_LOGW(
-            TAG, "Detection failed : %i capstone(s) detected instead of %i ", capstone_count, EXPECTED_CAPSTONE_COUNT);
-        for (int i = 0; i < capstone_count; i++) {
+    if (kept_capstone_count != EXPECTED_CAPSTONE_COUNT) {
+        ESP_LOGW(TAG,
+                 "Detection failed : %i capstone(s) detected instead of %i ",
+                 kept_capstone_count,
+                 EXPECTED_CAPSTONE_COUNT);
+        for (int i = 0; i < kept_capstone_count; i++) {
             const quirc_capstone *capstone = quirc_get_capstone(capstone_detector, i);
             capstone_geometry geometry = extract_capstone_geometry(capstone);
             log_capstone(geometry);
@@ -205,10 +221,10 @@ bool target_detector_detect(CImg<unsigned char> &image, rectangle_t &target, uin
         return false;
     }
 
-    average_x /= capstone_count;
-    average_y /= capstone_count;
-    average_width /= capstone_count;
-    average_height /= capstone_count;
+    average_x /= EXPECTED_CAPSTONE_COUNT;
+    average_y /= EXPECTED_CAPSTONE_COUNT;
+    average_width /= EXPECTED_CAPSTONE_COUNT;
+    average_height /= EXPECTED_CAPSTONE_COUNT;
 
     quad<const capstone_geometry *> capstones = extract_capstones_quad(capstones_geom, average_x, average_y);
 
