@@ -110,7 +110,8 @@ void motors_hw_start_move(panel_t panel, motors_direction_t direction, bool cont
     }
 
     // 'continuous' is not supposed to be infinite because hard angle limit
-    int cmd_max_time_ms = continuous ? 10000 : 50;
+    // Panel B has better mechanical demultiplication, set 150 ms instead of 50 ms
+    int cmd_max_time_ms = continuous ? 10000 : (panel == panel_t::PANEL_A) ? 50 : 150;
     int cmd_threshold = 200;
     static char command[1024];
     sprintf(command, "o:%i,%i,%i", motor_pins, cmd_max_time_ms, cmd_threshold);
