@@ -74,7 +74,7 @@ bool get_spot_light_rectangle(const CImg<unsigned char> &full_img,
         full_img.get_crop(target_area.left_px, target_area.top_px, target_area.right_px, target_area.bottom_px);
 
     result_in_target_area = {-1, -1, -1, -1};
-    unsigned char min_level = get_image_borders_min_level(target_img) + LIGHTED_PIXEL_MIN_OFFSET;
+    unsigned char min_level = 250; // get_image_borders_min_level(target_img) + LIGHTED_PIXEL_MIN_OFFSET;
     ESP_LOGD(TAG, "get_spot_light_rectangle: min_level: %i", min_level);
 
     cimg_forX(target_img, x)
