@@ -15,7 +15,7 @@ static sun_tracker_detection_t detection_before_move;
 
 static int move_count = 0;
 
-static const int MAX_MOVES = 5;
+static const int MAX_MOVES = 10;
 
 static sun_tracker_detection_result_t last_detection_result = sun_tracker_detection_result_t::UNKNOWN;
 
