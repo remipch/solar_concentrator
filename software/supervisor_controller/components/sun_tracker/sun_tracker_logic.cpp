@@ -15,7 +15,7 @@ static const int LIGHTED_PIXEL_MIN_OFFSET = 100; // Minimal offset from borders 
 static const int MIN_LIGHTED_PIXELS_COUNT = 10;
 static const int MIN_SPOT_SIZE_PX = 20;
 static const int MIN_DISTANCE_FROM_BORDER_PX = 5;
-static const int MIN_SPOT_OVERRUN_PX = 5;
+static const int MIN_SPOT_OVERRUN_PX = 10;
 static const unsigned char BLACK = 0;
 static const unsigned char WHITE = 255;
 
