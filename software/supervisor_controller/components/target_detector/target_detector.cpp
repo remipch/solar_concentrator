@@ -11,14 +11,16 @@
 static const char *TAG = "target_detector";
 
 static const int EXPECTED_CAPSTONE_COUNT = 4;
+static const int MAX_CAPSTONE_COUNT = 10;
 static const unsigned char BLACK = 0;
 static const unsigned char WHITE = 255;
 
 static const unsigned char MIN_CAPSTONE_SIZE = 25; // 10 cm capstone viewed at 3 meters
 static const unsigned char MAX_CAPSTONE_SIZE = 60; // 10 cm capstone viewed at 1.5 meters
 
-static const unsigned char DEFAULT_PIXEL_THRESHOLD = 100;
-static const unsigned char SECOND_CHANCE_PIXEL_THRESHOLD = 180;
+static const unsigned char MIN_PIXEL_THRESHOLD = 100;
+static const unsigned char MAX_PIXEL_THRESHOLD = 180;
+static const unsigned char PIXEL_THRESHOLD_STEP = 40;
 
 static struct quirc *capstone_detector;
 
@@ -159,14 +161,17 @@ extract_capstones_quad(capstone_geometry capstones[EXPECTED_CAPSTONE_COUNT], int
     return result;
 }
 
-bool target_detector_detect(CImg<unsigned char> &image, rectangle_t &target, uint8_t pixel_threshold)
+bool near_capstones(const capstone_geometry &geo1, const capstone_geometry &geo2)
+{
+    return std::abs(geo1.center.x - geo2.center.x) < std::min(geo1.width, geo2.width)
+        && std::abs(geo1.center.y - geo2.center.y) < std::min(geo1.height, geo2.height);
+}
+
+bool target_detector_detect(CImg<unsigned char> &image, rectangle_t &target)
 {
     // assert grayscale image
     assert(image.depth() == 1);
     assert(image.spectrum() == 1);
-
-    int capstone_count =
-        quirc_detect_capstones(capstone_detector, image.data(), image.width(), image.height(), pixel_threshold);
 
     int average_x = 0;
     int average_y = 0;
@@ -174,49 +179,56 @@ bool target_detector_detect(CImg<unsigned char> &image, rectangle_t &target, uin
     int average_height = 0;
 
     // Store first capstone geometry for later use
-    capstone_geometry capstones_geom[EXPECTED_CAPSTONE_COUNT];
+    capstone_geometry capstones_geom[MAX_CAPSTONE_COUNT];
 
     // Parse detected capstones to :
     // - convert quirc_capstone to geomeetry
     // - compute usefull averages
     // - draw all detected capstones (for display purpose only)
     //   (capstones are drawn before checks to see what happen)
-    int kept_capstone_count = 0;
-    for (int i = 0; i < capstone_count; i++) {
-        const quirc_capstone *capstone = quirc_get_capstone(capstone_detector, i);
-        capstone_geometry geometry = extract_capstone_geometry(capstone);
-        draw_capstone(image, geometry);
+    int detected_capstone_count = 0;
+    for (int threshold = MIN_PIXEL_THRESHOLD; threshold <= MAX_PIXEL_THRESHOLD; threshold += PIXEL_THRESHOLD_STEP) {
+        int capstone_count =
+            quirc_detect_capstones(capstone_detector, image.data(), image.width(), image.height(), threshold);
 
-        if (geometry.width < MIN_CAPSTONE_SIZE || geometry.width > MAX_CAPSTONE_SIZE
-            || geometry.height < MIN_CAPSTONE_SIZE || geometry.height > MAX_CAPSTONE_SIZE) {
-            continue;
+        for (int i = 0; i < capstone_count; i++) {
+            const quirc_capstone *capstone = quirc_get_capstone(capstone_detector, i);
+            capstone_geometry geometry = extract_capstone_geometry(capstone);
+            draw_capstone(image, geometry);
+
+            // Ignore capstone if out of size
+            if (geometry.width < MIN_CAPSTONE_SIZE || geometry.width > MAX_CAPSTONE_SIZE
+                || geometry.height < MIN_CAPSTONE_SIZE || geometry.height > MAX_CAPSTONE_SIZE) {
+                continue;
+            }
+
+            // Ignore capstone if it has already been detected with a different threshold
+            for (int j = 0; j < detected_capstone_count; j++) {
+                if (near_capstones(capstones_geom[j], geometry)) {
+                    continue;
+                }
+            }
+
+            average_x += geometry.center.x;
+            average_y += geometry.center.y;
+            average_width += geometry.width;
+            average_height += geometry.height;
+
+            if (detected_capstone_count < MAX_CAPSTONE_COUNT) {
+                capstones_geom[detected_capstone_count] = geometry;
+                detected_capstone_count++;
+            }
         }
-
-        average_x += geometry.center.x;
-        average_y += geometry.center.y;
-        average_width += geometry.width;
-        average_height += geometry.height;
-
-        if (kept_capstone_count < EXPECTED_CAPSTONE_COUNT) {
-            capstones_geom[kept_capstone_count] = geometry;
-        }
-        kept_capstone_count++;
-    }
-
-    if (kept_capstone_count < capstone_count) {
-        ESP_LOGW(TAG, "%i capstone(s) ignored because out of size", capstone_count - kept_capstone_count);
     }
 
     // Check capstone count
-    if (kept_capstone_count != EXPECTED_CAPSTONE_COUNT) {
+    if (detected_capstone_count != EXPECTED_CAPSTONE_COUNT) {
         ESP_LOGW(TAG,
                  "Detection failed : %i capstone(s) detected instead of %i ",
-                 kept_capstone_count,
+                 detected_capstone_count,
                  EXPECTED_CAPSTONE_COUNT);
-        for (int i = 0; i < kept_capstone_count; i++) {
-            const quirc_capstone *capstone = quirc_get_capstone(capstone_detector, i);
-            capstone_geometry geometry = extract_capstone_geometry(capstone);
-            log_capstone(geometry);
+        for (int i = 0; i < detected_capstone_count; i++) {
+            log_capstone(capstones_geom[i]);
         }
         return false;
     }
@@ -265,14 +277,4 @@ bool target_detector_detect(CImg<unsigned char> &image, rectangle_t &target, uin
     draw_target(image, target);
 
     return true;
-}
-
-bool target_detector_detect(CImg<unsigned char> &image, rectangle_t &target)
-{
-    if (target_detector_detect(image, target, DEFAULT_PIXEL_THRESHOLD)) {
-        return true;
-    } else {
-        ESP_LOGW(TAG, "Detection failed with default threshold : try with different threshold");
-        return target_detector_detect(image, target, SECOND_CHANCE_PIXEL_THRESHOLD);
-    }
 }
