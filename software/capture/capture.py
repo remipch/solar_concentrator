@@ -9,7 +9,7 @@ import argparse
 WEBCAM_PREFIX = "webcam/webcam"
 ESPCAM_PREFIX = "espcam/espcam"
 
-ESPCAM_URL = r'http://192.168.1.10/capture'
+ESPCAM_URL = r'http://192.168.1.10/image'
 
 # Return time in Paris (TODO: use locale config ?)
 def getCurrentTime():
