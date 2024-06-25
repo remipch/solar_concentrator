@@ -293,12 +293,6 @@ sun_tracker_detection_t sun_tracker_logic_detect(CImg<unsigned char> &full_img)
 
     draw_lighted_borders(full_img, detection);
 
-    if ((detection.left_border && detection.right_border) || (detection.top_border && detection.bottom_border)) {
-        detection.result = sun_tracker_detection_result_t::SPOT_TOO_BIG;
-        ESP_LOGW(TAG, "sun_tracker_logic_detect: SPOT_TOO_BIG");
-        return detection;
-    }
-
     detection.result = sun_tracker_detection_result_t::SUCCESS;
     detection.direction = get_best_motors_direction(detection);
     ESP_LOGD(TAG, "sun_tracker_logic_detect: SUCCESS (direction: %s)", str(detection.direction));

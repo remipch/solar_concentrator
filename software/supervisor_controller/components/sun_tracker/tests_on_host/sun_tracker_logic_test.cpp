@@ -74,18 +74,4 @@ TEST(detect_spot_to_small, []() {
     EXPECT(detection.result == sun_tracker_detection_result_t::SPOT_TOO_SMALL);
 });
 
-TEST(detect_spot_to_big, []() {
-    MINI_MOCK_ON_CALL(target_detector_detect, [](CImg<unsigned char> &image, rectangle_t &target) {
-        target = {125, 200, 200, 245};
-        return true;
-    });
-
-    CImg<unsigned char> full_img = load_image_as_grayscale("spot_on_center.jpg");
-
-    sun_tracker_detection_t detection = sun_tracker_logic_detect(full_img);
-
-    full_img.save("detect_spot_to_big_result.jpg");
-    EXPECT(detection.result == sun_tracker_detection_result_t::SPOT_TOO_BIG);
-});
-
 CREATE_MAIN_ENTRY_POINT();

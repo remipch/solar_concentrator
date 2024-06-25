@@ -123,7 +123,7 @@ TEST(typical_scenario, []() {
     // From 'TRACKING' state with 'MOTORS_STOPPED' transition, when detection returns an error
     MINI_MOCK_ON_CALL(sun_tracker_logic_detect, [](CImg<unsigned char> &image) {
         return sun_tracker_detection_t{
-            .result = sun_tracker_detection_result_t::SPOT_TOO_BIG,
+            .result = sun_tracker_detection_result_t::SPOT_TOO_SMALL,
         };
     });
     state = sun_tracker_state_machine_update(
