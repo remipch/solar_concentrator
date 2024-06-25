@@ -14,8 +14,8 @@ static const char *TAG = "sun_tracker_logic";
 static const int MIN_LIGHTED_PIXEL_LEVEL = 250;
 static const int MIN_LIGHTED_PIXELS_COUNT = 10;
 static const int MIN_SPOT_SIZE_PX = 20;
+static const int MAX_DISTANCE_FROM_TARGET_CENTER_PX = 5;
 static const int MIN_DISTANCE_FROM_BORDER_PX = 5;
-static const int MIN_SPOT_OVERRUN_PX = 10;
 static const unsigned char BLACK = 0;
 static const unsigned char WHITE = 255;
 
@@ -217,28 +217,34 @@ void draw_motors_arrow(
 // Find the best motors direction to move away from lighted borders
 motors_direction_t get_best_motors_direction(sun_tracker_detection_t detection)
 {
-    if (detection.left_border) {
-        if (detection.top_border) {
-            return motors_direction_t::DOWN_RIGHT;
-        } else if (detection.bottom_border) {
-            return motors_direction_t::UP_RIGHT;
-        } else {
-            return motors_direction_t::RIGHT;
-        }
-    }
-    if (detection.right_border) {
-        if (detection.top_border) {
-            return motors_direction_t::DOWN_LEFT;
-        } else if (detection.bottom_border) {
+    int target_center_x = detection.target_area.get_width_px() / 2;
+    int target_center_y = detection.target_area.get_height_px() / 2;
+    int spot_light_center_x = detection.spot_light.get_center_x_px();
+    int spot_light_center_y = detection.spot_light.get_center_y_px();
+    bool go_up = (spot_light_center_y > target_center_y + MAX_DISTANCE_FROM_TARGET_CENTER_PX);
+    bool go_down = (spot_light_center_y < target_center_y - MAX_DISTANCE_FROM_TARGET_CENTER_PX);
+    if (spot_light_center_x > target_center_x + MAX_DISTANCE_FROM_TARGET_CENTER_PX) {
+        if (go_up) {
             return motors_direction_t::UP_LEFT;
+        } else if (go_down) {
+            return motors_direction_t::DOWN_LEFT;
         } else {
             return motors_direction_t::LEFT;
         }
     }
-    if (detection.top_border) {
+    if (spot_light_center_x < target_center_x - MAX_DISTANCE_FROM_TARGET_CENTER_PX) {
+        if (go_up) {
+            return motors_direction_t::UP_RIGHT;
+        } else if (go_down) {
+            return motors_direction_t::DOWN_RIGHT;
+        } else {
+            return motors_direction_t::RIGHT;
+        }
+    }
+    if (go_down) {
         return motors_direction_t::DOWN;
     }
-    if (detection.bottom_border) {
+    if (go_up) {
         return motors_direction_t::UP;
     }
     return motors_direction_t::NONE;
@@ -303,15 +309,14 @@ sun_tracker_detection_t sun_tracker_logic_detect(CImg<unsigned char> &full_img)
 motors_direction_t sun_tracker_logic_update(sun_tracker_detection_t detection_before_move,
                                             sun_tracker_detection_t detection_after_move)
 {
-
-    bool left_overrun =
-        (detection_before_move.spot_light.left_px - detection_after_move.spot_light.left_px > MIN_SPOT_OVERRUN_PX);
-    bool up_overrun =
-        (detection_before_move.spot_light.top_px - detection_after_move.spot_light.top_px > MIN_SPOT_OVERRUN_PX);
-    bool right_overrun =
-        (detection_after_move.spot_light.right_px - detection_before_move.spot_light.right_px > MIN_SPOT_OVERRUN_PX);
-    bool down_overrun =
-        (detection_after_move.spot_light.bottom_px - detection_before_move.spot_light.bottom_px > MIN_SPOT_OVERRUN_PX);
+    int target_center_x = detection_after_move.target_area.get_width_px() / 2;
+    int target_center_y = detection_after_move.target_area.get_height_px() / 2;
+    int spot_light_center_x = detection_after_move.spot_light.get_center_x_px();
+    int spot_light_center_y = detection_after_move.spot_light.get_center_y_px();
+    bool left_overrun = (spot_light_center_x < target_center_x);
+    bool down_overrun = (spot_light_center_y > target_center_y);
+    bool right_overrun = (spot_light_center_x > target_center_x);
+    bool up_overrun = (spot_light_center_y < target_center_y);
 
     ESP_LOGD(TAG,
              "sun_tracker_logic_update: overruns l:%i u:%i r:%i b:%i",
