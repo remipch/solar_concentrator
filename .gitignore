@@ -5,7 +5,8 @@ docker/config/*
 docker/local
 **/__pycache__/*
 **/.kdev4/*
-**/capture*/**/*.*
+/software/capture/espcam/
+/software/capture/webcam/
 **/solar_concentrator_manip*/**/camera_capture*
 **/solar_concentrator_manip*/**/target*
 /software/supervisor_controller/compile_commands.json
