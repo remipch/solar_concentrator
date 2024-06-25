@@ -88,45 +88,4 @@ TEST(detect_spot_to_big, []() {
     EXPECT(detection.result == sun_tracker_detection_result_t::SPOT_TOO_BIG);
 });
 
-TEST(typical_move_from_top_right, []() {
-    sun_tracker_detection_t detection_before_move{
-        .result = sun_tracker_detection_result_t::SUCCESS,
-        .target_area = {100, 200, 200, 250},
-        .spot_light = {65, 5, 95, 35},
-        .left_border = false,
-        .top_border = true,
-        .right_border = true,
-        .bottom_border = false,
-        .direction = motors_direction_t::DOWN_LEFT,
-    };
-
-    // Move not enough to have a spot overrun : must continue to move
-    sun_tracker_detection_t detection_after_move_1{
-        .result = sun_tracker_detection_result_t::SUCCESS,
-        .target_area = {100, 200, 200, 250},
-        .spot_light = {62, 5, 92, 35},
-        .left_border = false,
-        .top_border = true,
-        .right_border = true,
-        .bottom_border = false,
-        .direction = motors_direction_t::DOWN_LEFT,
-    };
-    motors_direction_t motors_direction = sun_tracker_logic_update(detection_before_move, detection_after_move_1);
-    EXPECT(motors_direction == motors_direction_t::DOWN_LEFT);
-
-    // Move with enough spot overrun
-    sun_tracker_detection_t detection_after_move_2{
-        .result = sun_tracker_detection_result_t::SUCCESS,
-        .target_area = {100, 200, 200, 250},
-        .spot_light = {55, 5, 85, 35},
-        .left_border = false,
-        .top_border = true,
-        .right_border = false,
-        .bottom_border = false,
-        .direction = motors_direction_t::DOWN,
-    };
-    motors_direction = sun_tracker_logic_update(detection_before_move, detection_after_move_2);
-    EXPECT(motors_direction == motors_direction_t::NONE);
-});
-
 CREATE_MAIN_ENTRY_POINT();

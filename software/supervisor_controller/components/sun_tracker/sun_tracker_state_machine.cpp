@@ -11,8 +11,6 @@ static const char *TAG = "sun_tracker_state_machine";
 // Camera full image is created statically to avoid future memory allocations
 static CImg<unsigned char> full_img(CAMERA_WIDTH, CAMERA_HEIGHT, 1, 1);
 
-static sun_tracker_detection_t detection_before_move;
-
 static int move_count = 0;
 
 static const int MAX_MOVES = 20;
@@ -53,20 +51,20 @@ sun_tracker_state_t sun_tracker_state_machine_update(sun_tracker_state_t current
             return sun_tracker_state_t::IDLE;
         }
 
-        detection_before_move = sun_tracker_logic_detect(full_img);
-        last_detection_result = detection_before_move.result;
+        sun_tracker_detection_t detection = sun_tracker_logic_detect(full_img);
+        last_detection_result = detection.result;
 
         // Publish full image after detection for debug purpose
         publish_full_image(full_img);
 
-        if (detection_before_move.result != sun_tracker_detection_result_t::SUCCESS) {
+        if (detection.result != sun_tracker_detection_result_t::SUCCESS) {
             // Stay in IDLE state to allow user to fix target or spot
             result = sun_tracker_result_t::ERROR;
             return sun_tracker_state_t::IDLE;
         }
 
         if (transition & sun_tracker_transition_t::START) {
-            if (detection_before_move.direction == motors_direction_t::NONE) {
+            if (detection.direction == motors_direction_t::NONE) {
                 result = sun_tracker_result_t::SUCCESS;
                 move_count = 0;
                 return sun_tracker_state_t::IDLE;
@@ -75,7 +73,7 @@ sun_tracker_state_t sun_tracker_state_machine_update(sun_tracker_state_t current
                 move_count = 0;
                 return sun_tracker_state_t::IDLE;
             } else {
-                motors_start_move_one_step(panel, detection_before_move.direction);
+                motors_start_move_one_step(panel, detection.direction);
                 return sun_tracker_state_t::TRACKING;
             }
         }
@@ -98,21 +96,19 @@ sun_tracker_state_t sun_tracker_state_machine_update(sun_tracker_state_t current
                 return sun_tracker_state_t::IDLE;
             }
 
-            sun_tracker_detection_t detection_after_move = sun_tracker_logic_detect(full_img);
-            last_detection_result = detection_after_move.result;
+            sun_tracker_detection_t detection = sun_tracker_logic_detect(full_img);
+            last_detection_result = detection.result;
 
             // Publish full image after detection for debug purpose
             publish_full_image(full_img);
 
             // TODO : check that target has not moved too much
-            if (detection_after_move.result != sun_tracker_detection_result_t::SUCCESS) {
+            if (detection.result != sun_tracker_detection_result_t::SUCCESS) {
                 result = sun_tracker_result_t::ERROR;
                 return sun_tracker_state_t::IDLE;
             }
 
-            motors_direction_t direction = sun_tracker_logic_update(detection_before_move, detection_after_move);
-
-            if (direction == motors_direction_t::NONE) {
+            if (detection.direction == motors_direction_t::NONE) {
                 result = sun_tracker_result_t::SUCCESS;
                 move_count = 0;
                 return sun_tracker_state_t::IDLE;
@@ -121,7 +117,7 @@ sun_tracker_state_t sun_tracker_state_machine_update(sun_tracker_state_t current
                 move_count = 0;
                 return sun_tracker_state_t::IDLE;
             } else {
-                motors_start_move_one_step(panel, direction);
+                motors_start_move_one_step(panel, detection.direction);
                 return sun_tracker_state_t::TRACKING;
             }
         }
