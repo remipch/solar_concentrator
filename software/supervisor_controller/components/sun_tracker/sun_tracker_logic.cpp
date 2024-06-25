@@ -170,13 +170,12 @@ void draw_lighted_borders(CImg<unsigned char> &image, sun_tracker_detection_t de
     }
 }
 
-void draw_motors_arrow(
-    CImg<unsigned char> &image, rectangle_t spot_light, int offset_x, int offset_y, motors_direction_t motors_direction)
+void draw_motors_arrow(CImg<unsigned char> &image, sun_tracker_detection_t detection)
 {
     int arrow_x = 0;
     int arrow_y = 0;
 
-    switch (motors_direction) {
+    switch (detection.direction) {
     case motors_direction_t::UP:
         arrow_y = -10;
         break;
@@ -209,9 +208,9 @@ void draw_motors_arrow(
         break;
     }
 
-    int spot_x = spot_light.get_center_x_px() + offset_x;
-    int spot_y = spot_light.get_center_y_px() + offset_y;
-    image.draw_arrow(spot_x, spot_y, spot_x + arrow_x, spot_y + arrow_y, &BLACK);
+    int spot_x = detection.spot_light.get_center_x_px() + detection.target_area.left_px;
+    int spot_y = detection.spot_light.get_center_y_px() + detection.target_area.top_px;
+    image.draw_arrow(spot_x, spot_y, spot_x + arrow_x, spot_y + arrow_y, &BLACK, 1, 45, -20);
 }
 
 // Find the best motors direction to move away from lighted borders
@@ -296,6 +295,8 @@ sun_tracker_detection_t sun_tracker_logic_detect(CImg<unsigned char> &full_img)
     detection.result = sun_tracker_detection_result_t::SUCCESS;
     detection.direction = get_best_motors_direction(detection);
     ESP_LOGD(TAG, "sun_tracker_logic_detect: SUCCESS (direction: %s)", str(detection.direction));
+
+    draw_motors_arrow(full_img, detection);
 
     return detection;
 }
