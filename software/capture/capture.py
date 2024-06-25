@@ -11,8 +11,6 @@ ESPCAM_PREFIX = "espcam/espcam"
 
 ESPCAM_URL = r'http://192.168.1.10/capture'
 
-PERIOD_MS = 1000
-
 # Return time in Paris (TODO: use locale config ?)
 def getCurrentTime():
     return datetime.now().astimezone(tz.gettz('Europe/Paris'))
@@ -29,10 +27,13 @@ def addDate(img,time):
 arg_parser = argparse.ArgumentParser(description='Show and capture espcam and webcam')
 arg_parser.add_argument('-e', dest='espcam', action='store_true', help='record espcam')
 arg_parser.add_argument('-w', dest='webcam', action='store_true', help='record webcam')
+arg_parser.add_argument('-s', '--sleep_ms', type=int, default=1000, help='sleep time (ms) between captures')
+
 args = arg_parser.parse_args()
 
 print(f"Espcam enabled : {args.espcam}")
 print(f"Webcam enabled : {args.webcam}")
+print(f"sleep_ms : {args.sleep_ms}")
 
 if not args.espcam and not args.webcam:
     exit(0)
@@ -78,7 +79,7 @@ while True:
         cv2.imwrite(webcam_path,webcam_frame)
 
     # Break the loop on pressing 'q' key
-    if cv2.waitKey(PERIOD_MS) & 0xFF == ord('q'):
+    if cv2.waitKey(args.sleep_ms) & 0xFF == ord('q'):
         break
 
 if args.webcam:
