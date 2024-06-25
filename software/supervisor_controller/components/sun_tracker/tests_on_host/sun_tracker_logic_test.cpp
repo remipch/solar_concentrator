@@ -26,10 +26,10 @@ TEST(detect_spot_on_center, []() {
 
     full_img.save("detect_spot_on_center_result.jpg");
     EXPECT(detection.result == sun_tracker_detection_result_t::SUCCESS);
-    EXPECT(detection.spot_light.left_px == 7);
-    EXPECT(detection.spot_light.top_px == 6);
-    EXPECT(detection.spot_light.right_px == 68);
-    EXPECT(detection.spot_light.bottom_px == 47);
+    EXPECT(detection.spot_light.left_px == 20);
+    EXPECT(detection.spot_light.top_px == 10);
+    EXPECT(detection.spot_light.right_px == 58);
+    EXPECT(detection.spot_light.bottom_px == 46);
     EXPECT(!detection.left_border);
     EXPECT(!detection.top_border);
     EXPECT(!detection.right_border);
@@ -50,9 +50,9 @@ TEST(detect_spot_on_left_border, []() {
     full_img.save("detect_spot_on_left_border_result.jpg");
     EXPECT(detection.result == sun_tracker_detection_result_t::SUCCESS);
     EXPECT(detection.spot_light.left_px == 0);
-    EXPECT(detection.spot_light.top_px == 6);
-    EXPECT(detection.spot_light.right_px == 48);
-    EXPECT(detection.spot_light.bottom_px == 47);
+    EXPECT(detection.spot_light.top_px == 10);
+    EXPECT(detection.spot_light.right_px == 38);
+    EXPECT(detection.spot_light.bottom_px == 46);
     EXPECT(detection.left_border);
     EXPECT(!detection.top_border);
     EXPECT(!detection.right_border);

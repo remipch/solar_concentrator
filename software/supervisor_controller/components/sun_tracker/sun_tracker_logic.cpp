@@ -11,7 +11,7 @@
 
 static const char *TAG = "sun_tracker_logic";
 
-static const int LIGHTED_PIXEL_MIN_OFFSET = 100; // Minimal offset from borders min level to consider a pixel "lighted"
+static const int MIN_LIGHTED_PIXEL_LEVEL = 250;
 static const int MIN_LIGHTED_PIXELS_COUNT = 10;
 static const int MIN_SPOT_SIZE_PX = 20;
 static const int MIN_DISTANCE_FROM_BORDER_PX = 5;
@@ -43,13 +43,6 @@ rectangle_t get_horizontal_segment(const CImg<unsigned char> &img, int y)
     };
 }
 
-unsigned char get_image_borders_min_level(const CImg<unsigned char> &img)
-{
-    unsigned char result = 255;
-    cimg_for_borderXY(img, x, y, 1) { result = std::min(result, img(x, y)); }
-    return result;
-}
-
 int count_lighted_pixels(const CImg<unsigned char> &img, rectangle_t rect, unsigned char min_level)
 {
     int result = 0;
@@ -74,13 +67,11 @@ bool get_spot_light_rectangle(const CImg<unsigned char> &full_img,
         full_img.get_crop(target_area.left_px, target_area.top_px, target_area.right_px, target_area.bottom_px);
 
     result_in_target_area = {-1, -1, -1, -1};
-    unsigned char min_level = 250; // get_image_borders_min_level(target_img) + LIGHTED_PIXEL_MIN_OFFSET;
-    ESP_LOGD(TAG, "get_spot_light_rectangle: min_level: %i", min_level);
 
     cimg_forX(target_img, x)
     {
         rectangle_t segment = get_vertical_segment(target_img, x);
-        if (count_lighted_pixels(target_img, segment, min_level) > MIN_LIGHTED_PIXELS_COUNT) {
+        if (count_lighted_pixels(target_img, segment, MIN_LIGHTED_PIXEL_LEVEL) > MIN_LIGHTED_PIXELS_COUNT) {
             result_in_target_area.left_px = x;
             break;
         }
@@ -91,7 +82,7 @@ bool get_spot_light_rectangle(const CImg<unsigned char> &full_img,
     cimg_forX(target_img, x)
     {
         rectangle_t segment = get_vertical_segment(target_img, target_img.width() - x - 1);
-        if (count_lighted_pixels(target_img, segment, min_level) > MIN_LIGHTED_PIXELS_COUNT) {
+        if (count_lighted_pixels(target_img, segment, MIN_LIGHTED_PIXEL_LEVEL) > MIN_LIGHTED_PIXELS_COUNT) {
             result_in_target_area.right_px = target_img.width() - x - 1;
             break;
         }
@@ -102,7 +93,7 @@ bool get_spot_light_rectangle(const CImg<unsigned char> &full_img,
     cimg_forY(target_img, y)
     {
         rectangle_t segment = get_horizontal_segment(target_img, y);
-        if (count_lighted_pixels(target_img, segment, min_level) > MIN_LIGHTED_PIXELS_COUNT) {
+        if (count_lighted_pixels(target_img, segment, MIN_LIGHTED_PIXEL_LEVEL) > MIN_LIGHTED_PIXELS_COUNT) {
             result_in_target_area.top_px = y;
             break;
         }
@@ -113,7 +104,7 @@ bool get_spot_light_rectangle(const CImg<unsigned char> &full_img,
     cimg_forY(target_img, y)
     {
         rectangle_t segment = get_horizontal_segment(target_img, target_img.height() - y - 1);
-        if (count_lighted_pixels(target_img, segment, min_level) > MIN_LIGHTED_PIXELS_COUNT) {
+        if (count_lighted_pixels(target_img, segment, MIN_LIGHTED_PIXEL_LEVEL) > MIN_LIGHTED_PIXELS_COUNT) {
             result_in_target_area.bottom_px = target_img.height() - y - 1;
             break;
         }
