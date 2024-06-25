@@ -242,6 +242,30 @@ void full_image_updated(CImg<unsigned char> &full_image)
     xSemaphoreGive(image_ready);
 }
 
+// Reply the last captured image (with debug drawings)
+static esp_err_t image_handler(httpd_req_t *req)
+{
+    esp_err_t res = ESP_OK;
+
+    ESP_LOGI(TAG, "capture_handler");
+
+    httpd_resp_set_type(req, "image/jpeg");
+    httpd_resp_set_hdr(req, "Content-Disposition", "inline; filename=capture.jpg");
+    httpd_resp_set_hdr(req, "Access-Control-Allow-Origin", "*");
+
+    assert(xSemaphoreTake(image_mutex, pdMS_TO_TICKS(image_mutex_TIMEOUT_MS)));
+    if (image_frame.format == PIXFORMAT_JPEG) {
+        res = httpd_resp_send(req, (const char *)image_frame.buf, image_frame.len);
+    } else {
+        jpg_chunking_t jchunk = {req, 0};
+        res = frame2jpg_cb(&image_frame, 80, jpg_encode_stream, &jchunk) ? ESP_OK : ESP_FAIL;
+        httpd_resp_send_chunk(req, NULL, 0);
+    }
+    xSemaphoreGive(image_mutex);
+
+    return res;
+}
+
 static esp_err_t stream_handler(httpd_req_t *req)
 {
     esp_err_t res = httpd_resp_set_type(req, _STREAM_CONTENT_TYPE);
@@ -507,6 +531,8 @@ void register_httpd(const QueueHandle_t frame_i, const QueueHandle_t frame_o, co
     httpd_uri_t capture_area_uri = {
         .uri = "/capture_area", .method = HTTP_GET, .handler = capture_area_handler, .user_ctx = NULL};
 
+    httpd_uri_t image_uri = {.uri = "/image", .method = HTTP_GET, .handler = image_handler, .user_ctx = NULL};
+
     httpd_uri_t stream_uri = {.uri = "/stream", .method = HTTP_GET, .handler = stream_handler, .user_ctx = NULL};
 
     httpd_uri_t supervisor_command_uri = {
@@ -528,6 +554,7 @@ void register_httpd(const QueueHandle_t frame_i, const QueueHandle_t frame_o, co
         httpd_register_uri_handler(camera_httpd, &status_uri);
         httpd_register_uri_handler(camera_httpd, &capture_uri);
         httpd_register_uri_handler(camera_httpd, &capture_area_uri);
+        httpd_register_uri_handler(camera_httpd, &image_uri);
         httpd_register_uri_handler(camera_httpd, &supervisor_command_uri);
         httpd_register_uri_handler(camera_httpd, &supervisor_status_uri);
         httpd_register_uri_handler(camera_httpd, &log_uri);
