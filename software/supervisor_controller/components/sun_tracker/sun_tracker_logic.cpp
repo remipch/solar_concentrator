@@ -15,7 +15,6 @@ static const int MIN_LIGHTED_PIXEL_LEVEL = 250;
 static const int MIN_LIGHTED_PIXELS_COUNT = 10;
 static const int MIN_SPOT_SIZE_PX = 20;
 static const int MAX_DISTANCE_FROM_TARGET_CENTER_PX = 5;
-static const int MIN_DISTANCE_FROM_BORDER_PX = 5;
 static const unsigned char BLACK = 0;
 static const unsigned char WHITE = 255;
 
@@ -140,36 +139,6 @@ void draw_spot_light_rectangle(CImg<unsigned char> &image, sun_tracker_detection
                          0x0F0F0F0F);
 }
 
-void draw_lighted_borders(CImg<unsigned char> &image, sun_tracker_detection_t detection)
-{
-    auto target_area = detection.target_area;
-    if (detection.left_border) {
-        image.draw_line(target_area.left_px - 2,
-                        target_area.top_px - 1,
-                        target_area.left_px - 2,
-                        target_area.bottom_px + 1,
-                        &WHITE);
-    }
-    if (detection.top_border) {
-        image.draw_line(
-            target_area.left_px - 1, target_area.top_px - 2, target_area.right_px + 1, target_area.top_px - 2, &WHITE);
-    }
-    if (detection.right_border) {
-        image.draw_line(target_area.right_px + 2,
-                        target_area.top_px - 1,
-                        target_area.right_px + 2,
-                        target_area.bottom_px + 1,
-                        &WHITE);
-    }
-    if (detection.bottom_border) {
-        image.draw_line(target_area.left_px - 1,
-                        target_area.bottom_px + 2,
-                        target_area.right_px + 1,
-                        target_area.bottom_px + 2,
-                        &WHITE);
-    }
-}
-
 void draw_motors_arrow(CImg<unsigned char> &image, sun_tracker_detection_t detection)
 {
     int arrow_x = 0;
@@ -255,10 +224,6 @@ sun_tracker_detection_t sun_tracker_logic_detect(CImg<unsigned char> &full_img)
         .result = sun_tracker_detection_result_t::UNKNOWN,
         .target_area = {-1, -1, -1, -1},
         .spot_light = {-1, -1, -1, -1},
-        .left_border = false,
-        .top_border = false,
-        .right_border = false,
-        .bottom_border = false,
         .direction = motors_direction_t::NONE,
     };
 
@@ -282,15 +247,6 @@ sun_tracker_detection_t sun_tracker_logic_detect(CImg<unsigned char> &full_img)
         ESP_LOGW(TAG, "sun_tracker_logic_detect: SPOT_TOO_SMALL");
         return detection;
     }
-
-    int target_width = detection.target_area.get_width_px();
-    int target_height = detection.target_area.get_height_px();
-    detection.left_border = (detection.spot_light.left_px < MIN_DISTANCE_FROM_BORDER_PX);
-    detection.top_border = (detection.spot_light.top_px < MIN_DISTANCE_FROM_BORDER_PX);
-    detection.right_border = (target_width - 1 - detection.spot_light.right_px < MIN_DISTANCE_FROM_BORDER_PX);
-    detection.bottom_border = (target_height - 1 - detection.spot_light.bottom_px < MIN_DISTANCE_FROM_BORDER_PX);
-
-    draw_lighted_borders(full_img, detection);
 
     detection.result = sun_tracker_detection_result_t::SUCCESS;
     detection.direction = get_best_motors_direction(detection);

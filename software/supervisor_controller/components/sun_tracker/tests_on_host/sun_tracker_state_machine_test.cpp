@@ -59,10 +59,6 @@ TEST(typical_scenario, []() {
             .result = sun_tracker_detection_result_t::SUCCESS,
             .target_area = {100, 200, 300, 400},
             .spot_light = {65, 5, 95, 35},
-            .left_border = false,
-            .top_border = false,
-            .right_border = false,
-            .bottom_border = false,
             .direction = motors_direction_t::NONE,
         };
     });
@@ -77,10 +73,6 @@ TEST(typical_scenario, []() {
             .result = sun_tracker_detection_result_t::SUCCESS,
             .target_area = {100, 200, 300, 400},
             .spot_light = {65, 5, 95, 35},
-            .left_border = false,
-            .top_border = false,
-            .right_border = false,
-            .bottom_border = false,
             .direction = motors_direction_t::DOWN_LEFT,
         };
     });

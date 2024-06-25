@@ -30,10 +30,6 @@ TEST(detect_spot_on_center, []() {
     EXPECT(detection.spot_light.top_px == 10);
     EXPECT(detection.spot_light.right_px == 58);
     EXPECT(detection.spot_light.bottom_px == 46);
-    EXPECT(!detection.left_border);
-    EXPECT(!detection.top_border);
-    EXPECT(!detection.right_border);
-    EXPECT(!detection.bottom_border);
     EXPECT(detection.direction == motors_direction_t::NONE);
 });
 
@@ -53,10 +49,6 @@ TEST(detect_spot_on_left_border, []() {
     EXPECT(detection.spot_light.top_px == 10);
     EXPECT(detection.spot_light.right_px == 38);
     EXPECT(detection.spot_light.bottom_px == 46);
-    EXPECT(detection.left_border);
-    EXPECT(!detection.top_border);
-    EXPECT(!detection.right_border);
-    EXPECT(!detection.bottom_border);
     EXPECT(detection.direction == motors_direction_t::RIGHT);
 });
 

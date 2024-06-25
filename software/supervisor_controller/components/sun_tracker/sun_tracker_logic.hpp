@@ -10,10 +10,6 @@ struct sun_tracker_detection_t {
     sun_tracker_detection_result_t result;
     rectangle_t target_area;
     rectangle_t spot_light; // relative to target_area
-    bool left_border;       // true if spot light is near or on border
-    bool top_border;
-    bool right_border;
-    bool bottom_border;
     motors_direction_t direction;
 };
 
