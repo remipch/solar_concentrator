@@ -96,22 +96,16 @@ RUN pip install cmake-format
 # https://github.com/espressif/esp-idf/issues/6868#issuecomment-1075743763
 RUN . /esp/esp-idf/export.sh && /esp/esp-idf/tools/idf_tools.py install xtensa-clang
 
-# Install tools required by simulator
-RUN pip install --upgrade pip
-RUN pip install panda3d
-RUN pip install numpy
-RUN pip install scipy
-RUN pip install zmq
-RUN pip install pytest
-RUN pip install python-lsp-server
-RUN pip install autopep8
+RUN . /esp/esp-idf/export.sh && pip install getch
+RUN . /esp/esp-idf/export.sh && pip install --upgrade pip
+RUN . /esp/esp-idf/export.sh && pip install panda3d numpy scipy zmq
+RUN . /esp/esp-idf/export.sh && pip install pytest python-lsp-server autopep8
 
 # Setup git autocompletion
 RUN apt-get update && apt-get install -y bash-completion
 RUN wget https://raw.githubusercontent.com/git/git/master/contrib/completion/git-completion.bash -O ~/.git-completion.bash
 RUN echo "source ~/.git-completion.bash" >> ~/.bashrc
 
-RUN . /esp/esp-idf/export.sh && pip install getch # TODO : move/replace above wrong command
 
 # Add usefull aliases
 RUN echo "alias h='cat /solar_concentrator/docker/docker_help.txt && alias'" >> ~/.bashrc
