@@ -99,8 +99,8 @@ RUN . /esp/esp-idf/export.sh && /esp/esp-idf/tools/idf_tools.py install xtensa-c
 # Install tools required by simulator
 RUN pip install --upgrade pip
 RUN pip install panda3d
-RUN pip install num
-RUN pip install scipypy
+RUN pip install numpy
+RUN pip install scipy
 RUN pip install zmq
 RUN pip install pytest
 RUN pip install python-lsp-server
