@@ -5,11 +5,19 @@ import time
 from urllib.request import urlopen
 import numpy as np
 import argparse
+import os
 
-WEBCAM_PREFIX = "webcam/webcam"
-ESPCAM_PREFIX = "espcam/espcam"
+WEBCAM_DIR = "webcam"
+ESPCAM_DIR = "espcam"
+
+WEBCAM_PREFIX = WEBCAM_DIR + "/webcam"
+ESPCAM_PREFIX = ESPCAM_DIR + "/espcam"
 
 ESPCAM_URL = r'http://192.168.1.10/image'
+
+# Create the directory and any missing parent directories
+os.makedirs(WEBCAM_DIR, exist_ok=True)
+os.makedirs(ESPCAM_DIR, exist_ok=True)
 
 # Return time in Paris (TODO: use locale config ?)
 
