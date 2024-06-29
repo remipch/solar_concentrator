@@ -96,10 +96,14 @@ RUN pip install cmake-format
 # https://github.com/espressif/esp-idf/issues/6868#issuecomment-1075743763
 RUN . /esp/esp-idf/export.sh && /esp/esp-idf/tools/idf_tools.py install xtensa-clang
 
+# Simulator dependencies
 RUN . /esp/esp-idf/export.sh && pip install getch
 RUN . /esp/esp-idf/export.sh && pip install --upgrade pip
 RUN . /esp/esp-idf/export.sh && pip install panda3d numpy scipy zmq
 RUN . /esp/esp-idf/export.sh && pip install pytest python-lsp-server autopep8
+
+# Capture dependencies
+RUN . /esp/esp-idf/export.sh && pip install opencv-python
 
 # Setup git autocompletion
 RUN apt-get update && apt-get install -y bash-completion
