@@ -17,21 +17,23 @@ Each capstones is detected with a width and a height :
 
 If 4 capstones are successfully detected, the following pattern is applied from capstones :
 
-       ─▲─ ─ ─▲─┌───┐               ┌───┐
-        │    h│ │ 1 │               │ 2 │
-     2*h│     ▼─└───┘               └───┘
-        │       │                       │
-       ─▼─ ─ ─ ─┌───────────────────────┐
-                │                       │
-                │        target         │
-                │         area          │
-                │       rectangle       │
-                │                       │
-       ─▲─ ─ ─ ─└───────────────────────┘
-        │       │                       │
-     2*h│     ▲─┌───┐               ┌───┐
-        │    h│ │ 3 │               │ 4 │
-       ─▼─ ─ ─▼─└───┘               └───┘
+            ┌───┐               ┌───┐─ ─▲
+        ▲─ ─│ 1 │               │ 2 │   │h
+        │   └───┘               └───┘─ ─▼
+     2*h│   │                       │
+        │   │                       │
+        ▼─ ─┌───────────────────────┐
+            │                       │
+            │        target         │
+            │         area          │
+            │       rectangle       │
+            │                       │
+       ─▲─ ─└───────────────────────┘
+        │   │                       │
+     2*h│   │                       │
+        │   ┌───┐               ┌───┐
+        ▼─ ─│ 3 │               │ 4 │
+            └───┘               └───┘
 
 
 Given that capstone positions are not strictly aligned vertically and horizontally in real images,
@@ -39,8 +41,8 @@ the area rectangle is adjusted to always fit in the rectangle shown above :
 
   left_border = max(corner_1.left, corner_3.left)
   right_border = min(corner_2.right, corner_4.right)
-  top_border = max(corner_1.bottom + corner_1.height, corner_2.bottom + corner_2.height)
-  bottom_border = min(corner_3.top - corner_3.height, corner_4.top - corner_4.height)
+  top_border = max(corner_1.center_y, corner_2.center_y) + 2 * average_corner_height
+  bottom_border = min(corner_3.center_y, corner_4.center_y) - 2 * average_corner_height
 
 This simple approch is valid as long as the perspective effect is negligible in images :
 - the real target surface is almost perpendicular to the camera optical axis
