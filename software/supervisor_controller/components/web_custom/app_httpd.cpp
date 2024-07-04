@@ -417,8 +417,6 @@ static esp_err_t supervisor_command_handler(httpd_req_t *req)
         supervisor_start_sun_tracking();
     } else if (!strcmp(command, "stop")) {
         supervisor_stop();
-    } else if (!strcmp(command, "next-panel")) {
-        supervisor_activate_next_panel();
     } else {
         motors_direction_t direction = motors_direction_t::NONE;
         if (!strcmp(command, "up"))
@@ -455,7 +453,7 @@ static esp_err_t supervisor_command_handler(httpd_req_t *req)
 
 static esp_err_t supervisor_status_handler(httpd_req_t *req)
 {
-    auto active_panel = supervisor_get_active_panel();
+    auto active_panel = "UNDEF";
     ESP_LOGV(TAG, "active_panel = %s", active_panel);
     auto supervisor_state = supervisor_get_state();
     ESP_LOGV(TAG, "supervisor_state = %s", supervisor_state);

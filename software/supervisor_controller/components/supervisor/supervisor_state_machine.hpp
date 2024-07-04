@@ -1,7 +1,6 @@
 #pragma once
 
 #include "motors_direction.hpp"
-#include "panel.hpp"
 
 #include <assert.h>
 
@@ -37,7 +36,6 @@ inline const char *str(supervisor_state_t state)
 enum class supervisor_transition_t : signed char {
     NONE = 0,
     STOP_OR_RESET,
-    ACTIVATE_NEXT_PANEL,
     START_MANUAL_MOVE_CONTINUOUS,
     START_MANUAL_MOVE_ONE_STEP,
     MOTORS_STOPPED,
@@ -59,8 +57,6 @@ inline const char *str(supervisor_transition_t transition)
         return "START_MANUAL_MOVE_CONTINUOUS";
     case supervisor_transition_t::START_MANUAL_MOVE_ONE_STEP:
         return "START_MANUAL_MOVE_ONE_STEP";
-    case supervisor_transition_t::ACTIVATE_NEXT_PANEL:
-        return "ACTIVATE_NEXT_PANEL";
     case supervisor_transition_t::MOTORS_STOPPED:
         return "MOTORS_STOPPED";
     case supervisor_transition_t::START_SUN_TRACKING:
@@ -90,6 +86,5 @@ inline const char *str(supervisor_transition_t transition)
 // start quickly, even if a full image is being captured asynchronously)
 supervisor_state_t supervisor_state_machine_update(supervisor_state_t current_state,
                                                    supervisor_transition_t transition,
-                                                   panel_t &panel,
                                                    motors_direction_t motors_direction,
                                                    int64_t time_ms);
