@@ -33,7 +33,6 @@ bool increment_move_count()
 
 sun_tracker_state_t sun_tracker_state_machine_update(sun_tracker_state_t current_state,
                                                      sun_tracker_transition_t transition,
-                                                     panel_t panel,
                                                      sun_tracker_image_callback publish_full_image,
                                                      sun_tracker_result_t &result)
 {

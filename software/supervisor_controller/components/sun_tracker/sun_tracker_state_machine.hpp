@@ -1,7 +1,6 @@
 #pragma once
 
 #include "camera.hpp"
-#include "panel.hpp"
 #include "sun_tracker_callbacks.hpp"
 #include "sun_tracker_detection_result.hpp"
 
@@ -76,6 +75,5 @@ sun_tracker_detection_result_t sun_tracker_state_machine_get_detection_result();
 // 'logic_result' output param is only for display purpose
 sun_tracker_state_t sun_tracker_state_machine_update(sun_tracker_state_t current_state,
                                                      sun_tracker_transition_t transition,
-                                                     panel_t panel,
                                                      sun_tracker_image_callback publish_full_image,
                                                      sun_tracker_result_t &result);

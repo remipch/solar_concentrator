@@ -49,7 +49,7 @@ supervisor_state_t supervisor_state_machine_update(supervisor_state_t current_st
             return supervisor_state_t::MANUAL_MOVING;
         } else if (transition == supervisor_transition_t::START_SUN_TRACKING) {
             retry_count = 0;
-            sun_tracker_start(panel);
+            sun_tracker_start();
             return supervisor_state_t::SUN_TRACKING;
         }
     }
@@ -94,7 +94,7 @@ supervisor_state_t supervisor_state_machine_update(supervisor_state_t current_st
             // Error is often caused by bad image acquisition
             // (auto expo leading to bad capstone detection) or misdetected spot
             // Retrying will help in major cases
-            sun_tracker_start(panel);
+            sun_tracker_start();
             return supervisor_state_t::SUN_TRACKING;
         } else if (transition == supervisor_transition_t::SUN_TRACKING_ABORTED) {
             return supervisor_state_t::IDLE;
@@ -109,7 +109,7 @@ supervisor_state_t supervisor_state_machine_update(supervisor_state_t current_st
             return supervisor_state_t::IDLE;
         } else if ((time_ms - start_waiting_time_ms) > WAITING_SUN_MOVE_DURATION_MS) {
             retry_count = 0;
-            sun_tracker_start(panel);
+            sun_tracker_start();
             return supervisor_state_t::SUN_TRACKING;
         }
     }

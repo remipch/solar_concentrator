@@ -20,7 +20,6 @@ static SemaphoreHandle_t state_mutex;
 static const int INTER_UPDATE_DELAY_MS = 100;
 static sun_tracker_state_t current_state = sun_tracker_state_t::UNINITIALIZED;
 static sun_tracker_transition_t asked_transition = sun_tracker_transition_t::NONE;
-static panel_t active_panel = panel_t::PANEL_A;
 static sun_tracker_result_callback result_callback = NULL;
 static sun_tracker_image_callback image_callback = NULL;
 
@@ -84,22 +83,12 @@ void set_transition(sun_tracker_transition_t transition)
     xSemaphoreGive(state_mutex);
 }
 
-// Note : transition will be reset if state changes after this call
-void set_transition(sun_tracker_transition_t transition, panel_t panel)
-{
-    assert(xSemaphoreTake(state_mutex, pdMS_TO_TICKS(STATE_MUTEX_TIMEOUT_MS)));
-    asked_transition = static_cast<sun_tracker_transition_t>(asked_transition | transition);
-    active_panel = panel;
-    xSemaphoreGive(state_mutex);
-}
-
 static void sun_tracker_task(void *arg)
 {
     while (true) {
         assert(xSemaphoreTake(state_mutex, pdMS_TO_TICKS(STATE_MUTEX_TIMEOUT_MS)));
         sun_tracker_state_t state = current_state;
         sun_tracker_transition_t transition = asked_transition;
-        panel_t panel = active_panel;
 
         // Reset asked transition :
         // - it will be "consumed" by 'state_machine_update' outside of the mutex guard
@@ -109,8 +98,7 @@ static void sun_tracker_task(void *arg)
         xSemaphoreGive(state_mutex);
 
         sun_tracker_result_t result;
-        sun_tracker_state_t new_state =
-            sun_tracker_state_machine_update(state, transition, panel, publish_full_image, result);
+        sun_tracker_state_t new_state = sun_tracker_state_machine_update(state, transition, publish_full_image, result);
 
         if (new_state != state) {
             ESP_LOGI(
@@ -145,6 +133,6 @@ void sun_tracker_init()
     xTaskCreate(sun_tracker_task, TAG, 4 * 1024, NULL, 5, NULL);
 }
 
-void sun_tracker_start(panel_t panel) { set_transition(sun_tracker_transition_t::START, panel); }
+void sun_tracker_start() { set_transition(sun_tracker_transition_t::START); }
 
 void sun_tracker_stop() { set_transition(sun_tracker_transition_t::STOP); }
