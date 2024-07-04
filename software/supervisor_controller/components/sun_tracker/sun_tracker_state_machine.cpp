@@ -73,7 +73,7 @@ sun_tracker_state_t sun_tracker_state_machine_update(sun_tracker_state_t current
                 move_count = 0;
                 return sun_tracker_state_t::IDLE;
             } else {
-                motors_start_move_one_step(panel, detection.direction);
+                motors_start_move_one_step(detection.direction);
                 return sun_tracker_state_t::TRACKING;
             }
         }
@@ -117,7 +117,7 @@ sun_tracker_state_t sun_tracker_state_machine_update(sun_tracker_state_t current
                 move_count = 0;
                 return sun_tracker_state_t::IDLE;
             } else {
-                motors_start_move_one_step(panel, detection.direction);
+                motors_start_move_one_step(detection.direction);
                 return sun_tracker_state_t::TRACKING;
             }
         }

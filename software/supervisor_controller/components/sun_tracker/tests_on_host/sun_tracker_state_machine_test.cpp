@@ -10,7 +10,7 @@ MINI_MOCK_FUNCTION(camera_capture,
                    (bool drop_current_image, CImg<unsigned char> &grayscale_cimg),
                    (drop_current_image, grayscale_cimg));
 MINI_MOCK_FUNCTION(sun_tracker_logic_detect, sun_tracker_detection_t, (CImg<unsigned char> & full_img), (full_img));
-MINI_MOCK_FUNCTION(motors_start_move_one_step, void, (panel_t panel, motors_direction_t direction), (panel, direction));
+MINI_MOCK_FUNCTION(motors_start_move_one_step, void, (motors_direction_t direction), (direction));
 
 // sun_tracker image callbacks are for display purpose only,
 void drop(CImg<unsigned char> &img) {}
@@ -76,8 +76,7 @@ TEST(typical_scenario, []() {
             .direction = motors_direction_t::DOWN_LEFT,
         };
     });
-    MINI_MOCK_ON_CALL(motors_start_move_one_step, [](panel_t panel, motors_direction_t motors_direction) {
-        EXPECT(panel == panel_t::PANEL_A);
+    MINI_MOCK_ON_CALL(motors_start_move_one_step, [](motors_direction_t motors_direction) {
         EXPECT(motors_direction == motors_direction_t::DOWN_LEFT);
     });
     state = sun_tracker_state_machine_update(
@@ -92,8 +91,7 @@ TEST(typical_scenario, []() {
             .direction = motors_direction_t::DOWN,
         };
     });
-    MINI_MOCK_ON_CALL(motors_start_move_one_step, [](panel_t panel, motors_direction_t motors_direction) {
-        EXPECT(panel == panel_t::PANEL_A);
+    MINI_MOCK_ON_CALL(motors_start_move_one_step, [](motors_direction_t motors_direction) {
         EXPECT(motors_direction == motors_direction_t::DOWN);
     });
     state = sun_tracker_state_machine_update(

@@ -77,7 +77,7 @@ void motors_hw_stop()
     motors_hw_write_commands("c");
 }
 
-void motors_hw_start_move(panel_t panel, motors_direction_t direction, bool continuous)
+void motors_hw_start_move(motors_direction_t direction, bool continuous)
 {
     ESP_LOGV(TAG, "motors_hw_start_move(direction = %s, continuous = %i)", str(direction), continuous ? 1 : 0);
     int motor_pins = 0;
@@ -102,16 +102,14 @@ void motors_hw_start_move(panel_t panel, motors_direction_t direction, bool cont
         assert(false);
     }
 
-    // underlying motors pins are just shifted by 4 bits
-    if (panel == panel_t::PANEL_B) {
-        motor_pins *= 16;
-    } else {
-        assert(panel == panel_t::PANEL_A);
-    }
+    // Electronics support 2 panels (A and B) because it was planned to control 2 panels
+    // but the current supervisor software manage only one panel.
+    // The same command is sent to both panel outputs
+    // so it works whatever the actual output connected to the real panel is
+    motor_pins = motor_pins + (motor_pins * 16);
 
     // 'continuous' is not supposed to be infinite because hard angle limit
-    // Panel B has better mechanical demultiplication, set 150 ms instead of 50 ms
-    int cmd_max_time_ms = continuous ? 10000 : (panel == panel_t::PANEL_A) ? 50 : 150;
+    int cmd_max_time_ms = continuous ? 10000 : 150;
     int cmd_threshold = 200;
     static char command[1024];
     sprintf(command, "o:%i,%i,%i", motor_pins, cmd_max_time_ms, cmd_threshold);
