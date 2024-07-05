@@ -194,13 +194,14 @@ bool target_detector_detect(CImg<unsigned char> &image, rectangle_t &target)
         for (int i = 0; i < capstone_count; i++) {
             const quirc_capstone *capstone = quirc_get_capstone(capstone_detector, i);
             capstone_geometry geometry = extract_capstone_geometry(capstone);
-            draw_capstone(image, geometry);
 
             // Ignore capstone if out of size
             if (geometry.width < MIN_CAPSTONE_SIZE || geometry.width > MAX_CAPSTONE_SIZE
                 || geometry.height < MIN_CAPSTONE_SIZE || geometry.height > MAX_CAPSTONE_SIZE) {
                 continue;
             }
+
+            draw_capstone(image, geometry);
 
             // Ignore capstone if it has already been detected with a different threshold
             for (int j = 0; j < detected_capstone_count; j++) {
