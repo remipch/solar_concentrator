@@ -55,15 +55,14 @@ module stand_back_board(exploded=false, gap=GAP) {
   }
 
   for (x=[-motor_block_offset_x-back_board_depth(),motor_block_offset_x]) {
-    translate([x,motor_block_offset_y-(exploded?9*gap:0),motor_block_offset_z]) {
+    translate([x,motor_block_offset_y-(exploded?5*gap:0),motor_block_offset_z]) {
       motor_block();
 
       for (hole_t=motor_support_holes_t()) {
-        translate(hole_t + [0,-1,0])
+        translate(hole_t)
           rotate([90,0,0])
-            simple_assembly(30,exploded=exploded,gap=3*gap,extra_line_length=9*gap) {
-              wood_screw_d4(30);
-            }
+            bolt_assembly_m4(bolt_length=40, assembly_depth=back_board_depth()+motor_support_depth(),washer_gap_z=7*gap,nut_gap_z=2*gap, exploded=exploded)
+              round_head_bolt_m4(40);
       }
     }
     translate([x,exploded?-gap:0,bracket_offset_z]){
