@@ -1,18 +1,26 @@
 # Solar Concentrator Mechanics
 
+Hierarchical breakdown :
+
 - [Solar panel](#solar-panel)
     -  [Stand](#stand)
         - [Stand back board](#stand-back-board)
         - [Stand front board](#stand-front-board)
     - [Panel](#panel)
 
+
+:information_source: You can click on the images below
+to view them in an online 3D viewer.
+
 # Solar panel
 
 ## Stand
 
-![Stand](generated/stand.png)
+Assembled :<br>
+![Stand](generated/stand.png)<br>
 
-![Stand](generated/stand_exploded.png)
+Exploded :<br>
+![Stand](generated/stand_exploded.png)<br>
 
 ### Stand back board
 
