@@ -45,6 +45,16 @@ module stand_back_board(exploded=false, gap=GAP) {
         rotate([-90,0,0])
           cylinder(back_board_depth()+2,r=3);
     }
+
+    for (x=[-motor_block_offset_x,motor_block_offset_x]) {
+      translate([x,0,motor_block_offset_z]) {
+        for (hole_t=motor_support_holes_t()) {
+          translate([hole_t.x,-1,hole_t.z])
+            rotate([-90,0,0])
+              cylinder(back_board_depth()+2,r=2);
+        }
+      }
+    }
   }
 
   for (x=[-stand_pulley_offset_x,stand_pulley_offset_x]) {
