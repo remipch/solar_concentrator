@@ -1,10 +1,6 @@
 use <bolt_and_nut.scad>
 use <assembly.scad>
-use <small_bracket.scad>
-use <motor_block.scad>
-use <stand_front_board.scad>
-use <pulley.scad>
-use <truncate.scad>
+use <pulley.scad> // Only for the "ring" part
 
 $fa = 10;
 $fs = 0.1;
@@ -38,7 +34,12 @@ mirror_period_z = mirror_height + 5;
 
 panel_board_width = mirror_columns * mirror_period_x;
 panel_board_depth = 15;
-panel_board_height = mirror_rows * mirror_period_z;// + 30;
+panel_board_bottom_margin = 30;
+panel_board_height = mirror_rows * mirror_period_z;
+panel_board_total_height = panel_board_height + panel_board_bottom_margin;
+
+ring_hole_x = 20; // From bottom corners
+ring_hole_z = 15; // From bottom corners
 
 module mirror_holder(exploded, angle_x, angle_z) {
   translate([0,mirror_holder_pos_y-mirror_holder_depth,mirror_holder_middle_bolt_z]) {
@@ -70,8 +71,8 @@ module mirror_holder(exploded, angle_x, angle_z) {
 
 module panel_board(exploded=false, gap=GAP) {
   difference() {
-    translate([-panel_board_width/2,0,-panel_board_height/2])
-      cube([panel_board_width,panel_board_depth,panel_board_height]);
+    translate([-panel_board_width/2,0,-panel_board_height/2-panel_board_bottom_margin])
+      cube([panel_board_width,panel_board_depth,panel_board_total_height]);
 
     for (c=[0:mirror_columns-1]) {
       x = mirror_period_x * (-(mirror_columns-1)/2 + c);
@@ -88,6 +89,12 @@ module panel_board(exploded=false, gap=GAP) {
           }
         }
       }
+    }
+
+    for (x=[-panel_board_width/2+ring_hole_x,panel_board_width/2-ring_hole_x]) {
+      translate([x,-1,-panel_board_height/2-panel_board_bottom_margin+ring_hole_z])
+        rotate([-90,0,0])
+          cylinder(panel_board_depth+2,r=3);
     }
   }
 
@@ -111,6 +118,14 @@ module panel_board(exploded=false, gap=GAP) {
         }
       }
     }
+  }
+
+  for (x=[-panel_board_width/2+ring_hole_x,panel_board_width/2-ring_hole_x]) {
+    translate([x,panel_board_depth,-panel_board_height/2-panel_board_bottom_margin+ring_hole_z])
+      rotate([-90,0,0])
+        bolt_assembly_m6(bolt_length=40,bolt_gap_z=3*GAP,assembly_depth=panel_board_depth,washer_gap_z=GAP,nut_gap_z=2*GAP,exploded=exploded)
+          rotate([-90,0,0])
+            fixed_ring(30);
   }
 }
 
