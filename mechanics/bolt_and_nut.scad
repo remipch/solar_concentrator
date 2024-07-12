@@ -136,15 +136,16 @@ module washer_m6() {
 // en: impact nut
 // fr: écrou à frapper
 module impact_nut_m4() {
-  difference() {
-    translate([0,0,-1])
-      union() {
-        cylinder(6, r=3);
-        cylinder(1, r=7);
-      }
-    translate([0,0,-2])
-      cylinder(8, r=2);
-  }
+  color([0.5,0.5,0.5])
+    difference() {
+      translate([0,0,-1])
+        union() {
+          cylinder(6, r=3);
+          cylinder(1, r=7);
+        }
+      translate([0,0,-2])
+        cylinder(8, r=2);
+    }
 }
 
 module wood_screw(length, diameter, head_length, head_diameter, sharp_length) {
