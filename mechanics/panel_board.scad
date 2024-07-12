@@ -75,11 +75,11 @@ module panel_board(exploded=false, gap=GAP) {
         translate([x,-1,z]) {
           translate([0,0,mirror_holder_middle_bolt_z])
             rotate([-90,0,0])
-              #cylinder(panel_board_depth+2,r=2.5);
+              cylinder(panel_board_depth+2,r=2.5);
           for (hole_t=mirror_holder_bolt_t) {
             translate(hole_t)
               rotate([-90,0,0])
-                #cylinder(panel_board_depth+2,r=2.5);
+                cylinder(panel_board_depth+2,r=3);
           }
         }
       }
@@ -93,8 +93,18 @@ module panel_board(exploded=false, gap=GAP) {
       z = mirror_period_z * (-(mirror_rows-1)/2 + r);
       angle_x = z/50; // not the exact angle, just to show some mirror orientation
 
-      translate([x,0,z])
-        mirror_holder(exploded, angle_x, angle_z);
+      if(!exploded || (c==0&&r==1)){
+        translate([x,0,z]){
+          mirror_holder(exploded, angle_x, angle_z);
+
+          for (hole_t=mirror_holder_bolt_t) {
+            translate(hole_t+[0,panel_board_depth+20,0])
+              rotate([-90,0,0])
+                impact_nut_assembly_m4(30, assembly_depth=panel_board_depth+20,exploded=exploded)
+                  countersunk_bolt_m4(60);
+          }
+        }
+      }
     }
   }
 }
