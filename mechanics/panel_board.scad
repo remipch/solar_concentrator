@@ -43,20 +43,23 @@ panel_board_height = mirror_rows * mirror_period_z;// + 30;
 module mirror_holder(exploded, angle_x, angle_z) {
   translate([0,mirror_holder_pos_y-mirror_holder_depth,mirror_holder_middle_bolt_z]) {
     rotate([90,0,0])
-      bolt_assembly_m4(bolt_length=60, assembly_depth=mirror_holder_depth-mirror_holder_pos_y+panel_board_depth,exploded=exploded)
+      bolt_assembly_m4(bolt_length=60, bolt_gap_z=2*GAP, assembly_depth=mirror_holder_depth-mirror_holder_pos_y+panel_board_depth,exploded=exploded)
         countersunk_bolt_m4(60);
 
-    rotate([angle_x,0,angle_z])
-      difference() {
-        translate([-mirror_holder_width/2,0,-mirror_holder_height/2-mirror_holder_middle_bolt_z])
-          cube([mirror_holder_width,mirror_holder_depth,mirror_holder_height]);
+    translate([0,-(exploded?GAP:0),0]) {
+      rotate([angle_x,0,angle_z]) {
+        difference() {
+          translate([-mirror_holder_width/2,0,-mirror_holder_height/2-mirror_holder_middle_bolt_z])
+            cube([mirror_holder_width,mirror_holder_depth,mirror_holder_height]);
 
-        translate([0,-1,0])
-          rotate([-90,0,0]) {
-            cylinder(mirror_holder_depth+2,r=2.5);
-            cylinder(4,r1=6,r2=2.5);
-          }
+          translate([0,-1,0])
+            rotate([-90,0,0]) {
+              cylinder(mirror_holder_depth+2,r=2.5);
+              cylinder(4,r1=6,r2=2.5);
+            }
+        }
       }
+    }
   }
 }
 
