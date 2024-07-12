@@ -26,8 +26,8 @@ mirror_holder_bolt_t = [ // from mirror_holder center
 ];
 
 
-mirror_columns = 2;
-mirror_rows = 3;
+mirror_columns = 4;
+mirror_rows = 6;
 
 mirror_period_x = mirror_width + 5;
 mirror_period_z = mirror_height + 5;
@@ -100,10 +100,10 @@ module panel_board(exploded=false, gap=GAP) {
 
   for (c=[0:mirror_columns-1]) {
     x = mirror_period_x * (-(mirror_columns-1)/2 + c);
-    angle_z = -x/50; // not the exact angle, just to show some mirror orientation
+    angle_z = -x/60; // not the exact angle, just to show some mirror orientation
     for (r=[0:mirror_rows-1]) {
       z = mirror_period_z * (-(mirror_rows-1)/2 + r);
-      angle_x = z/50; // not the exact angle, just to show some mirror orientation
+      angle_x = z/60; // not the exact angle, just to show some mirror orientation
 
       if(!exploded || (c==0&&r==1)){
         translate([x,0,z]){
