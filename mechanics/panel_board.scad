@@ -43,10 +43,15 @@ panel_board_height = mirror_rows * mirror_period_z;// + 30;
 module mirror_holder(exploded, angle_x, angle_z) {
   translate([0,mirror_holder_pos_y-mirror_holder_depth,mirror_holder_middle_bolt_z]) {
     rotate([90,0,0])
-      bolt_assembly_m4(bolt_length=60, bolt_gap_z=2*GAP, assembly_depth=mirror_holder_depth-mirror_holder_pos_y+panel_board_depth,exploded=exploded)
+      bolt_assembly_m4(
+        bolt_length=60,
+        bolt_gap_z=3*GAP,
+        assembly_depth=mirror_holder_depth-mirror_holder_pos_y+panel_board_depth,
+        washer_gap_z=2*GAP,
+        exploded=exploded)
         countersunk_bolt_m4(60);
 
-    translate([0,-(exploded?GAP:0),0]) {
+    translate([0,-(exploded?2*GAP:0),0]) {
       rotate([angle_x,0,angle_z]) {
         difference() {
           translate([-mirror_holder_width/2,0,-mirror_holder_height/2-mirror_holder_middle_bolt_z])
@@ -100,7 +105,7 @@ module panel_board(exploded=false, gap=GAP) {
           for (hole_t=mirror_holder_bolt_t) {
             translate(hole_t+[0,panel_board_depth+20,0])
               rotate([-90,0,0])
-                impact_nut_assembly_m4(30, assembly_depth=panel_board_depth+20,exploded=exploded)
+                impact_nut_assembly_m4(30, bolt_gap_z=3*GAP, assembly_depth=panel_board_depth+20,exploded=exploded)
                   countersunk_bolt_m4(60);
           }
         }
