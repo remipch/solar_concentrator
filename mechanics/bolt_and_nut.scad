@@ -132,6 +132,21 @@ module washer_m6() {
     washer(washer_m6_height(),6.2,18);
 }
 
+
+// en: impact nut
+// fr: écrou à frapper
+module impact_nut_m4() {
+  difference() {
+    translate([0,0,-1])
+      union() {
+        cylinder(6, r=3);
+        cylinder(1, r=7);
+      }
+    translate([0,0,-2])
+      cylinder(8, r=2);
+  }
+}
+
 module wood_screw(length, diameter, head_length, head_diameter, sharp_length) {
   color([0.5,0.5,0.5]) {
     difference() {
@@ -171,12 +186,6 @@ module wood_screw_d3(length) {
     wood_screw(length,3,1.5,6,8);
 }
 
-translate([0,80,0])
-  wood_screw_d4(15);
-
-translate([-20,80,0])
-  wood_screw_d3(15);
-
 translate([-20,0,0])
   countersunk_bolt_m3(10);
 
@@ -209,3 +218,11 @@ translate([0,60,0])
 translate([20,60,0])
   washer_m6();
 
+translate([0,80,0])
+  impact_nut_m4();
+
+translate([0,100,0])
+  wood_screw_d4(15);
+
+translate([-20,100,0])
+  wood_screw_d3(15);
