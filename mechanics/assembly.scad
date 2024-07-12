@@ -115,10 +115,32 @@ module bolt_assembly_m6(
   }
 }
 
+// children(0) is bolt
+module impact_nut_assembly_m4(
+  bolt_length,
+  bolt_gap_z=DEFAULT_GAP,
+  assembly_depth,
+  nut_gap_z=DEFAULT_GAP,
+  exploded=false) {
+
+  translate([0,0,exploded?bolt_length+bolt_gap_z:0]) {
+    children(0);
+    if(exploded) {
+      rotate([180,0,0])
+      cylinder(bolt_length+bolt_gap_z+assembly_depth+nut_gap_z, r=exploded_line_radius());
+    }
+  }
+  translate([0,0,-assembly_depth]) {
+    translate([0,0,(exploded?-nut_gap_z:0)]) {
+      impact_nut_m4();
+    }
+  }
+}
+
 assembly_depth=10;
 
 translate([-10,-10,-assembly_depth])
-  %cube([160,20,assembly_depth]);
+  %cube([200,20,assembly_depth]);
 
 translate([00,0,0])
   bolt_assembly_m4(bolt_length=20, assembly_depth=assembly_depth)
@@ -150,3 +172,11 @@ translate([120,0,0])
 translate([140,0,0])
   simple_assembly(30,exploded=true)
     wood_screw_d4(30);
+
+translate([160,0,10])
+  impact_nut_assembly_m4(30, assembly_depth=assembly_depth+10,exploded=false)
+    countersunk_bolt_m4(30);
+
+translate([180,0,10])
+  impact_nut_assembly_m4(30, assembly_depth=assembly_depth+10,exploded=true)
+    countersunk_bolt_m4(30);
