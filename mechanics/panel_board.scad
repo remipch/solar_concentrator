@@ -1,5 +1,6 @@
 use <bolt_and_nut.scad>
 use <assembly.scad>
+use <big_bracket.scad>
 use <pulley.scad> // Only for the "ring" part
 
 $fa = 10;
@@ -40,6 +41,8 @@ panel_board_total_height = panel_board_height + panel_board_bottom_margin;
 
 ring_hole_x = 20; // From bottom corners
 ring_hole_z = 15; // From bottom corners
+
+bracket_pos_z = -200; // From top border
 
 module mirror_holder(exploded, angle_x, angle_z) {
   translate([0,mirror_holder_pos_y-mirror_holder_depth,mirror_holder_middle_bolt_z]) {
@@ -126,6 +129,17 @@ module panel_board(exploded=false, gap=GAP) {
         bolt_assembly_m6(bolt_length=40,bolt_gap_z=3*GAP,assembly_depth=panel_board_depth,washer_gap_z=GAP,nut_gap_z=2*GAP,exploded=exploded)
           rotate([-90,0,0])
             fixed_ring(30);
+  }
+
+  translate([0,panel_board_depth+(exploded?5*GAP:0),panel_board_height/2+bracket_pos_z]){
+    big_bracket();
+
+    for (hole_t=big_bracket_origin_to_vertical_holes_t()) {
+      translate(hole_t+[0,big_bracket_depth()+2,0])
+        rotate([-90,0,0])
+          simple_assembly(15,gap=3*GAP,extra_line_length=5*GAP,exploded=exploded)
+            wood_screw_d4(15);
+    }
   }
 }
 
