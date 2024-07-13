@@ -49,13 +49,13 @@ module mirror_holder(exploded, angle_x, angle_z) {
     rotate([90,0,0])
       bolt_assembly_m4(
         bolt_length=60,
-        bolt_gap_z=3*GAP,
+        bolt_gap_z=6*GAP,
         assembly_depth=mirror_holder_depth-mirror_holder_pos_y+panel_board_depth,
-        washer_gap_z=2*GAP,
+        washer_gap_z=3*GAP,
         exploded=exploded)
         countersunk_bolt_m4(60);
 
-    translate([0,-(exploded?2*GAP:0),0]) {
+    translate([0,-(exploded?4*GAP:0),0]) {
       rotate([angle_x,0,angle_z]) {
         difference() {
           translate([-mirror_holder_width/2,0,-mirror_holder_height/2-mirror_holder_middle_bolt_z])
@@ -115,7 +115,7 @@ module panel_board(exploded=false, gap=GAP) {
           for (hole_t=mirror_holder_bolt_t) {
             translate(hole_t+[0,panel_board_depth+20,0])
               rotate([-90,0,0])
-                impact_nut_assembly_m4(30, bolt_gap_z=3*GAP, assembly_depth=panel_board_depth+20,exploded=exploded)
+                impact_nut_assembly_m4(30, bolt_gap_z=5*GAP, assembly_depth=panel_board_depth+20,exploded=exploded)
                   countersunk_bolt_m4(60);
           }
         }
@@ -131,13 +131,13 @@ module panel_board(exploded=false, gap=GAP) {
             fixed_ring(30);
   }
 
-  translate([0,panel_board_depth+(exploded?5*GAP:0),panel_board_height/2+bracket_pos_z]){
+  translate([0,panel_board_depth+(exploded?9*GAP:0),panel_board_height/2+bracket_pos_z]){
     big_bracket();
 
     for (hole_t=big_bracket_origin_to_vertical_holes_t()) {
       translate(hole_t+[0,big_bracket_depth()+2,0])
         rotate([-90,0,0])
-          simple_assembly(15,gap=3*GAP,extra_line_length=5*GAP,exploded=exploded)
+          simple_assembly(15,gap=3*GAP,extra_line_length=9*GAP,exploded=exploded)
             wood_screw_d4(15);
     }
   }
