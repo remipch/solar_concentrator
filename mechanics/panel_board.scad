@@ -63,6 +63,22 @@ module mirror_glue() {
     }
 }
 
+module mirror(exploded) {
+  translate([-mirror_width/2,-mirror_depth-(exploded?8*GAP:0),-mirror_height/2])
+    cube([mirror_width,mirror_depth,mirror_height]);
+
+
+  if(exploded) {
+    for (a=[0:90:270]) {
+      rotate([0,a,0]) {
+        translate([mirror_holder_width/2,0,mirror_holder_height/2])
+          rotate([90,0,0])
+            cylinder(8*GAP, r=exploded_line_radius());
+      }
+    }
+  }
+}
+
 module mirror_holder(exploded, angle_x, angle_z) {
   translate([0,mirror_holder_pos_y-mirror_holder_depth,mirror_holder_middle_bolt_z]) {
     rotate([90,0,0])
@@ -89,6 +105,8 @@ module mirror_holder(exploded, angle_x, angle_z) {
 
         translate([0,0,-mirror_holder_middle_bolt_z]) {
           mirror_glue();
+          translate([0,-glue_radius+1,0])
+            mirror(exploded);
         }
       }
     }
