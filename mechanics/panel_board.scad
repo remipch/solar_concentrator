@@ -64,9 +64,21 @@ module mirror_glue() {
 }
 
 module mirror(exploded) {
-  translate([-mirror_width/2,-mirror_depth-(exploded?8*GAP:0),-mirror_height/2])
-    cube([mirror_width,mirror_depth,mirror_height]);
+  translate([0,-mirror_depth-(exploded?8*GAP:0),0]) {
+    translate([-mirror_width/2,0,-mirror_height/2])
+      cube([mirror_width,mirror_depth,mirror_height]);
 
+    // Add fake mirror image lines
+    translate([-mirror_width/4,0,-mirror_height/5])
+      rotate([0,45,0])
+        cylinder(mirror_width/1.5, r=0.5, $fn=4);
+    translate([-mirror_width/3,0,mirror_height/8])
+      rotate([0,45,0])
+        cylinder(mirror_width/4, r=0.5, $fn=4);
+    translate([mirror_width/3,0,-mirror_height/8])
+      rotate([0,225,0])
+        cylinder(mirror_width/4, r=0.5, $fn=4);
+  }
 
   if(exploded) {
     for (a=[0:90:270]) {
