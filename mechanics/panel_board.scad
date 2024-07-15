@@ -44,6 +44,25 @@ ring_hole_z = 15; // From bottom corners
 
 bracket_pos_z = -200; // From top border
 
+glue_radius=3;
+glue_corner_radius=20;
+glue_linear_side_length=70;
+
+module mirror_glue() {
+  rotate([90,0,0])
+    for (a=[0:90:270]) {
+      rotate([0,0,a]) {
+          translate([glue_linear_side_length/2, glue_linear_side_length/2, 0])
+            rotate_extrude(angle=90)
+                translate([glue_corner_radius, 0]) circle(glue_radius);
+
+          translate([glue_linear_side_length/2+glue_corner_radius, glue_linear_side_length/2, 0])
+            rotate([90, 0, 0])
+                cylinder(r=glue_radius, h=glue_linear_side_length);
+      }
+    }
+}
+
 module mirror_holder(exploded, angle_x, angle_z) {
   translate([0,mirror_holder_pos_y-mirror_holder_depth,mirror_holder_middle_bolt_z]) {
     rotate([90,0,0])
@@ -66,6 +85,10 @@ module mirror_holder(exploded, angle_x, angle_z) {
               cylinder(mirror_holder_depth+2,r=2.5);
               cylinder(4,r1=6,r2=2.5);
             }
+        }
+
+        translate([0,0,-mirror_holder_middle_bolt_z]) {
+          mirror_glue();
         }
       }
     }
