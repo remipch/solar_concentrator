@@ -42,7 +42,7 @@ panel_board_total_height = panel_board_height + panel_board_bottom_margin;
 ring_hole_x = 20; // From bottom corners
 ring_hole_z = 15; // From bottom corners
 
-bracket_pos_z = -200; // From top border
+bracket_pos_z = -50; // From top border
 
 glue_radius=3;
 glue_corner_radius=20;
