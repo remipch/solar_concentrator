@@ -9,7 +9,7 @@ use <assembly.scad>
 
 GAP = 20;
 
-SMALL_HINGE_ANGLE = 120;
+SMALL_HINGE_ANGLE = 60;
 
 EXPLODED = true;
 
