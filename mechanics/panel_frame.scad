@@ -13,7 +13,10 @@ SMALL_HINGE_ANGLE = 60;
 
 EXPLODED = true;
 
-module panel_frame(small_hinge_angle, exploded, gap) {
+// "panel_frame_construction" use the default position and orientation of horizontal and verical axes
+// to make the panel frame construction easier to understand
+// But "panel_frame" module use the position and orientation that is easier to use by the "panel" module
+module panel_frame_construction(small_hinge_angle, exploded, gap) {
   panel_vertical_axis();
 
   translate([0,0,panel_vertical_axis_length()-square_tube_width()]) {
@@ -39,4 +42,12 @@ module panel_frame(small_hinge_angle, exploded, gap) {
   }
 }
 
-panel_frame(SMALL_HINGE_ANGLE, EXPLODED, GAP);
+// Rotate and move 'panel_frame_construction' at verical hinge axis
+module panel_frame(small_hinge_angle, exploded=false, gap=GAP) {
+  rotate([0,0,180])
+    translate([-hinge_origin_to_axis_t().x,hinge_depth()+square_tube_width(),0])
+      panel_frame_construction(small_hinge_angle, exploded, gap)
+        children();
+}
+
+panel_frame(SMALL_HINGE_ANGLE, EXPLODED, GAP)
