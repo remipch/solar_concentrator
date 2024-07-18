@@ -52,22 +52,26 @@ module half(even_cylinders) {
 }
 
 module small_hinge_move_to_other_half_origin(angle) {
-  function small_hinge_second_half_origin_t() = [-2*small_hinge_cylinder_radius, 0, 2*small_hinge_cylinder_radius];
-
   translate([-small_hinge_cylinder_radius, 0, small_hinge_cylinder_radius])
     rotate([0,90-angle,0])
       translate([-small_hinge_cylinder_radius, 0, small_hinge_cylinder_radius])
-        rotate([0,0,180])
+        rotate([0,0,90])
           children();
+}
+
+module small_hinge_move_to_other_half(angle) {
+  translate([-small_hinge_cylinder_radius, 0, small_hinge_cylinder_radius])
+    rotate([0,90-angle,0])
+      translate([-small_hinge_cylinder_radius, 0, small_hinge_cylinder_radius])
+        rotate([180,0,0])
+          rotate([0,90,0])
+            children();
 }
 
 module small_hinge(angle) {
   half(false);
-  small_hinge_move_to_other_half_origin(angle)
-    rotate([0,0,180])
-      rotate([180,0,0])
-        rotate([0,90,0])
-          half(true);
+  small_hinge_move_to_other_half(angle)
+    half(true);
 
   translate([-small_hinge_cylinder_radius,-small_hinge_height()/2,small_hinge_cylinder_radius])
     rotate([-90,0,0])
@@ -75,7 +79,7 @@ module small_hinge(angle) {
 }
 
 small_hinge(ANGLE);
-%cube(10);
+  %cube(10);
 
-small_hinge_move_to_other_half_origin(ANGLE)
+small_hinge_move_to_other_half(ANGLE)
   %cube(10);
