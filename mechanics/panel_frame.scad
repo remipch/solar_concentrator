@@ -49,6 +49,8 @@ module panel_frame_construction(small_hinge_angle, exploded) {
 }
 
 // Rotate and move 'panel_frame_construction' at verical hinge axis
+// children(0) is panel board
+// children(1) is wood screw to assemble panel board
 module panel_frame(small_hinge_angle, exploded=false) {
   rotate([0,0,180])
     translate([-hinge_origin_to_axis_t().x,hinge_depth()+square_tube_width(),0])
