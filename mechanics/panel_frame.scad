@@ -14,13 +14,13 @@ SMALL_HINGE_ANGLE = 60;
 EXPLODED = true;
 
 module panel_frame(small_hinge_angle, exploded, gap) {
-  panel_vertical_axis(false, gap);
+  panel_vertical_axis();
 
   translate([0,0,panel_vertical_axis_length()-square_tube_width()]) {
     translate([0,exploded?2*gap:0,0]) {
-      panel_horizontal_axis(small_hinge_angle, exploded, gap);
+      panel_horizontal_axis(small_hinge_angle);
 
-      translate([0,square_tube_width()+(EXPLODED?GAP:0),square_tube_width()])
+      translate([0,square_tube_width(),square_tube_width()])
         rotate([0,0,-90])
           small_hinge_move_to_other_half_origin(small_hinge_angle)
             rotate([0,0,-90])
@@ -29,12 +29,12 @@ module panel_frame(small_hinge_angle, exploded, gap) {
 
     translate([horizontal_axis_center_to_center_fixpoint(),square_tube_width(),square_tube_width()/2])
       rotate([-90,180,0])
-          bolt_assembly_m4(bolt_length=30, bolt_gap_z=3*GAP, assembly_depth=square_tube_width()+square_tube_depth(), washer_gap_y=3*GAP, washer_gap_z=4*GAP, exploded=exploded)
+          bolt_assembly_m4(bolt_length=30, bolt_gap_z=3*gap, assembly_depth=square_tube_width()+square_tube_depth(), washer_gap_y=3*gap, washer_gap_z=4*gap, exploded=exploded)
             round_head_bolt_m4(30);
 
     translate([horizontal_axis_center_to_diagonal_fixpoint(),square_tube_width(),square_tube_width()/2])
       rotate([-90,0,0])
-        bolt_assembly_m4(bolt_length=30, bolt_gap_z=3*GAP, assembly_depth=square_tube_width()+flat_profile_depth(), washer_gap_z=3*GAP, exploded=exploded)
+        bolt_assembly_m4(bolt_length=30, bolt_gap_z=3*gap, assembly_depth=square_tube_width()+flat_profile_depth(), washer_gap_z=3*gap, exploded=exploded)
           round_head_bolt_m4(30);
   }
 }
