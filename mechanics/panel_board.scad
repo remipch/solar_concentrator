@@ -10,6 +10,8 @@ GAP = 20;
 
 EXPLODED = false;
 
+skip_mirror_holders = false; // (for temporary manual speed up because 24 mirror holders make my computer slow)
+
 mirror_width = 150;
 mirror_depth = 4;
 mirror_height = 150;
@@ -25,7 +27,6 @@ mirror_holder_bolt_t = [ // from mirror_holder center
   [55,0,55],
   [0,0,-55]
 ];
-
 
 mirror_columns = 4;
 mirror_rows = 6;
@@ -154,22 +155,24 @@ module panel_board(exploded=false, gap=GAP) {
     }
   }
 
-  for (c=[0:mirror_columns-1]) {
-    x = mirror_period_x * (-(mirror_columns-1)/2 + c);
-    angle_z = -x/60; // not the exact angle, just to show some mirror orientation
-    for (r=[0:mirror_rows-1]) {
-      z = mirror_period_z * (-(mirror_rows-1)/2 + r);
-      angle_x = z/60; // not the exact angle, just to show some mirror orientation
+  if(!skip_mirror_holders) {
+    for (c=[0:mirror_columns-1]) {
+      x = mirror_period_x * (-(mirror_columns-1)/2 + c);
+      angle_z = -x/60; // not the exact angle, just to show some mirror orientation
+      for (r=[0:mirror_rows-1]) {
+        z = mirror_period_z * (-(mirror_rows-1)/2 + r);
+        angle_x = z/60; // not the exact angle, just to show some mirror orientation
 
-      if(!exploded || (c==0&&r==1)){
-        translate([x,0,z]){
-          mirror_holder(exploded, angle_x, angle_z);
+        if(!exploded || (c==0&&r==1)){
+          translate([x,0,z]){
+            mirror_holder(exploded, angle_x, angle_z);
 
-          for (hole_t=mirror_holder_bolt_t) {
-            translate(hole_t+[0,panel_board_depth()+20,0])
-              rotate([-90,0,0])
-                impact_nut_assembly_m4(30, bolt_gap_z=5*GAP, assembly_depth=panel_board_depth()+20,exploded=exploded)
-                  countersunk_bolt_m4(60);
+            for (hole_t=mirror_holder_bolt_t) {
+              translate(hole_t+[0,panel_board_depth()+20,0])
+                rotate([-90,0,0])
+                  impact_nut_assembly_m4(30, bolt_gap_z=5*GAP, assembly_depth=panel_board_depth()+20,exploded=exploded)
+                    countersunk_bolt_m4(60);
+            }
           }
         }
       }
