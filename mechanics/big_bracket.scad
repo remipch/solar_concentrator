@@ -3,6 +3,8 @@ $fa = 10;
 $fs = 0.1;
 
 function big_bracket_depth() = 3;
+bracket_big_length = 450;
+bracket_small_length = 400;
 bracket_big_width = 30;
 bracket_small_width = 15;
 
@@ -14,10 +16,10 @@ module big_bracket() {
     union() {
       translate([0,0,-big_bracket_depth()])
         linear_extrude(height=big_bracket_depth(),center=false)
-          polygon([[-bracket_big_width/2,0],[bracket_big_width/2,0],[bracket_small_width/2,400],[-bracket_small_width/2,400]]);
+          polygon([[-bracket_big_width/2,0],[bracket_big_width/2,0],[bracket_small_width/2,bracket_big_length],[-bracket_small_width/2,bracket_big_length]]);
       rotate([-90,0,0])
         linear_extrude(height=big_bracket_depth(),center=false)
-          polygon([[-bracket_big_width/2,0],[bracket_big_width/2,0],[bracket_small_width/2,300],[-bracket_small_width/2,300]]);
+          polygon([[-bracket_big_width/2,0],[bracket_big_width/2,0],[bracket_small_width/2,bracket_small_length],[-bracket_small_width/2,bracket_small_length]]);
 
       rotate([0,90,0])
         translate([0,0,-big_bracket_depth()/2])
