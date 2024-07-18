@@ -11,8 +11,8 @@ GAP = 100;
 
 EXPLODED = true;
 
-module stand(exploded=false, gap=GAP) {
-  translate([0,front_board_length()/2 + (exploded?2*gap:0),0])
+module stand(exploded=false) {
+  translate([0,front_board_length()/2 + (exploded?2*GAP:0),0])
     stand_back_board();
 
   stand_front_board();
@@ -21,7 +21,7 @@ module stand(exploded=false, gap=GAP) {
     for (x=small_bracket_hole_offsets()) {
       translate([-x-front_board_width(),front_board_length()/2-small_bracket_depth()-1,z]) {
         rotate([90,0,0]) {
-          simple_assembly(15,exploded=exploded,gap=gap,extra_line_length=gap)
+          simple_assembly(15,exploded=exploded,gap=GAP,extra_line_length=GAP)
             wood_screw_d4(15);
         }
       }
@@ -29,5 +29,5 @@ module stand(exploded=false, gap=GAP) {
   }
 }
 
-stand(EXPLODED, GAP);
+stand(EXPLODED);
 
