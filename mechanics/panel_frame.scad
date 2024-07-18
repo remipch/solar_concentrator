@@ -13,23 +13,27 @@ SMALL_HINGE_ANGLE = 60;
 
 EXPLODED = true;
 
-FAKE_PANEL = true;
+FAKE_PANEL_BOARD = true;
+
+FAKE_PANEL_BOARD_SCREW = true;
 
 // "panel_frame_construction" use the default position and orientation of horizontal and verical axes
 // to make the panel frame construction easier to understand
 // But "panel_frame" module use the position and orientation that is easier to use by the "panel" module
+// children(0) is panel board
+// children(1) is wood screw to assemble panel board
 module panel_frame_construction(small_hinge_angle, exploded, gap) {
   panel_vertical_axis();
 
   translate([0,0,panel_vertical_axis_length()-square_tube_width()]) {
     translate([0,exploded?2*gap:0,0]) {
-      panel_horizontal_axis(small_hinge_angle);
+      panel_horizontal_axis(small_hinge_angle)
+        children(1);
 
       translate([0,square_tube_width(),square_tube_width()])
         rotate([0,0,-90])
           small_hinge_move_to_other_half_origin(small_hinge_angle)
-            rotate([0,0,-90])
-              children();
+            children(0);
     }
 
     translate([horizontal_axis_center_to_center_fixpoint(),square_tube_width(),square_tube_width()/2])
@@ -48,12 +52,18 @@ module panel_frame_construction(small_hinge_angle, exploded, gap) {
 module panel_frame(small_hinge_angle, exploded=false, gap=GAP) {
   rotate([0,0,180])
     translate([-hinge_origin_to_axis_t().x,hinge_depth()+square_tube_width(),0])
-      panel_frame_construction(small_hinge_angle, exploded, gap)
-        children();
+      panel_frame_construction(small_hinge_angle, exploded, gap) {
+        children(0);
+        children(1);
+      }
 }
 
-panel_frame(SMALL_HINGE_ANGLE, EXPLODED, GAP)
-  if(FAKE_PANEL)
+panel_frame(SMALL_HINGE_ANGLE, EXPLODED, GAP) {
+  if(FAKE_PANEL_BOARD) {
     translate([-panel_horizontal_axis_length()/2,0,-100])
       %cube([panel_horizontal_axis_length(),20,200]);
-
+  }
+  if(FAKE_PANEL_BOARD_SCREW) {
+    %wood_screw_d4(15);
+  }
+}
