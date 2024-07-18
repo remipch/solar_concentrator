@@ -15,15 +15,15 @@ SMALL_HINGE_ANGLE = 60;
 
 panel_board_pos_z = 85;
 
-module panel(small_hinge_angle, exploded=false, gap=GAP) {
+module panel(small_hinge_angle, exploded=false) {
   panel_frame(small_hinge_angle) {
     rotate([0,0,180])
-      translate([0,-panel_board_depth()-(exploded?gap:0),panel_board_pos_z]){
+      translate([0,-panel_board_depth()-(exploded?GAP:0),panel_board_pos_z]){
         panel_board();
       }
-    simple_assembly(15,exploded=exploded, gap=gap, extra_line_length=gap)
+    simple_assembly(15,exploded=exploded, gap=GAP, extra_line_length=GAP)
       wood_screw_d4(15);
   }
 }
 
-panel(SMALL_HINGE_ANGLE, EXPLODED, GAP);
+panel(SMALL_HINGE_ANGLE, EXPLODED);
