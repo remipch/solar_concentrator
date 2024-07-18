@@ -13,6 +13,8 @@ SMALL_HINGE_ANGLE = 60;
 
 EXPLODED = true;
 
+FAKE_PANEL = true;
+
 // "panel_frame_construction" use the default position and orientation of horizontal and verical axes
 // to make the panel frame construction easier to understand
 // But "panel_frame" module use the position and orientation that is easier to use by the "panel" module
@@ -51,3 +53,7 @@ module panel_frame(small_hinge_angle, exploded=false, gap=GAP) {
 }
 
 panel_frame(SMALL_HINGE_ANGLE, EXPLODED, GAP)
+  if(FAKE_PANEL)
+    translate([-panel_horizontal_axis_length()/2,0,-100])
+      %cube([panel_horizontal_axis_length(),20,200]);
+
