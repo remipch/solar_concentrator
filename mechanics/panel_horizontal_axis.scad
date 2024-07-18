@@ -25,7 +25,7 @@ function horizontal_axis_center_to_diagonal_fixpoint() = horizontal_axis_center_
 
 // Work along y axis because it's the natural orientation of internal objects
 // children(0) is screw to assemble panel board
-module panel_horizontal_axis_along_y(small_hinge_angle, exploded=false, gap=0) {
+module panel_horizontal_axis_along_y(small_hinge_angle, exploded=false) {
   // square tube with all required holes
   difference() {
     square_tube(panel_horizontal_axis_length());
@@ -46,12 +46,12 @@ module panel_horizontal_axis_along_y(small_hinge_angle, exploded=false, gap=0) {
 
   for (hinge_t=horizontal_axis_origin_to_hinges_t()) {
     translate(hinge_t) {
-      translate([0,0,exploded?gap:0])
+      translate([0,0,exploded?GAP:0])
         small_hinge(small_hinge_angle);
 
       for (hole_t=small_hinge_origin_to_holes_t()) {
         translate(hole_t + [0,0,small_hinge_depth()])
-          bolt_assembly_m4(bolt_length=40, bolt_gap_z = 2*GAP, assembly_depth=square_tube_width()+small_hinge_depth(), washer_gap_z=2*GAP, exploded=exploded)
+          bolt_assembly_m4(bolt_length=40, bolt_gap_z = 3*GAP, assembly_depth=square_tube_width()+small_hinge_depth(), washer_gap_z=2*GAP, exploded=exploded)
             countersunk_bolt_m4(40);
 
         small_hinge_move_to_other_half(small_hinge_angle)
@@ -64,11 +64,11 @@ module panel_horizontal_axis_along_y(small_hinge_angle, exploded=false, gap=0) {
 
 // Horizontal axis in its final orientation
 // children(0) is screw to assemble panel board
-module panel_horizontal_axis(small_hinge_angle, exploded=false, gap=0) {
+module panel_horizontal_axis(small_hinge_angle, exploded=false) {
   translate([-panel_horizontal_axis_length()/2,square_tube_width(),0])
     rotate([0,0,-90])
-      panel_horizontal_axis_along_y(small_hinge_angle, exploded, GAP)
+      panel_horizontal_axis_along_y(small_hinge_angle, exploded)
         children();
 }
 
-panel_horizontal_axis(SMALL_HINGE_ANGLE, EXPLODED, GAP);
+panel_horizontal_axis(SMALL_HINGE_ANGLE, EXPLODED);
