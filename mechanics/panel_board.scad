@@ -126,7 +126,7 @@ module mirror_holder(exploded, angle_x, angle_z) {
   }
 }
 
-module panel_board(exploded=false, gap=GAP) {
+module panel_board(exploded=false) {
   difference() {
     translate([-panel_board_width/2,0,-panel_board_height/2-panel_board_bottom_margin])
       cube([panel_board_width,panel_board_depth(),panel_board_total_height]);
