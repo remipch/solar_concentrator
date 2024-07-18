@@ -57,15 +57,17 @@ module small_hinge_move_to_other_half_origin(angle) {
   translate([-small_hinge_cylinder_radius, 0, small_hinge_cylinder_radius])
     rotate([0,90-angle,0])
       translate([-small_hinge_cylinder_radius, 0, small_hinge_cylinder_radius])
-        rotate([180,0,0])
-          rotate([0,90,0])
-              children();
+        rotate([0,0,180])
+          children();
 }
 
 module small_hinge(angle) {
   half(false);
   small_hinge_move_to_other_half_origin(angle)
-    half(true);
+    rotate([0,0,180])
+      rotate([180,0,0])
+        rotate([0,90,0])
+          half(true);
 
   translate([-small_hinge_cylinder_radius,-small_hinge_height()/2,small_hinge_cylinder_radius])
     rotate([-90,0,0])
@@ -73,3 +75,7 @@ module small_hinge(angle) {
 }
 
 small_hinge(ANGLE);
+%cube(10);
+
+small_hinge_move_to_other_half_origin(ANGLE)
+  %cube(10);
