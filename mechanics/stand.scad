@@ -3,6 +3,8 @@ use <assembly.scad>
 use <stand_front_board.scad>
 use <stand_back_board.scad>
 use <small_bracket.scad>
+use <left_hinge.scad>
+use <square_tube.scad>
 
 $fa = 10;
 $fs = 0.1;
@@ -11,7 +13,7 @@ GAP = 100;
 
 EXPLODED = true;
 
-module stand(exploded=false) {
+module stand_at_vertical_axis(exploded=false) {
   translate([0,front_board_length()/2 + (exploded?2*GAP:0),0])
     stand_back_board();
 
@@ -27,6 +29,12 @@ module stand(exploded=false) {
       }
     }
   }
+}
+
+// centered at vertical hinges axis
+module stand(exploded=false) {
+  translate([hinge_depth(),square_tube_width()+hinge_male_origin_to_axis_t().x,0])
+    stand_at_vertical_axis(exploded);
 }
 
 stand(EXPLODED);
