@@ -20,10 +20,11 @@ module panel_frame(small_hinge_angle, exploded, gap) {
     translate([0,exploded?2*gap:0,0]) {
       panel_horizontal_axis(small_hinge_angle, exploded, gap);
 
-//     translate([0,0,square_tube_width()+(EXPLODED?GAP:0)])
-//       small_hinge_move_to_other_half_origin(SMALL_HINGE_ANGLE)
-//         translate([-200,-panel_horizontal_axis_length(),(exploded?-gap:0)-10])
-//           %cube([400,panel_horizontal_axis_length(),10]);
+      translate([0,square_tube_width()+(EXPLODED?GAP:0),square_tube_width()])
+        rotate([0,0,-90])
+          small_hinge_move_to_other_half_origin(small_hinge_angle)
+            rotate([0,0,-90])
+              children();
     }
 
     translate([horizontal_axis_center_to_center_fixpoint(),square_tube_width(),square_tube_width()/2])
