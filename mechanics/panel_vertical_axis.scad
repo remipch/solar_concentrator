@@ -17,7 +17,7 @@ EXPLODED = true;
 function panel_vertical_axis_origin_to_hinges_t() = [[0,45,square_tube_width()],[0,panel_vertical_axis_length()-45,square_tube_width()]];
 
 // Work along y axis because it's the natural orientation of internal objects
-module panel_vertical_axis_along_y(exploded=false, gap=0) {
+module panel_vertical_axis_along_y(exploded=false) {
   // square tube with all required holes
   difference() {
     square_tube(panel_vertical_axis_length());
@@ -40,7 +40,7 @@ module panel_vertical_axis_along_y(exploded=false, gap=0) {
   }
 
   for (hinge_t=panel_vertical_axis_origin_to_hinges_t()) {
-    translate([0,0,exploded?gap:0])
+    translate([0,0,exploded?GAP:0])
       translate(hinge_t)
         left_hinge_female();
 
@@ -72,7 +72,7 @@ module panel_vertical_axis_along_y(exploded=false, gap=0) {
     diagonal_bar_hole_distance_y = panel_vertical_axis_length()/2 - square_tube_width()/2;
     diagonal_bar_angle = atan(diagonal_bar_hole_distance_y/diagonal_bar_hole_distance_x);
     diagonal_bar_hole_distance = sqrt(diagonal_bar_hole_distance_x^2 + diagonal_bar_hole_distance_y^2);
-    diagonal_bar_gap = exploded?-2*gap:0;
+    diagonal_bar_gap = exploded?-2*GAP:0;
     rotate([0,0,diagonal_bar_angle])
       translate([0,0,diagonal_bar_gap])
         difference() {
@@ -90,9 +90,9 @@ module panel_vertical_axis_along_y(exploded=false, gap=0) {
 }
 
 // Vertical axis in its final orientation
-module panel_vertical_axis(exploded=false, gap=0) {
+module panel_vertical_axis(exploded=false) {
   rotate([90,0,0])
-    panel_vertical_axis_along_y(exploded, GAP);
+    panel_vertical_axis_along_y(exploded);
 }
 
-panel_vertical_axis(EXPLODED, GAP);
+panel_vertical_axis(EXPLODED);
