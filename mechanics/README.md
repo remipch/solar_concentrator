@@ -3,10 +3,15 @@
 Hierarchical breakdown :
 
 - [Solar panel](#solar-panel)
-    -  [Stand](#stand)
+    - [Stand](#stand)
         - [Stand back board](#stand-back-board)
+            - [Motor block](#motor-block)
         - [Stand front board](#stand-front-board)
-    - [Panel](#panel)
+    - [Panel frame](#panel-frame)
+        - [Panel horizontal axis](#panel-horizontal-axis)
+        - [Panel vertical axis](#panel-vertical-axis)
+    - [Panel board](#panel-board)
+        - [Mirror holder](#mirror-holder)
 
 
 :information_source: You can click on the images below
@@ -24,12 +29,13 @@ Exploded :<br>
 
 ### Stand back board
 
-![Stand back board](generated/stand_back_board.png)
+Assembled :<br>
+[![Stand back board](generated/stand_back_board.png)](https://remipch.github.io/test_website/view_3d.html?model=stand_back_board)
 
-#### Motor support
+#### Motor block
 
 ### Stand front board
 
 ![Stand front board](generated/stand_front_board.png)
 
-## Panel
+## Panel frame
