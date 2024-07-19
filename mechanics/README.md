@@ -1,5 +1,8 @@
 # Solar Concentrator Mechanics
 
+| :information_source: You can click on the images below to view them in an online 3D viewer |
+|--------------------------------------------------------------------------------------------|
+
 Hierarchical breakdown :
 
 - [Solar panel](#solar-panel)
@@ -13,9 +16,6 @@ Hierarchical breakdown :
     - [Panel board](#panel-board)
         - [Mirror holder](#mirror-holder)
 
-
-:information_source: You can click on the images below
-to view them in an online 3D viewer.
 
 # Solar panel
 
