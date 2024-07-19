@@ -5,7 +5,6 @@ use <small_bracket.scad>
 use <motor_block.scad>
 use <stand_front_board.scad>
 use <pulley.scad>
-use <truncate.scad>
 
 $fa = 10;
 $fs = 0.1;
@@ -18,7 +17,7 @@ function back_board_height() = front_board_height();
 
 GAP = 20;
 
-EXPLODED_AND_TRUNCATED = true;
+EXPLODED = true;
 
 stand_pulley_offset_x = 250;
 stand_pulley_offset_z = 40;
@@ -108,9 +107,5 @@ module stand_back_board(exploded=false, gap=GAP) {
   }
 }
 
-if(EXPLODED_AND_TRUNCATED)
-  truncate_negative_x([1100,600,400])
-    stand_back_board(true, GAP);
-else
-  stand_back_board(false);
+stand_back_board(EXPLODED, GAP);
 
