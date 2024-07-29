@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+     width="1600.0" height="1190.0" viewBox="-900.0 20.0 1600.0 1190.0">
+<defs>
+<marker markerWidth="10" markerHeight="10" viewBox="-8 -5 10 10" orient="auto-start-reverse" id="d0">
+<path d="M-8,3 L-8,-3 L2,0 Z" fill="black" />
+</marker>
+<marker markerWidth="10" markerHeight="10" viewBox="-8 -5 10 10" orient="auto-start-reverse" id="d1">
+<path d="M-8,3 L-8,-3 L2,0 Z" fill="black" />
+</marker>
+<marker markerWidth="10" markerHeight="10" viewBox="-8 -5 10 10" orient="auto-start-reverse" id="d2">
+<path d="M-8,3 L-8,-3 L2,0 Z" fill="black" />
+</marker>
+<marker markerWidth="10" markerHeight="10" viewBox="-8 -5 10 10" orient="auto-start-reverse" id="d3">
+<path d="M-8,3 L-8,-3 L2,0 Z" fill="black" />
+</marker>
+<marker markerWidth="10" markerHeight="10" viewBox="-8 -5 10 10" orient="auto-start-reverse" id="d4">
+<path d="M-8,3 L-8,-3 L2,0 Z" fill="#0055ff" />
+</marker>
+<marker markerWidth="10" markerHeight="10" viewBox="-8 -5 10 10" orient="auto-start-reverse" id="d5">
+<path d="M-8,3 L-8,-3 L2,0 Z" fill="#0055ff" />
+</marker>
+<marker markerWidth="10" markerHeight="10" viewBox="-8 -5 10 10" orient="auto-start-reverse" id="d6">
+<path d="M-8,3 L-8,-3 L2,0 Z" fill="#0055ff" />
+</marker>
+<marker markerWidth="10" markerHeight="10" viewBox="-8 -5 10 10" orient="auto-start-reverse" id="d7">
+<path d="M-8,3 L-8,-3 L2,0 Z" fill="black" />
+</marker>
+<marker markerWidth="10" markerHeight="10" viewBox="-8 -5 10 10" orient="auto-start-reverse" id="d8">
+<path d="M-8,3 L-8,-3 L2,0 Z" fill="#0055ff" />
+</marker>
+<marker markerWidth="10" markerHeight="10" viewBox="-8 -5 10 10" orient="auto-start-reverse" id="d9">
+<path d="M-8,3 L-8,-3 L2,0 Z" fill="black" />
+</marker>
+<marker markerWidth="10" markerHeight="10" viewBox="-8 -5 10 10" orient="auto-start-reverse" id="d10">
+<path d="M-8,3 L-8,-3 L2,0 Z" fill="black" />
+</marker>
+<marker markerWidth="10" markerHeight="10" viewBox="-8 -5 10 10" orient="auto-start-reverse" id="d11">
+<path d="M-8,3 L-8,-3 L2,0 Z" fill="black" />
+</marker>
+<marker markerWidth="10" markerHeight="10" viewBox="-8 -5 10 10" orient="auto-start-reverse" id="d12">
+<path d="M-8,3 L-8,-3 L2,0 Z" fill="black" />
+</marker>
+<marker markerWidth="10" markerHeight="10" viewBox="-8 -5 10 10" orient="auto-start-reverse" id="d13">
+<path d="M-8,3 L-8,-3 L2,0 Z" fill="black" />
+</marker>
+<marker markerWidth="10" markerHeight="10" viewBox="-8 -5 10 10" orient="auto-start-reverse" id="d14">
+<path d="M-8,3 L-8,-3 L2,0 Z" fill="black" />
+</marker>
+<marker markerWidth="10" markerHeight="10" viewBox="-8 -5 10 10" orient="auto-start-reverse" id="d15">
+<path d="M-8,3 L-8,-3 L2,0 Z" fill="black" />
+</marker>
+<marker markerWidth="10" markerHeight="10" viewBox="-8 -5 10 10" orient="auto-start-reverse" id="d16">
+<path d="M-8,3 L-8,-3 L2,0 Z" fill="black" />
+</marker>
+<marker markerWidth="10" markerHeight="10" viewBox="-8 -5 10 10" orient="auto-start-reverse" id="d17">
+<path d="M-8,3 L-8,-3 L2,0 Z" fill="black" />
+</marker>
+<marker markerWidth="10" markerHeight="10" viewBox="-8 -5 10 10" orient="auto-start-reverse" id="d18">
+<path d="M-8,3 L-8,-3 L2,0 Z" fill="black" />
+</marker>
+</defs>
+<rect x="-900.0" y="20.0" width="1600.0" height="1190.0" fill="white" stroke="none" />
+<path d="M0.0,90.0 L0.0,155.0" stroke="black" stroke-width="2" fill="none" marker-end="url(#d0)" />
+<path d="M0.0,195.0 L0,260.0" stroke="black" stroke-width="2" fill="none" marker-end="url(#d1)" />
+<path d="M-650.0,280.0 L-20.0,280" stroke="black" stroke-width="2" stroke-dasharray="7,4" fill="none" marker-start="url(#d2)" />
+<text x="-335.0" y="280.0" font-size="20" text-anchor="middle" dominant-baseline="middle" font-family="Arial" fill="white" stroke="white" stroke-width="4">(else)</text>
+<text x="-335.0" y="280.0" font-size="20" text-anchor="middle" dominant-baseline="middle" font-family="Arial" fill="black">(else)</text>
+<path d="M0,300.0 L0.0,400.0" stroke="black" stroke-width="2" fill="none" marker-end="url(#d3)" />
+<text x="0.0" y="350.0" font-size="20" text-anchor="middle" dominant-baseline="middle" font-family="Arial" fill="white" stroke="white" stroke-width="4">(init_result==NO_ERROR)</text>
+<text x="0.0" y="350.0" font-size="20" text-anchor="middle" dominant-baseline="middle" font-family="Arial" fill="black">(init_result==NO_ERROR)</text>
+<path d="M-350.0,700.0 L-358.0,700.0 Q-420.0,700.0,-420.0,630.0 Q-420.0,560.0,-358.0,560.0 L-100.0,560.0" stroke="#0055ff" stroke-width="2" fill="none" marker-end="url(#d4)" />
+<text x="-420.0" y="630.0" font-size="20" text-anchor="middle" dominant-baseline="middle" font-family="Arial" fill="white" stroke="white" stroke-width="4">START_MOVE</text>
+<text x="-420.0" y="630.0" font-size="20" text-anchor="middle" dominant-baseline="middle" font-family="Arial" fill="#0055ff">START_MOVE</text>
+<path d="M0.0,440.0 L0.0,540.0" stroke="#0055ff" stroke-width="2" fill="none" marker-end="url(#d5)" />
+<text x="0.0" y="490.0" font-size="20" text-anchor="middle" dominant-baseline="middle" font-family="Arial" fill="white" stroke="white" stroke-width="4">START_MOVE</text>
+<text x="0.0" y="490.0" font-size="20" text-anchor="middle" dominant-baseline="middle" font-family="Arial" fill="#0055ff">START_MOVE</text>
+<path d="M100.0,560.0 L358.0,560.0 Q420.0,560.0,420.0,630.0 Q420.0,700.0,358.0,700.0 L350.0,700.0" stroke="#0055ff" stroke-width="2" fill="none" marker-start="url(#d6)" />
+<text x="420.0" y="630.0" font-size="20" text-anchor="middle" dominant-baseline="middle" font-family="Arial" fill="white" stroke="white" stroke-width="4">START_MOVE</text>
+<text x="420.0" y="630.0" font-size="20" text-anchor="middle" dominant-baseline="middle" font-family="Arial" fill="#0055ff">START_MOVE</text>
+<path d="M0.0,580.0 L0.0,588.0 Q0.0,630.0,-125.0,630.0 Q-250.0,630.0,-250.0,672.0 L-250.0,680.0" stroke="black" stroke-width="2" fill="none" marker-end="url(#d7)" />
+<path d="M-150.0,693.3333333333334 L150.0,693.3333333333334" stroke="#0055ff" stroke-width="2" fill="none" marker-end="url(#d8)" />
+<text x="0.0" y="693.3333333333334" font-size="20" text-anchor="middle" dominant-baseline="middle" font-family="Arial" fill="white" stroke="white" stroke-width="4">STOP</text>
+<text x="0.0" y="693.3333333333334" font-size="20" text-anchor="middle" dominant-baseline="middle" font-family="Arial" fill="#0055ff">STOP</text>
+<path d="M-250.0,720.0 L-250.0,785.0" stroke="black" stroke-width="2" fill="none" marker-end="url(#d9)" />
+<path d="M-250.0,825.0 L-250,890.0" stroke="black" stroke-width="2" fill="none" marker-end="url(#d10)" />
+<path d="M250.0,720.0 L250.0,785.0" stroke="black" stroke-width="2" fill="none" marker-end="url(#d11)" />
+<path d="M250.0,825.0 L250,890.0" stroke="black" stroke-width="2" fill="none" marker-end="url(#d12)" />
+<path d="M-270.0,910 L-278.0,910 Q-595.0,910,-595.0,665.0 Q-595.0,420.0,-278.0,420.0 L-100.0,420.0" stroke="black" stroke-width="2" fill="none" marker-end="url(#d13)" />
+<text x="-595.0" y="665.0" font-size="20" text-anchor="middle" dominant-baseline="middle" font-family="Arial" fill="white" stroke="white" stroke-width="4">(state==STOPPED)</text>
+<text x="-595.0" y="665.0" font-size="20" text-anchor="middle" dominant-baseline="middle" font-family="Arial" fill="black">(state==STOPPED)</text>
+<path d="M100.0,420.0 L278.0,420.0 Q595.0,420.0,595.0,665.0 Q595.0,910,278.0,910 L270.0,910" stroke="black" stroke-width="2" fill="none" marker-start="url(#d14)" />
+<text x="595.0" y="665.0" font-size="20" text-anchor="middle" dominant-baseline="middle" font-family="Arial" fill="white" stroke="white" stroke-width="4">(state==STOPPED)</text>
+<text x="595.0" y="665.0" font-size="20" text-anchor="middle" dominant-baseline="middle" font-family="Arial" fill="black">(state==STOPPED)</text>
+<path d="M-150.0,706.6666666666666 L-222.0,706.6666666666666 Q-45.0,706.6666666666666,-45.0,805.0 Q-45.0,910,-222.0,910 L-230.0,910" stroke="black" stroke-width="2" stroke-dasharray="7,4" fill="none" marker-start="url(#d15)" />
+<text x="-45.0" y="805.0" font-size="20" text-anchor="middle" dominant-baseline="middle" font-family="Arial" fill="white" stroke="white" stroke-width="4">(else)</text>
+<text x="-45.0" y="805.0" font-size="20" text-anchor="middle" dominant-baseline="middle" font-family="Arial" fill="black">(else)</text>
+<path d="M150.0,706.6666666666666 L142.0,706.6666666666666 Q45.0,706.6666666666666,45.0,805.0 Q45.0,910,142.0,910 L230.0,910" stroke="black" stroke-width="2" stroke-dasharray="7,4" fill="none" marker-start="url(#d16)" />
+<text x="45.0" y="805.0" font-size="20" text-anchor="middle" dominant-baseline="middle" font-family="Arial" fill="white" stroke="white" stroke-width="4">(else)</text>
+<text x="45.0" y="805.0" font-size="20" text-anchor="middle" dominant-baseline="middle" font-family="Arial" fill="black">(else)</text>
+<path d="M-783.3333333333334,300.0 L-783.3333333333334,938.0 Q-783.3333333333334,1180.0,-250.0,1180.0 Q250,1180.0,250,938.0 L250,930.0" stroke="black" stroke-width="2" fill="none" marker-start="url(#d17)" />
+<text x="-250.0" y="1180.0" font-size="20" text-anchor="middle" dominant-baseline="middle" font-family="Arial" fill="white" stroke="white" stroke-width="4">(state==UNKNOWN)</text>
+<text x="-250.0" y="1180.0" font-size="20" text-anchor="middle" dominant-baseline="middle" font-family="Arial" fill="black">(state==UNKNOWN)</text>
+<path d="M-716.6666666666666,300.0 L-716.6666666666666,938.0 Q-716.6666666666666,1055.0,-500.0,1055.0 Q-250,1055.0,-250,938.0 L-250,930.0" stroke="black" stroke-width="2" fill="none" marker-start="url(#d18)" />
+<text x="-500.0" y="1055.0" font-size="20" text-anchor="middle" dominant-baseline="middle" font-family="Arial" fill="white" stroke="white" stroke-width="4">(state==UNKNOWN)</text>
+<text x="-500.0" y="1055.0" font-size="20" text-anchor="middle" dominant-baseline="middle" font-family="Arial" fill="black">(state==UNKNOWN)</text>
+<rect x="-100.0" y="50.0" width="200.0" height="40.0" fill="#bcd7ff" stroke="black" stroke-width="2" rx="20.0" />
+<text x="0" y="70" font-size="20" text-anchor="middle" dominant-baseline="middle" font-family="Arial">UNINITIALIZED</text>
+<rect x="-100.0" y="155.0" width="200.0" height="40.0" fill="white" stroke="black" stroke-width="2" rx="0" />
+<text x="0" y="175.0" font-size="20" text-anchor="middle" dominant-baseline="middle" font-family="Arial">hw_init()</text>
+<path d="M-20.0,280 L0,260.0 L20.0,280 L0,300.0 Z" fill="white" stroke="black" stroke-width="2" />
+<rect x="-850.0" y="260.0" width="200.0" height="40.0" fill="#bcd7ff" stroke="black" stroke-width="2" rx="20.0" />
+<text x="-750" y="280" font-size="20" text-anchor="middle" dominant-baseline="middle" font-family="Arial">ERROR</text>
+<rect x="-100.0" y="400.0" width="200.0" height="40.0" fill="#bcd7ff" stroke="black" stroke-width="2" rx="20.0" />
+<text x="0" y="420" font-size="20" text-anchor="middle" dominant-baseline="middle" font-family="Arial">STOPPED</text>
+<rect x="-100.0" y="540.0" width="200.0" height="40.0" fill="white" stroke="black" stroke-width="2" rx="0" />
+<text x="0" y="560" font-size="20" text-anchor="middle" dominant-baseline="middle" font-family="Arial">hw_start_move()</text>
+<rect x="-350.0" y="680.0" width="200.0" height="40.0" fill="#bcd7ff" stroke="black" stroke-width="2" rx="20.0" />
+<text x="-250" y="700" font-size="20" text-anchor="middle" dominant-baseline="middle" font-family="Arial">MOVING</text>
+<rect x="150.0" y="680.0" width="200.0" height="40.0" fill="#bcd7ff" stroke="black" stroke-width="2" rx="20.0" />
+<text x="250" y="700" font-size="20" text-anchor="middle" dominant-baseline="middle" font-family="Arial">STOPPING</text>
+<rect x="-350.0" y="785.0" width="200.0" height="40.0" fill="white" stroke="black" stroke-width="2" rx="0" />
+<text x="-250" y="805.0" font-size="20" text-anchor="middle" dominant-baseline="middle" font-family="Arial">hw_get_state()</text>
+<path d="M-270.0,910 L-250,890.0 L-230.0,910 L-250,930.0 Z" fill="white" stroke="black" stroke-width="2" />
+<rect x="150.0" y="785.0" width="200.0" height="40.0" fill="white" stroke="black" stroke-width="2" rx="0" />
+<text x="250" y="805.0" font-size="20" text-anchor="middle" dominant-baseline="middle" font-family="Arial">hw_get_state()</text>
+<path d="M230.0,910 L250,890.0 L270.0,910 L250,930.0 Z" fill="white" stroke="black" stroke-width="2" />
+</svg>
