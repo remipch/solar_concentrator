@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
-     width="1625.0" height="1274.5833333333335" viewBox="-900.0 20.0 1625.0 1274.5833333333335">
+     width="1350.0" height="940.8333333333333" viewBox="-650.0 110 1350.0 940.8333333333333">
 <defs>
 <marker markerWidth="10" markerHeight="10" viewBox="-8 -5 10 10" orient="auto-start-reverse" id="d0">
 <path d="M-8,3 L-8,-3 L2,0 Z" fill="black" />
@@ -44,85 +44,55 @@
 <marker markerWidth="10" markerHeight="10" viewBox="-8 -5 10 10" orient="auto-start-reverse" id="d13">
 <path d="M-8,3 L-8,-3 L2,0 Z" fill="black" />
 </marker>
-<marker markerWidth="10" markerHeight="10" viewBox="-8 -5 10 10" orient="auto-start-reverse" id="d14">
-<path d="M-8,3 L-8,-3 L2,0 Z" fill="black" />
-</marker>
-<marker markerWidth="10" markerHeight="10" viewBox="-8 -5 10 10" orient="auto-start-reverse" id="d15">
-<path d="M-8,3 L-8,-3 L2,0 Z" fill="black" />
-</marker>
-<marker markerWidth="10" markerHeight="10" viewBox="-8 -5 10 10" orient="auto-start-reverse" id="d16">
-<path d="M-8,3 L-8,-3 L2,0 Z" fill="black" />
-</marker>
-<marker markerWidth="10" markerHeight="10" viewBox="-8 -5 10 10" orient="auto-start-reverse" id="d17">
-<path d="M-8,3 L-8,-3 L2,0 Z" fill="black" />
-</marker>
-<marker markerWidth="10" markerHeight="10" viewBox="-8 -5 10 10" orient="auto-start-reverse" id="d18">
-<path d="M-8,3 L-8,-3 L2,0 Z" fill="black" />
-</marker>
 </defs>
-<rect x="-900.0" y="20.0" width="1625.0" height="1274.5833333333335" fill="white" stroke="none" />
-<path d="M0.0,90.0 L0.0,155.0" stroke="black" stroke-width="2" fill="none" marker-end="url(#d0)" />
-<path d="M0.0,195.0 L0,260.0" stroke="black" stroke-width="2" fill="none" marker-end="url(#d1)" />
-<path d="M-20.0,280 L-650.0,280.0" stroke="black" stroke-width="2" stroke-dasharray="7,4" fill="none" marker-end="url(#d2)" />
-<text x="-335.0" y="280.0" font-size="20" text-anchor="middle" dominant-baseline="middle" font-family="Arial" fill="white" stroke="white" stroke-width="4">(else)</text>
-<text x="-335.0" y="280.0" font-size="20" text-anchor="middle" dominant-baseline="middle" font-family="Arial" fill="black">(else)</text>
-<path d="M0,300.0 L0.0,400.0" stroke="black" stroke-width="2" fill="none" marker-end="url(#d3)" />
-<text x="0.0" y="350.0" font-size="20" text-anchor="middle" dominant-baseline="middle" font-family="Arial" fill="white" stroke="white" stroke-width="4">(init_result==NO_ERROR)</text>
-<text x="0.0" y="350.0" font-size="20" text-anchor="middle" dominant-baseline="middle" font-family="Arial" fill="black">(init_result==NO_ERROR)</text>
-<path d="M-375.0,700.0 L-383.0,700.0 Q-445.0,700.0,-445.0,630.0 Q-445.0,560.0,-383.0,560.0 L-100.0,560.0" stroke="black" stroke-width="2" fill="none" marker-end="url(#d4)" />
-<text x="-445.0" y="630.0" font-size="20" text-anchor="middle" dominant-baseline="middle" font-family="Arial" fill="white" stroke="white" stroke-width="4">START_MOVE</text>
-<text x="-445.0" y="630.0" font-size="20" text-anchor="middle" dominant-baseline="middle" font-family="Arial" fill="black">START_MOVE</text>
-<path d="M0.0,440.0 L0.0,540.0" stroke="black" stroke-width="2" fill="none" marker-end="url(#d5)" />
-<text x="0.0" y="490.0" font-size="20" text-anchor="middle" dominant-baseline="middle" font-family="Arial" fill="white" stroke="white" stroke-width="4">START_MOVE</text>
-<text x="0.0" y="490.0" font-size="20" text-anchor="middle" dominant-baseline="middle" font-family="Arial" fill="black">START_MOVE</text>
-<path d="M375.0,700.0 L383.0,700.0 Q445.0,700.0,445.0,630.0 Q445.0,560.0,383.0,560.0 L100.0,560.0" stroke="black" stroke-width="2" fill="none" marker-end="url(#d6)" />
-<text x="445.0" y="630.0" font-size="20" text-anchor="middle" dominant-baseline="middle" font-family="Arial" fill="white" stroke="white" stroke-width="4">START_MOVE</text>
-<text x="445.0" y="630.0" font-size="20" text-anchor="middle" dominant-baseline="middle" font-family="Arial" fill="black">START_MOVE</text>
-<path d="M0.0,580.0 L0.0,588.0 Q0.0,630.0,-137.5,630.0 Q-275.0,630.0,-275.0,672.0 L-275.0,680.0" stroke="black" stroke-width="2" fill="none" marker-end="url(#d7)" />
-<path d="M-175.0,693.3333333333334 L175.0,693.3333333333334" stroke="black" stroke-width="2" fill="none" marker-end="url(#d8)" />
-<text x="0.0" y="693.3333333333334" font-size="20" text-anchor="middle" dominant-baseline="middle" font-family="Arial" fill="white" stroke="white" stroke-width="4">STOP</text>
-<text x="0.0" y="693.3333333333334" font-size="20" text-anchor="middle" dominant-baseline="middle" font-family="Arial" fill="black">STOP</text>
-<path d="M-275.0,720.0 L-275.0,820.0" stroke="black" stroke-width="2" fill="none" marker-end="url(#d9)" />
-<path d="M-275.0,860.0 L-275.0,960.0" stroke="black" stroke-width="2" fill="none" marker-end="url(#d10)" />
-<path d="M275.0,720.0 L275.0,820.0" stroke="black" stroke-width="2" fill="none" marker-end="url(#d11)" />
-<path d="M275.0,860.0 L275.0,960.0" stroke="black" stroke-width="2" fill="none" marker-end="url(#d12)" />
-<path d="M-295.0,980 L-303.0,980 Q-575.0,980,-575.0,700.0 Q-575.0,420.0,-303.0,420.0 L-100.0,420.0" stroke="black" stroke-width="2" fill="none" marker-end="url(#d13)" />
-<text x="-575.0" y="700.0" font-size="20" text-anchor="middle" dominant-baseline="middle" font-family="Arial" fill="white" stroke="white" stroke-width="4">(state==STOPPED)</text>
-<text x="-575.0" y="700.0" font-size="20" text-anchor="middle" dominant-baseline="middle" font-family="Arial" fill="black">(state==STOPPED)</text>
-<path d="M295.0,980 L303.0,980 Q575.0,980,575.0,700.0 Q575.0,420.0,303.0,420.0 L100.0,420.0" stroke="black" stroke-width="2" fill="none" marker-end="url(#d14)" />
-<text x="575.0" y="700.0" font-size="20" text-anchor="middle" dominant-baseline="middle" font-family="Arial" fill="white" stroke="white" stroke-width="4">(state==STOPPED)</text>
-<text x="575.0" y="700.0" font-size="20" text-anchor="middle" dominant-baseline="middle" font-family="Arial" fill="black">(state==STOPPED)</text>
-<path d="M-255.0,980 L-167.0,980 Q-38.333333333333314,980,-38.333333333333314,843.3333333333333 Q-38.333333333333314,706.6666666666666,-167.0,706.6666666666666 L-175.0,706.6666666666666" stroke="black" stroke-width="2" stroke-dasharray="7,4" fill="none" marker-end="url(#d15)" />
-<text x="-38.333333333333314" y="843.3333333333333" font-size="20" text-anchor="middle" dominant-baseline="middle" font-family="Arial" fill="white" stroke="white" stroke-width="4">(else)</text>
-<text x="-38.333333333333314" y="843.3333333333333" font-size="20" text-anchor="middle" dominant-baseline="middle" font-family="Arial" fill="black">(else)</text>
-<path d="M255.0,980 L167.0,980 Q38.333333333333314,980,38.333333333333314,843.3333333333333 Q38.333333333333314,706.6666666666666,167.0,706.6666666666666 L175.0,706.6666666666666" stroke="black" stroke-width="2" stroke-dasharray="7,4" fill="none" marker-end="url(#d16)" />
-<text x="38.333333333333314" y="843.3333333333333" font-size="20" text-anchor="middle" dominant-baseline="middle" font-family="Arial" fill="white" stroke="white" stroke-width="4">(else)</text>
-<text x="38.333333333333314" y="843.3333333333333" font-size="20" text-anchor="middle" dominant-baseline="middle" font-family="Arial" fill="black">(else)</text>
-<path d="M275.0,1000.0 L275.0,1008.0 Q275.0,1264.5833333333335,-254.16666666666669,1264.5833333333335 Q-783.3333333333334,1264.5833333333335,-783.3333333333334,1008.0 L-783.3333333333334,300.0" stroke="black" stroke-width="2" fill="none" marker-end="url(#d17)" />
-<text x="-254.16666666666669" y="1264.5833333333335" font-size="20" text-anchor="middle" dominant-baseline="middle" font-family="Arial" fill="white" stroke="white" stroke-width="4">(state==UNKNOWN)</text>
-<text x="-254.16666666666669" y="1264.5833333333335" font-size="20" text-anchor="middle" dominant-baseline="middle" font-family="Arial" fill="black">(state==UNKNOWN)</text>
-<path d="M-275.0,1000.0 L-275.0,1008.0 Q-275.0,1110.4166666666667,-495.8333333333333,1110.4166666666667 Q-716.6666666666666,1110.4166666666667,-716.6666666666666,1008.0 L-716.6666666666666,300.0" stroke="black" stroke-width="2" fill="none" marker-end="url(#d18)" />
-<text x="-495.8333333333333" y="1110.4166666666667" font-size="20" text-anchor="middle" dominant-baseline="middle" font-family="Arial" fill="white" stroke="white" stroke-width="4">(state==UNKNOWN)</text>
-<text x="-495.8333333333333" y="1110.4166666666667" font-size="20" text-anchor="middle" dominant-baseline="middle" font-family="Arial" fill="black">(state==UNKNOWN)</text>
-<rect x="-100.0" y="50.0" width="200.0" height="40.0" fill="#bcd7ff" stroke="black" stroke-width="2" rx="20.0" />
-<text x="0" y="70" font-size="20" text-anchor="middle" dominant-baseline="middle" font-family="Arial">UNINITIALIZED</text>
-<rect x="-100.0" y="155.0" width="200.0" height="40.0" fill="white" stroke="black" stroke-width="2" rx="0" />
-<text x="0" y="175.0" font-size="20" text-anchor="middle" dominant-baseline="middle" font-family="Arial">hw_init()</text>
+<rect x="-650.0" y="110" width="1350.0" height="940.8333333333333" fill="white" stroke="none" />
+<path d="M0.0,195.0 L0,260.0" stroke="black" stroke-width="2" fill="none" marker-end="url(#d0)" />
+<path d="M-20.0,280 L-400.0,280.0" stroke="black" stroke-width="2" fill="none" marker-end="url(#d1)" />
+<text x="-210.0" y="280.0" font-size="20" text-anchor="middle" dominant-baseline="middle" font-family="Arial" fill="white" stroke="white" stroke-width="14" stroke-miterlimit="1">[else]</text>
+<text x="-210.0" y="280.0" font-size="20" text-anchor="middle" dominant-baseline="middle" font-family="Arial" fill="black">[else]</text>
+<path d="M0,300.0 L0.0,400.0" stroke="black" stroke-width="2" fill="none" marker-end="url(#d2)" />
+<text x="0.0" y="350.0" font-size="20" text-anchor="middle" dominant-baseline="middle" font-family="Arial" fill="white" stroke="white" stroke-width="14" stroke-miterlimit="1">[init_result==NO_ERROR]</text>
+<text x="0.0" y="350.0" font-size="20" text-anchor="middle" dominant-baseline="middle" font-family="Arial" fill="black">[init_result==NO_ERROR]</text>
+<path d="M0.0,440.0 L0.0,448.0 Q0.0,560.0,-79.16666666666666,560.0 Q-158.33333333333331,560.0,-158.33333333333331,672.0 L-158.33333333333331,680.0" stroke="black" stroke-width="2" fill="none" marker-end="url(#d3)" />
+<text x="-79.16666666666666" y="560.0" font-size="20" text-anchor="middle" dominant-baseline="middle" font-family="Arial" fill="white" stroke="white" stroke-width="14" stroke-miterlimit="1">START_MOVE</text>
+<text x="-79.16666666666666" y="560.0" font-size="20" text-anchor="middle" dominant-baseline="middle" font-family="Arial" fill="black">START_MOVE</text>
+<path d="M250.0,680.0 L250.0,672.0 Q250.0,594.5833333333334,79.16666666666667,594.5833333333334 Q-91.66666666666666,594.5833333333334,-91.66666666666666,672.0 L-91.66666666666666,680.0" stroke="black" stroke-width="2" fill="none" marker-end="url(#d4)" />
+<text x="79.16666666666667" y="594.5833333333334" font-size="20" text-anchor="middle" dominant-baseline="middle" font-family="Arial" fill="white" stroke="white" stroke-width="14" stroke-miterlimit="1">START_MOVE</text>
+<text x="79.16666666666667" y="594.5833333333334" font-size="20" text-anchor="middle" dominant-baseline="middle" font-family="Arial" fill="black">START_MOVE</text>
+<path d="M-25.0,693.3333333333334 L150.0,693.3333333333334" stroke="black" stroke-width="2" fill="none" marker-end="url(#d5)" />
+<text x="62.5" y="693.3333333333334" font-size="20" text-anchor="middle" dominant-baseline="middle" font-family="Arial" fill="white" stroke="white" stroke-width="14" stroke-miterlimit="1">STOP</text>
+<text x="62.5" y="693.3333333333334" font-size="20" text-anchor="middle" dominant-baseline="middle" font-family="Arial" fill="black">STOP</text>
+<path d="M-125.0,720.0 L-125.0,785.0" stroke="black" stroke-width="2" fill="none" marker-end="url(#d6)" />
+<path d="M250.0,720.0 L250,785.0" stroke="black" stroke-width="2" fill="none" marker-end="url(#d7)" />
+<path d="M-145.0,805.0 L-153.0,805.0 Q-337.5,805.0,-337.5,612.5 Q-337.5,420.0,-153.0,420.0 L-100.0,420.0" stroke="black" stroke-width="2" fill="none" marker-end="url(#d8)" />
+<text x="-337.5" y="612.5" font-size="20" text-anchor="middle" dominant-baseline="middle" font-family="Arial" fill="white" stroke="white" stroke-width="14" stroke-miterlimit="1">[state==STOPPED]</text>
+<text x="-337.5" y="612.5" font-size="20" text-anchor="middle" dominant-baseline="middle" font-family="Arial" fill="black">[state==STOPPED]</text>
+<path d="M270.0,805.0 L278.0,805.0 Q462.5,805.0,462.5,612.5 Q462.5,420.0,278.0,420.0 L100.0,420.0" stroke="black" stroke-width="2" fill="none" marker-end="url(#d9)" />
+<text x="462.5" y="612.5" font-size="20" text-anchor="middle" dominant-baseline="middle" font-family="Arial" fill="white" stroke="white" stroke-width="14" stroke-miterlimit="1">[state==STOPPED]</text>
+<text x="462.5" y="612.5" font-size="20" text-anchor="middle" dominant-baseline="middle" font-family="Arial" fill="black">[state==STOPPED]</text>
+<path d="M-105.0,805.0 L-17.0,805.0 Q24.166666666666686,805.0,24.166666666666686,755.8333333333333 Q24.166666666666686,706.6666666666666,-17.0,706.6666666666666 L-25.0,706.6666666666666" stroke="black" stroke-width="2" fill="none" marker-end="url(#d10)" />
+<text x="24.166666666666686" y="755.8333333333333" font-size="20" text-anchor="middle" dominant-baseline="middle" font-family="Arial" fill="white" stroke="white" stroke-width="14" stroke-miterlimit="1">[else]</text>
+<text x="24.166666666666686" y="755.8333333333333" font-size="20" text-anchor="middle" dominant-baseline="middle" font-family="Arial" fill="black">[else]</text>
+<path d="M230.0,805.0 L142.0,805.0 Q100.83333333333331,805.0,100.83333333333331,755.8333333333333 Q100.83333333333331,706.6666666666666,142.0,706.6666666666666 L150.0,706.6666666666666" stroke="black" stroke-width="2" fill="none" marker-end="url(#d11)" />
+<text x="100.83333333333331" y="755.8333333333333" font-size="20" text-anchor="middle" dominant-baseline="middle" font-family="Arial" fill="white" stroke="white" stroke-width="14" stroke-miterlimit="1">[else]</text>
+<text x="100.83333333333331" y="755.8333333333333" font-size="20" text-anchor="middle" dominant-baseline="middle" font-family="Arial" fill="black">[else]</text>
+<path d="M250,825.0 L250,833.0 Q250,1020.8333333333333,-141.66666666666663,1020.8333333333333 Q-533.3333333333333,1020.8333333333333,-533.3333333333333,833.0 L-533.3333333333333,300.0" stroke="black" stroke-width="2" fill="none" marker-end="url(#d12)" />
+<text x="-141.66666666666663" y="1020.8333333333333" font-size="20" text-anchor="middle" dominant-baseline="middle" font-family="Arial" fill="white" stroke="white" stroke-width="14" stroke-miterlimit="1">[state==UNKNOWN]</text>
+<text x="-141.66666666666663" y="1020.8333333333333" font-size="20" text-anchor="middle" dominant-baseline="middle" font-family="Arial" fill="black">[state==UNKNOWN]</text>
+<path d="M-125.0,825.0 L-125.0,833.0 Q-125.0,910.4166666666666,-295.8333333333333,910.4166666666666 Q-466.66666666666663,910.4166666666666,-466.66666666666663,833.0 L-466.66666666666663,300.0" stroke="black" stroke-width="2" fill="none" marker-end="url(#d13)" />
+<text x="-295.8333333333333" y="910.4166666666666" font-size="20" text-anchor="middle" dominant-baseline="middle" font-family="Arial" fill="white" stroke="white" stroke-width="14" stroke-miterlimit="1">[state==UNKNOWN]</text>
+<text x="-295.8333333333333" y="910.4166666666666" font-size="20" text-anchor="middle" dominant-baseline="middle" font-family="Arial" fill="black">[state==UNKNOWN]</text>
+<rect x="-100.0" y="155.0" width="200.0" height="40.0" fill="#bcd7ff" stroke="black" stroke-width="2" rx="20.0" />
+<text x="0" y="175.0" font-size="20" text-anchor="middle" dominant-baseline="middle" font-family="Arial">UNINITIALIZED</text>
 <path d="M-20.0,280 L0,260.0 L20.0,280 L0,300.0 Z" fill="white" stroke="black" stroke-width="2" />
-<rect x="-850.0" y="260.0" width="200.0" height="40.0" fill="#bcd7ff" stroke="black" stroke-width="2" rx="20.0" />
-<text x="-750" y="280" font-size="20" text-anchor="middle" dominant-baseline="middle" font-family="Arial">ERROR</text>
+<rect x="-600.0" y="260.0" width="200.0" height="40.0" fill="#bcd7ff" stroke="black" stroke-width="2" rx="20.0" />
+<text x="-500" y="280" font-size="20" text-anchor="middle" dominant-baseline="middle" font-family="Arial">ERROR</text>
 <rect x="-100.0" y="400.0" width="200.0" height="40.0" fill="#bcd7ff" stroke="black" stroke-width="2" rx="20.0" />
 <text x="0" y="420" font-size="20" text-anchor="middle" dominant-baseline="middle" font-family="Arial">STOPPED</text>
-<rect x="-100.0" y="540.0" width="200.0" height="40.0" fill="white" stroke="black" stroke-width="2" rx="0" />
-<text x="0" y="560" font-size="20" text-anchor="middle" dominant-baseline="middle" font-family="Arial">hw_start_move()</text>
-<rect x="-375.0" y="680.0" width="200.0" height="40.0" fill="#bcd7ff" stroke="black" stroke-width="2" rx="20.0" />
-<text x="-275.0" y="700" font-size="20" text-anchor="middle" dominant-baseline="middle" font-family="Arial">MOVING</text>
-<rect x="175.0" y="680.0" width="200.0" height="40.0" fill="#bcd7ff" stroke="black" stroke-width="2" rx="20.0" />
-<text x="275.0" y="700" font-size="20" text-anchor="middle" dominant-baseline="middle" font-family="Arial">STOPPING</text>
-<rect x="-375.0" y="820.0" width="200.0" height="40.0" fill="white" stroke="black" stroke-width="2" rx="0" />
-<text x="-275.0" y="840" font-size="20" text-anchor="middle" dominant-baseline="middle" font-family="Arial">hw_get_state()</text>
-<path d="M-295.0,980 L-275.0,960.0 L-255.0,980 L-275.0,1000.0 Z" fill="white" stroke="black" stroke-width="2" />
-<rect x="175.0" y="820.0" width="200.0" height="40.0" fill="white" stroke="black" stroke-width="2" rx="0" />
-<text x="275.0" y="840" font-size="20" text-anchor="middle" dominant-baseline="middle" font-family="Arial">hw_get_state()</text>
-<path d="M255.0,980 L275.0,960.0 L295.0,980 L275.0,1000.0 Z" fill="white" stroke="black" stroke-width="2" />
+<rect x="-225.0" y="680.0" width="200.0" height="40.0" fill="#bcd7ff" stroke="black" stroke-width="2" rx="20.0" />
+<text x="-125.0" y="700" font-size="20" text-anchor="middle" dominant-baseline="middle" font-family="Arial">MOVING</text>
+<rect x="150.0" y="680.0" width="200.0" height="40.0" fill="#bcd7ff" stroke="black" stroke-width="2" rx="20.0" />
+<text x="250" y="700" font-size="20" text-anchor="middle" dominant-baseline="middle" font-family="Arial">STOPPING</text>
+<path d="M-145.0,805.0 L-125.0,785.0 L-105.0,805.0 L-125.0,825.0 Z" fill="white" stroke="black" stroke-width="2" />
+<path d="M230.0,805.0 L250,785.0 L270.0,805.0 L250,825.0 Z" fill="white" stroke="black" stroke-width="2" />
 </svg>

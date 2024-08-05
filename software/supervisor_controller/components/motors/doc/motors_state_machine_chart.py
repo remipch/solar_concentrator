@@ -6,49 +6,37 @@
 
 import httpimport
 
-with httpimport.github_repo('remipch', 'svg_chart', ref='d334810f558912f6617943ed7270ff2490c5b5c7'):
+with httpimport.github_repo('remipch', 'svg_chart', ref='26eeccf6c8ebdba7bfa6ac5d9352b09bc792b5ac'):
   from svg_chart import *
 
 chart = Chart(node_width=200)
 
-c1 = -1.1
-c2 = 1.1
-
-uninitialized = Node(chart, 0, 1, "UNINITIALIZED", shape=NodeShape.ROUNDED_RECTANGLE, color="#bcd7ff")
-init = Node(chart, 0, 2.5, "hw_init()")
+uninitialized = Node(chart, 0, 2.5, "UNINITIALIZED", shape=NodeShape.ROUNDED_RECTANGLE, color="#bcd7ff")
 init_cond = Node(chart, 0, 4, shape=NodeShape.DIAMOND)
-error = Node(chart, -3, 4, "ERROR", shape=NodeShape.ROUNDED_RECTANGLE, color="#bcd7ff")
+error = Node(chart, -2, 4, "ERROR", shape=NodeShape.ROUNDED_RECTANGLE, color="#bcd7ff")
 stopped = Node(chart, 0, 6, "STOPPED", shape=NodeShape.ROUNDED_RECTANGLE, color="#bcd7ff")
-start_move = Node(chart, 0, 8, "hw_start_move()")
-moving = Node(chart, c1, 10, "MOVING", shape=NodeShape.ROUNDED_RECTANGLE, color="#bcd7ff")
-stopping = Node(chart, c2, 10, "STOPPING", shape=NodeShape.ROUNDED_RECTANGLE, color="#bcd7ff")
-get_state_1 = Node(chart, c1, 12, "hw_get_state()")
-state_cond_1 = Node(chart, c1, 14, shape=NodeShape.DIAMOND)
-get_state_2 = Node(chart, c2, 12, "hw_get_state()")
-state_cond_2 = Node(chart, c2, 14, shape=NodeShape.DIAMOND)
+moving = Node(chart, -0.5, 10, "MOVING", shape=NodeShape.ROUNDED_RECTANGLE, color="#bcd7ff")
+stopping = Node(chart, 1, 10, "STOPPING", shape=NodeShape.ROUNDED_RECTANGLE, color="#bcd7ff")
+state_cond_1 = Node(chart, -0.5, 11.5, shape=NodeShape.DIAMOND)
+state_cond_2 = Node(chart, 1, 11.5, shape=NodeShape.DIAMOND)
 
 # Note: edges order creation is used to order multiple edges appearing on the same node border
-Edge(chart, uninitialized, init, "->")
-Edge(chart, init, init_cond, "->")
-Edge(chart, init_cond, error, "-->", "(else)")
-Edge(chart, init_cond, stopped, "->", "(init_result==NO_ERROR)")
-Edge(chart, moving, start_move, "->", "START_MOVE", layout=EdgeLayout.LEFT_LEFT_CURVED)
-Edge(chart, stopped, start_move, "->", "START_MOVE")
-Edge(chart, stopping, start_move, "->", "START_MOVE", layout=EdgeLayout.RIGHT_RIGHT_CURVED)
-Edge(chart, start_move, moving, "->", layout=EdgeLayout.TOP_BOTTOM_CURVED)
+Edge(chart, uninitialized, init_cond, "->")
+Edge(chart, init_cond, error, "->", "[else]")
+Edge(chart, init_cond, stopped, "->", "[init_result==NO_ERROR]")
+Edge(chart, stopped, moving, "->", "START_MOVE", layout=EdgeLayout.TOP_BOTTOM_CURVED)
+Edge(chart, stopping, moving, "->", "START_MOVE", layout=EdgeLayout.TOP_TOP_CURVED)
 Edge(chart, moving, stopping, "->", "STOP")
-Edge(chart, moving, get_state_1, "->")
-Edge(chart, get_state_1, state_cond_1, "->")
-Edge(chart, stopping, get_state_2, "->")
-Edge(chart, get_state_2, state_cond_2, "->")
-Edge(chart, state_cond_1, stopped, "->", "(state==STOPPED)", layout=EdgeLayout.LEFT_LEFT_CURVED)
-Edge(chart, state_cond_2, stopped, "->", "(state==STOPPED)", layout=EdgeLayout.RIGHT_RIGHT_CURVED)
-Edge(chart, state_cond_1, moving, "-->", "(else)", layout=EdgeLayout.RIGHT_RIGHT_CURVED)
-Edge(chart, state_cond_2, stopping, "-->", "(else)", layout=EdgeLayout.LEFT_LEFT_CURVED)
-Edge(chart, state_cond_2, error, "->", "(state==UNKNOWN)", layout=EdgeLayout.BOTTOM_BOTTOM_CURVED)
-Edge(chart, state_cond_1, error, "->", "(state==UNKNOWN)", layout=EdgeLayout.BOTTOM_BOTTOM_CURVED)
+Edge(chart, moving, state_cond_1, "->")
+Edge(chart, stopping, state_cond_2, "->")
+Edge(chart, state_cond_1, stopped, "->", "[state==STOPPED]", layout=EdgeLayout.LEFT_LEFT_CURVED)
+Edge(chart, state_cond_2, stopped, "->", "[state==STOPPED]", layout=EdgeLayout.RIGHT_RIGHT_CURVED)
+Edge(chart, state_cond_1, moving, "->", "[else]", layout=EdgeLayout.RIGHT_RIGHT_CURVED)
+Edge(chart, state_cond_2, stopping, "->", "[else]", layout=EdgeLayout.LEFT_LEFT_CURVED)
+Edge(chart, state_cond_2, error, "->", "[state==UNKNOWN]", layout=EdgeLayout.BOTTOM_BOTTOM_CURVED)
+Edge(chart, state_cond_1, error, "->", "[state==UNKNOWN]", layout=EdgeLayout.BOTTOM_BOTTOM_CURVED)
 
 # Manually adjust view size because edge text is not yet automatically taken into account
-Point(chart, c2+1.6, 2)
+Point(chart, 2.6, 2)
 
 chart.exportSvg("motors_state_machine.svg")
