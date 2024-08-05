@@ -6,13 +6,13 @@
 
 import httpimport
 
-with httpimport.github_repo('remipch', 'svg_chart', ref='6152ae1866b5ac7a4d404108f513185c9b10ad23'):
+with httpimport.github_repo('remipch', 'svg_chart', ref='d334810f558912f6617943ed7270ff2490c5b5c7'):
   from svg_chart import *
 
 chart = Chart(node_width=200)
 
-c1 = -1
-c2 = 1
+c1 = -1.1
+c2 = 1.1
 
 uninitialized = Node(chart, 0, 1, "UNINITIALIZED", shape=NodeShape.ROUNDED_RECTANGLE, color="#bcd7ff")
 init = Node(chart, 0, 2.5, "hw_init()")
@@ -22,10 +22,10 @@ stopped = Node(chart, 0, 6, "STOPPED", shape=NodeShape.ROUNDED_RECTANGLE, color=
 start_move = Node(chart, 0, 8, "hw_start_move()")
 moving = Node(chart, c1, 10, "MOVING", shape=NodeShape.ROUNDED_RECTANGLE, color="#bcd7ff")
 stopping = Node(chart, c2, 10, "STOPPING", shape=NodeShape.ROUNDED_RECTANGLE, color="#bcd7ff")
-get_state_1 = Node(chart, c1, 11.5, "hw_get_state()")
-state_cond_1 = Node(chart, c1, 13, shape=NodeShape.DIAMOND)
-get_state_2 = Node(chart, c2, 11.5, "hw_get_state()")
-state_cond_2 = Node(chart, c2, 13, shape=NodeShape.DIAMOND)
+get_state_1 = Node(chart, c1, 12, "hw_get_state()")
+state_cond_1 = Node(chart, c1, 14, shape=NodeShape.DIAMOND)
+get_state_2 = Node(chart, c2, 12, "hw_get_state()")
+state_cond_2 = Node(chart, c2, 14, shape=NodeShape.DIAMOND)
 
 # Note: edges order creation is used to order multiple edges appearing on the same node border
 Edge(chart, uninitialized, init, "->")
