@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+     width="1082.0" height="475.0" viewBox="-200.0 -90.0 1082.0 475.0">
+<defs>
+<marker markerWidth="10" markerHeight="10" viewBox="-8 -5 10 10" orient="auto-start-reverse" id="d0">
+<path d="M-8,3 L-8,-3 L2,0 Z" fill="black" />
+</marker>
+<marker markerWidth="10" markerHeight="10" viewBox="-8 -5 10 10" orient="auto-start-reverse" id="d1">
+<path d="M-8,3 L-8,-3 L2,0 Z" fill="black" />
+</marker>
+<marker markerWidth="10" markerHeight="10" viewBox="-8 -5 10 10" orient="auto-start-reverse" id="d2">
+<path d="M-8,3 L-8,-3 L2,0 Z" fill="black" />
+</marker>
+<marker markerWidth="10" markerHeight="10" viewBox="-8 -5 10 10" orient="auto-start-reverse" id="d3">
+<path d="M-8,3 L-8,-3 L2,0 Z" fill="black" />
+</marker>
+<marker markerWidth="10" markerHeight="10" viewBox="-8 -5 10 10" orient="auto-start-reverse" id="d4">
+<path d="M-8,3 L-8,-3 L2,0 Z" fill="black" />
+</marker>
+<marker markerWidth="10" markerHeight="10" viewBox="-8 -5 10 10" orient="auto-start-reverse" id="d5">
+<path d="M-8,3 L-8,-3 L2,0 Z" fill="black" />
+</marker>
+<marker markerWidth="10" markerHeight="10" viewBox="-8 -5 10 10" orient="auto-start-reverse" id="d6">
+<path d="M-8,3 L-8,-3 L2,0 Z" fill="black" />
+</marker>
+<marker markerWidth="10" markerHeight="10" viewBox="-8 -5 10 10" orient="auto-start-reverse" id="d7">
+<path d="M-8,3 L-8,-3 L2,0 Z" fill="black" />
+</marker>
+</defs>
+<rect x="-200.0" y="-90.0" width="1082.0" height="475.0" fill="white" stroke="none" />
+<rect x="-150.0" y="-60.0" width="610.0" height="415.0" fill="none" stroke="black" stroke-width="2" rx="0" />
+<text x="-150.0" y="-60.0" font-size="20" text-anchor="start" dominant-baseline="text-after-edge" font-family="Arial" font-weight="bold">component/motors</text>
+<rect x="532.0" y="-60.0" width="300.0" height="310.0" fill="none" stroke="black" stroke-width="2" rx="0" />
+<text x="532.0" y="-60.0" font-size="20" text-anchor="start" dominant-baseline="text-after-edge" font-family="Arial" font-weight="bold">esp-idf</text>
+<path d="M-43.33333333333333,20.0 L-65.0,295.0" stroke="black" stroke-width="2" stroke-dasharray="7,4" fill="none" marker-end="url(#d0)" />
+<path d="M43.33333333333334,20.0 L155.0,85.0" stroke="black" stroke-width="2" stroke-dasharray="7,4" fill="none" marker-end="url(#d1)" />
+<path d="M111.66666666666669,125.0 L0.0,295.0" stroke="black" stroke-width="2" stroke-dasharray="7,4" fill="none" marker-end="url(#d2)" />
+<path d="M198.33333333333337,125.0 L310.0,190.0" stroke="black" stroke-width="2" stroke-dasharray="7,4" fill="none" marker-end="url(#d3)" />
+<path d="M310.0,230.0 L65.0,295.0" stroke="black" stroke-width="2" stroke-dasharray="7,4" fill="none" marker-end="url(#d4)" />
+<path d="M130.0,-6.666666666666666 L552.0,0.0" stroke="black" stroke-width="2" stroke-dasharray="7,4" fill="none" marker-end="url(#d5)" />
+<path d="M130.0,6.666666666666668 L552.0,105.0" stroke="black" stroke-width="2" stroke-dasharray="7,4" fill="none" marker-end="url(#d6)" />
+<path d="M440.0,210.0 L552.0,210.0" stroke="black" stroke-width="2" stroke-dasharray="7,4" fill="none" marker-end="url(#d7)" />
+<rect x="-130.0" y="-20.0" width="260.0" height="40.0" fill="white" stroke="black" stroke-width="2" rx="0" />
+<text x="0" y="0" font-size="20" text-anchor="middle" dominant-baseline="middle" font-family="Arial">motors</text>
+<rect x="25.0" y="85.0" width="260.0" height="40.0" fill="white" stroke="black" stroke-width="2" rx="0" />
+<text x="155.0" y="105.0" font-size="20" text-anchor="middle" dominant-baseline="middle" font-family="Arial">motors_state_machine</text>
+<rect x="180.0" y="190.0" width="260.0" height="40.0" fill="white" stroke="black" stroke-width="2" rx="0" />
+<text x="310" y="210" font-size="20" text-anchor="middle" dominant-baseline="middle" font-family="Arial">motors_hw</text>
+<rect x="-130.0" y="295.0" width="260.0" height="40.0" fill="white" stroke="black" stroke-width="2" rx="0" />
+<text x="0" y="315.0" font-size="20" text-anchor="middle" dominant-baseline="middle" font-family="Arial">motors_direction</text>
+<rect x="552.0" y="-20.0" width="260.0" height="40.0" fill="white" stroke="black" stroke-width="2" rx="0" />
+<text x="682.0" y="0" font-size="20" text-anchor="middle" dominant-baseline="middle" font-family="Arial">esp_event</text>
+<rect x="552.0" y="85.0" width="260.0" height="40.0" fill="white" stroke="black" stroke-width="2" rx="0" />
+<text x="682.0" y="105.0" font-size="20" text-anchor="middle" dominant-baseline="middle" font-family="Arial">esp_timer</text>
+<rect x="552.0" y="190.0" width="260.0" height="40.0" fill="white" stroke="black" stroke-width="2" rx="0" />
+<text x="682.0" y="210" font-size="20" text-anchor="middle" dominant-baseline="middle" font-family="Arial">driver/uart</text>
+</svg>
