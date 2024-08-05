@@ -60,12 +60,12 @@
 <path d="M350.0,560.0 L650.0,560.0" stroke="black" stroke-width="2" fill="none" marker-end="url(#d7)" />
 <text x="500.0" y="560.0" font-size="20" text-anchor="middle" dominant-baseline="middle" font-family="Arial" fill="white" stroke="white" stroke-width="4">STOP</text>
 <text x="500.0" y="560.0" font-size="20" text-anchor="middle" dominant-baseline="middle" font-family="Arial" fill="black">STOP</text>
-<path d="M350.0,-10.0 L858.0,-10.0 Q1130.0,-10.0,1130.0,280.0 Q1130.0,560.0,858.0,560.0 L850.0,560.0" stroke="black" stroke-width="2" fill="none" marker-start="url(#d8)" />
-<text x="1130.0" y="280.0" font-size="20" text-anchor="middle" dominant-baseline="middle" font-family="Arial" fill="white" stroke="white" stroke-width="4">MOTORS_STOPPED</text>
-<text x="1130.0" y="280.0" font-size="20" text-anchor="middle" dominant-baseline="middle" font-family="Arial" fill="black">MOTORS_STOPPED</text>
-<path d="M350.0,0.0 L858.0,0.0 Q990.0,0.0,990.0,140.0 Q990.0,280.0,858.0,280.0 L850.0,280.0" stroke="black" stroke-width="2" fill="none" marker-start="url(#d9)" />
-<path d="M350.0,10.0 L608.0,10.0 Q670.0,10.0,670.0,70.0 Q670.0,140.0,608.0,140.0 L600.0,140.0" stroke="black" stroke-width="2" fill="none" marker-start="url(#d10)" />
-<path d="M230.0,140 L222.0,140 Q-60.0,140,-60.0,350.0 Q-60.0,560.0,222.0,560.0 L150.0,560.0" stroke="black" stroke-width="2" fill="none" marker-start="url(#d11)" />
+<path d="M850.0,560.0 L858.0,560.0 Q1135.0,560.0,1135.0,275.0 Q1135.0,-10.0,858.0,-10.0 L350.0,-10.0" stroke="black" stroke-width="2" fill="none" marker-end="url(#d8)" />
+<text x="1135.0" y="275.0" font-size="20" text-anchor="middle" dominant-baseline="middle" font-family="Arial" fill="white" stroke="white" stroke-width="4">MOTORS_STOPPED</text>
+<text x="1135.0" y="275.0" font-size="20" text-anchor="middle" dominant-baseline="middle" font-family="Arial" fill="black">MOTORS_STOPPED</text>
+<path d="M850.0,280.0 L858.0,280.0 Q990.0,280.0,990.0,140.0 Q990.0,0.0,858.0,0.0 L350.0,0.0" stroke="black" stroke-width="2" fill="none" marker-end="url(#d9)" />
+<path d="M600.0,140.0 L608.0,140.0 Q665.0,140.0,665.0,75.0 Q665.0,10.0,608.0,10.0 L350.0,10.0" stroke="black" stroke-width="2" fill="none" marker-end="url(#d10)" />
+<path d="M150.0,560.0 L142.0,560.0 Q-60.0,560.0,-60.0,350.0 Q-60.0,140,142.0,140 L230.0,140" stroke="black" stroke-width="2" fill="none" marker-end="url(#d11)" />
 <text x="-60.0" y="350.0" font-size="20" text-anchor="middle" dominant-baseline="middle" font-family="Arial" fill="white" stroke="white" stroke-width="4">MOTORS_STOPPED</text>
 <text x="-60.0" y="350.0" font-size="20" text-anchor="middle" dominant-baseline="middle" font-family="Arial" fill="black">MOTORS_STOPPED</text>
 <rect x="150.0" y="-125.0" width="200.0" height="40.0" fill="#bcd7ff" stroke="black" stroke-width="2" rx="20.0" />

@@ -6,7 +6,7 @@
 
 import httpimport
 
-with httpimport.github_repo('remipch', 'svg_chart', ref='6152ae1866b5ac7a4d404108f513185c9b10ad23'):
+with httpimport.github_repo('remipch', 'svg_chart', ref='d334810f558912f6617943ed7270ff2490c5b5c7'):
   from svg_chart import *
 
 chart = Chart(node_width=200)
