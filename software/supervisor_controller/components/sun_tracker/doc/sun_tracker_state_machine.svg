@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
-     width="1425.0" height="765.0" viewBox="-175.0 -155.0 1425.0 765.0">
+     width="1650.0" height="625.0" viewBox="-325.0 -155.0 1650.0 625.0">
 <defs>
 <marker markerWidth="10" markerHeight="10" viewBox="-8 -5 10 10" orient="auto-start-reverse" id="d0">
 <path d="M-8,3 L-8,-3 L2,0 Z" fill="black" />
@@ -23,65 +23,45 @@
 <marker markerWidth="10" markerHeight="10" viewBox="-8 -5 10 10" orient="auto-start-reverse" id="d6">
 <path d="M-8,3 L-8,-3 L2,0 Z" fill="black" />
 </marker>
-<marker markerWidth="10" markerHeight="10" viewBox="-8 -5 10 10" orient="auto-start-reverse" id="d7">
-<path d="M-8,3 L-8,-3 L2,0 Z" fill="black" />
-</marker>
-<marker markerWidth="10" markerHeight="10" viewBox="-8 -5 10 10" orient="auto-start-reverse" id="d8">
-<path d="M-8,3 L-8,-3 L2,0 Z" fill="black" />
-</marker>
-<marker markerWidth="10" markerHeight="10" viewBox="-8 -5 10 10" orient="auto-start-reverse" id="d9">
-<path d="M-8,3 L-8,-3 L2,0 Z" fill="black" />
-</marker>
-<marker markerWidth="10" markerHeight="10" viewBox="-8 -5 10 10" orient="auto-start-reverse" id="d10">
-<path d="M-8,3 L-8,-3 L2,0 Z" fill="black" />
-</marker>
-<marker markerWidth="10" markerHeight="10" viewBox="-8 -5 10 10" orient="auto-start-reverse" id="d11">
-<path d="M-8,3 L-8,-3 L2,0 Z" fill="black" />
-</marker>
 </defs>
-<rect x="-175.0" y="-155.0" width="1425.0" height="765.0" fill="white" stroke="none" />
+<rect x="-325.0" y="-155.0" width="1650.0" height="625.0" fill="white" stroke="none" />
 <path d="M250.0,-85.0 L250.0,-20.0" stroke="black" stroke-width="2" fill="none" marker-end="url(#d0)" />
 <path d="M250.0,20.0 L250,120.0" stroke="black" stroke-width="2" fill="none" marker-end="url(#d1)" />
-<text x="250.0" y="70.0" font-size="20" text-anchor="middle" dominant-baseline="middle" font-family="Arial" fill="white" stroke="white" stroke-width="4">START</text>
-<text x="250.0" y="70.0" font-size="20" text-anchor="middle" dominant-baseline="middle" font-family="Arial" fill="black">START</text>
-<path d="M270.0,140 L400.0,140.0" stroke="black" stroke-width="2" stroke-dasharray="7,4" fill="none" marker-end="url(#d2)" />
-<text x="335.0" y="140.0" font-size="20" text-anchor="middle" dominant-baseline="middle" font-family="Arial" fill="white" stroke="white" stroke-width="4">else</text>
-<text x="335.0" y="140.0" font-size="20" text-anchor="middle" dominant-baseline="middle" font-family="Arial" fill="black">else</text>
+<text x="250.0" y="70.0" font-size="20" text-anchor="middle" dominant-baseline="middle" font-family="Arial" fill="white" stroke="white" stroke-width="14" stroke-miterlimit="1">START / sun_tracker_logic_detect()</text>
+<text x="250.0" y="70.0" font-size="20" text-anchor="middle" dominant-baseline="middle" font-family="Arial" fill="black">START / sun_tracker_logic_detect()</text>
+<path d="M500,0 L350.0,0.0" stroke="black" stroke-width="2" fill="none" marker-end="url(#d2)" />
+<path d="M270.0,140 L625.0,140" stroke="black" stroke-width="2" fill="none" />
+<text x="447.5" y="140.0" font-size="20" text-anchor="middle" dominant-baseline="middle" font-family="Arial" fill="white" stroke="white" stroke-width="14" stroke-miterlimit="1">[else] / result=ERROR</text>
+<text x="447.5" y="140.0" font-size="20" text-anchor="middle" dominant-baseline="middle" font-family="Arial" fill="black">[else] / result=ERROR</text>
 <path d="M250,160.0 L250,260.0" stroke="black" stroke-width="2" fill="none" marker-end="url(#d3)" />
-<text x="250.0" y="210.0" font-size="20" text-anchor="middle" dominant-baseline="middle" font-family="Arial" fill="white" stroke="white" stroke-width="4">detection.result==SUCCESS</text>
-<text x="250.0" y="210.0" font-size="20" text-anchor="middle" dominant-baseline="middle" font-family="Arial" fill="black">detection.result==SUCCESS</text>
-<path d="M270.0,280 L650.0,280.0" stroke="black" stroke-width="2" fill="none" marker-end="url(#d4)" />
-<text x="460.0" y="280.0" font-size="20" text-anchor="middle" dominant-baseline="middle" font-family="Arial" fill="white" stroke="white" stroke-width="4">detection.direction==NONE</text>
-<text x="460.0" y="280.0" font-size="20" text-anchor="middle" dominant-baseline="middle" font-family="Arial" fill="black">detection.direction==NONE</text>
-<path d="M250,300.0 L250.0,400.0" stroke="black" stroke-width="2" stroke-dasharray="7,4" fill="none" marker-end="url(#d5)" />
-<text x="250.0" y="350.0" font-size="20" text-anchor="middle" dominant-baseline="middle" font-family="Arial" fill="white" stroke="white" stroke-width="4">else</text>
-<text x="250.0" y="350.0" font-size="20" text-anchor="middle" dominant-baseline="middle" font-family="Arial" fill="black">else</text>
-<path d="M250.0,440.0 L250.0,540.0" stroke="black" stroke-width="2" fill="none" marker-end="url(#d6)" />
-<path d="M350.0,560.0 L650.0,560.0" stroke="black" stroke-width="2" fill="none" marker-end="url(#d7)" />
-<text x="500.0" y="560.0" font-size="20" text-anchor="middle" dominant-baseline="middle" font-family="Arial" fill="white" stroke="white" stroke-width="4">STOP</text>
-<text x="500.0" y="560.0" font-size="20" text-anchor="middle" dominant-baseline="middle" font-family="Arial" fill="black">STOP</text>
-<path d="M850.0,560.0 L858.0,560.0 Q1135.0,560.0,1135.0,275.0 Q1135.0,-10.0,858.0,-10.0 L350.0,-10.0" stroke="black" stroke-width="2" fill="none" marker-end="url(#d8)" />
-<text x="1135.0" y="275.0" font-size="20" text-anchor="middle" dominant-baseline="middle" font-family="Arial" fill="white" stroke="white" stroke-width="4">MOTORS_STOPPED</text>
-<text x="1135.0" y="275.0" font-size="20" text-anchor="middle" dominant-baseline="middle" font-family="Arial" fill="black">MOTORS_STOPPED</text>
-<path d="M850.0,280.0 L858.0,280.0 Q990.0,280.0,990.0,140.0 Q990.0,0.0,858.0,0.0 L350.0,0.0" stroke="black" stroke-width="2" fill="none" marker-end="url(#d9)" />
-<path d="M600.0,140.0 L608.0,140.0 Q665.0,140.0,665.0,75.0 Q665.0,10.0,608.0,10.0 L350.0,10.0" stroke="black" stroke-width="2" fill="none" marker-end="url(#d10)" />
-<path d="M150.0,560.0 L142.0,560.0 Q-60.0,560.0,-60.0,350.0 Q-60.0,140,142.0,140 L230.0,140" stroke="black" stroke-width="2" fill="none" marker-end="url(#d11)" />
-<text x="-60.0" y="350.0" font-size="20" text-anchor="middle" dominant-baseline="middle" font-family="Arial" fill="white" stroke="white" stroke-width="4">MOTORS_STOPPED</text>
-<text x="-60.0" y="350.0" font-size="20" text-anchor="middle" dominant-baseline="middle" font-family="Arial" fill="black">MOTORS_STOPPED</text>
+<text x="250.0" y="210.0" font-size="20" text-anchor="middle" dominant-baseline="middle" font-family="Arial" fill="white" stroke="white" stroke-width="14" stroke-miterlimit="1">[detection.result==SUCCESS]</text>
+<text x="250.0" y="210.0" font-size="20" text-anchor="middle" dominant-baseline="middle" font-family="Arial" fill="black">[detection.result==SUCCESS]</text>
+<path d="M270.0,280 L750,280" stroke="black" stroke-width="2" fill="none" />
+<text x="510.0" y="280.0" font-size="20" text-anchor="middle" dominant-baseline="middle" font-family="Arial" fill="white" stroke="white" stroke-width="14" stroke-miterlimit="1">[detection.direction==NONE] / result=SUCCESS</text>
+<text x="510.0" y="280.0" font-size="20" text-anchor="middle" dominant-baseline="middle" font-family="Arial" fill="black">[detection.direction==NONE] / result=SUCCESS</text>
+<path d="M250,300.0 L250.0,400.0" stroke="black" stroke-width="2" fill="none" marker-end="url(#d4)" />
+<text x="250.0" y="350.0" font-size="20" text-anchor="middle" dominant-baseline="middle" font-family="Arial" fill="white" stroke="white" stroke-width="14" stroke-miterlimit="1">[else] / motors_start_move(direction)</text>
+<text x="250.0" y="350.0" font-size="20" text-anchor="middle" dominant-baseline="middle" font-family="Arial" fill="black">[else] / motors_start_move(direction)</text>
+<path d="M350.0,420.0 L700.0,420.0" stroke="black" stroke-width="2" fill="none" marker-end="url(#d5)" />
+<text x="525.0" y="420.0" font-size="20" text-anchor="middle" dominant-baseline="middle" font-family="Arial" fill="white" stroke="white" stroke-width="14" stroke-miterlimit="1">STOP</text>
+<text x="525.0" y="420.0" font-size="20" text-anchor="middle" dominant-baseline="middle" font-family="Arial" fill="black">STOP</text>
+<path d="M900.0,420.0 L908.0,420.0 Q1110.0,420.0,1110.0,210.0 Q1110.0,0,908.0,0 L500,0" stroke="black" stroke-width="2" fill="none" />
+<text x="1110.0" y="210.0" font-size="20" text-anchor="middle" dominant-baseline="middle" font-family="Arial" fill="white" stroke="white" stroke-width="14" stroke-miterlimit="1">MOTORS_STOPPED / result=ABORTED</text>
+<text x="1110.0" y="210.0" font-size="20" text-anchor="middle" dominant-baseline="middle" font-family="Arial" fill="black">MOTORS_STOPPED / result=ABORTED</text>
+<path d="M750,280 L758,280 Q890.0,280,890.0,140.0 Q890.0,0,758,0 L500,0" stroke="black" stroke-width="2" fill="none" />
+<path d="M625.0,140 L633.0,140 Q695.0,140,695.0,70.0 Q695.0,0,633.0,0 L500,0" stroke="black" stroke-width="2" fill="none" />
+<path d="M150.0,420.0 L50.0,420" stroke="black" stroke-width="2" fill="none" />
+<path d="M50.0,420 L42.0,420 Q-90.0,420,-90.0,280.0 Q-90.0,140,42.0,140 L230.0,140" stroke="black" stroke-width="2" fill="none" marker-end="url(#d6)" />
+<text x="-90.0" y="280.0" font-size="20" text-anchor="middle" dominant-baseline="middle" font-family="Arial" fill="white" stroke="white" stroke-width="14" stroke-miterlimit="1">MOTORS_STOPPED / sun_tracker_logic_detect()</text>
+<text x="-90.0" y="280.0" font-size="20" text-anchor="middle" dominant-baseline="middle" font-family="Arial" fill="black">MOTORS_STOPPED / sun_tracker_logic_detect()</text>
 <rect x="150.0" y="-125.0" width="200.0" height="40.0" fill="#bcd7ff" stroke="black" stroke-width="2" rx="20.0" />
 <text x="250" y="-105.0" font-size="20" text-anchor="middle" dominant-baseline="middle" font-family="Arial">UNINITIALIZED</text>
 <rect x="150.0" y="-20.0" width="200.0" height="40.0" fill="#bcd7ff" stroke="black" stroke-width="2" rx="20.0" />
 <text x="250" y="0" font-size="20" text-anchor="middle" dominant-baseline="middle" font-family="Arial">IDLE</text>
 <path d="M230.0,140 L250,120.0 L270.0,140 L250,160.0 Z" fill="white" stroke="black" stroke-width="2" />
-<rect x="400.0" y="120.0" width="200.0" height="40.0" fill="white" stroke="black" stroke-width="2" rx="0" />
-<text x="500" y="140" font-size="20" text-anchor="middle" dominant-baseline="middle" font-family="Arial">result = ERROR</text>
 <path d="M230.0,280 L250,260.0 L270.0,280 L250,300.0 Z" fill="white" stroke="black" stroke-width="2" />
-<rect x="650.0" y="260.0" width="200.0" height="40.0" fill="white" stroke="black" stroke-width="2" rx="0" />
-<text x="750" y="280" font-size="20" text-anchor="middle" dominant-baseline="middle" font-family="Arial">result = SUCCESS</text>
-<rect x="150.0" y="400.0" width="200.0" height="40.0" fill="white" stroke="black" stroke-width="2" rx="0" />
-<text x="250" y="420" font-size="20" text-anchor="middle" dominant-baseline="middle" font-family="Arial">start_move(direction)</text>
-<rect x="150.0" y="540.0" width="200.0" height="40.0" fill="#bcd7ff" stroke="black" stroke-width="2" rx="20.0" />
-<text x="250" y="560" font-size="20" text-anchor="middle" dominant-baseline="middle" font-family="Arial">TRACKING</text>
-<rect x="650.0" y="540.0" width="200.0" height="40.0" fill="#bcd7ff" stroke="black" stroke-width="2" rx="20.0" />
-<text x="750" y="560" font-size="20" text-anchor="middle" dominant-baseline="middle" font-family="Arial">STOPPING</text>
+<rect x="150.0" y="400.0" width="200.0" height="40.0" fill="#bcd7ff" stroke="black" stroke-width="2" rx="20.0" />
+<text x="250" y="420" font-size="20" text-anchor="middle" dominant-baseline="middle" font-family="Arial">TRACKING</text>
+<rect x="700.0" y="400.0" width="200.0" height="40.0" fill="#bcd7ff" stroke="black" stroke-width="2" rx="20.0" />
+<text x="800.0" y="420" font-size="20" text-anchor="middle" dominant-baseline="middle" font-family="Arial">STOPPING</text>
 </svg>
