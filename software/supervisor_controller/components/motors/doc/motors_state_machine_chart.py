@@ -37,6 +37,6 @@ Edge(chart, state_cond_2, error, "->", "[state==UNKNOWN]", layout=EdgeLayout.BOT
 Edge(chart, state_cond_1, error, "->", "[state==UNKNOWN]", layout=EdgeLayout.BOTTOM_BOTTOM_CURVED)
 
 # Manually adjust view size because edge text is not yet automatically taken into account
-Point(chart, 2.6, 2)
+Point(chart, 2.2, 2)
 
 chart.exportSvg("motors_state_machine.svg")
