@@ -1,5 +1,12 @@
 # motors component
 
+This component allows to control the motors from the ESP32 application.
+
+It sends commands to the external motors_controller board via serial pins, read the reply
+and manages the current motors state.
+
+It's split into a few files :
+
 ![Motors diagram](doc/motors.svg)
 
 `motors` is the public interface of the motors component.
