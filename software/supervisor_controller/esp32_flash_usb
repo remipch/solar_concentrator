@@ -6,7 +6,7 @@ script_dir=$(dirname "$0") # relative path to this script
 cd $script_dir
 script_dir=$(pwd) # absolute path to this script
 
-cd $script_dir/components/web_custom/www
+cd $script_dir/components/web_interface/www
 ./compress_pages.sh
 
 cd $script_dir/build_esp32

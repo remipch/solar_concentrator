@@ -5,7 +5,7 @@ set(requires
                 target_detector
                 sun_tracker
                 motors
-                web_custom)
+                web_interface)
 
 idf_component_register(SRCS "app_main.cpp" REQUIRES ${requires} )
 
