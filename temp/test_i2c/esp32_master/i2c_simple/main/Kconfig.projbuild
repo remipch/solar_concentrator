@@ -1,5 +1,0 @@
-menu "Example Configuration"
-
-    orsource "$IDF_PATH/examples/common_components/env_caps/$IDF_TARGET/Kconfig.env_caps"
-
-endmenu
