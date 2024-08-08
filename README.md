@@ -9,7 +9,7 @@ It consists of :
 
 The video below shows the concentrator in action on 8 July 2024, tracking the sun for about 7 hours:
 
-[Video]
+https://github.com/user-attachments/assets/06e3a9e1-d853-4ddd-b5d8-55cf9d6ecc89
 
 On 26 june 2024, when adding some aluminium foils inside the oven to improve insulation,
 the oven temperature has risen to 210°C after 30 minutes.
