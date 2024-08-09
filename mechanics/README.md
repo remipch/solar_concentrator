@@ -1,5 +1,13 @@
 # Solar Concentrator Mechanics
 
+The originality of the mechanical design is to use a simple cablebot instead
+of a traditional 2 axis tracker where each axis has a dedicated motor.
+* Advantage: cheaper motors and cheaper mechanical structure can be used.
+* Drawback: each axis cannot be controlled independently.
+
+Another originality is the way to precisely set mirror orientation without
+requiring high precision mechanics.
+
 | :information_source: You can click on the images below to view them in an online 3D viewer |
 |--------------------------------------------------------------------------------------------|
 
@@ -17,7 +25,7 @@ Hierarchical breakdown :
         - [Mirror holder](#mirror-holder)
 
 
-# Solar panel
+## Solar panel
 
 ## Stand
 
@@ -27,14 +35,14 @@ Assembled :<br>
 Exploded :<br>
 ![Stand](generated/stand_exploded.png)<br>
 
-### Stand back board
+## Stand back board
 
 Assembled :<br>
 [![Stand back board](generated/stand_back_board.png)](https://remipch.github.io/test_website/view_3d.html?model=stand_back_board)
 
-#### Motor block
+## Motor block
 
-### Stand front board
+## Stand front board
 
 ![Stand front board](generated/stand_front_board.png)
 
