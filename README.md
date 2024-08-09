@@ -51,7 +51,7 @@ This project has been an enjoying way to create, discover and learn some new con
     * Use it to model the mechanical parts (see the dedicated [README](mechanics/README.md) :spiral_notepad:)
 * Electronics:
     * Learn [LibrePCB](https://librepcb.org/), an electronic design suite
-    * Use it to design a specific electronic board (see the dedicated [README](electronics/README.md) :spiral_notepad:)
+    * Use it to design a specific electronic board (see the dedicated [README](electronics/supervisor/README.md) :spiral_notepad:)
 * Software:
     * Learn [Panda3D](https://www.panda3d.org/), a python game engine
     * Use it to develop the simulator (see the dedicated [README](software/simulator/README.md) :spiral_notepad:)
