@@ -13,9 +13,9 @@ requiring high precision mechanics.
 | :information_source: You can click on the images below to view them in an online 3D viewer |
 |--------------------------------------------------------------------------------------------|
 
-Hierarchical breakdown :
+## Solar panel
 
-- [Solar panel](#solar-panel)
+- __Solar panel__
     - [Stand](#stand)
         - [Stand back board](#stand-back-board)
             - [Motor block](#motor-block)
@@ -26,26 +26,76 @@ Hierarchical breakdown :
     - [Panel board](#panel-board)
         - [Mirror holder](#mirror-holder)
 
-
-## Solar panel
+| Assembled | Exploded |
+| --------- | -------- |
+| TODO | TODO |
 
 ## Stand
 
-Assembled :<br>
-![Stand](generated/stand.png)<br>
+- [Solar panel](#solar-panel)
+    - __Stand__
+        - [Stand back board](#stand-back-board)
+            - [Motor block](#motor-block)
+        - [Stand front board](#stand-front-board)
+    - [Panel frame](#panel-frame)
+        - [Panel horizontal axis](#panel-horizontal-axis)
+        - [Panel vertical axis](#panel-vertical-axis)
+    - [Panel board](#panel-board)
+        - [Mirror holder](#mirror-holder)
 
-Exploded :<br>
-![Stand](generated/stand_exploded.png)<br>
+| Assembled | Exploded |
+| --------- | -------- |
+| ![Stand](generated/stand.png) | ![Stand](generated/stand_exploded.png) |
 
 ## Stand back board
 
-Assembled :<br>
-[![Stand back board](generated/stand_back_board.png)](https://remipch.github.io/test_website/view_3d.html?model=stand_back_board)
+- [Solar panel](#solar-panel)
+    - [Stand](#stand)
+        - __Stand back board__
+            - [Motor block](#motor-block)
+        - [Stand front board](#stand-front-board)
+    - [Panel frame](#panel-frame)
+        - [Panel horizontal axis](#panel-horizontal-axis)
+        - [Panel vertical axis](#panel-vertical-axis)
+    - [Panel board](#panel-board)
+        - [Mirror holder](#mirror-holder)
+
+| Assembled | Exploded |
+| --------- | -------- |
+| [![Stand back board](generated/stand_back_board.png)](https://remipch.github.io/test_website/view_3d.html?model=stand_back_board) | ![Stand](generated/stand_exploded.png) |
 
 ## Motor block
 
+- [Solar panel](#solar-panel)
+    - [Stand](#stand)
+        - [Stand back board](#stand-back-board)
+            - __Motor block__
+        - [Stand front board](#stand-front-board)
+    - [Panel frame](#panel-frame)
+        - [Panel horizontal axis](#panel-horizontal-axis)
+        - [Panel vertical axis](#panel-vertical-axis)
+    - [Panel board](#panel-board)
+        - [Mirror holder](#mirror-holder)
+
+| Assembled | Exploded |
+| --------- | -------- |
+| TODO | TODO |
+
 ## Stand front board
 
-![Stand front board](generated/stand_front_board.png)
+- [Solar panel](#solar-panel)
+    - [Stand](#stand)
+        - [Stand back board](#stand-back-board)
+            - [Motor block](#motor-block)
+        - __Stand front board__
+    - [Panel frame](#panel-frame)
+        - [Panel horizontal axis](#panel-horizontal-axis)
+        - [Panel vertical axis](#panel-vertical-axis)
+    - [Panel board](#panel-board)
+        - [Mirror holder](#mirror-holder)
+
+| Assembled | Exploded |
+| --------- | -------- |
+| ![Stand front board](generated/stand_front_board.png) | TODO |
 
 ## Panel frame
