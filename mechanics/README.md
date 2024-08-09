@@ -1,5 +1,7 @@
 # Solar Concentrator Mechanics
 
+![Solar panel animation](generated/solar_panel.gif)
+
 The originality of the mechanical design is to use a simple cablebot instead
 of a traditional 2 axis tracker where each axis has a dedicated motor.
 * Advantage: cheaper motors and cheaper mechanical structure can be used.
