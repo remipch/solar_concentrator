@@ -40,7 +40,7 @@ Limitations of this version:
 To build this project, some products have been happily "hacked" out of their original use:
 * The tempered glass used in the oven comes from an [Ikea shelf](https://www.ikea.com/fr/fr/p/komplement-tablette-en-verre-blanc-80257647/)
 * The mirrors are [decorative bathroom mirrors](https://www.bricoman.fr/lot-6-miroirs-adhesif-carre-15x15-cm-1429043.html)
-* The motors are [model engines](https://www.gotronic.fr/art-motoreducteur-mfa-950d8101ln-11376.htm)
+* The motors are low cost [model engines](https://www.gotronic.fr/art-motoreducteur-mfa-950d8101ln-11376.htm)
 
 ## Motivations
 
@@ -48,15 +48,16 @@ This project has been an enjoying way to create, discover and learn some new con
 * Mechanics:
     * Invent, validate and build the original mechanical design
     * Learn [OpenSCAD](https://openscad.org/), a 3D parametric design software
-    * Use it to model the mechanical parts
+    * Use it to model the mechanical parts (see the dedicated [README](mechanics/README.md) :spiral_notepad:)
 * Electronics:
     * Learn [LibrePCB](https://librepcb.org/), an electronic design suite
-    * Use it to design a specific electronic board
+    * Use it to design a specific electronic board (see the dedicated [README](electronics/README.md) :spiral_notepad:)
 * Software:
     * Learn [Panda3D](https://www.panda3d.org/), a python game engine
-    * Use it to develop the simulator, allowing to simulate light rays and estimate the sun power received by the target
+    * Use it to develop the simulator (see the dedicated [README](software/simulator/README.md) :spiral_notepad:)
     * Learn [ESP32 ecosystem and tools](https://docs.espressif.com/projects/esp-idf/en/latest/esp32/index.html)
-    * Use them to implement the whole control logic in a tiny ESP32-CAM board
+    * Use them to implement the supervisor logic on a tiny ESP32-CAM board (see the dedicated [README](software/supervisor_controller/README.md) :spiral_notepad:)
+    * Implement the motor controller on a tiny Arduino Pro Mini  (see the dedicated [README](software/motors_controller/README.md) :spiral_notepad:)
 
 ## Next step
 
@@ -72,14 +73,6 @@ This would open up the following possibilities:
 ## Technical breakdown
 
 ### Mechanics
-
-The originality of the mechanical design is to use a simple cablebot instead
-of a traditional 2 axis tracker where each axis has a dedicated motor.
-* Advantage: cheaper motors and cheaper mechanical structure can be used.
-* Drawback: each axis cannot be controlled independently.
-
-Another originality is the way to precisely set mirror orientation without
-requiring high precision mechanics.
 
 ### Electronics
 
