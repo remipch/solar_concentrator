@@ -31,17 +31,31 @@ It doesn't do anything complicated, just glue things together :
 
 ![Supervisor board](doc/supervisor_board_top_layer.png)
 
+(ground plane is not shown)
+
 ### Bottom layer
 
 ![Supervisor board](doc/supervisor_board_bottom_layer.png)
+
+(ground plane is not shown)
 
 ### 3D model
 
 ![Supervisor board](doc/supervisor_board_3d_model.png)
 
-### Photo
+## Photos
 
-![Supervisor board](supervisor_board_photo.jpg)
+### Empty board
+
+![Supervisor board](doc/supervisor_board_photo.jpg)
+
+### Opened Case
+
+![Supervisor board](doc/supervisor_opened_case_photo.jpg)
+
+### Closed Case
+
+![Supervisor board](doc/supervisor_closed_case_photo.jpg)
 
 ## License
 
