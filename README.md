@@ -7,6 +7,8 @@ It consists of:
 * A fixed target (currently a simple concrete oven with a black metal plate and a tempered glass)
 * The supervisor: an electronic control device that measures the target, computes and sends commands to the motors
 
+![Solar Concentrator](solar_concentrator.jpg)
+
 On 26 june 2024, when adding some aluminium foils inside the oven to improve insulation,
 the oven temperature has risen to __210°C after 30 minutes__.
 
