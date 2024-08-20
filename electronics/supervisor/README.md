@@ -17,27 +17,27 @@ It doesn't do anything complicated, just glue things together :
 
 ![Supervisor schematics](doc/electronics_overview_chart.svg)
 
-## Board
+## Supervisor Board
 
 ### Schematics
 
-![Supervisor schematics](supervisor_schematics.png)
+![Supervisor schematics](doc/supervisor_schematics.png)
 
 ### Components
 
-![Supervisor board](supervisor_board_components.png)
+![Supervisor board](doc/supervisor_board_components.png)
 
 ### Top layer
 
-![Supervisor board](supervisor_board_top_layer.png)
+![Supervisor board](doc/supervisor_board_top_layer.png)
 
 ### Bottom layer
 
-![Supervisor board](supervisor_board_bottom_layer.png)
+![Supervisor board](doc/supervisor_board_bottom_layer.png)
 
 ### 3D model
 
-![Supervisor board](supervisor_board_3d_model.png)
+![Supervisor board](doc/supervisor_board_3d_model.png)
 
 ### Photo
 
