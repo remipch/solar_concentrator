@@ -56,9 +56,10 @@ Detailed information can be found in the dedicated subfolders :
     * [Simulator](software/simulator/README.md) : evaluate the theoretical power received by the target for a given hardware configuration
     * Supervisor controller : ESP32-CAM firmware based on [Espressif ESP32 framework](https://docs.espressif.com/projects/esp-idf/en/latest/esp32/index.html)
         * [Supervisor component](software/supervisor_controller/components/supervisor/README.md) : supervisor high level logic
-        * [Sun tracker](software/supervisor_controller/components/sun_tracker/README.md) : compute motors command to keep the light in the target
+        * [Sun tracker](software/supervisor_controller/components/sun_tracker/README.md) : compute motors commands to keep the sun light at the center of the target area.
         * [Target detector](software/supervisor_controller/components/target_detector/README.md) : detect the target position in image
-        * [Web interface](software/supervisor_controller/components/web_interface/README.md) : the user interface to interact with the supervisor
+        * [Web interface](software/supervisor_controller/components/web_interface/README.md) : allow the user to interact with the supervisor
+        * [Motors component](software/supervisor_controller/components/motors/README.md) : control the motors from the ESP32 application
         * [Image component](software/supervisor_controller/components/image/README.md) : common image processing functions
     * [Motors controller](software/motors_controller/README.md) : Arduino Pro Mini firmware to control motors
 
