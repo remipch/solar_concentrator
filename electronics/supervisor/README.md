@@ -13,11 +13,15 @@ It doesn't do anything complicated, just glue things together :
 * Include a FTDI socket to upload the ESP32-CAM firmware inplace (Arduino has its own FTDI socket)
 * Include a minimal voltage converter for the child boards to communicate together
 
-## Schematics
+## Overview
 
-![Supervisor schematics](supervisor_schematics.png)
+![Supervisor schematics](doc/electronics_overview_chart.svg)
 
 ## Board
+
+### Schematics
+
+![Supervisor schematics](supervisor_schematics.png)
 
 ### Components
 

@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+     width="940.0" height="520.0" viewBox="-470.0 -190.0 940.0 520.0">
+<defs>
+<marker markerWidth="10" markerHeight="10" viewBox="-8 -5 10 10" orient="auto-start-reverse" id="d0">
+<path d="M-8,3 L-8,-3 L2,0 Z" fill="black" />
+</marker>
+<marker markerWidth="10" markerHeight="10" viewBox="-8 -5 10 10" orient="auto-start-reverse" id="d1">
+<path d="M-8,3 L-8,-3 L2,0 Z" fill="black" />
+</marker>
+<marker markerWidth="10" markerHeight="10" viewBox="-8 -5 10 10" orient="auto-start-reverse" id="d2">
+<path d="M-8,3 L-8,-3 L2,0 Z" fill="black" />
+</marker>
+<marker markerWidth="10" markerHeight="10" viewBox="-8 -5 10 10" orient="auto-start-reverse" id="d3">
+<path d="M-8,3 L-8,-3 L2,0 Z" fill="black" />
+</marker>
+<marker markerWidth="10" markerHeight="10" viewBox="-8 -5 10 10" orient="auto-start-reverse" id="d4">
+<path d="M-8,3 L-8,-3 L2,0 Z" fill="black" />
+</marker>
+<marker markerWidth="10" markerHeight="10" viewBox="-8 -5 10 10" orient="auto-start-reverse" id="d5">
+<path d="M-8,3 L-8,-3 L2,0 Z" fill="black" />
+</marker>
+<marker markerWidth="10" markerHeight="10" viewBox="-8 -5 10 10" orient="auto-start-reverse" id="d6">
+<path d="M-8,3 L-8,-3 L2,0 Z" fill="black" />
+</marker>
+</defs>
+<rect x="-470.0" y="-190.0" width="940.0" height="520.0" fill="white" stroke="none" />
+<rect x="-420.0" y="-65.0" width="840.0" height="250.0" fill="none" stroke="black" stroke-width="2" rx="0" />
+<text x="-420.0" y="-65.0" font-size="20" text-anchor="start" dominant-baseline="text-after-edge" font-family="Arial" font-weight="bold">Electronic Case</text>
+<path d="M-57.5,-120.0 L-318.3333333333333,120.0" stroke="black" stroke-width="2" fill="none" marker-end="url(#d0)" />
+<path d="M0.0,-120.0 L0.0,-20.0" stroke="black" stroke-width="2" fill="none" marker-end="url(#d1)" />
+<path d="M-38.33333333333333,20.0 L-241.66666666666666,120.0" stroke="black" stroke-width="2" fill="none" marker-end="url(#d2)" />
+<path d="M38.33333333333334,20.0 L241.66666666666669,120.0" stroke="black" stroke-width="2" fill="none" marker-end="url(#d3)" />
+<path d="M57.5,-120.0 L318.33333333333337,120.0" stroke="black" stroke-width="2" fill="none" marker-end="url(#d4)" />
+<path d="M-280.0,160.0 L-280.0,260.0" stroke="black" stroke-width="2" fill="none" marker-end="url(#d5)" />
+<path d="M280.0,160.0 L280.0,260.0" stroke="black" stroke-width="2" fill="none" marker-end="url(#d6)" />
+<rect x="-115.0" y="-160.0" width="230.0" height="40.0" fill="white" stroke="black" stroke-width="2" rx="0" />
+<text x="0" y="-140" font-size="20" text-anchor="middle" dominant-baseline="middle" font-family="Arial">12V Battery</text>
+<rect x="-115.0" y="-20.0" width="230.0" height="40.0" fill="white" stroke="black" stroke-width="2" rx="0" />
+<text x="0" y="0" font-size="20" text-anchor="middle" dominant-baseline="middle" font-family="Arial">Supervisor Board</text>
+<rect x="-395.0" y="120.0" width="230.0" height="40.0" fill="white" stroke="black" stroke-width="2" rx="0" />
+<text x="-280" y="140" font-size="20" text-anchor="middle" dominant-baseline="middle" font-family="Arial">Motor Driver A</text>
+<rect x="165.0" y="120.0" width="230.0" height="40.0" fill="white" stroke="black" stroke-width="2" rx="0" />
+<text x="280" y="140" font-size="20" text-anchor="middle" dominant-baseline="middle" font-family="Arial">Motor Driver B</text>
+<rect x="-395.0" y="260.0" width="230.0" height="40.0" fill="white" stroke="black" stroke-width="2" rx="0" />
+<text x="-280" y="280" font-size="20" text-anchor="middle" dominant-baseline="middle" font-family="Arial">Panel A</text>
+<rect x="165.0" y="260.0" width="230.0" height="40.0" fill="white" stroke="black" stroke-width="2" rx="0" />
+<text x="280" y="280" font-size="20" text-anchor="middle" dominant-baseline="middle" font-family="Arial">Panel B</text>
+</svg>
