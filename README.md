@@ -18,12 +18,16 @@ The video below shows the concentrator in action on 8 July 2024:
 
 https://github.com/user-attachments/assets/06e3a9e1-d853-4ddd-b5d8-55cf9d6ecc89
 
-| :warning: This project may harm people or animals in the surroundings |
-|---------------------------------------------------------------------- |
-| It can __cause permanent blindness, burn skin or ignite objects__ |
-| Even when the concentrator is not powered, the sun remains concentrated 48 times in a single small area |
-| This point of focus is constantly __moving along a trajectory that is difficult to estimate__ |
-| In its current state, it __must be continuously monitored__ and the mirrors must be covered quickly in the event of an anomaly |
+> [!CAUTION]
+> :warning::warning: __THIS PROJECT MAY HARM PEOPLE OR ANIMALS IN THE SURROUNDINGS__ :warning::warning:
+>
+> It can __cause permanent blindness, burn skin or ignite objects__.
+>
+> Even when the concentrator is not powered, the sun remains concentrated 48 times in a single small area.
+>
+> This point of focus is constantly __moving along a trajectory that is difficult to estimate__.
+>
+> In its current state, it __must be continuously monitored__ and the mirrors must be covered quickly in the event of an anomaly.
 
 ## Key points
 
