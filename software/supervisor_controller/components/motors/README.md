@@ -1,4 +1,4 @@
-# motors component
+# Motors component
 
 This component allows to control the motors from the ESP32 application.
 

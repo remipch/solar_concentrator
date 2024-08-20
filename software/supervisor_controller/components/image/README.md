@@ -1,6 +1,6 @@
-# image component
+# Image component
 
-`image` is a simple wrapper around CImg library
+The `image` component is a simple wrapper around [CImg](https://cimg.eu/index.html) library
 
 It provides :
 - the CMake file to create an idf component

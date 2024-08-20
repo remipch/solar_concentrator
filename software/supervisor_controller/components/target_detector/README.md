@@ -1,6 +1,6 @@
-# target_detector
+# Target detector component
 
-The goal of target_detector is to detect the rectangle area that will be considered as the target to sun rays.
+The goal of `target_detector` component is to detect the rectangle area that will be considered as the target to sun rays.
 
 To accomplish this, it uses a modified version of QR-code detector (quirc) that detect corner capstones.
 

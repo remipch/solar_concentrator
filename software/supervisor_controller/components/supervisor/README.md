@@ -1,4 +1,4 @@
-# supervisor
+# Supervisor component
 
 This component implements the high level logic of the ESP32 application.
 

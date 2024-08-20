@@ -1,4 +1,4 @@
-# web_interface
+# Web interface component
 
 This component provides a minimal http server serving a single web page
 to control the supervisor.

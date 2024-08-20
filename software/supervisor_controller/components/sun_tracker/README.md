@@ -1,6 +1,6 @@
-# sun_tracker
+# Sun tracker component
 
-The sun_tracker component goal is to keep the sun light at the center of the target area.
+The `sun_tracker` component goal is to keep the sun light at the center of the target area.
 
 Its main steps are :
 - use camera to capture image
