@@ -44,22 +44,23 @@ To build this project, some products have been happily "hacked" out of their ori
 * The mirrors are [decorative bathroom mirrors](https://www.bricoman.fr/lot-6-miroirs-adhesif-carre-15x15-cm-1429043.html)
 * The motors are low cost [model engines](https://www.gotronic.fr/art-motoreducteur-mfa-950d8101ln-11376.htm)
 
-## Motivations
+## Technical breakdown
 
-This project has been an enjoying way to create, discover and learn some new concepts and tools:
-* Mechanics:
-    * Invent, validate and build the original mechanical design
-    * Learn [OpenSCAD](https://openscad.org/), a 3D parametric design software
-    * Use it to model the mechanical parts (see the dedicated [README](mechanics/README.md) :spiral_notepad:)
-* Electronics:
-    * Learn [LibrePCB](https://librepcb.org/), an electronic design suite
-    * Use it to design a specific electronic board (see the dedicated [README](electronics/supervisor/README.md) :spiral_notepad:)
-* Software:
-    * Learn [Panda3D](https://www.panda3d.org/), a python game engine
-    * Use it to develop the simulator (see the dedicated [README](software/simulator/README.md) :spiral_notepad:)
-    * Learn [ESP32 ecosystem and tools](https://docs.espressif.com/projects/esp-idf/en/latest/esp32/index.html)
-    * Use them to implement the supervisor logic on a tiny ESP32-CAM board (see the dedicated [README](software/supervisor_controller/README.md) :spiral_notepad:)
-    * Implement the motor controller on a tiny Arduino Pro Mini  (see the dedicated [README](software/motors_controller/README.md) :spiral_notepad:)
+The project structure reflects the technical breakdown.
+
+Detailed information can be found in the dedicated subfolders :
+
+* [Mechanics :gear:](mechanics/README.md) : 3D models of the parts used in the solar panel
+* [Electronics :electric_plug:](electronics/supervisor/README.md) : schematics and layout of the custom supervisor board
+* Software :floppy_disk: :
+    * [Simulator](software/simulator/README.md) : evaluate the theoretical power received by the target for a given hardware configuration
+    * [Motors controller](software/motors_controller/README.md) : Arduino firmware to control motors
+    * Supervisor controller : ESP32-CAM firmware based on [Espressif ESP32 framework](https://docs.espressif.com/projects/esp-idf/en/latest/esp32/index.html)
+        * [Supervisor component](software/supervisor_controller/components/supervisor/README.md) : supervisor high level logic
+        * [Sun tracker](software/supervisor_controller/components/sun_tracker/README.md)
+        * [Target detector](software/supervisor_controller/components/sun_tracker/README.md)
+        * [Image component](software/supervisor_controller/components/image/README.md)
+        * [Web interface](software/supervisor_controller/components/web_interface/README.md)
 
 ## Next step
 
@@ -71,18 +72,5 @@ This would open up the following possibilities:
 * Cook or sterilize a large volume of food
 * Melting plastic, metal or glass
 * Increasing photovoltaic pannel output power with [concentrated photovoltaics](https://en.wikipedia.org/wiki/Concentrator_photovoltaics)
-
-## Technical breakdown
-
-### Mechanics
-
-### Electronics
-
-### Software
-
-#### Simulator
-
-A simulator has been developped before any other development to try to evaluate
-the theoretical solar power received on the target.
 
 
