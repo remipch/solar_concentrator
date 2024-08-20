@@ -15,47 +15,47 @@ It doesn't do anything complicated, just glue things together :
 
 ## Overview
 
-![Supervisor schematics](doc/electronics_overview_chart.svg)
+![Electronics overview](doc/electronics_overview_chart.svg)
 
 ## Supervisor Board
 
 ### Schematics
 
-![Supervisor schematics](doc/supervisor_schematics.png)
+![Supervisor board schematics](doc/supervisor_schematics.png)
 
 ### Components
 
-![Supervisor board](doc/supervisor_board_components.png)
+![Supervisor board components](doc/supervisor_board_components.png)
 
 ### Top layer
 
-![Supervisor board](doc/supervisor_board_top_layer.png)
+![Supervisor board top layer](doc/supervisor_board_top_layer.png)
 
 (ground plane is not shown)
 
 ### Bottom layer
 
-![Supervisor board](doc/supervisor_board_bottom_layer.png)
+![Supervisor board bottom layer](doc/supervisor_board_bottom_layer.png)
 
 (ground plane is not shown)
 
 ### 3D model
 
-![Supervisor board](doc/supervisor_board_3d_model.png)
+![Supervisor board 3d](doc/supervisor_board_3d_model.png)
 
 ## Photos
 
 ### Empty board
 
-![Supervisor board](doc/supervisor_board_photo.jpg)
+![Supervisor empty board](doc/supervisor_board_photo.jpg)
 
 ### Opened Case
 
-![Supervisor board](doc/supervisor_opened_case_photo.jpg)
+![Supervisor opened case](doc/supervisor_opened_case_photo.jpg)
 
 ### Closed Case
 
-![Supervisor board](doc/supervisor_closed_case_photo.jpg)
+![Supervisor closed case](doc/supervisor_closed_case_photo.jpg)
 
 ## License
 
