@@ -10,8 +10,10 @@ of a traditional 2 axis tracker where each axis has a dedicated motor.
 Another originality is the way to precisely set mirror orientation without
 requiring high precision mechanics.
 
-| :information_source: You can click on the images below to view them in an online 3D viewer |
-|--------------------------------------------------------------------------------------------|
+Mechanical parts have been modelled with [OpenSCAD](https://openscad.org/).
+
+> [!TIP]
+> You can click on the images below to view them in an online 3D viewer.
 
 ## Solar panel
 
