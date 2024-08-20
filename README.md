@@ -54,13 +54,13 @@ Detailed information can be found in the dedicated subfolders :
 * [Electronics :electric_plug:](electronics/supervisor/README.md) : schematics and layout of the custom supervisor board
 * Software :floppy_disk: :
     * [Simulator](software/simulator/README.md) : evaluate the theoretical power received by the target for a given hardware configuration
-    * [Motors controller](software/motors_controller/README.md) : Arduino firmware to control motors
     * Supervisor controller : ESP32-CAM firmware based on [Espressif ESP32 framework](https://docs.espressif.com/projects/esp-idf/en/latest/esp32/index.html)
         * [Supervisor component](software/supervisor_controller/components/supervisor/README.md) : supervisor high level logic
-        * [Sun tracker](software/supervisor_controller/components/sun_tracker/README.md)
-        * [Target detector](software/supervisor_controller/components/sun_tracker/README.md)
-        * [Image component](software/supervisor_controller/components/image/README.md)
-        * [Web interface](software/supervisor_controller/components/web_interface/README.md)
+        * [Sun tracker](software/supervisor_controller/components/sun_tracker/README.md) : compute motors command to keep the light in the target
+        * [Target detector](software/supervisor_controller/components/target_detector/README.md) : detect the target position in image
+        * [Web interface](software/supervisor_controller/components/web_interface/README.md) : the user interface to interact with the supervisor
+        * [Image component](software/supervisor_controller/components/image/README.md) : common image processing functions
+    * [Motors controller](software/motors_controller/README.md) : Arduino Pro Mini firmware to control motors
 
 ## Next step
 
