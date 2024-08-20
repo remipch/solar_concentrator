@@ -36,7 +36,7 @@
 <path d="M280.0,160.0 L280.0,260.0" stroke="black" stroke-width="2" fill="none" marker-end="url(#d6)" />
 <rect x="-115.0" y="-160.0" width="230.0" height="40.0" fill="white" stroke="black" stroke-width="2" rx="0" />
 <text x="0" y="-140" font-size="20" text-anchor="middle" dominant-baseline="middle" font-family="Arial">12V Battery</text>
-<rect x="-115.0" y="-20.0" width="230.0" height="40.0" fill="white" stroke="black" stroke-width="2" rx="0" />
+<rect x="-115.0" y="-20.0" width="230.0" height="40.0" fill="#96df6f" stroke="black" stroke-width="2" rx="0" />
 <text x="0" y="0" font-size="20" text-anchor="middle" dominant-baseline="middle" font-family="Arial">Supervisor Board</text>
 <rect x="-395.0" y="120.0" width="230.0" height="40.0" fill="white" stroke="black" stroke-width="2" rx="0" />
 <text x="-280" y="140" font-size="20" text-anchor="middle" dominant-baseline="middle" font-family="Arial">Motor Driver A</text>

@@ -12,7 +12,7 @@ with httpimport.github_repo('remipch', 'svg_chart', ref='26eeccf6c8ebdba7bfa6ac5
 chart = Chart(node_width=230,cluster_margin=25)
 
 battery = Node(chart, 0, -2, "12V Battery")
-board = Node(chart, 0, 0, "Supervisor Board")
+board = Node(chart, 0, 0, "Supervisor Board", color="#96df6f")
 driver_a = Node(chart, -1, 2, "Motor Driver A")
 driver_b = Node(chart, 1, 2, "Motor Driver B")
 panel_a = Node(chart, -1, 4, "Panel A")
