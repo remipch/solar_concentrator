@@ -1,0 +1,23 @@
+solar_concentrator - a homemade automated solar concentrator
+
+Copyright 2024 Rémi Peuchot
+
+solar_concentrator/electronics is distributed under Creative Commons Attribution-NonCommercial-ShareAlike 4.0
+solar_concentrator/mechanics is distributed under Creative Commons Attribution-NonCommercial-ShareAlike 4.0
+solar_concentrator/software is distributed under GNU GPL 3
+
+
+The following components are included in this product:
+
+    CImg - C++ Template Image Processing Toolkit
+    http://cimg.eu
+    Licensed under CeCILL v2.1 license
+
+    quirc - QR-code recognition library
+    https://github.com/dlbeer/quirc
+    Copyright (C) 2010-2012 Daniel Beer <dlbeer@gmail.com>
+    Licensed under ISC License
+
+    esp32-camera
+    https://github.com/espressif/esp32-camera
+    Licensed under Apache License Version 2.0

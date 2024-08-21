@@ -7,6 +7,7 @@ This project is a homemade automated solar concentrator :wrench: :sunny: :mag_ri
 - [Key points](#key-points)
 - [Technical breakdown](#technical-breakdown)
 - [Next step](#next-step)
+- [License](#license)
 
 ## Overview
 
@@ -88,4 +89,10 @@ This would open up the following possibilities:
 * Melting plastic, metal or glass
 * Increasing photovoltaic pannel output power with [concentrated photovoltaics](https://en.wikipedia.org/wiki/Concentrator_photovoltaics)
 
+## License
 
+Copyright 2024 Rémi Peuchot
+
+* `electronics` folder is distributed under [Creative Commons Attribution-NonCommercial-ShareAlike 4.0](electronics/LICENSE.md)
+* `mechanics` folder is distributed under [Creative Commons Attribution-NonCommercial-ShareAlike 4.0](mechanics/LICENSE.md)
+* `software` folder is distributed under [GNU GPL 3](software/LICENSE.md)
