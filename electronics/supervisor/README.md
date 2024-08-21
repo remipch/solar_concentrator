@@ -1,6 +1,4 @@
-# Solar Concentrator Supervisor Electronics
-
-## Content
+# Solar Concentrator Electronics :electric_plug:
 
 - [Overview](#overview)
 - [Supervisor Board](#supervisor-board)
