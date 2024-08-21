@@ -1,5 +1,21 @@
 # Solar Concentrator Supervisor Electronics
 
+## Content
+
+- [Overview](#overview)
+- [Supervisor Board](#supervisor-board)
+    - [Schematics](#schematics)
+    - [Components](#components)
+    - [Top layer](#top-layer)
+    - [Bottom layer](#bottom-layer)
+    - [3D model](#3d-model)
+    - [Photos](#photos)
+    - [BOM](#bom)
+- [Electronic case](#electronic-case)
+    - [Photos](#photos)
+    - [BOM](#bom)
+- [License](#license)
+
 ## Overview
 
 This folder contains the custom board designed for the supervisor.
