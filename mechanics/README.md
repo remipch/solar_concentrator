@@ -3,16 +3,15 @@
 This folder contains the 3D models of the parts used in the solar panel.
 
 - [Overview](#overview)
-- [Technical breakdown](#technical-breakdown)
-    - [Solar panel](#solar-panel)
-        - [Stand](#stand)
-            - [Stand back board](#stand-back-board)
-                - [Motor block](#motor-block)
-            - [Stand front board](#stand-front-board)
-        - [Panel frame](#panel-frame)
-            - [Panel horizontal axis](#panel-horizontal-axis)
-            - [Panel vertical axis](#panel-vertical-axis)
-        - [Panel board](#panel-board)
+- [Solar panel](#solar-panel)
+    - [Stand](#stand)
+        - [Stand back board](#stand-back-board)
+            - [Motor block](#motor-block)
+        - [Stand front board](#stand-front-board)
+    - [Panel frame](#panel-frame)
+        - [Panel horizontal axis](#panel-horizontal-axis)
+        - [Panel vertical axis](#panel-vertical-axis)
+    - [Panel board](#panel-board)
 
 ## Overview
 
@@ -31,9 +30,7 @@ Mechanical parts have been modelled with [OpenSCAD](https://openscad.org/).
 > [!TIP]
 > You can click on the images below to view them in an online 3D viewer.
 
-## Technical breakdown
-
-### Solar panel
+## Solar panel
 
 > [!NOTE]
 > The cable is not modelled because I didn't find a simple way to do it with OpenSCAD.
@@ -51,19 +48,19 @@ Mechanical parts have been modelled with [OpenSCAD](https://openscad.org/).
 | --------- | -------- |
 | ![Stand](generated/stand.png) | ![Stand](generated/stand_exploded.png) |
 
-### Stand back board
+#### Stand back board
 
 | Assembled | Exploded |
 | --------- | -------- |
 | [![Stand back board](generated/stand_back_board.png)](https://remipch.github.io/test_website/view_3d.html?model=stand_back_board) | ![Stand](generated/stand_exploded.png) |
 
-### Motor block
+##### Motor block
 
 | Assembled | Exploded |
 | --------- | -------- |
 | TODO | TODO |
 
-### Stand front board
+#### Stand front board
 
 | Assembled | Exploded |
 | --------- | -------- |
@@ -75,13 +72,13 @@ Mechanical parts have been modelled with [OpenSCAD](https://openscad.org/).
 | --------- | -------- |
 | TODO | TODO |
 
-### Panel horizontal axis
+#### Panel horizontal axis
 
 | Assembled | Exploded |
 | --------- | -------- |
 | TODO | TODO |
 
-### Panel vertical axis
+#### Panel vertical axis
 
 | Assembled | Exploded |
 | --------- | -------- |
