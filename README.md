@@ -2,6 +2,14 @@
 
 This project is a homemade automated solar concentrator :wrench: :sunny: :mag_right:
 
+- [Overview](#overview)
+- [Caution](#caution)
+- [Key points](#key-points)
+- [Technical breakdown](#technical-breakdown)
+- [Next step](#next-step)
+
+## Overview
+
 It consists of:
 * An orientable mirror panel (currently 48 focusing mirrors, totalling 1m²)
 * A fixed target (currently a simple concrete oven with a black metal plate and a tempered glass)
@@ -17,6 +25,8 @@ The video below shows the concentrator in action on 8 July 2024:
 * Second half is the automatic sun tracking for about 7 hours (speed x600)
 
 https://github.com/user-attachments/assets/06e3a9e1-d853-4ddd-b5d8-55cf9d6ecc89
+
+## Caution
 
 > [!CAUTION]
 > :warning::warning: __THIS PROJECT MAY HARM PEOPLE OR ANIMALS IN THE SURROUNDINGS__ :warning::warning:
