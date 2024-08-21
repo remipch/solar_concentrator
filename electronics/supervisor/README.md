@@ -1,5 +1,7 @@
 # Solar Concentrator Electronics :electric_plug:
 
+This folder contains the custom electronics designed for the supervisor.
+
 - [Overview](#overview)
 - [Supervisor Board](#supervisor-board)
     - [Schematics](#schematics)
@@ -16,9 +18,7 @@
 
 ## Overview
 
-This folder contains the custom board designed for the supervisor.
-
-It has been designed with [LibrePCB](https://librepcb.org) and produced by [AISLER](https://aisler.net).
+A custom board has been designed with [LibrePCB](https://librepcb.org) and produced by [AISLER](https://aisler.net).
 
 It doesn't do anything complicated, just glue things together :
 * Allow to plug the ESP32-CAM board
@@ -28,6 +28,8 @@ It doesn't do anything complicated, just glue things together :
 * Include some switchs to power ON/OFF the child boards
 * Include a FTDI socket to upload the ESP32-CAM firmware inplace (Arduino has its own FTDI socket)
 * Include a minimal voltage converter for the child boards to communicate together
+
+Everything has been assembled in an electronic case with a few external sockets to connect the power supply and the panels.
 
 > [!NOTE]
 > The electronics can control two panels but the current software controls only one panel.
