@@ -12,6 +12,7 @@ This folder contains the 3D models of the parts used in the solar panel.
         - [Panel horizontal axis](#panel-horizontal-axis)
         - [Panel vertical axis](#panel-vertical-axis)
     - [Panel board](#panel-board)
+- [License](#license)
 
 ## Overview
 
@@ -89,3 +90,9 @@ Mechanical parts have been modelled with [OpenSCAD](https://openscad.org/).
 | Assembled | Exploded |
 | --------- | -------- |
 | TODO | TODO |
+
+## License
+
+Copyright 2024 Rémi Peuchot
+
+This folder is distributed under [Creative Commons Attribution-NonCommercial-ShareAlike 4.0](mechanics/LICENSE.md)

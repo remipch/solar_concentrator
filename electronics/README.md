@@ -107,4 +107,6 @@ Everything has been assembled in an electronic case with a few external sockets 
 
 ## License
 
-TODO
+Copyright 2024 Rémi Peuchot
+
+This folder is distributed under [Creative Commons Attribution-NonCommercial-ShareAlike 4.0](electronics/LICENSE.md)
