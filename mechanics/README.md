@@ -1,4 +1,20 @@
-# Solar Concentrator Mechanics
+# Solar Concentrator Mechanics :gear:
+
+This folder contains the 3D models of the parts used in the solar panel.
+
+- [Overview](#overview)
+- [Technical breakdown](#technical-breakdown)
+    - [Solar panel](#solar-panel)
+        - [Stand](#stand)
+            - [Stand back board](#stand-back-board)
+                - [Motor block](#motor-block)
+            - [Stand front board](#stand-front-board)
+        - [Panel frame](#panel-frame)
+            - [Panel horizontal axis](#panel-horizontal-axis)
+            - [Panel vertical axis](#panel-vertical-axis)
+        - [Panel board](#panel-board)
+
+## Overview
 
 ![Solar panel animation](generated/solar_panel.gif)
 
@@ -15,89 +31,64 @@ Mechanical parts have been modelled with [OpenSCAD](https://openscad.org/).
 > [!TIP]
 > You can click on the images below to view them in an online 3D viewer.
 
-## Solar panel
+## Technical breakdown
 
-- __Solar panel__
-    - [Stand](#stand)
-        - [Stand back board](#stand-back-board)
-            - [Motor block](#motor-block)
-        - [Stand front board](#stand-front-board)
-    - [Panel frame](#panel-frame)
-        - [Panel horizontal axis](#panel-horizontal-axis)
-        - [Panel vertical axis](#panel-vertical-axis)
-    - [Panel board](#panel-board)
-        - [Mirror holder](#mirror-holder)
+### Solar panel
+
+> [!NOTE]
+> The cable is not modelled because I didn't find a simple way to do it with OpenSCAD.
+>
+> Each cable is actually wound around the motor axis, then passes through the pulley
+> and is tied to a corner of the rotating panel.
 
 | Assembled | Exploded |
 | --------- | -------- |
 | TODO | TODO |
 
-## Stand
-
-- [Solar panel](#solar-panel)
-    - __Stand__
-        - [Stand back board](#stand-back-board)
-            - [Motor block](#motor-block)
-        - [Stand front board](#stand-front-board)
-    - [Panel frame](#panel-frame)
-        - [Panel horizontal axis](#panel-horizontal-axis)
-        - [Panel vertical axis](#panel-vertical-axis)
-    - [Panel board](#panel-board)
-        - [Mirror holder](#mirror-holder)
+### Stand
 
 | Assembled | Exploded |
 | --------- | -------- |
 | ![Stand](generated/stand.png) | ![Stand](generated/stand_exploded.png) |
 
-## Stand back board
-
-- [Solar panel](#solar-panel)
-    - [Stand](#stand)
-        - __Stand back board__
-            - [Motor block](#motor-block)
-        - [Stand front board](#stand-front-board)
-    - [Panel frame](#panel-frame)
-        - [Panel horizontal axis](#panel-horizontal-axis)
-        - [Panel vertical axis](#panel-vertical-axis)
-    - [Panel board](#panel-board)
-        - [Mirror holder](#mirror-holder)
+### Stand back board
 
 | Assembled | Exploded |
 | --------- | -------- |
 | [![Stand back board](generated/stand_back_board.png)](https://remipch.github.io/test_website/view_3d.html?model=stand_back_board) | ![Stand](generated/stand_exploded.png) |
 
-## Motor block
-
-- [Solar panel](#solar-panel)
-    - [Stand](#stand)
-        - [Stand back board](#stand-back-board)
-            - __Motor block__
-        - [Stand front board](#stand-front-board)
-    - [Panel frame](#panel-frame)
-        - [Panel horizontal axis](#panel-horizontal-axis)
-        - [Panel vertical axis](#panel-vertical-axis)
-    - [Panel board](#panel-board)
-        - [Mirror holder](#mirror-holder)
+### Motor block
 
 | Assembled | Exploded |
 | --------- | -------- |
 | TODO | TODO |
 
-## Stand front board
-
-- [Solar panel](#solar-panel)
-    - [Stand](#stand)
-        - [Stand back board](#stand-back-board)
-            - [Motor block](#motor-block)
-        - __Stand front board__
-    - [Panel frame](#panel-frame)
-        - [Panel horizontal axis](#panel-horizontal-axis)
-        - [Panel vertical axis](#panel-vertical-axis)
-    - [Panel board](#panel-board)
-        - [Mirror holder](#mirror-holder)
+### Stand front board
 
 | Assembled | Exploded |
 | --------- | -------- |
 | ![Stand front board](generated/stand_front_board.png) | TODO |
 
-## Panel frame
+### Panel frame
+
+| Assembled | Exploded |
+| --------- | -------- |
+| TODO | TODO |
+
+### Panel horizontal axis
+
+| Assembled | Exploded |
+| --------- | -------- |
+| TODO | TODO |
+
+### Panel vertical axis
+
+| Assembled | Exploded |
+| --------- | -------- |
+| TODO | TODO |
+
+### Panel board
+
+| Assembled | Exploded |
+| --------- | -------- |
+| TODO | TODO |
