@@ -65,7 +65,7 @@ The project structure reflects the technical breakdown.
 Detailed information can be found in the dedicated subfolders :
 
 * [Mechanics :gear:](mechanics/README.md) : 3D models of the parts used in the solar panel
-* [Electronics :electric_plug:](electronics/supervisor/README.md) : schematics and layout of the custom supervisor board
+* [Electronics :electric_plug:](electronics/README.md) : schematics and layout of the custom supervisor board
 * Software :floppy_disk: :
     * [Simulator](software/simulator/README.md) : evaluate the theoretical power received by the target for a given hardware configuration
     * Supervisor controller : ESP32-CAM firmware based on [Espressif ESP32 framework](https://docs.espressif.com/projects/esp-idf/en/latest/esp32/index.html)
