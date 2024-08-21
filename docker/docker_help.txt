@@ -18,6 +18,8 @@ cd ~/Documents/Projets/solar_concentrator/docker/
 ./docker_build_image   # first time or if Dockerfile has changed
 ./docker_up            # start the container indefinitely (without usb)
 ./docker_up_with_usb   # start the container indefinitely (with usb)
+./docker_connect       # connect the container to internet (initially disconnected)
+./docker_disconnect    # disconnect the container from internet
 ./docker_down          # stop the container
 ./docker_ls            # list images and running containers
 ./docker_bash          # open a bash session in the running container
