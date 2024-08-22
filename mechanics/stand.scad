@@ -23,7 +23,7 @@ module stand_at_vertical_axis(exploded=false) {
     for (x=small_bracket_hole_offsets()) {
       translate([-x-front_board_width(),front_board_length()/2-small_bracket_depth()-1,z]) {
         rotate([90,0,0]) {
-          simple_assembly(15,exploded=exploded,gap=GAP,extra_line_length=GAP)
+          simple_assembly(15,exploded=exploded,gap=GAP,extra_line_length=2*GAP)
             wood_screw_d4(15);
         }
       }
