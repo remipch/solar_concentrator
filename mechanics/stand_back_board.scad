@@ -15,7 +15,7 @@ function back_board_width() = 1000;
 function back_board_depth() = 15;
 function back_board_height() = front_board_height();
 
-GAP = 20;
+GAP = 30;
 
 EXPLODED = true;
 
@@ -45,7 +45,7 @@ module stand_back_board(exploded=false, gap=GAP) {
           cylinder(back_board_depth()+2,r=3);
     }
 
-    for (x=[-motor_block_offset_x,motor_block_offset_x]) {
+    for (x=[-motor_block_offset_x-back_board_depth(),motor_block_offset_x]) {
       translate([x,0,motor_block_offset_z]) {
         for (hole_t=motor_support_holes_t()) {
           translate([hole_t.x,-1,hole_t.z])
