@@ -74,7 +74,7 @@ A 'stand' consists of the following parts:
 | ----- | ----------- |
 | 1 | [Stand back board](#stand-back-board)
 | 1 | [Stand front board](#stand-front-board)
-| 4 | Wood screw D4mm L16mm
+| 4 | Wood screw D4mm L15mm
 
 #### Stand back board
 
@@ -91,7 +91,7 @@ A 'stand back board' consists of the following parts:
 | 2 | Wood leg W28mm D10mm H200mm
 | 2 | Pulley with washer and nut
 | 2 | Small bracket
-| 4 | Wood screw D4mm L16mm
+| 4 | Wood screw D4mm L15mm
 | 4 | Wood screw D4mm L20mm
 | 4 | Round head bolt M4 L40mm with washer and nut
 
@@ -100,6 +100,17 @@ A 'stand back board' consists of the following parts:
 | Assembled | Exploded |
 | --------- | -------- |
 | [![Motor block](images/motor_block_assembled.png)](https://remipch.github.io/test_website/view_3d.html?model=temp) | [![Motor block](images/motor_block_exploded.png)](https://remipch.github.io/test_website/view_3d.html?model=temp)
+
+A 'motor block' consists of the following parts:
+
+| Count | Description |
+| ----- | ----------- |
+| 1 | [Model engine](https://www.gotronic.fr/art-motoreducteur-mfa-950d8101ln-11376.htm)
+| 1 | [Model bracket](https://www.gotronic.fr/art-support-pour-motoreducteurs-mfa-727-22944.htm)
+| 4 | [Locking ring](https://www.conrad.fr/fr/p/bagues-d-arret-modelcraft-10347-6-mm-225436.html) d6mm D10mm L5mm
+| 1 | Wood board
+| 1 | Steel motor axis L60mm d10mm D12mm
+| 4 | Wood screw D3mm L15mm
 
 #### Stand front board
 
