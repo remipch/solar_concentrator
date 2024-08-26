@@ -43,6 +43,17 @@ Mechanical parts have been modelled with [OpenSCAD](https://openscad.org/).
 | --------- | -------- |
 | [![Solar panel](images/solar_panel_assembled.png)](https://remipch.github.io/test_website/view_3d.html?model=temp) | [![Solar panel](images/solar_panel_exploded.png)](https://remipch.github.io/test_website/view_3d.html?model=temp)
 
+A solar panel consists of the following parts:
+
+| Count | Description |
+| ----- | ----------- |
+| 1 | [Stand](#stand)
+| 1 | [Panel frame](#panel-frame)
+| 1 | [Panel board](#panel-board)
+| 6 | Wood screw D4mm L16mm
+| 2 | Cable (not shown in model)
+| 1 | Counterweight 3kg (not shown in model)
+
 ### Stand
 
 | Assembled | Exploded |
