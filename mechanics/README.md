@@ -16,7 +16,7 @@ This folder contains the 3D models of the parts used in the solar panel.
 
 ## Overview
 
-![Solar panel animation](generated/solar_panel.gif)
+![Solar panel animation](images/solar_panel.gif)
 
 The originality of the mechanical design is to use a simple [cablebot](https://en.wikipedia.org/wiki/Cable_robots) instead
 of a traditional 2 axis tracker where each axis has a dedicated motor.
@@ -47,13 +47,13 @@ Mechanical parts have been modelled with [OpenSCAD](https://openscad.org/).
 
 | Assembled | Exploded |
 | --------- | -------- |
-| ![Stand](generated/stand.png) | ![Stand](generated/stand_exploded.png) |
+| ![Stand](images/stand.png) | ![Stand](images/stand_exploded.png) |
 
 #### Stand back board
 
 | Assembled | Exploded |
 | --------- | -------- |
-| [![Stand back board](generated/stand_back_board.png)](https://remipch.github.io/test_website/view_3d.html?model=stand_back_board) | ![Stand](generated/stand_exploded.png) |
+| [![Stand back board](images/stand_back_board.png)](https://remipch.github.io/test_website/view_3d.html?model=stand_back_board) | ![Stand](images/stand_exploded.png) |
 
 ##### Motor block
 
@@ -65,7 +65,7 @@ Mechanical parts have been modelled with [OpenSCAD](https://openscad.org/).
 
 | Assembled | Exploded |
 | --------- | -------- |
-| ![Stand front board](generated/stand_front_board.png) | TODO |
+| ![Stand front board](images/stand_front_board.png) | TODO |
 
 ### Panel frame
 
