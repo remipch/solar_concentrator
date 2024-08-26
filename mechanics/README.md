@@ -41,55 +41,55 @@ Mechanical parts have been modelled with [OpenSCAD](https://openscad.org/).
 
 | Assembled | Exploded |
 | --------- | -------- |
-| TODO | TODO |
+| [![Solar panel](images/solar_panel_assembled.png)](https://remipch.github.io/test_website/view_3d.html?model=temp) | [![Solar panel](images/solar_panel_exploded.png)](https://remipch.github.io/test_website/view_3d.html?model=temp)
 
 ### Stand
 
 | Assembled | Exploded |
 | --------- | -------- |
-| ![Stand](images/stand.png) | ![Stand](images/stand_exploded.png) |
+| [![Stand](images/stand_assembled.png)](https://remipch.github.io/test_website/view_3d.html?model=temp) | [![Stand](images/stand_exploded.png)](https://remipch.github.io/test_website/view_3d.html?model=temp)
 
 #### Stand back board
 
 | Assembled | Exploded |
 | --------- | -------- |
-| [![Stand back board](images/stand_back_board.png)](https://remipch.github.io/test_website/view_3d.html?model=stand_back_board) | ![Stand](images/stand_exploded.png) |
+| [![Stand back board](images/stand_back_board_assembled.png)](https://remipch.github.io/test_website/view_3d.html?model=temp) | [![Stand back board](images/stand_back_board_exploded.png)](https://remipch.github.io/test_website/view_3d.html?model=temp)
 
 ##### Motor block
 
 | Assembled | Exploded |
 | --------- | -------- |
-| TODO | TODO |
+| [![Motor block](images/motor_block_assembled.png)](https://remipch.github.io/test_website/view_3d.html?model=temp) | [![Motor block](images/motor_block_exploded.png)](https://remipch.github.io/test_website/view_3d.html?model=temp)
 
 #### Stand front board
 
 | Assembled | Exploded |
 | --------- | -------- |
-| ![Stand front board](images/stand_front_board.png) | TODO |
+| [![Stand front board](images/stand_front_board_assembled.png)](https://remipch.github.io/test_website/view_3d.html?model=temp) | [![Stand front board](images/stand_front_board_exploded.png)](https://remipch.github.io/test_website/view_3d.html?model=temp)
 
 ### Panel frame
 
 | Assembled | Exploded |
 | --------- | -------- |
-| TODO | TODO |
+| [![Panel frame](images/panel_frame_assembled.png)](https://remipch.github.io/test_website/view_3d.html?model=temp) | [![Panel frame](images/panel_frame_exploded.png)](https://remipch.github.io/test_website/view_3d.html?model=temp)
 
 #### Panel horizontal axis
 
 | Assembled | Exploded |
 | --------- | -------- |
-| TODO | TODO |
+| [![Panel horizontal axis](images/panel_horizontal_axis_assembled.png)](https://remipch.github.io/test_website/view_3d.html?model=temp) | [![Panel horizontal axis](images/panel_horizontal_axis_exploded.png)](https://remipch.github.io/test_website/view_3d.html?model=temp)
 
 #### Panel vertical axis
 
 | Assembled | Exploded |
 | --------- | -------- |
-| TODO | TODO |
+| [![Panel vertical axis](images/panel_vertical_axis_assembled.png)](https://remipch.github.io/test_website/view_3d.html?model=temp) | [![Panel vertical axis](images/panel_vertical_axis_exploded.png)](https://remipch.github.io/test_website/view_3d.html?model=temp)
 
 ### Panel board
 
 | Assembled | Exploded |
 | --------- | -------- |
-| TODO | TODO |
+| [![Panel board](images/panel_board_assembled.png)](https://remipch.github.io/test_website/view_3d.html?model=temp) | [![Panel board](images/panel_board_exploded.png)](https://remipch.github.io/test_website/view_3d.html?model=temp)
 
 ## License
 
