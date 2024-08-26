@@ -118,6 +118,18 @@ A 'motor block' consists of the following parts:
 | --------- | -------- |
 | [![Stand front board](images/stand_front_board_assembled.png)](https://remipch.github.io/test_website/view_3d.html?model=temp) | [![Stand front board](images/stand_front_board_exploded.png)](https://remipch.github.io/test_website/view_3d.html?model=temp)
 
+A 'stand front board' consists of the following parts:
+
+| Count | Description |
+| ----- | ----------- |
+| 2 | [Left hinge](https://www.bricomarche.com/p/paumelle-bois-bout-rond-80x40mm-gauche-zingue/3479045300500)
+| 1 | Aluminium square tube W23.5mm L600mm
+| 2 | Small bracket
+| 1 | Countersunk bolt M4 L15mm with washer and nut
+| 5 | Countersunk bolt M4 L40mm with washer and nut
+| 4 | Round head bolt M6 L50mm with washer and nut
+| 4 | Wood screw D3mm L15mm
+
 ### Panel frame
 
 | Assembled | Exploded |
