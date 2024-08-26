@@ -28,6 +28,11 @@ requiring high precision mechanics.
 
 Mechanical parts have been modelled with [OpenSCAD](https://openscad.org/).
 
+This documented model contains a single panel board with 24 mirrors.
+
+Two 'wings' have been added on the sides to add 24 mirrors but are not documented here
+(see the photo and video in the toplevel README).
+
 > [!TIP]
 > You can click on the images below to view them in an online 3D viewer.
 
@@ -41,10 +46,6 @@ Mechanical parts have been modelled with [OpenSCAD](https://openscad.org/).
 > (see the photo and video in the toplevel README).
 
 > [!NOTE]
-> This documented model contains a single panel board with 12 mirrors.
->
-> Two 'wings' have been added on the sides but are not documented here
-> (see the photo and video in the toplevel README).
 
 | Assembled | Exploded |
 | --------- | -------- |
