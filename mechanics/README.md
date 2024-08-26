@@ -179,6 +179,21 @@ A 'panel vertical axis' consists of the following parts:
 | --------- | -------- |
 | [![Panel board](images/panel_board_assembled.png)](https://remipch.github.io/test_website/view_3d.html?model=temp) | [![Panel board](images/panel_board_exploded.png)](https://remipch.github.io/test_website/view_3d.html?model=temp)
 
+A 'panel board' consists of the following parts:
+
+| Count | Description |
+| ----- | ----------- |
+| 1 | Wood board W620mm D15mm H960mm
+| 24 | Wood part W130mm D10mm H130mm
+| 1 | [Big bracket](https://www.leroymerlin.fr/produits/rangement-dressing/etagere/fixation-etagere/equerre-etagere/equerre-normo-acier-peint-blanc-h-45-x-p-40-cm-85002102.html)
+| 24 | [Mirror](https://www.bricoman.fr/lot-6-miroirs-adhesif-carre-15x15-cm-1429043.html)
+| 1 | [Mirror glue](https://www.leroymerlin.fr/produits/decoration-eclairage/dalle-rosace-et-moulure/colle-dalle-rosace-et-moulure/colle-de-fixation-ms-polymere-verre-et-miroir-pattex-300g-transparent-69639934.html)
+| 72 | [Impact nut](https://www.vis-express.fr/ecrou-a-griffes/31277-1004768-ecrou-a-griffes-m4-acier-zing-blanc-3663072090095.html)
+| 96 | Countersunk bolt M4 L60mm
+| 24 | M4 washer and nut
+| 2 | Fixed ring with washer and nut
+| 3 | Wood screw D3mm L15mm
+
 ## License
 
 Copyright 2024 Rémi Peuchot
