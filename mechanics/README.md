@@ -37,20 +37,27 @@ Mechanical parts have been modelled with [OpenSCAD](https://openscad.org/).
 > The cable is not modelled because I didn't find a simple way to do it with OpenSCAD.
 >
 > Each cable is actually wound around the motor axis, then passes through the pulley
-> and is tied to a corner of the rotating panel.
+> and is tied to a corner of the rotating panel
+> (see the photo and video in the toplevel README).
+
+> [!NOTE]
+> This documented model contains a single panel board with 12 mirrors.
+>
+> Two 'wings' have been added on the sides but are not documented here
+> (see the photo and video in the toplevel README).
 
 | Assembled | Exploded |
 | --------- | -------- |
 | [![Solar panel](images/solar_panel_assembled.png)](https://remipch.github.io/test_website/view_3d.html?model=temp) | [![Solar panel](images/solar_panel_exploded.png)](https://remipch.github.io/test_website/view_3d.html?model=temp)
 
-A solar panel consists of the following parts:
+A 'solar panel' consists of the following parts:
 
 | Count | Description |
 | ----- | ----------- |
 | 1 | [Stand](#stand)
 | 1 | [Panel frame](#panel-frame)
 | 1 | [Panel board](#panel-board)
-| 6 | Wood screw D4mm L16mm
+| 6 | Wood screw D4mm L15mm
 | 2 | Cable (not shown in model)
 | 1 | Counterweight 3kg (not shown in model)
 
@@ -60,11 +67,32 @@ A solar panel consists of the following parts:
 | --------- | -------- |
 | [![Stand](images/stand_assembled.png)](https://remipch.github.io/test_website/view_3d.html?model=temp) | [![Stand](images/stand_exploded.png)](https://remipch.github.io/test_website/view_3d.html?model=temp)
 
+A 'stand' consists of the following parts:
+
+| Count | Description |
+| ----- | ----------- |
+| 1 | [Stand back board](#stand-back-board)
+| 1 | [Stand front board](#stand-front-board)
+| 4 | Wood screw D4mm L16mm
+
 #### Stand back board
 
 | Assembled | Exploded |
 | --------- | -------- |
 | [![Stand back board](images/stand_back_board_assembled.png)](https://remipch.github.io/test_website/view_3d.html?model=temp) | [![Stand back board](images/stand_back_board_exploded.png)](https://remipch.github.io/test_website/view_3d.html?model=temp)
+
+A 'stand back board' consists of the following parts:
+
+| Count | Description |
+| ----- | ----------- |
+| 2 | [Motor block](#motor-block)
+| 1 | Wood board W1000mm D15mm H160mm
+| 2 | Wood leg W28mm D10mm H200mm
+| 2 | Pulley with washer and nut
+| 2 | Small bracket
+| 4 | Wood screw D4mm L16mm
+| 4 | Wood screw D4mm L20mm
+| 4 | Round head bolt M4 L40mm with washer and nut
 
 ##### Motor block
 
