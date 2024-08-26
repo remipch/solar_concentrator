@@ -5,9 +5,9 @@
     <meta http-equiv="content-type" content="text/html;charset=utf-8">
     <meta name="viewport" content="width=device-width, user-scalable=no">
 
-	<title>Solar concentrator - Mechanics - 3D View</title>
+    <title>Solar concentrator - Mechanics - 3D View</title>
 
-	<script type="text/javascript" src="o3dv.min.js"></script>
+    <script type="text/javascript" src="o3dv.min.js"></script>
 
     <style>
         html, body {
@@ -42,38 +42,164 @@
         OV.Init3DViewerElements ();
 
         model = getQueryStringParam("model");
-        if(model=="panel_frame") {
-            model_file = "panel_frame_exploded.stl";
+        if(model=="motor_block_assembled") {
+            model_file = "models/motor_block_assembled.stl";
             camera = new OV.Camera (
-                new OV.Coord3D (-182,519,228),
-                new OV.Coord3D (29,200,-15),
+                new OV.Coord3D (-266,205,123),
+                new OV.Coord3D (-81,63,31),
                 new OV.Coord3D (0.0, 1.0, 0.0),
                 45.0
             );
         }
-        else if(model=="stand_back_board") {
-            model_file = "stand_back_board_exploded.stl";
+        else if(model=="motor_block_exploded") {
+            model_file = "models/motor_block_exploded.stl";
             camera = new OV.Camera (
-                new OV.Coord3D (-146,612,416),
-                new OV.Coord3D (157,183,118),
+                new OV.Coord3D (-273,176,154),
+                new OV.Coord3D (-88,34,63),
                 new OV.Coord3D (0.0, 1.0, 0.0),
                 45.0
             );
         }
-        else if(model=="motor_block") {
-            model_file = "motor_block_exploded.stl";
+        else if(model=="panel_board_assembled") {
+            model_file = "models/panel_board_assembled.stl";
             camera = new OV.Camera (
-                new OV.Coord3D (-115,98,380),
-                new OV.Coord3D (-34,-21,77),
+                new OV.Coord3D (-1462,417,653),
+                new OV.Coord3D (-220,37,20),
                 new OV.Coord3D (0.0, 1.0, 0.0),
                 45.0
             );
         }
-        else {
-            model_file = "temp.stl";
+        else if(model=="panel_board_exploded") {
+            model_file = "models/panel_board_exploded.stl";
             camera = new OV.Camera (
-                new OV.Coord3D (20,20,20),
-                new OV.Coord3D (5, 5, -5),
+                new OV.Coord3D (-1469,403,647),
+                new OV.Coord3D (-227,23,14),
+                new OV.Coord3D (0.0, 1.0, 0.0),
+                45.0
+            );
+        }
+        else if(model=="panel_frame_assembled") {
+            model_file = "models/panel_frame_assembled.stl";
+            camera = new OV.Camera (
+                new OV.Coord3D (233,306,336),
+                new OV.Coord3D (-43,129,3),
+                new OV.Coord3D (0.0, 1.0, 0.0),
+                45.0
+            );
+        }
+        else if(model=="panel_frame_exploded") {
+            model_file = "models/panel_frame_exploded.stl";
+            camera = new OV.Camera (
+                new OV.Coord3D (204,320,353),
+                new OV.Coord3D (-72,143,20),
+                new OV.Coord3D (0.0, 1.0, 0.0),
+                45.0
+            );
+        }
+        else if(model=="panel_horizontal_axis_assembled") {
+            model_file = "models/panel_horizontal_axis_assembled.stl";
+            camera = new OV.Camera (
+                new OV.Coord3D (276,200,324),
+                new OV.Coord3D (14,32,8),
+                new OV.Coord3D (0.0, 1.0, 0.0),
+                45.0
+            );
+        }
+        else if(model=="panel_horizontal_axis_exploded") {
+            model_file = "models/panel_horizontal_axis_exploded.stl";
+            camera = new OV.Camera (
+                new OV.Coord3D (276,200,324),
+                new OV.Coord3D (14,32,8),
+                new OV.Coord3D (0.0, 1.0, 0.0),
+                45.0
+            );
+        }
+        else if(model=="panel_vertical_axis_assembled") {
+            model_file = "models/panel_vertical_axis_assembled.stl";
+            camera = new OV.Camera (
+                new OV.Coord3D (288,152,186),
+                new OV.Coord3D (-14,101,-1),
+                new OV.Coord3D (0.0, 1.0, 0.0),
+                45.0
+            );
+        }
+        else if(model=="panel_vertical_axis_exploded") {
+            model_file = "models/panel_vertical_axis_exploded.stl";
+            camera = new OV.Camera (
+                new OV.Coord3D (288,152,186),
+                new OV.Coord3D (-14,101,-1),
+                new OV.Coord3D (0.0, 1.0, 0.0),
+                45.0
+            );
+        }
+        else if(model=="solar_panel_assembled") {
+            model_file = "models/solar_panel_assembled.stl";
+            camera = new OV.Camera (
+                new OV.Coord3D (-1221,1205,1086),
+                new OV.Coord3D (-153,562,-131),
+                new OV.Coord3D (0.0, 1.0, 0.0),
+                45.0
+            );
+        }
+        else if(model=="solar_panel_exploded") {
+            model_file = "models/solar_panel_exploded.stl";
+            camera = new OV.Camera (
+                new OV.Coord3D (-1966,1174,-900),
+                new OV.Coord3D (-27,684,-107),
+                new OV.Coord3D (0.0, 1.0, 0.0),
+                45.0
+            );
+        }
+        else if(model=="stand_assembled") {
+            model_file = "models/stand_assembled.stl";
+            camera = new OV.Camera (
+                new OV.Coord3D (-605,971,633),
+                new OV.Coord3D (-107,42,-282),
+                new OV.Coord3D (0.0, 1.0, 0.0),
+                45.0
+            );
+        }
+        else if(model=="stand_exploded") {
+            model_file = "models/stand_exploded.stl";
+            camera = new OV.Camera (
+                new OV.Coord3D (-643,1005,577),
+                new OV.Coord3D (-141,76,-338),
+                new OV.Coord3D (0.0, 1.0, 0.0),
+                45.0
+            );
+        }
+        else if(model=="stand_back_board_assembled") {
+            model_file = "models/stand_back_board_assembled.stl";
+            camera = new OV.Camera (
+                new OV.Coord3D (-399,563,361),
+                new OV.Coord3D (86,-52,-80),
+                new OV.Coord3D (0.0, 1.0, 0.0),
+                45.0
+            );
+        }
+        else if(model=="stand_back_board_exploded") {
+            model_file = "models/stand_back_board_exploded.stl";
+            camera = new OV.Camera (
+                new OV.Coord3D (-379,553,398),
+                new OV.Coord3D (106,-62,-43),
+                new OV.Coord3D (0.0, 1.0, 0.0),
+                45.0
+            );
+        }
+        else if(model=="stand_front_board_assembled") {
+            model_file = "models/stand_front_board_assembled.stl";
+            camera = new OV.Camera (
+                new OV.Coord3D (-291,656,-857),
+                new OV.Coord3D (27,174,27),
+                new OV.Coord3D (0.0, 1.0, 0.0),
+                45.0
+            );
+        }
+        else if(model=="stand_front_board_exploded") {
+            model_file = "models/stand_front_board_exploded.stl";
+            camera = new OV.Camera (
+                new OV.Coord3D (-291,656,-857),
+                new OV.Coord3D (27,174,27),
                 new OV.Coord3D (0.0, 1.0, 0.0),
                 45.0
             );
