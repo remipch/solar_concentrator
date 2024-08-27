@@ -10,7 +10,7 @@ if arg_count == 4:
     assert first_month >= 1 and first_month <= 12
 
     last_month = int(sys.argv[3])
-    assert last_month >= 1 and last_month <= 12 and last_month >= first_month
+    assert last_month >= first_month and last_month <= 12
 
     # month index start from 0
     first_month = first_month - 1
@@ -19,7 +19,7 @@ else:
     print("Usage :")
     print("  python3 time_walker_recorder <output_filename> <first_month> <last_month>")
     print("With :")
-    print("  first_month>=1 and first_month<=12 and last_month>=1 and last_month<=12")
+    print("  first_month>=1 and first_month<=12 and last_month>=first_month and last_month<=12")
     exit(0)
 
 remote_control_client = RemoteControlClient()
