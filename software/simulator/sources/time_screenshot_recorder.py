@@ -2,6 +2,12 @@ import sys
 from remote_control_client import RemoteControlClient
 from PIL import ImageGrab
 
+# Animated gif can be generated from the saved png files with :
+# convert -delay 10 -loop 0 *.png screenshot.gif
+
+# Animated gif can be compressed with :
+# mogrify -layers optimize -fuzz 5% screenshot.gif
+
 arg_count = len(sys.argv)
 
 if arg_count == 3:
