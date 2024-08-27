@@ -32,9 +32,9 @@ class CameraControl(DirectObject):
         self.origin_mouse_pos = None
 
         # Change mode :
-        self.accept("mouse1", self.setMode, [Mode.TRANSLATION])
+        self.accept("mouse1", self.setMode, [Mode.ROTATION])
         self.accept("mouse1-up", self.setMode, [Mode.NONE])
-        self.accept("mouse3", self.setMode, [Mode.ROTATION])
+        self.accept("mouse3", self.setMode, [Mode.TRANSLATION])
         self.accept("mouse3-up", self.setMode, [Mode.NONE])
         self.accept("wheel_up", self.moveCameraDistance, [-1])
         self.accept("wheel_down", self.moveCameraDistance, [1])
