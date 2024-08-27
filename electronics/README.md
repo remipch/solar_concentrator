@@ -18,21 +18,21 @@ This folder contains the custom electronics designed for the supervisor.
 
 ## Overview
 
-A custom board has been designed with [LibrePCB](https://librepcb.org) and produced by [AISLER](https://aisler.net).
+A custom board has been designed using [LibrePCB](https://librepcb.org) and produced by [AISLER](https://aisler.net).
 
-It doesn't do anything complicated, just glue things together :
-* Allow to plug the ESP32-CAM board
-* Allow to plug the Arduino Pro Mini board
-* Include connectors for 2 mirror panels
-* Include a voltage regulator to convert the battery 12V to 5V
-* Include some switchs to power ON/OFF the child boards
-* Include a FTDI socket to upload the ESP32-CAM firmware inplace (Arduino has its own FTDI socket)
-* Include a minimal voltage converter for the child boards to communicate together
+It doesn't do anything complicated, just glues things together :
+* Allows to connect the ESP32-CAM board
+* Allows to connect the Arduino Pro Mini board
+* Includes connectors for 2 mirror panels
+* Includes a voltage regulator to convert the battery voltage from 12V to 5V
+* Includes some switches to turn ON/OFF the child boards
+* Includes a FTDI connector to upload the ESP32-CAM firmware in place (Arduino has its own FTDI connector)
+* Includes a minimal voltage converter for the child boards to communicate with each other
 
-Everything has been assembled in an electronic case with a few external sockets to connect the power supply and the panels.
+Everything is assembled in an electronic case with a few external connectors for power and panels.
 
 > [!NOTE]
-> The electronics can control two panels but the current software controls only one panel.
+> The electronics can control two panels but the current software only controls one.
 
 ![Electronics overview](doc/electronics_overview_chart.svg)
 
