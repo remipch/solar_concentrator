@@ -29,12 +29,11 @@ requiring high precision mechanics.
 Mechanical parts have been modelled with [OpenSCAD](https://openscad.org/).
 
 This documented model contains a single panel board with 24 mirrors.
-
 Two 'wings' have been added on the sides to add 24 mirrors but are not documented here
 (see the photo and video in the toplevel README).
 
 > [!TIP]
-> You can click on the images below to view them in an online 3D viewer.
+> __You can click on the images below to view them in an online 3D viewer.__
 
 ## Solar panel
 
@@ -42,7 +41,7 @@ Two 'wings' have been added on the sides to add 24 mirrors but are not documente
 > The cable is not modelled because I didn't find a simple way to do it with OpenSCAD.
 >
 > Each cable is actually wound around the motor axis, then passes through the pulley
-> and is tied to a corner of the rotating panel
+> and is tied to a fixed ring in the corner of the panel
 > (see the photo and video in the toplevel README).
 
 | Assembled | Exploded |
