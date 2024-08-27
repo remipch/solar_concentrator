@@ -19,18 +19,18 @@ This folder contains the 3D models of the parts used in the solar panel.
 ![Solar panel animation](images/solar_panel.gif)
 
 The originality of the mechanical design is to use a simple [cablebot](https://en.wikipedia.org/wiki/Cable_robots) instead
-of a traditional 2 axis tracker where each axis has a dedicated motor.
+of a traditional 2 axis tracker where each axis has a its own motor.
 * Advantage: cheaper motors and cheaper mechanical structure can be used.
 * Drawback: each axis cannot be controlled independently.
 
-Another originality is the way to precisely set mirror orientation without
-requiring high precision mechanics.
+Another originality is the way in which each mirror orientation
+can be precisely adjusted without the need for high-precision mechanics.
 
-Mechanical parts have been modelled with [OpenSCAD](https://openscad.org/).
+The mechanical parts have been modeled with [OpenSCAD](https://openscad.org/).
 
-This documented model contains a single panel board with 24 mirrors.
-Two 'wings' have been added on the sides to add 24 mirrors but are not documented here
-(see the photo and video in the toplevel README).
+The documented model contains a single panel board with 24 mirrors.
+Two 'wings' have been added to the sides to add 24 mirrors but are not documented here
+(see the photo and video in the top-level README).
 
 > [!TIP]
 > __You can click on the images below to view them in an online 3D viewer.__
@@ -38,11 +38,11 @@ Two 'wings' have been added on the sides to add 24 mirrors but are not documente
 ## Solar panel
 
 > [!NOTE]
-> The cable is not modelled because I didn't find a simple way to do it with OpenSCAD.
+> The cable is not modeled because I couldn't find an easy way to do it with OpenSCAD.
 >
-> Each cable is actually wound around the motor axis, then passes through the pulley
-> and is tied to a fixed ring in the corner of the panel
-> (see the photo and video in the toplevel README).
+> Each cable is actually wrapped around the motor axis, then passed through the pulley
+> and tied to a fixed ring in the corner of the panel
+> (see the photo and video in the top-level README).
 
 | Assembled | Exploded |
 | --------- | -------- |
