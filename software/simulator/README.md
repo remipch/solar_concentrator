@@ -37,3 +37,6 @@ if the estimated power value is as expected
 * `time_walker_recorder.py` uses the current simulator configuration and estimates
 the received solar power for a given time range
 
+The following animation is a screenshot of the solar concentrator:
+
+![Solar concentrator screenshot](screenshot.gif)
