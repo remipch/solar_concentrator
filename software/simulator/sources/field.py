@@ -16,7 +16,7 @@ class Field:
         # Create root node path with a common light
         self.field_np = parent_np.attachNewNode("field")
         field_light = AmbientLight("field_light")
-        field_light.setColor((0.4, 0.4, 0.4, 1))
+        field_light.setColor((0.7, 0.7, 0.7, 1))
         self.field_np.setLight(render.attachNewNode(field_light))
 
         # Add ground with grass texture
