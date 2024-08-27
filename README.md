@@ -12,13 +12,13 @@ This project is a homemade automated solar concentrator :wrench: :sunny: :mag_ri
 ## Overview
 
 It consists of:
-* An orientable mirror panel (currently 48 focusing mirrors, totalling 1m²)
+* An orientable mirror panel (currently 48 focusing mirrors, totaling 1m²)
 * A fixed target (currently a simple concrete oven with a black metal plate and a tempered glass)
 * The supervisor: an electronic control device that measures the target, computes and sends commands to the motors
 
 ![Solar Concentrator](solar_concentrator.jpg)
 
-On 26 june 2024, when adding some aluminium foils inside the oven to improve insulation,
+On 26 june 2024, when adding some aluminium foil inside the oven to improve insulation,
 the oven temperature has risen to __210°C after 30 minutes__.
 
 The video below shows the concentrator in action on 8 July 2024:
@@ -36,58 +36,58 @@ https://github.com/user-attachments/assets/06e3a9e1-d853-4ddd-b5d8-55cf9d6ecc89
 >
 > Even when the concentrator is not powered, the sun remains concentrated 48 times in a single small area.
 >
-> This point of focus is constantly __moving along a trajectory that is difficult to estimate__.
+> This focal point is constantly __moving along a path that is difficult to predict__.
 >
 > In its current state, it __must be continuously monitored__ and the mirrors must be covered quickly in the event of an anomaly.
 
 ## Key points
 
 * Uses only standard, cheap and available components and materials :bricks: :nut_and_bolt:
-* Does not require a high precision construction, everything can be made by hand with common tools :straight_ruler: :carpentry_saw:
+* Does not require a high precision construction, everything can be built by hand with common tools :straight_ruler: :carpentry_saw:
 * Easy to assemble and disassemble :screwdriver:
 * Easy to understand and modify :mag_right:
-* Open Source :unlock:
+* Open source :unlock:
 
 Limitations of this version:
 * There is no safety layer implemented (see warning above :warning:)
-* An initial manual step is required to orientate the panel before starting to track the sun automatically
+* An initial manual step is required to orient the panel before it can automatically track the sun.
 * Only one panel can be controlled
 * Does not work on cloudy days (it is the user's responsibility to remove the clouds from the sky :smile:)
 
-To build this project, some products have been happily "hacked" out of their original use:
-* The tempered glass used in the oven comes from an [Ikea shelf](https://www.ikea.com/fr/fr/p/komplement-tablette-en-verre-blanc-80257647/)
+To build this project, some products were happily "hacked" out of their original use:
+* The tempered glass used in the oven is from an [Ikea shelf](https://www.ikea.com/fr/fr/p/komplement-tablette-en-verre-blanc-80257647/)
 * The mirrors are [decorative bathroom mirrors](https://www.bricoman.fr/lot-6-miroirs-adhesif-carre-15x15-cm-1429043.html)
-* The motors are low cost [model engines](https://www.gotronic.fr/art-motoreducteur-mfa-950d8101ln-11376.htm)
+* The motors are cheap [model engines](https://www.gotronic.fr/art-motoreducteur-mfa-950d8101ln-11376.htm)
 
 ## Technical breakdown
 
 The project structure reflects the technical breakdown.
 
-Detailed information can be found in the dedicated subfolders :
+Detailed information can be found in the corresponding subfolders:
 
 * [Mechanics :gear:](mechanics/README.md) : 3D models of the parts used in the solar panel
 * [Electronics :electric_plug:](electronics/README.md) : schematics and layout of the custom supervisor board
 * Software :floppy_disk: :
-    * [Simulator](software/simulator/README.md) : evaluate the theoretical power received by the target for a given hardware configuration
+    * [Simulator](software/simulator/README.md) : evaluates the theoretical power received by the target for a given hardware configuration
     * Supervisor controller : ESP32-CAM firmware based on [Espressif ESP32 framework](https://docs.espressif.com/projects/esp-idf/en/latest/esp32/index.html)
-        * [Supervisor component](software/supervisor_controller/components/supervisor/README.md) : supervisor high level logic
-        * [Sun tracker](software/supervisor_controller/components/sun_tracker/README.md) : compute motors commands to keep the sun light at the center of the target area
-        * [Target detector](software/supervisor_controller/components/target_detector/README.md) : detect the target position in image
-        * [Web interface](software/supervisor_controller/components/web_interface/README.md) : allow the user to interact with the supervisor
-        * [Motors component](software/supervisor_controller/components/motors/README.md) : control the motors from the ESP32 application
-        * [Image component](software/supervisor_controller/components/image/README.md) : common image processing functions
-    * [Motors controller](software/motors_controller/README.md) : Arduino Pro Mini firmware to control motors
+        * [Supervisor component](software/supervisor_controller/components/supervisor/README.md) defines the supervisor high level logic
+        * [Sun tracker](software/supervisor_controller/components/sun_tracker/README.md) computes motors commands to keep the sun light at the center of the target area
+        * [Target detector](software/supervisor_controller/components/target_detector/README.md) detects the target position in image
+        * [Web interface](software/supervisor_controller/components/web_interface/README.md) allows the user to interact with the supervisor
+        * [Motors component](software/supervisor_controller/components/motors/README.md) controls the motors from the ESP32 application
+        * [Image component](software/supervisor_controller/components/image/README.md) provides general image processing functions
+    * [Motors controller](software/motors_controller/README.md) : Arduino Pro Mini firmware for controlling motors
 
 ## Next step
 
-The next step is to control an arbitrary number of panels to obtain several killowatts of power.
+The next step is to control any number of panels to obtain a power output of several kilowatts.
 
 This would open up the following possibilities:
-* Rapidly boiling a large volume of liquid
-* Desalinate or sterilise a large volume of water
+* Quickly boil a large volume of liquid
+* Desalinate or sterilize a large volume of water
 * Cook or sterilize a large volume of food
-* Melting plastic, metal or glass
-* Increasing photovoltaic pannel output power with [concentrated photovoltaics](https://en.wikipedia.org/wiki/Concentrator_photovoltaics)
+* Melt plastic, metal or glass
+* Increase the output of photovoltaic panels with [concentrated photovoltaics](https://en.wikipedia.org/wiki/Concentrator_photovoltaics)
 
 ## License
 
