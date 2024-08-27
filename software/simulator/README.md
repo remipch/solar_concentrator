@@ -15,10 +15,14 @@ Its simple user interface allows to configure:
 From such a given configuration, it simulates the reflection of solar rays
 (taking into account the shadows) and estimates the corresponding power received on the target area.
 
+> [!NOTE]
+> This simulator has been developed iteratively, its source code is not very clean,
+> its user interface can be slow and laggy.
+
 From the provided docker container, the simulator can be started with the following command:
 
 ``` bash
-cd /solar_concentrator/software/simulator
+cd /solar_concentrator/software/simulator/sources
 
 python3 solar_concentrator_simulator.py
 ```
@@ -32,3 +36,4 @@ This is used for two purposes :
 if the estimated power value is as expected
 * `time_walker_recorder.py` uses the current simulator configuration and estimates
 the received solar power for a given time range
+
