@@ -104,9 +104,11 @@ A 'motor block' consists of the following parts:
 | ----- | ----------- |
 | 1 | [Model engine](https://www.gotronic.fr/art-motoreducteur-mfa-950d8101ln-11376.htm)
 | 1 | [Engine bracket](https://www.gotronic.fr/art-support-pour-motoreducteurs-mfa-727-22944.htm)
-| 4 | [Locking ring](https://www.conrad.fr/fr/p/bagues-d-arret-modelcraft-10347-6-mm-225436.html) d6mm D10mm L5mm
-| 1 | Wood board
-| 1 | Steel motor axis L60mm d10mm D12mm
+| 1 | Wood board W68mm D15mm H48mm
+| 2 | [Locking ring](https://www.conrad.fr/fr/p/bagues-d-arret-modelcraft-10347-6-mm-225436.html) d6mm D10mm L5mm
+| 2 | Countersunk bolt M3 L14mm
+| 1 | Cylindrical steel tube L60mm d10mm D12mm
+| 1 | Cylindrical steel rod L20mm D6mm
 | 4 | Wood screw D3mm L15mm
 
 #### Stand front board
@@ -125,7 +127,7 @@ A 'stand front board' consists of the following parts:
 | 1 | Countersunk bolt M4 L15mm with washer and nut
 | 5 | Countersunk bolt M4 L40mm with washer and nut
 | 2 | Round head bolt M6 L50mm with washer and nut
-| 4 | Wood screw D3mm L15mm
+| 4 | Wood screw D4mm L15mm
 
 ### Panel frame
 
@@ -167,7 +169,7 @@ A 'panel vertical axis' consists of the following parts:
 | ----- | ----------- |
 | 2 | [Left hinge](https://www.bricomarche.com/p/paumelle-bois-bout-rond-80x40mm-gauche-zingue/3479045300500) female
 | 1 | Aluminium square tube W23.5mm L200mm
-| 1 | Aluminium flat profile W1mm
+| 1 | Aluminium flat profile W20mm D2mm
 | 1 | Countersunk bolt M4 L15mm with washer and nut
 | 5 | Countersunk bolt M4 L40mm with washer and nut
 | 2 | Round head bolt M4 L30mm with washer and nut
@@ -191,7 +193,7 @@ A 'panel board' consists of the following parts:
 | 96 | Countersunk bolt M4 L60mm
 | 24 | M4 washer and nut
 | 2 | Fixed ring with washer and nut
-| 3 | Wood screw D3mm L15mm
+| 3 | Wood screw D4mm L15mm
 
 ## License
 
