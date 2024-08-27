@@ -34,7 +34,7 @@ class MyApp(ShowBase):
         # (this overrides the resolution in Config.prc)
         props = WindowProperties()
         props.setTitle("Solar concentrator simulator")
-        props.setSize(1400, 1000)
+        props.setSize(1000, 800)
         self.win.requestProperties(props)
 
         self.accept("escape", sys.exit)
