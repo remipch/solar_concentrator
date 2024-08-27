@@ -1,7 +1,0 @@
-#!/bin/bash
-
-echo "Start kdevelop in running container"
-
-# WARNING   -i option is required to source ~/.bashrc before running commands (so cmake can be found by kdevelop)
-sudo docker exec -i -t solar_concentrator-dev-1  /bin/bash -i -c "kdevelop" &
-

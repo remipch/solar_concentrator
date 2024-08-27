@@ -23,7 +23,6 @@ cd ~/Documents/Projets/solar_concentrator/docker/
 ./docker_down          # stop the container
 ./docker_ls            # list images and running containers
 ./docker_bash          # open a bash session in the running container
-./docker_kdevelop      # launch kdevelop
 ./give_my_files        # set current user the owner of all files in the project
 
 ============================================================

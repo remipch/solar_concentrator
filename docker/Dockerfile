@@ -28,7 +28,6 @@ RUN git clone --recursive --branch release/v5.0  https://github.com/espressif/es
 # Install esp-idf
 WORKDIR "/esp/esp-idf"
 ENV IDF_TOOLS_PATH=/esp/tools
-# ENV IDF_TOOLS_PATH=/esp/tools
 RUN ./install.sh esp32
 
 ## Initialize idf framework for each bash session
@@ -48,48 +47,33 @@ RUN apt-get update && apt-get install -y clangd
 RUN apt-get update && apt-get install -y clang
 
 # Install useful python tools
-RUN apt-get update && apt-get install -y python3-tk # python tk (matplotlib backend)
+RUN apt-get update && apt-get install -y python3-tk           # python tk (matplotlib backend)
 RUN apt-get update && apt-get install -y python3-pip          # pip (used just below)
 RUN pip install --upgrade pip
 RUN pip install opencv-python
 RUN pip install matplotlib
-RUN pip install getch # for manual python script using keyboard
+RUN pip install getch                                         # for manual python script using keyboard
 
 # Add kubuntu-ppa/backports to get not-so-old versions of kde applications
 RUN apt-get update && apt-get install -y software-properties-common
 RUN add-apt-repository -y ppa:kubuntu-ppa/backports
 
 # Install useful kde applications from kubuntu backports
-# RUN apt-get update && apt-get install -y libpulse-dev           # required by last version of kate
 RUN apt-get update && apt-get install -y kate
-# RUN apt-get update && apt-get install -y kdevelop
 RUN apt-get update && apt-get install -y breeze-icon-theme    # used by kde apps but not managed as an apt dependency
 RUN apt-get update && apt-get install -y konsole              # used by kdevelop integrated konsole tool
-# RUN apt-get update && apt-get install -y kdevelop-python      # python plugin
 
 # Install useful coding tools usable from kate
 RUN apt-get update && apt-get install -y jq                   # json processor
 RUN apt-get update && apt-get install -y clang-format
 RUN pip install cmake-format
 
-# avahi needs dbus daemon, both service are correctly listed by 'ls /etc/rc*' command
-# but they don't start correctly at startup
-# FORCE start for each session (ugly hack.. I don't know how to solve it cleanly) :
-# But it blocks dbus in the host and prevent 'systemctl suspend' simple action to work
-# RUN echo "service dbus start" >> ~/.bashrc
-# RUN echo "service avahi-daemon start" >> ~/.bashrc
-
 # /!\ WARNING /!\
 # Error if we use opencv-python and PyQt5 in the same python script :
 # qt.qpa.plugin: Could not load the Qt platform plugin "xcb" in "/opt/esp/python_env/idf4.4_py3.8_env/lib/python3.8/site-packages/cv2/qt/plugins" even though it was found.
 # I didn't manage to solve the problem
 # For now, Qt5 is not required for this project
-# RUN apt-get update && pip install PyQt5     # ATTENTION : license GPL (contaminante)
-
-# force read/write permissions to individual configs (so it can be read/write from any user in host)
-# RUN mkdir /root/.config
-# RUN echo "touch /root/.config/kdeveloprc" >> ~/.bashrc
-# RUN echo "chmod 777 /root/.config/kdeveloprc" >> ~/.bashrc
+# RUN apt-get update && pip install PyQt5
 
 # Install clang tools specific to esp32
 # TODO move with esp idf commands (but it will rebuild everything after)
@@ -110,7 +94,6 @@ RUN apt-get update && apt-get install -y bash-completion
 RUN wget https://raw.githubusercontent.com/git/git/master/contrib/completion/git-completion.bash -O ~/.git-completion.bash
 RUN echo "source ~/.git-completion.bash" >> ~/.bashrc
 
-
 # Add usefull aliases
 RUN echo "alias h='cat /solar_concentrator/docker/docker_help.txt && alias'" >> ~/.bashrc
 RUN echo "alias cdtra='cd /solar_concentrator/software/remote_tracking'" >> ~/.bashrc
@@ -118,9 +101,6 @@ RUN echo "alias cdsup='cd /solar_concentrator/software/supervisor_controller/bui
 RUN echo "alias cdmot='cd /solar_concentrator/software/motors_controller/'" >> ~/.bashrc
 
 RUN echo "git config --global --add safe.directory /solar_concentrator" >> ~/.bashrc
-
-# Use up to date kate bin
-RUN echo "source /kde/usr_working/prefix.sh" >> ~/.bashrc
 
 # Finally print help
 RUN echo "h" >> ~/.bashrc
