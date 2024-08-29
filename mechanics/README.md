@@ -46,7 +46,7 @@ Two 'wings' have been added to the sides to add 24 mirrors but are not documente
 
 | Assembled | Exploded |
 | --------- | -------- |
-| [![Solar panel](images/solar_panel_assembled.png)](https://remipch.github.io/test_website/view_3d.html?model=temp) | [![Solar panel](images/solar_panel_exploded.png)](https://remipch.github.io/test_website/view_3d.html?model=temp)
+| [![Solar panel](images/solar_panel_assembled.png)](https://remipch.github.io/solar_concentrator/view_3d.html?model=solar_panel_assembled) | [![Solar panel](images/solar_panel_exploded.png)](https://remipch.github.io/solar_concentrator/view_3d.html?model=solar_panel_exploded)
 
 A 'solar panel' consists of the following parts:
 
@@ -63,7 +63,7 @@ A 'solar panel' consists of the following parts:
 
 | Assembled | Exploded |
 | --------- | -------- |
-| [![Stand](images/stand_assembled.png)](https://remipch.github.io/test_website/view_3d.html?model=temp) | [![Stand](images/stand_exploded.png)](https://remipch.github.io/test_website/view_3d.html?model=temp)
+| [![Stand](images/stand_assembled.png)](https://remipch.github.io/solar_concentrator/view_3d.html?model=stand_assembled) | [![Stand](images/stand_exploded.png)](https://remipch.github.io/solar_concentrator/view_3d.html?model=stand_exploded)
 
 A 'stand' consists of the following parts:
 
@@ -77,7 +77,7 @@ A 'stand' consists of the following parts:
 
 | Assembled | Exploded |
 | --------- | -------- |
-| [![Stand back board](images/stand_back_board_assembled.png)](https://remipch.github.io/test_website/view_3d.html?model=temp) | [![Stand back board](images/stand_back_board_exploded.png)](https://remipch.github.io/test_website/view_3d.html?model=temp)
+| [![Stand back board](images/stand_back_board_assembled.png)](https://remipch.github.io/solar_concentrator/view_3d.html?model=stand_back_board_assembled) | [![Stand back board](images/stand_back_board_exploded.png)](https://remipch.github.io/solar_concentrator/view_3d.html?model=stand_back_board_exploded)
 
 A 'stand back board' consists of the following parts:
 
@@ -96,7 +96,7 @@ A 'stand back board' consists of the following parts:
 
 | Assembled | Exploded |
 | --------- | -------- |
-| [![Motor block](images/motor_block_assembled.png)](https://remipch.github.io/test_website/view_3d.html?model=temp) | [![Motor block](images/motor_block_exploded.png)](https://remipch.github.io/test_website/view_3d.html?model=temp)
+| [![Motor block](images/motor_block_assembled.png)](https://remipch.github.io/solar_concentrator/view_3d.html?model=motor_block_assembled) | [![Motor block](images/motor_block_exploded.png)](https://remipch.github.io/solar_concentrator/view_3d.html?model=motor_block_exploded)
 
 A 'motor block' consists of the following parts:
 
@@ -115,7 +115,7 @@ A 'motor block' consists of the following parts:
 
 | Assembled | Exploded |
 | --------- | -------- |
-| [![Stand front board](images/stand_front_board_assembled.png)](https://remipch.github.io/test_website/view_3d.html?model=temp) | [![Stand front board](images/stand_front_board_exploded.png)](https://remipch.github.io/test_website/view_3d.html?model=temp)
+| [![Stand front board](images/stand_front_board_assembled.png)](https://remipch.github.io/solar_concentrator/view_3d.html?model=stand_front_board_assembled) | [![Stand front board](images/stand_front_board_exploded.png)](https://remipch.github.io/solar_concentrator/view_3d.html?model=stand_front_board_exploded)
 
 A 'stand front board' consists of the following parts:
 
@@ -133,7 +133,7 @@ A 'stand front board' consists of the following parts:
 
 | Assembled | Exploded |
 | --------- | -------- |
-| [![Panel frame](images/panel_frame_assembled.png)](https://remipch.github.io/test_website/view_3d.html?model=temp) | [![Panel frame](images/panel_frame_exploded.png)](https://remipch.github.io/test_website/view_3d.html?model=temp)
+| [![Panel frame](images/panel_frame_assembled.png)](https://remipch.github.io/solar_concentrator/view_3d.html?model=panel_frame_assembled) | [![Panel frame](images/panel_frame_exploded.png)](https://remipch.github.io/solar_concentrator/view_3d.html?model=panel_frame_exploded)
 
 A 'panel frame' consists of the following parts:
 
@@ -147,7 +147,7 @@ A 'panel frame' consists of the following parts:
 
 | Assembled | Exploded |
 | --------- | -------- |
-| [![Panel horizontal axis](images/panel_horizontal_axis_assembled.png)](https://remipch.github.io/test_website/view_3d.html?model=temp) | [![Panel horizontal axis](images/panel_horizontal_axis_exploded.png)](https://remipch.github.io/test_website/view_3d.html?model=temp)
+| [![Panel horizontal axis](images/panel_horizontal_axis_assembled.png)](https://remipch.github.io/solar_concentrator/view_3d.html?model=panel_horizontal_axis_assembled) | [![Panel horizontal axis](images/panel_horizontal_axis_exploded.png)](https://remipch.github.io/solar_concentrator/view_3d.html?model=panel_horizontal_axis_exploded)
 
 A 'panel horizontal axis' consists of the following parts:
 
@@ -161,7 +161,7 @@ A 'panel horizontal axis' consists of the following parts:
 
 | Assembled | Exploded |
 | --------- | -------- |
-| [![Panel vertical axis](images/panel_vertical_axis_assembled.png)](https://remipch.github.io/test_website/view_3d.html?model=temp) | [![Panel vertical axis](images/panel_vertical_axis_exploded.png)](https://remipch.github.io/test_website/view_3d.html?model=temp)
+| [![Panel vertical axis](images/panel_vertical_axis_assembled.png)](https://remipch.github.io/solar_concentrator/view_3d.html?model=panel_vertical_axis_assembled) | [![Panel vertical axis](images/panel_vertical_axis_exploded.png)](https://remipch.github.io/solar_concentrator/view_3d.html?model=panel_vertical_axis_exploded)
 
 A 'panel vertical axis' consists of the following parts:
 
@@ -178,7 +178,7 @@ A 'panel vertical axis' consists of the following parts:
 
 | Assembled | Exploded |
 | --------- | -------- |
-| [![Panel board](images/panel_board_assembled.png)](https://remipch.github.io/test_website/view_3d.html?model=temp) | [![Panel board](images/panel_board_exploded.png)](https://remipch.github.io/test_website/view_3d.html?model=temp)
+| [![Panel board](images/panel_board_assembled.png)](https://remipch.github.io/solar_concentrator/view_3d.html?model=panel_board_assembled) | [![Panel board](images/panel_board_exploded.png)](https://remipch.github.io/solar_concentrator/view_3d.html?model=panel_board_exploded)
 
 A 'panel board' consists of the following parts:
 
