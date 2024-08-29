@@ -42,6 +42,7 @@ https://github.com/user-attachments/assets/06e3a9e1-d853-4ddd-b5d8-55cf9d6ecc89
 
 ## Key points
 
+* Can produce up to about __1000 watts of heat__ while __consuming 3.8 watts__ of electrical power :moneybag:
 * Uses only standard, cheap and available components and materials :bricks: :nut_and_bolt:
 * Does not require a high precision construction, everything can be built by hand with common tools :straight_ruler: :carpentry_saw:
 * Easy to assemble and disassemble :screwdriver:
@@ -53,6 +54,7 @@ Limitations of this version:
 * An initial manual step is required to orient the panel before it can automatically track the sun.
 * Only one panel can be controlled
 * Does not work on cloudy days (it is the user's responsibility to remove the clouds from the sky :smile:)
+* Power consumption could be significantly reduced through the implementation of various low-power modes
 
 To build this project, some products were happily "hacked" out of their original use:
 * The tempered glass used in the oven is from an [Ikea shelf](https://www.ikea.com/fr/fr/p/komplement-tablette-en-verre-blanc-80257647/)
