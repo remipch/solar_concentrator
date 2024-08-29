@@ -91,7 +91,7 @@ This would open up the following possibilities:
 
 ## License
 
-Copyright 2024 Rémi Peuchot
+Copyright (C) 2024 Rémi Peuchot
 
 * `electronics` folder is distributed under [Creative Commons Attribution-NonCommercial-ShareAlike 4.0](electronics/LICENSE.md)
 * `mechanics` folder is distributed under [Creative Commons Attribution-NonCommercial-ShareAlike 4.0](mechanics/LICENSE.md)

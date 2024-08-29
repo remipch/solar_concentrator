@@ -1,3 +1,6 @@
+# Copyright (C) 2024 Rémi Peuchot
+# This code is distributed under GNU GPL v3 license (see software/LICENSE.md)
+
 from panda3d.core import BitMask32
 import os
 

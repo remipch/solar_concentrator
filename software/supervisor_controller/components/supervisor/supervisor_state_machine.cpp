@@ -1,3 +1,6 @@
+// Copyright (C) 2024 Rémi Peuchot
+// This code is distributed under GNU GPL v3 license (see software/LICENSE.md)
+
 #include "supervisor_state_machine.hpp"
 
 #include "esp_log.h" // replaced by stub/esp_log.h for tests on host

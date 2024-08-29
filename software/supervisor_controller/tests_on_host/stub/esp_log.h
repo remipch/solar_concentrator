@@ -1,3 +1,6 @@
+// Copyright (C) 2024 Rémi Peuchot
+// This code is distributed under GNU GPL v3 license (see software/LICENSE.md)
+
 // For test purpose, define minimal stuff to print the equivalent
 // of the few esp_log macros used from original esp component
 // (advanced features like tag or level filtering are simply ignored)

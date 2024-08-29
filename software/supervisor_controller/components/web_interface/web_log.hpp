@@ -1,3 +1,6 @@
+// Copyright (C) 2024 Rémi Peuchot
+// This code is distributed under GNU GPL v3 license (see software/LICENSE.md)
+
 #pragma once
 
 // Max size of log text cached between calls to 'web_log_get_last'

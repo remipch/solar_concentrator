@@ -1,3 +1,6 @@
+// Copyright (C) 2024 Rémi Peuchot
+// This code is distributed under GNU GPL v3 license (see software/LICENSE.md)
+
 #include "mini_mock.hpp"
 
 #include "target_detector.hpp"

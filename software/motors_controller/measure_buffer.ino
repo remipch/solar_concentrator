@@ -1,3 +1,6 @@
+// Copyright (C) 2024 Rémi Peuchot
+// This code is distributed under GNU GPL v3 license (see software/LICENSE.md)
+
 // ================= Measure buffer =================
 
 // Measures are buffered when an "output" command is running to :

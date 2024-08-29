@@ -1,3 +1,6 @@
+# Copyright (C) 2024 Rémi Peuchot
+# This code is distributed under GNU GPL v3 license (see software/LICENSE.md)
+
 from direct.showbase.ShowBase import ShowBase
 from panda3d.core import *
 import sys

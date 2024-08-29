@@ -1,6 +1,6 @@
 solar_concentrator - a homemade automated solar concentrator
 
-Copyright 2024 Rémi Peuchot
+Copyright (C) 2024 Rémi Peuchot
 
 solar_concentrator/electronics is distributed under Creative Commons Attribution-NonCommercial-ShareAlike 4.0
 solar_concentrator/mechanics is distributed under Creative Commons Attribution-NonCommercial-ShareAlike 4.0

@@ -197,6 +197,6 @@ A 'panel board' consists of the following parts:
 
 ## License
 
-Copyright 2024 Rémi Peuchot
+Copyright (C) 2024 Rémi Peuchot
 
 This folder is distributed under [Creative Commons Attribution-NonCommercial-ShareAlike 4.0](mechanics/LICENSE.md)
