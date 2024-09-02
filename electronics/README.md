@@ -14,7 +14,6 @@ This folder contains the custom electronics designed for the supervisor.
 - [Electronic case](#electronic-case)
     - [Photos](#photos)
     - [BOM](#bom)
-- [License](#license)
 
 ## Overview
 
@@ -104,9 +103,3 @@ Everything is assembled in an electronic case with a few external connectors for
 | 2     | 1.0            | [Male DIN plug FM560](https://www.gotronic.fr/art-fiche-din-fm560-4748.htm)
 | 2     | 6.5            | [Motor Driver GT1112](https://www.gotronic.fr/art-commande-de-2-moteurs-gt1112-26137.htm)
 | 1     | 3.0            | A handful of M3 bolts, nuts, washers and spacers
-
-## License
-
-Copyright (C) 2024 Rémi Peuchot
-
-This folder is distributed under [Creative Commons Attribution-NonCommercial-ShareAlike 4.0](electronics/LICENSE.md)

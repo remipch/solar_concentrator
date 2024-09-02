@@ -12,7 +12,6 @@ This folder contains the 3D models of the parts used in the solar panel.
         - [Panel horizontal axis](#panel-horizontal-axis)
         - [Panel vertical axis](#panel-vertical-axis)
     - [Panel board](#panel-board)
-- [License](#license)
 
 ## Overview
 
@@ -194,9 +193,3 @@ A 'panel board' consists of the following parts:
 | 24 | M4 washer and nut
 | 2 | Fixed ring with washer and nut
 | 3 | Wood screw D4mm L15mm
-
-## License
-
-Copyright (C) 2024 Rémi Peuchot
-
-This folder is distributed under [Creative Commons Attribution-NonCommercial-ShareAlike 4.0](mechanics/LICENSE.md)

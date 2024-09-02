@@ -2,9 +2,8 @@ solar_concentrator - a homemade automated solar concentrator
 
 Copyright (C) 2024 Rémi Peuchot
 
-solar_concentrator/electronics is distributed under Creative Commons Attribution-NonCommercial-ShareAlike 4.0
-solar_concentrator/mechanics is distributed under Creative Commons Attribution-NonCommercial-ShareAlike 4.0
-solar_concentrator/software is distributed under GNU GPL 3
+The software is distributed under GNU GPL v3
+Hardware designs (electronics and mechanics) are distributed under CERN Open Hardware Licence v2 Strongly Reciprocal
 
 
 The following components are included in this product:

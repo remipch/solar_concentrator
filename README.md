@@ -7,7 +7,7 @@ This project is a homemade automated solar concentrator :wrench: :sunny: :mag_ri
 - [Key points](#key-points)
 - [Technical breakdown](#technical-breakdown)
 - [Next step](#next-step)
-- [License](#license)
+- [Licenses](#licenses)
 
 ## Overview
 
@@ -51,7 +51,7 @@ https://github.com/user-attachments/assets/06e3a9e1-d853-4ddd-b5d8-55cf9d6ecc89
 
 Limitations of this version:
 * There is no safety layer implemented (see warning above :warning:)
-* An initial manual step is required to orient the panel before it can automatically track the sun.
+* An initial manual step is required to orient the panel before it can automatically track the sun
 * Only one panel can be controlled
 * Does not work on cloudy days (it is the user's responsibility to remove the clouds from the sky :smile:)
 * Power consumption could be significantly reduced through the implementation of various low-power modes
@@ -91,10 +91,9 @@ This would open up the following possibilities:
 * Melt plastic, metal or glass
 * Increase the output of photovoltaic panels with [concentrated photovoltaics](https://en.wikipedia.org/wiki/Concentrator_photovoltaics)
 
-## License
+## Licenses
 
 Copyright (C) 2024 Rémi Peuchot
 
-* `electronics` folder is distributed under [Creative Commons Attribution-NonCommercial-ShareAlike 4.0](electronics/LICENSE.md)
-* `mechanics` folder is distributed under [Creative Commons Attribution-NonCommercial-ShareAlike 4.0](mechanics/LICENSE.md)
-* `software` folder is distributed under [GNU GPL 3](software/LICENSE.md)
+* The software is distributed under [GNU GPL v3](LICENSE.md)
+* Hardware designs (electronics and mechanics) are distributed under [CERN Open Hardware Licence v2 Strongly Reciprocal](LICENSE-HW.txt)
