@@ -20,3 +20,8 @@ The following components are included in this product:
     esp32-camera
     https://github.com/espressif/esp32-camera
     Licensed under Apache License Version 2.0
+
+    Online 3D Viewer
+    https://github.com/kovacsv/Online3DViewer
+    Copyright (c) 2023 Viktor Kovacs
+    Licensed under MIT license
