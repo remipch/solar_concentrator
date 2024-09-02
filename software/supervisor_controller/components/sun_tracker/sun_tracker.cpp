@@ -1,5 +1,5 @@
 // Copyright (C) 2024 Rémi Peuchot
-// This code is distributed under GNU GPL v3 license (see software/LICENSE.md)
+// This code is distributed under GNU GPL v3 license
 
 #include "sun_tracker.hpp"
 #include "motors.hpp"
