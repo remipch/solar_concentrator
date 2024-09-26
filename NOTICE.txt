@@ -1,6 +1,6 @@
 solar_concentrator - a homemade automated solar concentrator
 
-Copyright (C) 2024 Rémi Peuchot
+Copyright (C) 2024 Rémi Peuchot (https://remipch.github.io/)
 
 The software is distributed under GNU GPL v3
 Hardware designs (electronics and mechanics) are distributed under CERN Open Hardware Licence v2 Strongly Reciprocal

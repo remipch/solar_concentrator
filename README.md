@@ -93,7 +93,7 @@ This would open up the following possibilities:
 
 ## Licenses
 
-Copyright (C) 2024 Rémi Peuchot
+Copyright (C) 2024 Rémi Peuchot (https://remipch.github.io/)
 
 * The software is distributed under [GNU GPL v3](LICENSE.md)
 * Hardware designs (electronics and mechanics) are distributed under [CERN Open Hardware Licence v2 Strongly Reciprocal](LICENSE-HW.txt)

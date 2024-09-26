@@ -1,4 +1,4 @@
-# Copyright (C) 2024 Rémi Peuchot
+# Copyright (C) 2024 Rémi Peuchot (https://remipch.github.io/)
 # This code is distributed under GNU GPL v3 license
 
 from panda3d.core import *
